@@ -125,7 +125,9 @@ if ( ! class_exists( '\eoxia\External_Util' ) ) {
 				foreach ( $list_priority_file as $file_name ) {
 					$path_file = realpath( $path_to_module_and_dependence_folder . $file_name . '.' . $dependence_folder . '.php' );
 
-					require_once( $path_file );
+					if ( file_exists( $path_file ) ) {
+						require_once( $path_file );
+					}
 				}
 			}
 		}

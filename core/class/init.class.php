@@ -61,7 +61,7 @@ if ( ! class_exists( '\eoxia\Init_Util' ) ) {
 		 *}
 		 */
 		private function read_core_util_file_and_include( $path, $plugin_slug ) {
-			$path_to_core_folder_util = $path . 'core/external/wpeo_util/';
+			$path_to_core_folder_util = $path . 'core/class/';
 			if ( ! file_exists( $path_to_core_folder_util ) ) {
 				return new \WP_Error( 'broke', __( 'Impossible de charger les fichiers .utils', $plugin_slug ) );
 			}
