@@ -42,7 +42,7 @@ class Core_Action {
 	 * @return void
 	 */
 	public function callback_mixed_enqueue_scripts() {
-		wp_enqueue_script( 'wpeo-assets-scripts', PLUGIN_EO_FRAMEWORK_URL . 'core/assets/js/dest/wpeo-assets.js', array( 'jquery' ), \eoxia\Config_Util::$init['eo-framework']->version, false );
+		wp_enqueue_script( 'wpeo-assets-scripts', Config_Util::$init['eo-framework']->core->url . 'assets/js/dest/wpeo-assets.js', array( 'jquery' ), \eoxia\Config_Util::$init['eo-framework']->version, false );
 	}
 }
 
