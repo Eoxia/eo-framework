@@ -4,5 +4,7 @@
 	"version": "1.0.0",
 	"description": "Core",
 	"path": "core/",
-	"dependencies": {}
+	"dependencies": {
+		"action": {}
+	}
 }
