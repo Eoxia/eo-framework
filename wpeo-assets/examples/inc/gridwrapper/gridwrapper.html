@@ -1,0 +1,75 @@
+<h2 id="gridwrapper" class="module-title">Gridwrapper</h2>
+
+<p class="entete">Le module de grille est géré avec la propriété CSS Flexbox. Elle permet de créer des mises en pages simples et avancées.</p>
+
+<h3>Simple</h3>
+<p>La classe de base se nomme <code class="language-css">"gridwrapper"</code>. Les classes <code class="language-css">"w1", "w2", "w3", "w4", "w5", "w6"</code> définissent le nombre d'élément par ligne.</p>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="gridwrapper w4">
+	<div>Element 1</div>
+	<div>Element 2</div>
+	<div>Element 3</div>
+	<div>Element 4</div>
+</div>
+<div class="gridwrapper w2">
+	<div>Element 1</div>
+	<div>Element 2</div>
+</div>
+</script></code></pre>
+
+<div class="gridwrapper w4">
+	<div class=""><div class="box primary"></div></div>
+	<div class=""><div class="box primary"></div></div>
+	<div class=""><div class="box primary"></div></div>
+	<div class=""><div class="box primary"></div></div>
+</div>
+
+<div class="gridwrapper w2">
+	<div class=""><div class="box secondary"></div></div>
+	<div class=""><div class="box secondary"></div></div>
+</div>
+
+<h3>Avancé</h3>
+
+<p>Le module permet de créer des affichages plus complexe en ajouant des tailles aux blocs enfants.<br>Par exemple, ajouter la classe <code class="language-css">"w2"</code>
+permettra au bloc de faire 2 fois sa taille. <code class="language-css">"w3"</code> lui permettra de faire 3 fois sa taille, etc...</p>
+<p>Nous pouvons dire que chaque bloc a, par défaut, la classe <code class="language-css">"w1"</code></p>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="gridwrapper w4">
+	<div>Element 1</div>
+	<div>Element 2</div>
+	<div class="w3">Element 3</div>
+	<div>Element 4</div>
+</div>
+</script></code></pre>
+
+<div class="gridwrapper w4">
+	<div class=""><div class="box primary">.w1</div></div>
+	<div class="w3"><div class="box primary">.w3</div></div>
+	<div class=""><div class="box primary"></div></div>
+	<div class=""><div class="box primary"></div></div>
+	<div class=""><div class="box primary"></div></div>
+	<div class=""><div class="box primary"></div></div>
+</div>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="gridwrapper w4">
+	<div class="w2">Element 1</div>
+	<div>Element 2</div>
+	<div>Element 3</div>
+	<div>Element 4</div>
+</div>
+</script></code></pre>
+
+<div class="gridwrapper w3">
+	<div class="w2"><div class="box secondary">.w2</div></div>
+	<div class=""><div class="box secondary">.w1</div></div>
+	<div class=""><div class="box secondary"></div></div>
+	<div class=""><div class="box secondary"></div></div>
+	<div class=""><div class="box secondary"></div></div>
+</div>
+
+<p class="note"><strong>Note :</strong> sur une grille de 3 blocs. Un bloc ne peut pas faire plus de 3 fois sa taille, car il dépasserait les 100%. les classes <code class="language-css">"w4"</code>
+et plus ne fonctionnent pas sur le bloc dans ce cas-là.</p>

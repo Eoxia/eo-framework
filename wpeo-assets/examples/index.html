@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Doc Framework CSS Eoxia</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700,800" rel="stylesheet">
+	<!-- Include HTML -->
+	<script src="https://www.w3schools.com/lib/w3.js"></script>
+	<!-- Highlight -->
+	<link rel="stylesheet" href="assets/prism.min.css">
+	<!-- Framework -->
+	<script src="../js/dest/wpeo-assets.js"></script>
+	<link rel="stylesheet" href="../css/style.css" />
+	<link rel="stylesheet" href="assets/style.css" />
+	<script>
+		window.eoxiaJS.example = {};
+	</script>
+	<script src="assets/script.js"></script>
+</head>
+<body>
+
+<header id="page-header">
+	<div class="site-title"><a href="index.html">Eoxia Framework</a></div>
+	<div class="version">V1.3.0</div>
+</header>
+
+<div id="page">
+
+	<div id="page-sidebar">
+		<ul>
+			<li class="primary"><a href="#contenaire" class="scroll-to">Général</a></li>
+			<li><a href="#contenaire" class="scroll-to">Contenaire</a></li>
+			<li><a href="#heading" class="scroll-to">Titres</a></li>
+			<li class="primary"><a href="#gridwrapper" class="scroll-to">Mise en page</a></li>
+			<li><a href="#gridwrapper" class="scroll-to">Gridwrapper</a></li>
+			<li class="primary"><a href="#button">Composants</a></li>
+			<li><a href="#button" class="scroll-to">Boutons</a></li>
+		</ul>
+	</div>
+
+	<div id="page-content" class="wpeo-wrap">
+		<div w3-include-html="inc/container/container.html"></div>
+		<div w3-include-html="inc/heading/heading.html"></div>
+		<div w3-include-html="inc/gridwrapper/gridwrapper.html"></div>
+		<div w3-include-html="inc/button/button.html"></div>
+		<!-- <div w3-include-html="inc/animation/animation.html"></div> -->
+	</div>
+
+</div>
+
+<script src="assets/prism.min.js"></script>
+</body>
+</html>
