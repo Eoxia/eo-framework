@@ -72,7 +72,7 @@ JSON_Util, CSV_Util
 
 # TODO
 
-* Explication
+* Pourquoi ?
 * Exemple
-* Documentation
-
+* Traduction
+* Ordre logique du fichier readme.MD
