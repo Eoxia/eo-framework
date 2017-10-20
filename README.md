@@ -14,8 +14,6 @@ Organisation de la structure de vos plugins à la norme de WordPress.
 
 ## Pourquoi ?
 
-
-
 # Pour commencer
 
 Nous utilisons la notion de **module** pour séparer les différentes fonctionnalités de nos plugins.
@@ -27,9 +25,7 @@ Nous avons également comme principe de séparer nos fonctions de nos fichiers s
 
 ## Modules
 
-Les modules représentent une fonctionnalité dans un plugin.
-
-Les modules sont des bouts de code qui permette d'effecuter une fonctionnalité précise dans vos plugins.
+Les modules sont des bouts de code qui permettent d'effecuter une fonctionnalité précise dans vos plugins.
 
 ## Singleton
 
@@ -66,9 +62,9 @@ View_Util
 
 JSON_Util, CSV_Util
 
-# Docs WPEO Util 1.x.x
+# Utiliser EO-Framework
 
-## Créer un plugin WordPress avec WPEO_Util
+## Créer un plugin WordPress avec EO-Framework
 
 ## Créer un module pour un plugin WordPress
 
