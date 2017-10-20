@@ -7,7 +7,8 @@
 	"modules": [
 		"core/core.config.json",
 
-		"modules/wpeo-model/wpeo_model.config.json"
+		"modules/wpeo-model/wpeo_model.config.json",
+    "modules/wpeo-upload/wpeo_upload.config.json"
 	],
 	"debug": false
 }

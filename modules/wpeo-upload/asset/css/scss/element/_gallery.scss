@@ -1,0 +1,116 @@
+/*--------------------------------------------------------------
+# WPEO GALLERY
+
+--------------------------------------------------------------*/
+.wpeo-gallery, .eo-gallery {
+	background: rgba(0,0,0,0.9);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99999;
+
+	a {
+		text-decoration: none;
+	}
+
+	/* Bouton pour fermer la galerie */
+	.close {
+		position: absolute;
+		right: 30px;
+		top: 30px;
+		padding: 10px;
+		font-size: 16px;
+		color: #fff;
+		@include transition;
+		&:hover {
+			color: $color__primary;
+		}
+	}
+
+	/* Flêches pour naviguer entre les images */
+	.navigation {
+		li {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+
+			&:first-child {
+				left: 2em;
+			}
+			&:last-child {
+				right: 2em;
+			}
+			a {
+				transition: all 0.2s ease-out;
+				line-height: 1;
+				padding: 6px;
+				border: 1px solid #fff;
+				display: inline-block;
+				font-size: 8px;
+				border-radius: 50%;
+				color: #fff;
+			}
+			&:hover a {
+				background: $color__primary;
+				border: 1px solid $color__primary;
+				color: #fff;
+			}
+		}
+	}
+
+	/* Liste des images */
+	.image-list {
+		@include flexbox;
+		width: 100%;
+		height: 100%;
+
+		.current {
+			margin: auto;
+		}
+		img {
+			max-width: 1000px;
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	/* Barre d'action en bas de la fenêtre */
+	.action {
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		text-align: center;
+		background: #fff;
+		width: 100%;
+
+		li {
+			display: inline-block;
+			line-height: 1;
+			@include transition;
+			margin: 0;
+			background: #fff;
+			a {
+				display: inline-block;
+				padding: 14px 20px;
+				color: rgba(0,0,0,0.7);
+				font-weight: 600;
+				font-size: 13px;
+				background: none;
+				@include transition;
+			}
+			&:hover {
+				background: $color__primary;
+				a {
+					color: $color__primary-text;
+				}
+			}
+		}
+		.media {
+			width: auto;
+			height: auto;
+			line-height: 1;
+		}
+	}
+}
