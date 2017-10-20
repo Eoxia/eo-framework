@@ -3,8 +3,7 @@
 	"slug": "wpeo_upload",
 	"version": "1.1.0",
 	"description": "Upload media and manage gallery.",
-	"path": "core/external/wpeo_upload",
-	"external": true,
+	"path": "modules/wpeo-upload",
 	"dependencies": {
 		"action": {},
 		"class": {},

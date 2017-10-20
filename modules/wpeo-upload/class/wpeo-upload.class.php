@@ -116,7 +116,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 
 			$list_id = ! empty( $element->associated_document_id[ $field_name ] ) ? $element->associated_document_id[ $field_name ] : array();
 
-			require( \eoxia\Config_Util::$init['external']->wpeo_upload->path . '/view/gallery.view.php' );
+			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/gallery.view.php' );
 		}
 
 		/**

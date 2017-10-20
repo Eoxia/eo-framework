@@ -45,7 +45,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		* @version 1.1.0
 		*/
 		public function callback_admin_scripts() {
-			wp_enqueue_style( 'wpeo_upload_style', \eoxia\Config_Util::$init['external']->wpeo_upload->url . '/asset/css/style.css', array() );
+			wp_enqueue_style( 'wpeo_upload_style', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->url . '/asset/css/style.css', array() );
 		}
 
 		/**
@@ -55,7 +55,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @version 1.1.0
 		 */
 		public function callback_plugins_loaded() {
-			$path = str_replace( str_replace( '\\', '/', WP_PLUGIN_DIR ), '', str_replace( '\\', '/', \eoxia\Config_Util::$init['external']->wpeo_upload->path ) );
+			$path = str_replace( str_replace( '\\', '/', WP_PLUGIN_DIR ), '', str_replace( '\\', '/', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path ) );
 			load_plugin_textdomain( 'wpeo-upload', false, $path . '/asset/language/' );
 		}
 

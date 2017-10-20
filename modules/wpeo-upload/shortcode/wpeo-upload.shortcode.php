@@ -63,7 +63,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 
 			$main_picture_id = $element->thumbnail_id;
 
-			require( \eoxia\Config_Util::$init['external']->wpeo_upload->path . '/view/button.view.php' );
+			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/button.view.php' );
 		}
 
 	}
