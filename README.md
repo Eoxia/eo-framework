@@ -75,4 +75,4 @@ JSON_Util, CSV_Util
 * Pourquoi ?
 * Exemple
 * Traduction
-* Ordre logique du fichier readme.MD
+* Ordre logique du fichier README.md
