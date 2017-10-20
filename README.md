@@ -27,14 +27,6 @@ Nous avons également comme principe de séparer nos fonctions de nos fichiers s
 
 Les modules sont des bouts de code qui permettent d'effecuter une fonctionnalité précise dans vos plugins.
 
-## Singleton
-
-Singleton_Util
-
-## Modules
-
-Les modules représentent une fonctionnalité dans un plugin.
-
 ## *.config.json
 
 Les configurations des modules/externals se trouvent dans le fichier .json. Un module ne peut pas boot sans ce fichier.
