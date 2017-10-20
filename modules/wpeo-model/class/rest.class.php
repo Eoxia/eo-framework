@@ -61,14 +61,14 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		 */
 		public function register_routes() {
 			$element_namespace = new \ReflectionClass( get_called_class() );
-			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['external']->wpeo_model->api_version , '/' . $this->base . '/schema', array(
+			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version , '/' . $this->base . '/schema', array(
 				array(
 					'method' 		=> \WP_REST_Server::READABLE,
 					'callback'	=> array( $this, 'get_schema' ),
 				),
 			) );
 
-			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['external']->wpeo_model->api_version , '/' . $this->base, array(
+			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version , '/' . $this->base, array(
 				array(
 					'methods' 		=> \WP_REST_Server::READABLE,
 					'callback'	=> array( $this, 'get_from_parent' ),
@@ -91,7 +91,7 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 				),
 			), true );
 
-			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['external']->wpeo_model->api_version , '/' . $this->base . '/(?P<id>[\d]+)', array(
+			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version , '/' . $this->base . '/(?P<id>[\d]+)', array(
 				array(
 					'method' => \WP_REST_Server::READABLE,
 					'callback'	=> array( $this, 'get_from_parent' ),
