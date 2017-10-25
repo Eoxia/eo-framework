@@ -105,8 +105,8 @@ if ( ! window.eoxiaJS.action ) {
 
 		event.preventDefault();
 
-		if ( element.attr( 'loader' ) ) {
-			loaderElement = element.closest( '.' + element.attr( 'loader' ) );
+		if ( element.attr( 'data-loader' ) ) {
+			loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
 		}
 
 		/** Méthode appelée avant l'action */
