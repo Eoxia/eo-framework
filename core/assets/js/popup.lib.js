@@ -37,7 +37,16 @@ if ( ! window.eoxiaJS.popup  ) {
 
 		var target = triggeredElement.closest(  '.' + triggeredElement.data( 'parent' ) ).find( '.' + triggeredElement.data( 'target' ) );
 		var cbObject, cbNamespace, cbFunc = undefined;
-		target.addClass( 'active' );
+
+		if ( target ) {
+			target[0].className = 'popup';
+
+			if ( triggeredElement.attr( 'data-class' ) ) {
+				target.addClass( triggeredElement.attr( 'data-class' ) );
+			}
+
+			target.addClass( 'active' );
+		}
 
 		if ( target.is( ':visible' ) && triggeredElement.data( 'cb-namespace' ) && triggeredElement.data( 'cb-object' ) && triggeredElement.data( 'cb-func' ) ) {
 			cbNamespace = triggeredElement.data( 'cb-namespace' );
@@ -75,7 +84,16 @@ if ( ! window.eoxiaJS.popup  ) {
 			callbackData = window.eoxiaJS[element.attr( 'data-namespace' )][element.attr( 'data-module' )][element.attr( 'data-before-method' )]( element );
 		}
 
-		target.addClass( 'active' );
+		if ( target ) {
+			target[0].className = 'popup';
+
+			if ( triggeredElement.attr( 'data-class' ) ) {
+				target.addClass( triggeredElement.attr( 'data-class' ) );
+			}
+
+			target.addClass( 'active' );
+		}
+
 		target.find( '.container' ).addClass( 'loading' );
 
 		if ( jQuery( this ).data( 'title' ) ) {
