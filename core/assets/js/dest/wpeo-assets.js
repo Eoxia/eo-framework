@@ -164,8 +164,8 @@ if ( ! window.eoxiaJS.action ) {
 
 		event.preventDefault();
 
-		if ( element.attr( 'loader' ) ) {
-			loaderElement = element.closest( '.' + element.attr( 'loader' ) );
+		if ( element.attr( 'data-loader' ) ) {
+			loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
 		}
 
 		/** Méthode appelée avant l'action */
@@ -507,7 +507,16 @@ if ( ! window.eoxiaJS.popup  ) {
 
 		var target = triggeredElement.closest(  '.' + triggeredElement.data( 'parent' ) ).find( '.' + triggeredElement.data( 'target' ) );
 		var cbObject, cbNamespace, cbFunc = undefined;
-		target.addClass( 'active' );
+
+		if ( target ) {
+			target[0].className = 'popup';
+
+			if ( triggeredElement.attr( 'data-class' ) ) {
+				target.addClass( triggeredElement.attr( 'data-class' ) );
+			}
+
+			target.addClass( 'active' );
+		}
 
 		if ( target.is( ':visible' ) && triggeredElement.data( 'cb-namespace' ) && triggeredElement.data( 'cb-object' ) && triggeredElement.data( 'cb-func' ) ) {
 			cbNamespace = triggeredElement.data( 'cb-namespace' );
@@ -528,13 +537,33 @@ if ( ! window.eoxiaJS.popup  ) {
 	 * Les paramètres de la requête doivent être configurer directement sur l'élement
 	 * Ex: data-action="load-workunit" data-id="190"
 	 *
+	 * @since 1.0.0-easy
+	 * @version 1.1.0-easy
+	 *
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
 	 */
 	window.eoxiaJS.popup.openAjax = function( event ) {
 		var element = jQuery( this );
+		var callbackData = {};
+		var key = undefined;
 		var target = jQuery( this ).closest(  '.' + jQuery( this ).data( 'parent' ) ).find( '.' + jQuery( this ).data( 'target' ) );
-		target.addClass( 'active' );
+
+		/** Méthode appelée avant l'action */
+		if ( element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
+			callbackData = window.eoxiaJS[element.attr( 'data-namespace' )][element.attr( 'data-module' )][element.attr( 'data-before-method' )]( element );
+		}
+
+		if ( target ) {
+			target[0].className = 'popup';
+
+			if ( triggeredElement.attr( 'data-class' ) ) {
+				target.addClass( triggeredElement.attr( 'data-class' ) );
+			}
+
+			target.addClass( 'active' );
+		}
+
 		target.find( '.container' ).addClass( 'loading' );
 
 		if ( jQuery( this ).data( 'title' ) ) {
@@ -544,6 +573,13 @@ if ( ! window.eoxiaJS.popup  ) {
 		jQuery( this ).get_data( function( data ) {
 			delete data.parent;
 			delete data.target;
+
+			for ( key in callbackData ) {
+				if ( ! data[key] ) {
+					data[key] = callbackData[key];
+				}
+			}
+
 			window.eoxiaJS.request.send( element, data );
 		});
 
