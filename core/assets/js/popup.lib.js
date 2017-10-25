@@ -87,8 +87,8 @@ if ( ! window.eoxiaJS.popup  ) {
 		if ( target ) {
 			target[0].className = 'popup';
 
-			if ( triggeredElement.attr( 'data-class' ) ) {
-				target.addClass( triggeredElement.attr( 'data-class' ) );
+			if ( element.attr( 'data-class' ) ) {
+				target.addClass( element.attr( 'data-class' ) );
 			}
 
 			target.addClass( 'active' );
