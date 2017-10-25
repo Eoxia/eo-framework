@@ -505,7 +505,7 @@ if ( ! window.eoxiaJS.popup  ) {
 			triggeredElement = triggeredElement.parents( '.open-popup' );
 		}
 
-		var target = triggeredElement.closest(  '.' + triggeredElement.data( 'parent' ) ).find( '.' + triggeredElement.data( 'target' ) );
+		var target = triggeredElement.closest(  '.' + triggeredElement.data( 'parent' ) ).find( '.' + triggeredElement.data( 'target' ) + ':first' );
 		var cbObject, cbNamespace, cbFunc = undefined;
 
 		if ( target ) {
@@ -547,7 +547,7 @@ if ( ! window.eoxiaJS.popup  ) {
 		var element = jQuery( this );
 		var callbackData = {};
 		var key = undefined;
-		var target = jQuery( this ).closest(  '.' + jQuery( this ).data( 'parent' ) ).find( '.' + jQuery( this ).data( 'target' ) );
+		var target = jQuery( this ).closest(  '.' + jQuery( this ).data( 'parent' ) ).find( '.' + jQuery( this ).data( 'target' ) + ':first' );
 
 		/** Méthode appelée avant l'action */
 		if ( element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
