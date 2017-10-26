@@ -194,6 +194,24 @@ class Hello_World {
 new Hello_World();
 ```
 
+Le module et la page étant déclaré, il faut maintenant dire à notre plugin d'initialiser le module 'hello-world', pour ça nous allons retourner dans le fichier config.json principale du plugin et ajouter les lignes suivantes:
+
+```json
+"modules": [
+		"modules/hello-world.config.json"
+	]
+```
+
+Et pour finir, dans le fichier .config.json du module "hello-world" nous allons lui dire d'inclure le dossier "action".
+
+```json
+"dependencies": {
+		"action": {}
+	}
+```
+
+Vous avez maintenant votre sous menu "Hello World" dans le menu de WordPress.
+
 ## Modules
 
 Les modules sont des bouts de code qui permettent d'effecuter une fonctionnalité précise dans vos plugins. Nous allons y revenir dessus par la suite.
