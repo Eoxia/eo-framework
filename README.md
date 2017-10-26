@@ -95,6 +95,19 @@ git init && git submodule add https://github.com/Eoxia/eo-framework core/externa
 
 Vous voila muni de EO-Framework!
 
+### Création du fichier mon-plugin.config.json
+
+EO-Framework s'appuis sur les fichiers \*.config.json pour inclure, initialiser les configurations de votre plugin et vos modules.
+
+Créons le fichier mon-plugin.config.json, le nom du fichier est **important**, il doit être similaire au nom de votre dossier.
+
+```json
+{
+	"name": "Mon Plugin",
+	"slug": "plugin"
+}
+```
+
 ### Nous allons maintenant configurer notre plugin pour utiliser le JS et le CSS (Falcultatif)
 
 Créer un sous dossier "action" dans "core" puis créer le fichier mon-plugin.action.php avec le contenu suivant:
