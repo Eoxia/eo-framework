@@ -29,8 +29,8 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 		 *
 		 * @param Array $data Les données en brut.
 		 */
-		public function __construct( $data, $mode = 'get' ) {
-			$this->dispatch_wordpress_data( $data, $data, null, array(), $mode );
+		public function __construct( $data ) {
+			$this->dispatch_wordpress_data( $data, $data );
 		}
 
 		/**
@@ -45,7 +45,7 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 		 * @param array  $model          La définition des données.
 		 * @return object
 		 */
-		private function dispatch_wordpress_data( $all_data, $data, $current_object = null, $model = array(), $mode = 'get' ) {
+		private function dispatch_wordpress_data( $all_data, $data, $current_object = null, $model = array() ) {
 			if ( empty( $model ) ) {
 				$model = $this->model;
 			}
@@ -67,7 +67,7 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 						$current_object->$field_name = new \stdClass();
 					}
 
-					$current_object->$field_name = $this->dispatch_wordpress_data( $all_data, $current_data, $current_object->$field_name, $field_def['child'], $mode );
+					$current_object->$field_name = $this->dispatch_wordpress_data( $all_data, $current_data, $current_object->$field_name, $field_def['child'] );
 				}
 
 				// $field_name existe est n'a pas d'enfant.
@@ -75,7 +75,7 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 					$current_object->$field_name = $data[ $field_name ];
 				}
 
-				$current_object = $this->handle_type( $current_object, $field_def, $field_name, $mode );
+				$current_object = $this->handle_type( $current_object, $field_def, $field_name );
 			}
 
 			return $current_object;
@@ -133,7 +133,7 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 			return $data;
 		}
 
-		public function handle_type( $current_object, $field_def, $field_name, $mode ) {
+		public function handle_type( $current_object, $field_def, $field_name ) {
 			if ( ! empty( $field_def['type'] ) ) {
 				if ( 'wpeo_date' !== $field_def['type'] ) {
 					if ( ! is_array( $current_object->$field_name ) && ! is_object( $current_object->$field_name ) && 'float' === $field_def['type'] ) {
