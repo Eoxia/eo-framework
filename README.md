@@ -71,15 +71,15 @@ Domain Path:  /languages
 */
 
 /** Des defines utiles pour inclure votre CSS, JS et fichier MO **/
-DEFINE( 'PLUGIN_TASK_MANAGER_PATH', realpath( plugin_dir_path( __FILE__ ) ) . '/' );
-DEFINE( 'PLUGIN_TASK_MANAGER_URL', plugins_url( basename( __DIR__ ) ) . '/' );
-DEFINE( 'PLUGIN_TASK_MANAGER_DIR', basename( __DIR__ ) );
+DEFINE( 'PLUGIN_NOM_PLUGIN_PATH', realpath( plugin_dir_path( __FILE__ ) ) . '/' );
+DEFINE( 'PLUGIN_NOM_PLUGIN_URL', plugins_url( basename( __DIR__ ) ) . '/' );
+DEFINE( 'PLUGIN_NOM_PLUGIN_DIR', basename( __DIR__ ) );
 
 /** Ligne supplémentaire pour utiliser eo-framework **/
 require_once( 'core/external/eo-framework/eo-framework.php' );
 
 /** Boot votre plugin; Nous reviendrons sur cette ligne dans les prochains chapitres. **/
-\eoxia\Init_util::g()->exec( PLUGIN_TASK_MANAGER_PATH, basename( __FILE__, '.php' ) );
+\eoxia\Init_util::g()->exec( PLUGIN_NOM_PLUGIN_PATH, basename( __FILE__, '.php' ) );
 ```
 Voici la base d'un plugin WordPress avec EO-Framework.
 
@@ -91,7 +91,7 @@ Au même niveau que votre fichier boot de WordPress, commencez par créer le dos
 
 Faites ensuite la cmd depuis le dossier racine de votre plugin:
 
-git clone https://github.com/Eoxia/eo-framework core/external/eo-framework
+git submodule add https://github.com/Eoxia/eo-framework core/external/eo-framework
 
 Vous voila muni de EO-Framework!
 
