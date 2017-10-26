@@ -115,7 +115,84 @@ Créer un sous dossier "action" dans "core" puis créer le fichier mon-plugin.ac
 
 ## Une page "Hello World"
 
+Commençons par créer le module "hello-world":
+* Créer un sous dossier "hello-world" dans le dossier "modules" qui vous aurez à préalable créer.
+* Créer un fichier hello-world.config.json
 
+Dans ce fichier, nous allons écrire plus de paramètre que dans le config.json du plugin:
+
+```json
+{
+	"name": "Hello World",
+	"slug": "hello-world",
+	"version": "0.1.0",
+	"path": "modules/hello-world"
+}
+```
+
+Nous allons maintenant créer la page "Hello World" dans le menu WordPress en respectant la norme d'Eoxia (cf #pour commencer)
+
+Créer le fichier hello-world.action.php dans le dossier "action" (toujours dans le module "hello-world")
+Ce fichier vas permettre d'appeler l'action *add_menu_page* de WordPress:
+
+```php
+<?php
+/**
+ * Les actions principales du module "hello-world"
+ *
+ * @author Jimmy Latour <jimmy.eoxia@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @package Test
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Les actions principales de l'application.
+ */
+class Hello_World {
+
+	/**
+	 * Le constructeur
+	 *
+	 * @since 0.1.0
+	 * @version 0.1.0
+	 */
+	public function __construct() {
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 12 );
+	}
+
+
+	/**
+	 * Ajout du sous menu 'Hello World' dans le menu de WordPress.
+	 *
+	 * @since 0.1.0
+	 * @version 0.1.0
+	 *
+	 * @return void
+	 */
+	public function callback_admin_menu() {
+		add_menu_page( 'Hello World', 'Hello World', 'manage_options', 'hello-world', array( $this, 'callback_add_menu_page' ) );
+	}
+
+	/**
+	 * Le callback pour afficher la vue.
+	 *
+	 * @since 0.1.0
+	 * @version 0.1.0
+	 *
+	 * @return void
+	 */
+	public function callback_add_menu_page() {
+		echo 'Hello World';
+	}
+}
+
+new Hello_World();
+```
 
 ## Modules
 
