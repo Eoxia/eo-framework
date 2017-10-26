@@ -51,7 +51,7 @@ Nous avons également comme principe de séparer nos fonctions de nos fichiers s
 
 Pour avoir un meilleur visuel rendez vous sur le plugin [Task Manager](https://github.com/Eoxia/task-manager)
 
-## La base d'un plugin WordPress
+## La base d'un plugin WordPress avec EO Framework
 
 Comme sur la doc de (WordPress.org)[https://developer.wordpress.org/plugins/the-basics/header-requirements/], nous allons retrouver notre fichier principale avec les 'headers' obligatoires pour que le plugin aparaisse dans la page 'Extensions' de votre backend.
 
@@ -209,44 +209,29 @@ Maintenant remplaçons la ligne 28 du fichier hello-wrold.action.php par celle-c
 \eoxia\View_Util::exec( 'test', 'hello_world', 'main' );
 ```
 
-## Modules
+Si vous voulez en savoir plus sur View_Util, rendez vous sur le chapitre: Référence -> View_Util
 
-Les modules sont des bouts de code qui permettent d'effecuter une fonctionnalité précise dans vos plugins. Nous allons y revenir dessus par la suite.
+# Références
 
-## *.config.json
+## Array_Util
+## Config_Util
+## CSV_Util
+## Date_Util
+## Extenral_Util
+## File_Util
+## Include_Util
+## Init_Util
+## JSON_Util
+## LOG_Util
+## Model_Util
+## Module_Util
+## Post_Util
+## Singleton_Util
+## View_Util
+## ZIP_Util
 
-Les configurations des modules/externals se trouvent dans le fichier .json. Un module ne peut pas boot sans ce fichier.
-
-Les bases de ce fichier JSON sont:
-
-```json
-{
-  "slug": "mon-module",
-  "path": "modules/mon-module"
-}
-```
-
-**slug** et **path** sont des paramètres obligatoires. Sans ceci WPEO_Util ne bootera pas votre module.
-
-## Externals
-
-Les externals sont comme ce projet, il sont développé comme des modules, seulement ils sont là pour ajouter des fonctionnalités externes à vos plugins.
-
-## Gestion des vues
-
-View_Util
-
-## Gestion JSON/CSV
-
-JSON_Util, CSV_Util
-
-# Utiliser EO-Framework
-
-## Créer un plugin WordPress avec EO-Framework
-
-## Créer un module pour un plugin WordPress
-
-## Application exemple
+# WPEO Model
+# WPEO Upload
 
 # TODO
 * Meilleurs gestion des fichiers JSON
