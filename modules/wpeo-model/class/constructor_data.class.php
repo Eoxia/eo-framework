@@ -29,8 +29,8 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 		 *
 		 * @param Array $data Les données en brut.
 		 */
-		public function __construct( $data ) {
-			$this->dispatch_wordpress_data( $data, $data );
+		public function __construct( $data, $mode = 'get' ) {
+			$this->dispatch_wordpress_data( $data, $data, null, array(), $mode );
 		}
 
 		/**
@@ -45,7 +45,7 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 		 * @param array  $model          La définition des données.
 		 * @return object
 		 */
-		private function dispatch_wordpress_data( $all_data, $data, $current_object = null, $model = array() ) {
+		private function dispatch_wordpress_data( $all_data, $data, $current_object = null, $model = array(), $mode = 'get' ) {
 			if ( empty( $model ) ) {
 				$model = $this->model;
 			}
@@ -67,41 +67,16 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 						$current_object->$field_name = new \stdClass();
 					}
 
-					$current_object->$field_name = $this->dispatch_wordpress_data( $all_data, $current_data, $current_object->$field_name, $field_def['child'] );
+					$current_object->$field_name = $this->dispatch_wordpress_data( $all_data, $current_data, $current_object->$field_name, $field_def['child'], $mode );
 				}
 
-				// Est-ce que le field_name existe en donnée (premier niveau) ?
+				// $field_name existe est n'a pas d'enfant.
 				if ( isset( $data[ $field_name ] ) && isset( $field_def ) && ! isset( $field_def['child'] ) ) {
 					$current_object->$field_name = $data[ $field_name ];
 				}
 
-				if ( isset( $field_def['required'] ) && $field_def['required'] && ! isset( $current_object->$field_name ) ) {
-					$this->error = true;
-				}
-
-				if ( ! empty( $field_def['type'] ) ) {
-					if ( 'wpeo_date' !== $field_def['type'] ) {
-						if ( ! is_array( $current_object->$field_name ) && ! is_object( $current_object->$field_name ) && 'float' === $field_def['type'] ) {
-							$current_object->$field_name = str_replace( ',', '.', $current_object->$field_name );
-						}
-						settype( $current_object->$field_name, $field_def['type'] );
-						if ( 'string' === $field_def['type'] ) {
-							$current_object->$field_name = stripslashes( $current_object->$field_name );
-						}
-
-						if ( ! empty( $field_def['array_type'] ) ) {
-							if ( ! empty( $current_object->$field_name ) ) {
-								foreach ( $current_object->$field_name as &$element ) {
-									settype( $element, $field_def['array_type'] );
-								}
-							}
-						}
-					} else {
-						$current_time = ! empty( $current_object->{$field_name}['date_input'] ) && ! empty( $current_object->{$field_name}['date_input']['date'] ) ? $current_object->{$field_name}['date_input']['date'] : $current_object->$field_name;
-						$current_object->$field_name = $this->fill_date( $current_time );
-					}
-				}
-			} // End foreach().
+				$current_object = $this->handle_type( $current_object, $field_def, $field_name, $mode );
+			}
 
 			return $current_object;
 		}
@@ -156,6 +131,30 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 				}
 			}
 			return $data;
+		}
+
+		public function handle_type( $current_object, $field_def, $field_name, $mode ) {
+			if ( ! empty( $field_def['type'] ) ) {
+				if ( 'wpeo_date' !== $field_def['type'] ) {
+					if ( ! is_array( $current_object->$field_name ) && ! is_object( $current_object->$field_name ) && 'float' === $field_def['type'] ) {
+						$current_object->$field_name = str_replace( ',', '.', $current_object->$field_name );
+					}
+					settype( $current_object->$field_name, $field_def['type'] );
+
+					if ( ! empty( $field_def['array_type'] ) ) {
+						if ( ! empty( $current_object->$field_name ) ) {
+							foreach ( $current_object->$field_name as &$element ) {
+								settype( $element, $field_def['array_type'] );
+							}
+						}
+					}
+				} else {
+					$current_time = ! empty( $current_object->{$field_name}['date_input'] ) && ! empty( $current_object->{$field_name}['date_input']['date'] ) ? $current_object->{$field_name}['date_input']['date'] : $current_object->$field_name;
+					$current_object->$field_name = $this->fill_date( $current_time );
+				}
+			}
+
+			return $current_object;
 		}
 
 		/**
