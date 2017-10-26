@@ -206,7 +206,7 @@ Créons un fichier main.view.php dans le dossier "view":
 Maintenant remplaçons la ligne 28 du fichier hello-wrold.action.php par celle-ci:
 
 ```php
-\eoxia\View_Util::exec( 'test', 'hello-world', 'main' );
+\eoxia\View_Util::exec( 'test', 'hello_world', 'main' );
 ```
 
 ## Modules
