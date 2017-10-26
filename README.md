@@ -197,7 +197,7 @@ new Hello_World();
 Le module et la page étant déclaré, il faut maintenant dire à notre plugin d'initialiser le module 'hello-world', pour ça nous allons retourner dans le fichier config.json principale du plugin et ajouter les lignes suivantes:
 
 ```json
-"modules": [
+"module": [
 		"modules/hello-world.config.json"
 	]
 ```
