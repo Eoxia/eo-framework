@@ -91,7 +91,7 @@ Au même niveau que votre fichier boot de WordPress, commencez par créer le dos
 
 Faites ensuite la cmd depuis le dossier racine de votre plugin:
 
-git submodule add https://github.com/Eoxia/eo-framework core/external/eo-framework
+git init && git submodule add https://github.com/Eoxia/eo-framework core/external/eo-framework
 
 Vous voila muni de EO-Framework!
 
