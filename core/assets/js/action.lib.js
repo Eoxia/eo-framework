@@ -76,7 +76,7 @@ if ( ! window.eoxiaJS.action ) {
 			for ( i = 0; i < listInput.length; i++ ) {
 				if ( listInput[i].name && -1 === inputAlreadyIn.indexOf( listInput[i].name ) ) {
 					inputAlreadyIn.push( listInput[i].name );
-					data[listInput[i].name] = listInput[i].value;
+					data[listInput[i].name] = window.eoxiaJS.arrayForm.getInputValue( listInput[i] );
 				}
 			}
 
