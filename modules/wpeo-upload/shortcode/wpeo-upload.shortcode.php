@@ -4,7 +4,7 @@
  *
  * @author Eoxia
  * @since 0.1.0-alpha
- * @version 1.0.1
+ * @version 1.2.0
  * @copyright 2017
  * @package WordPress-Plugin-Base
  */
@@ -40,17 +40,19 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 		 * @return void
 		 *
 		 * @since 0.1.0-alpha
-		 * @version 1.0.1
+		 * @version 1.2.0
 		 */
 		public function wpeo_upload( $atts ) {
 			$atts = shortcode_atts( array(
 				'id' => 0,
+				'mode' => 'edit',
 				'field_name' => '',
 				'model_name' => '\eoxia\Post_Class',
 				'custom_class' => '',
 				'size' => 'thumbnail',
 				'single' => 'true',
 				'mime_type' => '',
+				'display_type' => 'gallery',
 			), $atts );
 
 			if ( ! empty( $atts['model_name'] ) ) {
@@ -63,7 +65,9 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 
 			$main_picture_id = $element->thumbnail_id;
 
-			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/button.view.php' );
+			$field_name = $atts['field_name'];
+
+			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/button.view.php' );
 		}
 
 	}

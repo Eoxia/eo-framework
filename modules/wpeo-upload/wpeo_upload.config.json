@@ -1,7 +1,7 @@
 {
 	"name": "WPEO Upload",
 	"slug": "wpeo_upload",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "Upload media and manage gallery.",
 	"path": "modules/wpeo-upload",
 	"dependencies": {

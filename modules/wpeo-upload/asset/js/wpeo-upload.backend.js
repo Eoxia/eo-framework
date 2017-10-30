@@ -2,7 +2,7 @@
  * Initialise l'objet "upload" ainsi que la méthode "init" obligatoire pour la bibliothèque EoxiaJS.
  *
  * @since 0.1.0-alpha
- * @version 0.2.0-alpha
+ * @version 1.2.0
  * @copyright 2017
  * @author Jimmy Latour <jimmy@eoxia.com>
  */
@@ -49,10 +49,10 @@ window.eoxiaJS.upload.init = function() {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.1.0-alpha
+ * @version 1.2.0
  */
 window.eoxiaJS.upload.event = function() {
-	jQuery( document ).on( 'click', '.media:not(.loading)', window.eoxiaJS.upload.openPopup );
+	jQuery( document ).on( 'click', '.media:not(.loading), .wpeo-upload-list a.upload:not(.loading)', window.eoxiaJS.upload.openPopup );
 	jQuery( document ).on( 'click', '.media-toolbar, .media-modal-close, .media-button-insert', function( event ) { event.stopPropagation(); } );
 };
 
@@ -69,7 +69,7 @@ window.eoxiaJS.upload.openPopup = function( event ) {
 	window.eoxiaJS.upload.currentButton = jQuery( this );
 	event.preventDefault();
 
-	if ( jQuery( this ).hasClass( 'no-file' ) ) {
+	if ( jQuery( this ).hasClass( 'no-file' ) || jQuery( this ).is( "a" ) ) {
 		window.eoxiaJS.upload.openMediaFrame();
 	} else {
 		window.eoxiaJS.gallery.open();
@@ -131,21 +131,40 @@ window.eoxiaJS.upload.associateFile = function() {
 	window.eoxiaJS.upload.currentButton.addClass( 'loading' );
 	jQuery.post( window.ajaxurl, data, function( response ) {
 		window.eoxiaJS.upload.refreshButton( response.data );
-		window.eoxiaJS.gallery.open( false );
+
+		if ( 'gallery' === response.data.display_type ) {
+			window.eoxiaJS.gallery.open( false );
+		}
 	} );
 };
 
+/**
+ * Update the view of the button
+ *
+ * @param  {Object} data Data of button.
+ * @return {void}
+ *
+ * @since 0.1.0-alpha
+ * @version 1.2.0
+ */
 window.eoxiaJS.upload.refreshButton = function( data ) {
-	if ( data.view ) {
-		if ( window.eoxiaJS.upload.currentButton.data( 'custom-class' ) ) {
-			jQuery( 'span.media[data-id="' + window.eoxiaJS.upload.currentButton.data( 'id' ) + '"].' + window.eoxiaJS.upload.currentButton.data( 'custom-class' ) ).replaceWith( data.view );
-		} else {
-			jQuery( 'span.media[data-id="' + window.eoxiaJS.upload.currentButton.data( 'id' ) + '"]' ).replaceWith( data.view );
+	if( window.eoxiaJS.upload.currentButton.is( 'a' ) ) {
+		window.eoxiaJS.upload.currentButton.removeClass( 'loading' );
+		if ( ! data.id ) {
+			window.eoxiaJS.upload.currentButton.closest( 'div' ).find( 'ul' ).append( data.view );
 		}
 	} else {
-		window.eoxiaJS.upload.currentButton.find( 'img' ).replaceWith( data.media );
-		window.eoxiaJS.upload.currentButton.find( 'i' ).hide();
-		window.eoxiaJS.upload.currentButton.find( 'input[type="hidden"]' ).val( window.eoxiaJS.upload.selectedInfos.JSON.id );
+		if ( data.view ) {
+			if ( window.eoxiaJS.upload.currentButton.data( 'custom-class' ) ) {
+				jQuery( 'span.media[data-id="' + window.eoxiaJS.upload.currentButton.data( 'id' ) + '"].' + window.eoxiaJS.upload.currentButton.data( 'custom-class' ) ).replaceWith( data.view );
+			} else {
+				jQuery( 'span.media[data-id="' + window.eoxiaJS.upload.currentButton.data( 'id' ) + '"]' ).replaceWith( data.view );
+			}
+		} else {
+			window.eoxiaJS.upload.currentButton.find( 'img' ).replaceWith( data.media );
+			window.eoxiaJS.upload.currentButton.find( 'i' ).hide();
+			window.eoxiaJS.upload.currentButton.find( 'input[type="hidden"]' ).val( window.eoxiaJS.upload.selectedInfos.JSON.id );
+		}
 	}
 };
 
