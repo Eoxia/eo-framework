@@ -69,7 +69,6 @@ Nous avons également comme principe de séparer nos fonctions de nos fichiers s
 * Les classes se trouverons dans le dossier 'class' 
 * Les vues se trouverons dans le dossier 'view' 
 * Ainsi de suite...
------ | -----------
 Image | Description
 
 # Références
