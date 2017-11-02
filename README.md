@@ -63,7 +63,7 @@ Cette dernière commande permet de gérer les fichiers CSS ou SCSS et JS. Gulp s
 
 Image | Description
 ----- | -----------
-![Image de la structure du starter](https://github.com/Eoxia/eo-framework-starter/blob/master/core/asset/image/structure_plugin.PNG) | Nous utilisons la notion de **module** pour séparer les différentes fonctionnalités de nos plugins.<br />Nous avons également comme principe de séparer nos fonctions de nos fichiers selon leurs thèmes<br />Les actions se trouverons dans le dossier 'action'<br />Les classes se trouverons dans le dossier 'class'<br />Les vues se trouverons dans le dossier 'view'<br />Ainsi de suite...
+![Image de la structure du starter](https://github.com/Eoxia/eo-framework-starter/blob/master/core/asset/image/structure_plugin.PNG) | Nous utilisons la notion de **module** pour séparer les différentes fonctionnalités de nos plugins.<br />Nous avons également comme principe de séparer nos fonctions de nos fichiers selon leurs thèmes<br /><br />Les **actions** se trouverons dans le dossier 'action'<br /><br />Les **classes** sont dans le dossier 'class'<br /><br />Les **vues** sont dans le dossier 'view'<br /><br />Les **assets** sont dans le dossier 'assets'<br /><br />Les **filtres** sont dans le dossier 'filtres'<br /><br />Les **shortcodes** sont dans le dossier 'shortcodes'<br /><br />
 
 # Références
 
