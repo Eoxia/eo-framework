@@ -2,7 +2,6 @@
 
 EO Framework est un framework apportant des fonctionnalités supplémentaires à celui de WordPress.
 Gain de temps pour la création et la maintenance de vos plugins WordPress.
-Organisation de la structure de vos plugins à la norme de WordPress.
 
 ## Pourquoi ?
 
