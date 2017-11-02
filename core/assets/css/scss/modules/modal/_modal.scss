@@ -3,8 +3,8 @@
 	Version : 1.0.0
 
 	.wpeo-modal -> classe de base du mobule
-	.active -> lance l'apparition de la modal
-	.no-close -> désactive l'icone fermeture
+	.modalactive -> lance l'apparition de la modal
+	.no-modal-close -> désactive l'icone fermeture
 --------------------------------------------------------------*/
 
 .wpeo-modal {
@@ -19,18 +19,18 @@
 	pointer-events: none;
 	@include transition();
 
-	&.active {
+	&.modal-active {
 		opacity: 1;
 		pointer-events: auto;
-		.container {
+		.modal-container {
 			transform: translate(-50%, -50%);
 		}
 	}
 	&.no-close {
-		.close {
+		.modal-close {
 			display: none;
 		}
-		.container .footer {
+		.modal-container .modal-footer {
 			opacity: 0.5;
 			pointer-events: none;
 		}
@@ -38,7 +38,7 @@
 }
 
 .wpeo-modal {
-	.container {
+	.modal-container {
 		position: absolute;
 		transition: all 0.2s ease-out;
 		width: 100%;
@@ -50,29 +50,29 @@
 		margin: auto;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -76%);
+		transform: translate(-50%, -60%);
 		@media ( max-width: $media__small ) {
 			padding: 1em;
 		}
 	}
 
-	.container {
-		.header {
+	.modal-container {
+		.modal-header {
 			height: 10%;
 			display: flex;
 		}
-		.content {
+		.modal-content {
 			height: 78%;
 		}
-		.footer {
+		.modal-footer {
 			height: 12%;
 		}
 	}
-	.container .header {
-		.title, .close {
+	.modal-container .modal-header {
+		.modal-title, .modal-close {
 			margin: auto 0;
 		}
-		.title {
+		.modal-title {
 			text-transform: uppercase;
 			font-size: 18px;
 			white-space: normal;
@@ -83,7 +83,7 @@
 				font-size: 14px;
 			}
 		}
-		.close {
+		.modal-close {
 			margin-left: auto;
 			color: rgba(0,0,0,0.3);
 			padding: 4px;
@@ -94,14 +94,14 @@
 			}
 		}
 	}
-	.container .content {
+	.modal-container .modal-content {
 		overflow-y: auto;
 		font-size: 14px;
 		@media ( max-width: $media__small ) {
 			font-size: 12px;
 		}
 	}
-	.container .footer {
+	.modal-container .modal-footer {
 		text-align: right;
 		padding-top: 1em;
 		&.left {

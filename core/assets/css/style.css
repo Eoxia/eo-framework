@@ -5870,26 +5870,26 @@
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out; }
 
-.wpeo-wrap .wpeo-modal.active {
+.wpeo-wrap .wpeo-modal.modal-active {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   pointer-events: auto; }
 
-.wpeo-wrap .wpeo-modal.active .container {
+.wpeo-wrap .wpeo-modal.modal-active .modal-container {
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
        -o-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%); }
 
-.wpeo-wrap .wpeo-modal.no-close .close {
+.wpeo-wrap .wpeo-modal.no-close .modal-close {
   display: none; }
 
-.wpeo-wrap .wpeo-modal.no-close .container .footer {
+.wpeo-wrap .wpeo-modal.no-close .modal-container .modal-footer {
   opacity: 0.5;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
   pointer-events: none; }
 
-.wpeo-wrap .wpeo-modal .container {
+.wpeo-wrap .wpeo-modal .modal-container {
   position: absolute;
   -webkit-transition: all 0.2s ease-out;
   -o-transition: all 0.2s ease-out;
@@ -5903,16 +5903,16 @@
   margin: auto;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -76%);
-      -ms-transform: translate(-50%, -76%);
-       -o-transform: translate(-50%, -76%);
-          transform: translate(-50%, -76%); }
+  -webkit-transform: translate(-50%, -60%);
+      -ms-transform: translate(-50%, -60%);
+       -o-transform: translate(-50%, -60%);
+          transform: translate(-50%, -60%); }
 
 @media (max-width: 480px) {
-  .wpeo-wrap .wpeo-modal .container {
+  .wpeo-wrap .wpeo-modal .modal-container {
     padding: 1em; } }
 
-.wpeo-wrap .wpeo-modal .container .header {
+.wpeo-wrap .wpeo-modal .modal-container .modal-header {
   height: 10%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -5920,29 +5920,29 @@
   display: -ms-flexbox;
   display: flex; }
 
-.wpeo-wrap .wpeo-modal .container .content {
+.wpeo-wrap .wpeo-modal .modal-container .modal-content {
   height: 78%; }
 
-.wpeo-wrap .wpeo-modal .container .footer {
+.wpeo-wrap .wpeo-modal .modal-container .modal-footer {
   height: 12%; }
 
-.wpeo-wrap .wpeo-modal .container .header .title, .wpeo-wrap .wpeo-modal .container .header .close {
+.wpeo-wrap .wpeo-modal .modal-container .modal-header .modal-title, .wpeo-wrap .wpeo-modal .modal-container .modal-header .modal-close {
   margin: auto 0; }
 
-.wpeo-wrap .wpeo-modal .container .header .title {
+.wpeo-wrap .wpeo-modal .modal-container .modal-header .modal-title {
   text-transform: uppercase;
   font-size: 18px;
   white-space: normal; }
 
 @media (max-width: 770px) {
-  .wpeo-wrap .wpeo-modal .container .header .title {
+  .wpeo-wrap .wpeo-modal .modal-container .modal-header .modal-title {
     font-size: 16px; } }
 
 @media (max-width: 480px) {
-  .wpeo-wrap .wpeo-modal .container .header .title {
+  .wpeo-wrap .wpeo-modal .modal-container .modal-header .modal-title {
     font-size: 14px; } }
 
-.wpeo-wrap .wpeo-modal .container .header .close {
+.wpeo-wrap .wpeo-modal .modal-container .modal-header .modal-close {
   margin-left: auto;
   color: rgba(0, 0, 0, 0.3);
   padding: 4px;
@@ -5950,26 +5950,26 @@
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out; }
 
-.wpeo-wrap .wpeo-modal .container .header .close:hover {
+.wpeo-wrap .wpeo-modal .modal-container .modal-header .modal-close:hover {
   cursor: pointer;
   color: #898de5; }
 
-.wpeo-wrap .wpeo-modal .container .content {
+.wpeo-wrap .wpeo-modal .modal-container .modal-content {
   overflow-y: auto;
   font-size: 14px; }
 
 @media (max-width: 480px) {
-  .wpeo-wrap .wpeo-modal .container .content {
+  .wpeo-wrap .wpeo-modal .modal-container .modal-content {
     font-size: 12px; } }
 
-.wpeo-wrap .wpeo-modal .container .footer {
+.wpeo-wrap .wpeo-modal .modal-container .modal-footer {
   text-align: right;
   padding-top: 1em; }
 
-.wpeo-wrap .wpeo-modal .container .footer.left {
+.wpeo-wrap .wpeo-modal .modal-container .modal-footer.left {
   text-align: left; }
 
-.wpeo-wrap .wpeo-modal .container .footer.center {
+.wpeo-wrap .wpeo-modal .modal-container .modal-footer.center {
   text-align: center; }
 
 .wpeo-wrap .wpeo-table {
