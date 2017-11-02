@@ -49,7 +49,7 @@ Image | Description
 <?php
 /*
 Plugin Name:  EO Framework Starter
-Plugin URI:   https://developer.wordpress.org/plugins/the-basics/
+Plugin URI:   https://github.com/Eoxia/eo-framework-starter
 Description:  Un plugin WordPress utilisant EO-Framework.
 Version:      0.1.0
 Author:       Eoxia
@@ -72,7 +72,14 @@ require_once( 'core/external/eo-framework/eo-framework.php' );
 \eoxia\Init_Util::g()->exec( PLUGIN_NOM_PLUGIN_PATH, basename( __FILE__, '.php' ) );
 ```
 
-Ce fichier utilise les headers de déclaration d'un plugin WordPress et définis des variables utiles. Ensuite il initialise eo-framework à la ligne 21 pour ensuite lancer le **boot** du plugin à la ligne 24.
+Ce fichier contient: 
+* Les "headers" obligatoire pour déclarer  un plugin WordPress.
+* Trois "DEFINE" qui permettent des actions utiles dans vos modules.
+	* PLUGIN_NOM_PLUGIN_PATH: Le chemin absolue vers votre plugin.
+	* PLUGIN_NOM_PLUGIN_URL: L'url complet vers votre plugin.
+	* PLUGIN_NOM_PLUGIN_DIR: Le chemin absolue vers votre plugin sans le nom du fichier starter.php.
+* La ligne *require_once* permet d'inclure EO-Framework.
+* La dernière ligne permet de lancer le boot du plugin avec EO-Framework.
 
 ```json
 {
@@ -107,10 +114,11 @@ Ce dossier est un traité comme un **module** par EO-Framework, il vas d'abord l
 }
 ```
 
-Ce fichier est différent de starter.config.json car c'est un config.json d'un module.
-Le **slug** doit être le nom du fichier lui même.
-Le **path** est obligatoire et c'est un chemin à partir du **dossier principale** du plugin.
-La clé "dependencies" permet de définir les fichiers à inclure dans le module. Dans notre cas tous les fichiers dans le dossier "action" du module "Test Core" sera inclus.
+Ce fichier est différent de starter.config.json, car c'est un fichier config.json d'un **module** à la différence du config.json principale de l'application (cf starter.config.json).
+
+* Le **slug** doit être le nom du fichier lui même.
+* Le **path** est obligatoire et c'est un chemin à partir du **dossier principale** du plugin.
+* La clé **"dependencies"** permet de définir les fichiers à inclure dans le module. Dans notre cas tous les fichiers dans le dossier "action" du module "Test Core" sera inclus.
 
 ### Le fichier action principal: core.action.php
 
