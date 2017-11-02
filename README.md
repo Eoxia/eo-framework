@@ -54,7 +54,7 @@ Pour avoir un meilleur visuel rendez vous sur le plugin [Task Manager](https://g
 ## La base d'un plugin WordPress avec EO Framework
 
 ```bash
-git clone https://eoxia.com/Eoxia/eo-framework-starter plugin-name && rm -rf .git && git init && git submodule add https://eoxia.com/Eoxia/eo-framework core/external/eo-framework
+git clone https://eoxia.com/Eoxia/eo-framework-starter plugin-name && cd plugin-name && rm -rf .git && git init && git submodule add https://eoxia.com/Eoxia/eo-framework core/external/eo-framework
 ```
 
 # Références
