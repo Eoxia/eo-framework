@@ -53,8 +53,18 @@ Pour avoir un meilleur visuel rendez vous sur le plugin [Task Manager](https://g
 
 ## La base d'un plugin WordPress avec EO Framework
 
+Récupérer le dépôt contenant le "starter" d'un plugin WordPress avec EO Framework.
+
 ```bash
 git clone https://github.com/Eoxia/eo-framework-starter plugin-name && cd plugin-name && rm -rf .git && git init && git submodule add https://github.com/Eoxia/eo-framework core/external/eo-framework
+```
+
+Installer [NodeJS](https://nodejs.org/en/)
+
+Ouvrir une console sur votre dossier "plugin-name" puis faites la commande suivante:
+
+```bash
+npm install -g gulp && npm install
 ```
 
 # Références
