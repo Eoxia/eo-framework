@@ -28,11 +28,19 @@ $(document).ready(function() {
 		$(this).toggleClass('dropdown-active');
 	});
 
+	$('body').on('click','#box-loader', function() {
+		setTimeoutClass( $(this), 'wpeo-loader' );
+	});
+
+	$('body').on('click','#modal-opener', function() {
+		$( '.wpeo-modal' ).addClass( 'modal-active' );
+	});
+
+	$('body').on('click','.modal-close', function() {
+		$( '.wpeo-modal' ).removeClass( 'modal-active' );
+	});
+
 });
-
-window.eoxiaJS.example.init = function() {
-
-}
 
 function setTimeoutClass( element, className ) {
 	element.addClass( className );
