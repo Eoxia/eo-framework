@@ -45,7 +45,7 @@ Image | Description
 
 ## Les fichiers starter.php et starter.config.json
 
-Le fichier principale lu par WordPress: **starter.php**
+Le fichier principal lu par WordPress: **starter.php**
 ```php
 <?php
 /*
@@ -82,7 +82,7 @@ Ce fichier contient:
 * La ligne *require_once* permet d'inclure EO-Framework.
 * La dernière ligne permet de lancer le boot du plugin avec EO-Framework.
 
-Le fichier principale de config: **starter.config.json**
+Le fichier principal de config: **starter.config.json**
 ```json
 {
 	"name": "Starter",
