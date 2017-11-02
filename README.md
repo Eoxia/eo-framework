@@ -21,26 +21,6 @@ Avec **EO Framework**, nous vous offrons la possibilité d'utiliser très rapide
 * Lib JS et CSS
 * Log
 
-## Structure des plugins d'Eoxia
-
-* -/core: Dossier contenant les fichiers obligatoires pour le fonctionnement du plugin
-* --/external: Dossier contenant les outils externes de votre plugin. Le framework d'Eoxia se trouvera ici.
-* --/assets: Vos fichiers assets telles que le css, js, mo et autres ressources.
-* --/class
-* --/action
-* --/view
-* -/modules
-* --/mon-module-1
-* ---/assets
-* ----/js
-* ---/action
-* ---/class
-* ---/view
-* -mon-plugin.php: Fichier boot lut par WordPress pour initialiser le plugin.
-* -mon-plugin.config.json: Fichier boot lut par EO-Framework pour inclure vos fichier automatiquements. (Comparé ça à autoload)
-
-Pour avoir un meilleur visuel rendez vous sur le plugin [Task Manager](https://github.com/Eoxia/task-manager)
-
 ## La base d'un plugin WordPress avec EO Framework
 
 Récupérer le dépôt contenant le "starter" d'un plugin WordPress avec EO Framework.
