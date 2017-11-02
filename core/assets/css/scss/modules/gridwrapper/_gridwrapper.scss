@@ -1,0 +1,35 @@
+.gridwrapper {
+	@include flexbox();
+	margin-left: -0.5em;
+	margin-right: -0.5em;
+	> * {
+		padding: 0.5em;
+	}
+	@for $i from 1 through 6 {
+		&.w#{$i} > * {
+			width: 100%/$i;
+		}
+		// Chaque élément enfant peut modifier sa propre taille par rapport au container
+		@for $y from 1 through 6 {
+			@if ( $y <= $i ) {
+				&.w#{$i} > .w#{$y} {
+					width: (100%/$i) * $y;
+				}
+			}
+		}
+	}
+
+	@media ( max-width: $media__medium ) {
+		&.w1 > * {
+			width: 100%;
+		}
+		&.w2 > *, &.w3 > *, &.w4 > *, &.w5 > *, &.w6 > * {
+			width: 50%;
+		}
+	}
+	@media ( max-width: $media__small ) {
+		&.w1 > *, &.w2 > *, &.w3 > *, &.w4 > *, &.w5 > *, &.w6 > * {
+			width: 100%;
+		}
+	}
+}

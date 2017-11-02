@@ -1,20 +1,19 @@
 /*--------------------------------------------------------------
 	## Grid Layout
 --------------------------------------------------------------*/
-@import "gridwrapper";
+@import "gridwrapper/gridwrapper";
 /*--------------------------------------------------------------
 	## Animation
 --------------------------------------------------------------*/
-@import "animation";
-@import "button";
-@import "form";
-@import "gallery";
-@import "loader";
-@import "media";
-@import "notification";
-@import "patchnote";
-@import "popup";
-@import "search";
-@import "table";
-@import "toggle";
-@import "tooltip";
+@import "animation/animation";
+@import "button/button";
+@import "dropdown/dropdown";
+@import "form/form";
+// @import "gallery/gallery";
+@import "loader/loader";
+@import "notification/notification";
+// @import "patchnote/patchnote";
+@import "modal/modal";
+// @import "search/search";
+@import "table/table";
+@import "tooltip/tooltip";

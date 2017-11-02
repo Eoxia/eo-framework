@@ -19,6 +19,15 @@ $(document).ready(function() {
 	$('body').on('click','#button-error', function() {
 		setTimeoutClass( $(this), 'error' );
 	});
+
+	$('body').on('click','.box-animate-click', function() {
+		setTimeoutClass( $(this), 'animated' );
+	});
+
+	$('body').on('click','.wpeo-dropdown', function() {
+		$(this).toggleClass('dropdown-active');
+	});
+
 });
 
 window.eoxiaJS.example.init = function() {

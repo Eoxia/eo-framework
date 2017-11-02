@@ -1,4 +1,4 @@
-<h2 id="button" class="module-title">Button</h2>
+<h2 id="button" class="module-title">Boutons</h2>
 
 <p class="entete">Le module permet de nombreuses personnalisations en ajoutant des classes à celle de base : <code class="language-css">"wpeo-button"</code></p>
 
@@ -18,6 +18,7 @@
 <div class="wpeo-button blue"><span>.blue</span></div>
 <div class="wpeo-button green"><span>.green</span></div>
 <div class="wpeo-button light"><span>.light</span></div>
+<div class="wpeo-button grey"><span>.grey</span></div>
 <div class="wpeo-button dark"><span>.dark</span></div>
 
 <h3 class="module-title">Bordered</h3>
@@ -34,6 +35,7 @@
 <div class="wpeo-button bordered blue"><span>.blue</span></div>
 <div class="wpeo-button bordered green"><span>.green</span></div>
 <div class="wpeo-button bordered light"><span>.light</span></div>
+<div class="wpeo-button bordered grey"><span>.grey</span></div>
 <div class="wpeo-button bordered dark"><span>.dark</span></div>
 
 <h3 class="module-title">Avec icone</h3>
@@ -82,13 +84,16 @@
 
 <h3 class="module-title">Désactiver</h3>
 
-<p>La classe utilise la propriété <code class="language-css">"pointer-events: none;"</code> pour désactiver totalement les actions sur le bouton</p>
+<p>La classe utilise la propriété <code class="language-css">"pointer-events: none;"</code> pour désactiver totalement les actions sur le bouton.<br>
+On peut utiliser la classe <code class="language-css">".event"</code> pour réactiver les animations.</p>
 
 <pre><code class="language-markup"><script type="prism-html-markup">
 <div class="wpeo-button disable"><span>Label Bouton</span></div>
+<div class="wpeo-button disable event"><span>Label Bouton</span></div> <!-- Les animations sont activées -->
 </script></code></pre>
 
 <div class="wpeo-button disable"><span>.disabled</span></div>
+<div class="wpeo-button disable event"><span>.disabled.event</span></div>
 
 <h3 class="module-title">Progress</h3>
 
