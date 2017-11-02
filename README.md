@@ -21,16 +21,6 @@ Avec **EO Framework**, nous vous offrons la possibilité d'utiliser très rapide
 * Lib JS et CSS
 * Log
 
-# Pour commencer
-
-Nous utilisons la notion de **module** pour séparer les différentes fonctionnalités de nos plugins.
-
-Nous avons également comme principe de séparer nos fonctions de nos fichiers selon leurs thèmes:
-* Les actions se trouverons dans le dossier 'action'
-* Les classes se trouverons dans le dossier 'class'
-* Les vues se trouverons dans le dossier 'view'
-* Ainsi de suite...
-
 ## Structure des plugins d'Eoxia
 
 * -/core: Dossier contenant les fichiers obligatoires pour le fonctionnement du plugin
@@ -64,8 +54,24 @@ Installer [NodeJS](https://nodejs.org/en/)
 Ouvrir une console sur votre dossier "plugin-name" puis faites la commande suivante:
 
 ```bash
-npm install -g gulp && npm install
+npm install -g gulp && npm install && npm start
 ```
+
+Cette dernière commande permet de gérer les fichiers CSS ou SCSS et JS. Gulp s'occupe de minifier automatiquement tous vos fichiers css et js en un seul et l'inclus dans le fichier core "action". Nous y reviendrons plus tard.
+
+## La structure de eo-framework-starter
+
+Nous utilisons la notion de **module** pour séparer les différentes fonctionnalités de nos plugins.
+
+Nous avons également comme principe de séparer nos fonctions de nos fichiers selon leurs thèmes:
+* Les actions se trouverons dans le dossier 'action'
+* Les classes se trouverons dans le dossier 'class'
+* Les vues se trouverons dans le dossier 'view'
+* Ainsi de suite...
+
+### La structure du starter
+
+![Image de la structure du starter](https://github.com/Eoxia/eo-framework-starter/blob/master/core/asset/image/structure_plugin.PNG)
 
 # Références
 
