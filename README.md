@@ -9,10 +9,6 @@ Nous avons fait en sorte que toutes les tâches répétitifs d'une création d'u
 
 Avec **EO Framework**, nous vous offrons la possibilité d'utiliser très rapidement ce dont tout développeur WordPress à besoin.
 
-## Tester EO-Framework dans un plugin WordPress
-
-Votre plugin WordPress avec EO-Framework en (2 min)[https://github.com/Eoxia/eo-framework-starter].
-
 ## Fonctionnalités
 
 * Bootage de plugin.
@@ -23,6 +19,11 @@ Votre plugin WordPress avec EO-Framework en (2 min)[https://github.com/Eoxia/eo-
 * Gestion de la définition de schéma pour vos données
 * Lib JS et CSS
 * Log
+* Gestion des conflits entre les différents plugins
+
+## Tester EO-Framework dans un plugin WordPress
+
+Votre plugin WordPress avec EO-Framework en [2 min](https://github.com/Eoxia/eo-framework-starter).
 
 # TODO
 * Meilleurs gestion des fichiers JSON
