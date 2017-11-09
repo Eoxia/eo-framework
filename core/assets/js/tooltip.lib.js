@@ -21,6 +21,14 @@ if ( ! window.eoxiaJS.tooltip ) {
 		var left = 0;
 
 		switch( jQuery( this ).data( 'direction' ) ) {
+			case 'left':
+				top = pos.top + 'px';
+				left = pos.left - el.outerWidth() - 15 + 'px';
+				break;
+			case 'right':
+				top = pos.top + 'px';
+				left = pos.left + el.outerWidth() + 15 + 'px';
+				break;
 			case 'bottom':
 				top = ( pos.top + jQuery( this ).height() + el.height() ) + 'px';
 				left = ( pos.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
