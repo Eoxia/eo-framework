@@ -8,14 +8,14 @@ Avec **EO Framework**, nous vous offrons la possibilité d'utiliser très rapide
 ## Fonctionnalités
 
 * Bootage de plugin.
-* Singleton
 * Inclusion de "module" et "external" ou bien de plugin dépendant.
-* Gestion des vues
-* Gestion JSON/CSV
-* Gestion de la définition de schéma pour vos données
-* Lib JS et CSS
-* Log
-* Gestion des conflits entre les différents plugins
+* Gestion des vues.
+* REST API.
+* Gestion de la définition de schéma pour vos données avec WPEO_Model.
+* Gestion upload de fichier + gallery avec WPEO_Upload.
+* Lib JS et CSS. (+ Minificateur JS et CSS automatique avec GULP)
+* Gestion des logs.
+* Gestion des conflits entre les différents plugins.
 
 ## Installation
 
