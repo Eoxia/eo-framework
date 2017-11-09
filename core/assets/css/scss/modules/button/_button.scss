@@ -70,12 +70,12 @@
 	border-color: $color__primary;
 	color: $color__primary-text;
 
-	&.primary {
+	&.button-primary {
 		background: $color__primary;
 		border-color: $color__primary;
 		color: $color__primary-text;
 	}
-	&.light {
+	&.button-light {
 		background: #fff;
 		border-color: #fff;
 		color: $color__text-main;
@@ -84,11 +84,11 @@
 			color: $color__text-main;
 		}
 	}
-	&.dark {
+	&.button-dark {
 		background: $color__dark;
 		border-color: $color__dark;
 	}
-	&.grey {
+	&.button-grey {
 		background: $color__grey;
 		border-color: $color__grey;
 		color: $color__text-main;
@@ -97,32 +97,32 @@
 			color: $color__text-main;
 		}
 	}
-	&.red {
+	&.button-red {
 		background: $color__red;
 		border-color: $color__red;
 	}
-	&.yellow {
+	&.button-yellow {
 		background: $color__yellow;
 		border-color: $color__yellow;
 	}
-	&.blue {
+	&.button-blue {
 		background: $color__blue;
 		border-color: $color__blue;
 	}
-	&.green {
+	&.button-green {
 		background: $color__green;
 		border-color: $color__green;
 	}
 }
 
 // Bordered
-.wpeo-button.bordered {
+.wpeo-button.button-bordered {
 	background: none;
 	/* Par defaut */
 	border-color: $color__primary;
 	color: $color__primary;
 
-	&.primary {
+	&.button-primary {
 		border-color: $color__primary;
 		color: $color__primary;
 		&:hover {
@@ -130,7 +130,7 @@
 			color: $color__primary-text;
 		}
 	}
-	&.light {
+	&.button-light {
 		border-color: #fff;
 		color: #fff;
 		&:hover {
@@ -138,14 +138,14 @@
 			color: $color__text-main;
 		}
 	}
-	&.dark {
+	&.button-dark {
 		border-color: $color__dark;
 		color: $color__dark;
 		&:hover {
 			box-shadow: inset 0 -2.6em $color__dark;
 		}
 	}
-	&.grey {
+	&.button-grey {
 		border-color: $color__grey;
 		color: darken($color__grey, 30%);
 		&:hover {
@@ -153,28 +153,28 @@
 			color: $color__text-main;
 		}
 	}
-	&.red {
+	&.button-red {
 		border-color: $color__red;
 		color: $color__red;
 		&:hover {
 			box-shadow: inset 0 -2.6em $color__red;
 		}
 	}
-	&.yellow {
+	&.button-yellow {
 		border-color: $color__yellow;
 		color: $color__yellow;
 		&:hover {
 			box-shadow: inset 0 -2.6em $color__yellow;
 		}
 	}
-	&.blue {
+	&.button-blue {
 		border-color: $color__blue;
 		color: $color__blue;
 		&:hover {
 			box-shadow: inset 0 -2.6em $color__blue;
 		}
 	}
-	&.green {
+	&.button-green {
 		border-color: $color__green;
 		color: $color__green;
 		&:hover {
@@ -190,30 +190,30 @@
 
 // Icon
 .wpeo-button {
-	.icon.dashicons {
+	.button-icon.dashicons {
 		line-height: 1.3;
 	}
-	.icon, span {
+	.button-icon, span {
 		@include transition();
 		position: relative;
 	}
-	.icon ~ span {
+	.button-icon ~ span {
 		margin-left: 10px;
 	}
-	span ~ .icon {
+	span ~ .button-icon {
 		margin-left: 10px;
 	}
 }
 
 // Strong
-.wpeo-button.strong {
+.wpeo-button.button-strong {
 	span {
 		font-weight: 800;
 	}
 }
 
 // Uppercase
-.wpeo-button.uppercase {
+.wpeo-button.button-uppercase {
 	span {
 		text-transform: uppercase;
 		font-size: 14px;
@@ -221,22 +221,22 @@
 }
 
 // Squared
-.wpeo-button[class*="square-"] {
+.wpeo-button[class*="button-square-"] {
 	text-align: center;
 	overflow: hidden;
 	padding: 0;
 }
-.wpeo-button.square-40 {
+.wpeo-button.button-square-40 {
 	width: 40px;
 	height: 40px;
 	line-height: 34px; // ne pas oublier les bordures : 6px
 }
-.wpeo-button.square-50 {
+.wpeo-button.button-square-50 {
 	width: 50px;
 	height: 50px;
 	line-height: 44px; // ne pas oublier les bordures : 6px
 }
-.wpeo-button.square-60 {
+.wpeo-button.button-square-60 {
 	width: 60px;
 	height: 60px;
 	line-height: 54px; // ne pas oublier les bordures : 6px
@@ -244,37 +244,37 @@
 
 // Floats
 .wpeo-button {
-	&.float-left {
+	&.button-float-left {
 		float: left;
 	}
-	&.float-right {
+	&.button-float-right {
 		float: right;
 	}
 }
 
 // margin
-.wpeo-button.margin {
+.wpeo-button.button-margin {
 	margin: 1em 0;
 }
 
 // radius
 .wpeo-button {
-	&.radius-1 {
+	&.button-radius-1 {
 		border-radius: 2px;
 	}
-	&.radius-2 {
+	&.button-radius-2 {
 		border-radius: 4px;
 	}
-	&.radius-3 {
+	&.button-radius-3 {
 		border-radius: 6px;
 	}
-	&.rounded {
+	&.button-rounded {
 		border-radius: 50%;
 	}
 }
 
 // disable
-.wpeo-button.disable {
+.wpeo-button.button-disable {
 	background: $color__grey !important;
 	border-color: $color__grey !important;
 	color: rgba(0,0,0,0.4) !important;
@@ -283,13 +283,13 @@
 	&:hover {
 		box-shadow: none !important;
 	}
-	&.event {
+	&.button-event {
 		pointer-events: all;
 	}
 }
 
 // Progress
-.wpeo-button.progress {
+.wpeo-button.button-progress {
 	position: relative;
 
 	&:before {
@@ -307,21 +307,21 @@
 		top: 50%;
 		z-index: 99;
 	}
-	.icon, span {
+	.button-icon, span {
 		display: inline-block;
 	}
-	&.success, &.load, &.error {
+	&.button-success, &.button-load, &.button-error {
 		pointer-events: none;
 		&:before {
 			opacity: 1;
 		}
-		.icon, span {
+		.button-icon, span {
 			opacity: 0;
 			transform: translate(0, 20%);
 		}
 	}
 
-	&.success {
+	&.button-success {
 		background: $color__green;
 		border-color: $color__green;
 		color: #fff;
@@ -331,7 +331,7 @@
 		}
 	}
 
-	&.error {
+	&.button-error {
 		background: $color__red;
 		border-color: $color__red;
 		color: #fff;
@@ -340,7 +340,7 @@
 			animation-name: progressError;
 		}
 	}
-	&.load {
+	&.button-load {
 		background: $color__grey;
 		&:before {
 			display: inline-block;
