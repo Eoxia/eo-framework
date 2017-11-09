@@ -1,6 +1,13 @@
 <h2 id="tooltip" class="module-title">Tooltip</h2>
 
-<!-- <p class="entete">Le module permet de nombreuses personnalisations en ajoutant des classes à celle de base : <code class="language-css">"wpeo-button"</code></p> -->
+<p class="entete">Le module utilise la classe : <code class="language-css">"wpeo-tooltip-event"</code></p>
+
+<p><code class="language-css">"wpeo-tooltip-event"</code> se place sur n'importe quel élément, sans oublier le <code class="language-css">"aria-label='je suis une tooltip'"</code>
+Le javascript génèrera ainsi la tooltip au survol de l'élément</p>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<a class="wpeo-button primary wpeo-tooltip-event" aria-label="Je suis une tooltip">Element</a>
+</script></code></pre>
 
 <!-- <h3 class="module-title">Simple</h3> -->
 
@@ -12,4 +19,6 @@
 </div>
 </script></code></pre> -->
 
-<a class="wpeo-button primary wpeo-tooltip active wpeo-loading" aria-label="coucou">Bonjour</a>
+
+<div class="wpeo-tooltip tooltip-primary">Mon texte</div>
+<a class="wpeo-button primary wpeo-tooltip-event tooltip-active" aria-label="Je suis une tooltip">Element</a>

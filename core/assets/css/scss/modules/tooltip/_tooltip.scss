@@ -3,36 +3,30 @@
 	Version : 1.0.0
 
 	.wpeo-tooltip -> classe de base du mobule
-	.hover -> Affiche la tooltip au hover
-	.red -> tooltip sur fond rouge
+	.tooltip-primary -> tooltip sur fond rouge
+	.tooltip-light -> tooltip sur fond rouge
+	.tooltip-red -> tooltip sur fond rouge
 --------------------------------------------------------------*/
 
 .wpeo-tooltip {
-	position: relative;
-	&:before, &:after {
-		opacity: 0;
-		pointer-events: none;
-		transform: translate(-50%, -6px);
-		transition: all 0.2s ease-out;
-	}
-	// Cadre
-	&:after {
-		content: attr(aria-label);
-		position: absolute;
-		left: 50%;
-		z-index: 999;
-		white-space: nowrap;
-		background: $color__dark;
-		color: #fff;
-		border-radius: 6px;
-		font-size: 0.8rem;
-		padding: 0 1em;
-		top: -3.2em;
-		height: 2.2em;
-		line-height: 2.2em;
-	}
-	// Fleche
-	&:before {
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	opacity: 0;
+	@include transition();
+	pointer-events: none;
+	z-index: 999;
+	white-space: nowrap;
+	background: $color__dark;
+	color: #fff;
+	border-radius: 6px;
+	font-size: 0.8rem;
+	padding: 0 1em;
+	height: 2.2em;
+	line-height: 2.2em;
+
+	&::before {
 		display: block;
 		content: '';
 		width: 0;
@@ -41,43 +35,33 @@
 		border-width: 6px 6px 0 6px;
 		border-color: $color__dark transparent transparent transparent;
 		position: absolute;
-		top: -0.8em;
+		bottom: -6px;
 		left: 50%;
+		transform: translateX(-50%);
 	}
 	&:focus {
 		outline: none;
 	}
-	&.hover:hover:after, &.hover:hover:before, &.active:after, &.active:before {
-		opacity: 1;
-		pointer-events: auto;
-		transform: translate(-50%, 0);
-	}
 }
 
 // Fond primaire
-.wpeo-tooltip.t-primary {
-	&::after {
-		background: $color__primary;
-	}
+.wpeo-tooltip.tooltip-primary {
+	background: $color__primary;
 	&::before {
 		border-color: $color__primary transparent transparent transparent;
 	}
 }
 // Fond light
-.wpeo-tooltip.t-light {
-	&::after {
-		background: $color__grey;
-		color: rgba(0,0,0,0.6);
-	}
+.wpeo-tooltip.tooltip-light {
+	background: $color__grey;
+	color: rgba(0,0,0,0.6);
 	&::before {
 		border-color: $color__grey transparent transparent transparent;
 	}
 }
 // Fond rouge
-.wpeo-tooltip.t-red {
-	&::after {
-		background: $color__red;
-	}
+.wpeo-tooltip.tooltip-red {
+	background: $color__red;
 	&::before {
 		border-color: $color__red transparent transparent transparent;
 	}
