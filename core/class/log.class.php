@@ -64,7 +64,7 @@ if ( ! class_exists( '\eoxia\LOG_Util' ) ) {
 						error_log( 'Les logs sont enregistrés dans wp-content/uploads/logs/__PLUGIN_NAME__.' );
 						self::log_wp_content( $text, $file_name, $level, $bt );
 					} else {
-						error_log( current_time( '[d-M-Y h:i:s e]' ) . " PHP {$level}: {$text} in " . str_replace( '\\', '/', $bt[0]['file'] ) . " line  {$bt[0]['line']}\n", 3, $path . '/' . $file_name . '.log' );
+						error_log( current_time( '[d-M-Y H:i:s e]' ) . " PHP {$level}: {$text} in " . str_replace( '\\', '/', $bt[0]['file'] ) . " line  {$bt[0]['line']}\n", 3, $path . '/' . $file_name . '.log' );
 					}
 				}
 			}
@@ -94,7 +94,7 @@ if ( ! class_exists( '\eoxia\LOG_Util' ) ) {
 
 			$wp_upload_dir = wp_upload_dir();
 			$file = fopen( $wp_upload_dir['path'] . '/' . $file_name . '.log', 'a' );
-			fwrite( $file, current_time( '[d-M-Y h:i:s e]' ) . " PHP {$level}: {$text} in " . str_replace( '\\', '/', $bt[0]['file'] ) . " line  {$bt[0]['line']}\n" );
+			fwrite( $file, current_time( '[d-M-Y H:i:s e]' ) . " PHP {$level}: {$text} in " . str_replace( '\\', '/', $bt[0]['file'] ) . " line  {$bt[0]['line']}\n" );
 			fclose( $file );
 		}
 	}
