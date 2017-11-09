@@ -11,7 +11,7 @@ Avec **EO Framework**, nous vous offrons la possibilité d'utiliser très rapide
 
 * Bootage de plugin.
 * Singleton
-* Inclusion de "module" et "external ou bien de plugin dépendant.
+* Inclusion de "module" et "external" ou bien de plugin dépendant.
 * Gestion des vues
 * Gestion JSON/CSV
 * Gestion de la définition de schéma pour vos données
