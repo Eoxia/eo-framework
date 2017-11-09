@@ -2663,7 +2663,7 @@ th {
        -o-animation-duration: .75s;
           animation-duration: .75s; }
 
-.wpeo-animate.hover:hover.bounce, .wpeo-animate.animated.bounce {
+.wpeo-animate.animate-hover:hover.bounce, .wpeo-animate.animate-on.bounce {
   -webkit-animation-name: bounce;
        -o-animation-name: bounce;
           animation-name: bounce;
@@ -2672,12 +2672,12 @@ th {
        -o-transform-origin: center bottom;
           transform-origin: center bottom; }
 
-.wpeo-animate.hover:hover.flash, .wpeo-animate.animated.flash {
+.wpeo-animate.animate-hover:hover.flash, .wpeo-animate.animate-on.flash {
   -webkit-animation-name: flash;
        -o-animation-name: flash;
           animation-name: flash; }
 
-.wpeo-animate.hover:hover.headShake, .wpeo-animate.animated.headShake {
+.wpeo-animate.animate-hover:hover.headShake, .wpeo-animate.animate-on.headShake {
   -webkit-animation-timing-function: ease-in-out;
        -o-animation-timing-function: ease-in-out;
           animation-timing-function: ease-in-out;
@@ -2685,7 +2685,7 @@ th {
        -o-animation-name: headShake;
           animation-name: headShake; }
 
-.wpeo-animate.hover:hover.jello, .wpeo-animate.animated.jello {
+.wpeo-animate.animate-hover:hover.jello, .wpeo-animate.animate-on.jello {
   -webkit-animation-name: jello;
        -o-animation-name: jello;
           animation-name: jello;
@@ -2694,22 +2694,22 @@ th {
        -o-transform-origin: center;
           transform-origin: center; }
 
-.wpeo-animate.hover:hover.pulse, .wpeo-animate.animated.pulse {
+.wpeo-animate.animate-hover:hover.pulse, .wpeo-animate.animate-on.pulse {
   -webkit-animation-name: pulse;
        -o-animation-name: pulse;
           animation-name: pulse; }
 
-.wpeo-animate.hover:hover.rubberBand, .wpeo-animate.animated.rubberBand {
+.wpeo-animate.animate-hover:hover.rubberBand, .wpeo-animate.animate-on.rubberBand {
   -webkit-animation-name: rubberBand;
        -o-animation-name: rubberBand;
           animation-name: rubberBand; }
 
-.wpeo-animate.hover:hover.shake, .wpeo-animate.animated.shake {
+.wpeo-animate.animate-hover:hover.shake, .wpeo-animate.animate-on.shake {
   -webkit-animation-name: shake;
        -o-animation-name: shake;
           animation-name: shake; }
 
-.wpeo-animate.hover:hover.swing, .wpeo-animate.animated.swing {
+.wpeo-animate.animate-hover:hover.swing, .wpeo-animate.animate-on.swing {
   -webkit-transform-origin: top center;
       -ms-transform-origin: top center;
        -o-transform-origin: top center;
@@ -2718,207 +2718,207 @@ th {
        -o-animation-name: swing;
           animation-name: swing; }
 
-.wpeo-animate.hover:hover.tada, .wpeo-animate.animated.tada {
+.wpeo-animate.animate-hover:hover.tada, .wpeo-animate.animate-on.tada {
   -webkit-animation-name: tada;
        -o-animation-name: tada;
           animation-name: tada; }
 
-.wpeo-animate.hover:hover.wobble, .wpeo-animate.animated.wobble {
+.wpeo-animate.animate-hover:hover.wobble, .wpeo-animate.animate-on.wobble {
   -webkit-animation-name: wobble;
        -o-animation-name: wobble;
           animation-name: wobble; }
 
-.wpeo-animate.hover:hover.bounceIn, .wpeo-animate.animated.bounceIn {
+.wpeo-animate.animate-hover:hover.bounceIn, .wpeo-animate.animate-on.bounceIn {
   -webkit-animation-name: bounceIn;
        -o-animation-name: bounceIn;
           animation-name: bounceIn; }
 
-.wpeo-animate.hover:hover.bounceInDown, .wpeo-animate.animated.bounceInDown {
+.wpeo-animate.animate-hover:hover.bounceInDown, .wpeo-animate.animate-on.bounceInDown {
   -webkit-animation-name: bounceInDown;
        -o-animation-name: bounceInDown;
           animation-name: bounceInDown; }
 
-.wpeo-animate.hover:hover.bounceInLeft, .wpeo-animate.animated.bounceInLeft {
+.wpeo-animate.animate-hover:hover.bounceInLeft, .wpeo-animate.animate-on.bounceInLeft {
   -webkit-animation-name: bounceInLeft;
        -o-animation-name: bounceInLeft;
           animation-name: bounceInLeft; }
 
-.wpeo-animate.hover:hover.bounceInRight, .wpeo-animate.animated.bounceInRight {
+.wpeo-animate.animate-hover:hover.bounceInRight, .wpeo-animate.animate-on.bounceInRight {
   -webkit-animation-name: bounceInRight;
        -o-animation-name: bounceInRight;
           animation-name: bounceInRight; }
 
-.wpeo-animate.hover:hover.bounceInUp, .wpeo-animate.animated.bounceInUp {
+.wpeo-animate.animate-hover:hover.bounceInUp, .wpeo-animate.animate-on.bounceInUp {
   -webkit-animation-name: bounceInUp;
        -o-animation-name: bounceInUp;
           animation-name: bounceInUp; }
 
-.wpeo-animate.hover:hover.bounceOut, .wpeo-animate.animated.bounceOut {
+.wpeo-animate.animate-hover:hover.bounceOut, .wpeo-animate.animate-on.bounceOut {
   -webkit-animation-name: bounceOut;
        -o-animation-name: bounceOut;
           animation-name: bounceOut; }
 
-.wpeo-animate.hover:hover.bounceOutDown, .wpeo-animate.animated.bounceOutDown {
+.wpeo-animate.animate-hover:hover.bounceOutDown, .wpeo-animate.animate-on.bounceOutDown {
   -webkit-animation-name: bounceOutDown;
        -o-animation-name: bounceOutDown;
           animation-name: bounceOutDown; }
 
-.wpeo-animate.hover:hover.bounceOutLeft, .wpeo-animate.animated.bounceOutLeft {
+.wpeo-animate.animate-hover:hover.bounceOutLeft, .wpeo-animate.animate-on.bounceOutLeft {
   -webkit-animation-name: bounceOutLeft;
        -o-animation-name: bounceOutLeft;
           animation-name: bounceOutLeft; }
 
-.wpeo-animate.hover:hover.bounceOutRight, .wpeo-animate.animated.bounceOutRight {
+.wpeo-animate.animate-hover:hover.bounceOutRight, .wpeo-animate.animate-on.bounceOutRight {
   -webkit-animation-name: bounceOutRight;
        -o-animation-name: bounceOutRight;
           animation-name: bounceOutRight; }
 
-.wpeo-animate.hover:hover.bounceOutUp, .wpeo-animate.animated.bounceOutUp {
+.wpeo-animate.animate-hover:hover.bounceOutUp, .wpeo-animate.animate-on.bounceOutUp {
   -webkit-animation-name: bounceOutUp;
        -o-animation-name: bounceOutUp;
           animation-name: bounceOutUp; }
 
-.wpeo-animate.hover:hover.fadeIn, .wpeo-animate.animated.fadeIn {
+.wpeo-animate.animate-hover:hover.fadeIn, .wpeo-animate.animate-on.fadeIn {
   -webkit-animation-name: fadeIn;
        -o-animation-name: fadeIn;
           animation-name: fadeIn; }
 
-.wpeo-animate.hover:hover.fadeInDown, .wpeo-animate.animated.fadeInDown {
+.wpeo-animate.animate-hover:hover.fadeInDown, .wpeo-animate.animate-on.fadeInDown {
   -webkit-animation-name: fadeInDown;
        -o-animation-name: fadeInDown;
           animation-name: fadeInDown; }
 
-.wpeo-animate.hover:hover.fadeInDownBig, .wpeo-animate.animated.fadeInDownBig {
+.wpeo-animate.animate-hover:hover.fadeInDownBig, .wpeo-animate.animate-on.fadeInDownBig {
   -webkit-animation-name: fadeInDownBig;
        -o-animation-name: fadeInDownBig;
           animation-name: fadeInDownBig; }
 
-.wpeo-animate.hover:hover.fadeInLeft, .wpeo-animate.animated.fadeInLeft {
+.wpeo-animate.animate-hover:hover.fadeInLeft, .wpeo-animate.animate-on.fadeInLeft {
   -webkit-animation-name: fadeInLeft;
        -o-animation-name: fadeInLeft;
           animation-name: fadeInLeft; }
 
-.wpeo-animate.hover:hover.fadeInLeftBig, .wpeo-animate.animated.fadeInLeftBig {
+.wpeo-animate.animate-hover:hover.fadeInLeftBig, .wpeo-animate.animate-on.fadeInLeftBig {
   -webkit-animation-name: fadeInLeftBig;
        -o-animation-name: fadeInLeftBig;
           animation-name: fadeInLeftBig; }
 
-.wpeo-animate.hover:hover.fadeInRight, .wpeo-animate.animated.fadeInRight {
+.wpeo-animate.animate-hover:hover.fadeInRight, .wpeo-animate.animate-on.fadeInRight {
   -webkit-animation-name: fadeInRight;
        -o-animation-name: fadeInRight;
           animation-name: fadeInRight; }
 
-.wpeo-animate.hover:hover.fadeInRightBig, .wpeo-animate.animated.fadeInRightBig {
+.wpeo-animate.animate-hover:hover.fadeInRightBig, .wpeo-animate.animate-on.fadeInRightBig {
   -webkit-animation-name: fadeInRightBig;
        -o-animation-name: fadeInRightBig;
           animation-name: fadeInRightBig; }
 
-.wpeo-animate.hover:hover.fadeInUp, .wpeo-animate.animated.fadeInUp {
+.wpeo-animate.animate-hover:hover.fadeInUp, .wpeo-animate.animate-on.fadeInUp {
   -webkit-animation-name: fadeInUp;
        -o-animation-name: fadeInUp;
           animation-name: fadeInUp; }
 
-.wpeo-animate.hover:hover.fadeInUpBig, .wpeo-animate.animated.fadeInUpBig {
+.wpeo-animate.animate-hover:hover.fadeInUpBig, .wpeo-animate.animate-on.fadeInUpBig {
   -webkit-animation-name: fadeInUpBig;
        -o-animation-name: fadeInUpBig;
           animation-name: fadeInUpBig; }
 
-.wpeo-animate.hover:hover.fadeOut, .wpeo-animate.animated.fadeOut {
+.wpeo-animate.animate-hover:hover.fadeOut, .wpeo-animate.animate-on.fadeOut {
   -webkit-animation-name: fadeOut;
        -o-animation-name: fadeOut;
           animation-name: fadeOut; }
 
-.wpeo-animate.hover:hover.fadeOutDown, .wpeo-animate.animated.fadeOutDown {
+.wpeo-animate.animate-hover:hover.fadeOutDown, .wpeo-animate.animate-on.fadeOutDown {
   -webkit-animation-name: fadeOutDown;
        -o-animation-name: fadeOutDown;
           animation-name: fadeOutDown; }
 
-.wpeo-animate.hover:hover.fadeOutDownBig, .wpeo-animate.animated.fadeOutDownBig {
+.wpeo-animate.animate-hover:hover.fadeOutDownBig, .wpeo-animate.animate-on.fadeOutDownBig {
   -webkit-animation-name: fadeOutDownBig;
        -o-animation-name: fadeOutDownBig;
           animation-name: fadeOutDownBig; }
 
-.wpeo-animate.hover:hover.fadeOutLeft, .wpeo-animate.animated.fadeOutLeft {
+.wpeo-animate.animate-hover:hover.fadeOutLeft, .wpeo-animate.animate-on.fadeOutLeft {
   -webkit-animation-name: fadeOutLeft;
        -o-animation-name: fadeOutLeft;
           animation-name: fadeOutLeft; }
 
-.wpeo-animate.hover:hover.fadeOutLeftBig, .wpeo-animate.animated.fadeOutLeftBig {
+.wpeo-animate.animate-hover:hover.fadeOutLeftBig, .wpeo-animate.animate-on.fadeOutLeftBig {
   -webkit-animation-name: fadeOutLeftBig;
        -o-animation-name: fadeOutLeftBig;
           animation-name: fadeOutLeftBig; }
 
-.wpeo-animate.hover:hover.fadeOutRight, .wpeo-animate.animated.fadeOutRight {
+.wpeo-animate.animate-hover:hover.fadeOutRight, .wpeo-animate.animate-on.fadeOutRight {
   -webkit-animation-name: fadeOutRight;
        -o-animation-name: fadeOutRight;
           animation-name: fadeOutRight; }
 
-.wpeo-animate.hover:hover.fadeOutRightBig, .wpeo-animate.animated.fadeOutRightBig {
+.wpeo-animate.animate-hover:hover.fadeOutRightBig, .wpeo-animate.animate-on.fadeOutRightBig {
   -webkit-animation-name: fadeOutRightBig;
        -o-animation-name: fadeOutRightBig;
           animation-name: fadeOutRightBig; }
 
-.wpeo-animate.hover:hover.fadeOutUp, .wpeo-animate.animated.fadeOutUp {
+.wpeo-animate.animate-hover:hover.fadeOutUp, .wpeo-animate.animate-on.fadeOutUp {
   -webkit-animation-name: fadeOutUp;
        -o-animation-name: fadeOutUp;
           animation-name: fadeOutUp; }
 
-.wpeo-animate.hover:hover.fadeOutUpBig, .wpeo-animate.animated.fadeOutUpBig {
+.wpeo-animate.animate-hover:hover.fadeOutUpBig, .wpeo-animate.animate-on.fadeOutUpBig {
   -webkit-animation-name: fadeOutUpBig;
        -o-animation-name: fadeOutUpBig;
           animation-name: fadeOutUpBig; }
 
-.wpeo-animate.hover:hover.slideInDown, .wpeo-animate.animated.slideInDown {
+.wpeo-animate.animate-hover:hover.slideInDown, .wpeo-animate.animate-on.slideInDown {
   -webkit-animation-name: slideInDown;
        -o-animation-name: slideInDown;
           animation-name: slideInDown; }
 
-.wpeo-animate.hover:hover.slideInLeft, .wpeo-animate.animated.slideInLeft {
+.wpeo-animate.animate-hover:hover.slideInLeft, .wpeo-animate.animate-on.slideInLeft {
   -webkit-animation-name: slideInLeft;
        -o-animation-name: slideInLeft;
           animation-name: slideInLeft; }
 
-.wpeo-animate.hover:hover.slideInRight, .wpeo-animate.animated.slideInRight {
+.wpeo-animate.animate-hover:hover.slideInRight, .wpeo-animate.animate-on.slideInRight {
   -webkit-animation-name: slideInRight;
        -o-animation-name: slideInRight;
           animation-name: slideInRight; }
 
-.wpeo-animate.hover:hover.slideInUp, .wpeo-animate.animated.slideInUp {
+.wpeo-animate.animate-hover:hover.slideInUp, .wpeo-animate.animate-on.slideInUp {
   -webkit-animation-name: slideInUp;
        -o-animation-name: slideInUp;
           animation-name: slideInUp; }
 
-.wpeo-animate.hover:hover.slideOutDown, .wpeo-animate.animated.slideOutDown {
+.wpeo-animate.animate-hover:hover.slideOutDown, .wpeo-animate.animate-on.slideOutDown {
   -webkit-animation-name: slideOutDown;
        -o-animation-name: slideOutDown;
           animation-name: slideOutDown; }
 
-.wpeo-animate.hover:hover.slideOutLeft, .wpeo-animate.animated.slideOutLeft {
+.wpeo-animate.animate-hover:hover.slideOutLeft, .wpeo-animate.animate-on.slideOutLeft {
   -webkit-animation-name: slideOutLeft;
        -o-animation-name: slideOutLeft;
           animation-name: slideOutLeft; }
 
-.wpeo-animate.hover:hover.slideOutRight, .wpeo-animate.animated.slideOutRight {
+.wpeo-animate.animate-hover:hover.slideOutRight, .wpeo-animate.animate-on.slideOutRight {
   -webkit-animation-name: slideOutRight;
        -o-animation-name: slideOutRight;
           animation-name: slideOutRight; }
 
-.wpeo-animate.hover:hover.slideOutUp, .wpeo-animate.animated.slideOutUp {
+.wpeo-animate.animate-hover:hover.slideOutUp, .wpeo-animate.animate-on.slideOutUp {
   -webkit-animation-name: slideOutUp;
        -o-animation-name: slideOutUp;
           animation-name: slideOutUp; }
 
-.wpeo-animate.hover:hover.bounceInLight, .wpeo-animate.animated.bounceInLight {
+.wpeo-animate.animate-hover:hover.bounceInLight, .wpeo-animate.animate-on.bounceInLight {
   -webkit-animation-name: bounceInLight;
        -o-animation-name: bounceInLight;
           animation-name: bounceInLight; }
 
-.wpeo-animate.hover:hover.rotate, .wpeo-animate.animated.rotate {
+.wpeo-animate.animate-hover:hover.rotate, .wpeo-animate.animate-on.rotate {
   -webkit-animation-name: rotate;
        -o-animation-name: rotate;
           animation-name: rotate; }
 
-.wpeo-animate.hover:hover.downAndUp, .wpeo-animate.animated.downAndUp {
+.wpeo-animate.animate-hover:hover.downAndUp, .wpeo-animate.animate-on.downAndUp {
   -webkit-animation-name: downAndUp;
        -o-animation-name: downAndUp;
           animation-name: downAndUp; }
@@ -5390,18 +5390,6 @@ th {
   -webkit-box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.3);
           box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.3);
   width: 160px; }
-
-.wpeo-dropdown .dropdown-content:before {
-  display: block;
-  content: '';
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 6px 6px 6px;
-  position: absolute;
-  top: -6px;
-  left: 20px;
-  border-color: transparent transparent #fff transparent; }
 
 .wpeo-dropdown.dropdown-active .dropdown-content {
   opacity: 1;

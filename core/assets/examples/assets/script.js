@@ -21,7 +21,7 @@ $(document).ready(function() {
 	});
 
 	$('body').on('click','.box-animate-click', function() {
-		setTimeoutClass( $(this), 'animated' );
+		setTimeoutClass( $(this), 'animate-on' );
 	});
 
 	$('body').on('click','.wpeo-dropdown', function() {

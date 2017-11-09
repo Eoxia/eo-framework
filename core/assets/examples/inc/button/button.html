@@ -84,15 +84,22 @@
 
 <h3 class="module-title">Désactiver</h3>
 
-<p>La classe utilise la propriété <code class="language-css">"pointer-events: none;"</code> pour désactiver totalement les actions sur le bouton.<br>
-On peut utiliser la classe <code class="language-css">".button-event"</code> pour réactiver les animations.</p>
+<p>La classe utilise la propriété <code class="language-css">"pointer-events: none;"</code> pour désactiver totalement les actions sur le bouton.</p>
 
 <pre><code class="language-markup"><script type="prism-html-markup">
 <div class="wpeo-button button-disable"><span>Label Bouton</span></div>
-<div class="wpeo-button button-disable button-event"><span>Label Bouton</span></div> <!-- Les animations sont activées -->
 </script></code></pre>
 
 <div class="wpeo-button button-disable"><span>.button-disabled</span></div>
+
+<p>Il existe certains cas où vous souhaitez que votre bouton ai seulement l'apparence d'être désactivé car vous avez besoin d'accrocher des évènements dessus.<br>
+Utilisez dans ce cas la classe <code class="language-css">"button-event"</code> pour réactiver la propriété CSS pointer event.</p>
+<p class="note"><strong>Exemple :</strong> Votre bouton semble désactivé et vous pouvez afficher un message d'erreur lorsque l'on clique dessus.</p>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="wpeo-button button-disable button-event"><span>Label Bouton</span></div> <!-- Les animations sont activées -->
+</script></code></pre>
+
 <div class="wpeo-button button-disable button-event"><span>.button-disabled.button-event</span></div>
 
 <h3 class="module-title">Progress</h3>

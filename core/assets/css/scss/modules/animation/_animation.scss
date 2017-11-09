@@ -3,8 +3,8 @@
 	Version : 1.2.0
 
 	.wpeo-animate => classe de base pour le module
-		.hover => Permet de lancer l'animation au survol
-		.animated => ajouter cette classe lors d'un event js pour animer l'element
+		.animate-hover => Permet de lancer l'animation au survol
+		.animate-on => ajouter cette classe lors d'un event js pour animer l'element
 --------------------------------------------------------------*/
 
 .wpeo-animate {
@@ -18,7 +18,7 @@
 	  animation-duration: .75s;
 	}
 
-	&.hover:hover, &.animated {
+	&.animate-hover:hover, &.animate-on {
 		&.bounce {
 		  animation-name: bounce;
 		  transform-origin: center bottom;
