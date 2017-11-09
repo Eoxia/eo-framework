@@ -5455,7 +5455,7 @@
   margin-bottom: 0.6em;
   color: rgba(0, 0, 0, 0.8); }
 
-.wpeo-wrap .wpeo-form .form-elemnt {
+.wpeo-wrap .wpeo-form .form-element {
   width: 100%; }
 
 .wpeo-wrap .wpeo-form .form-element label {
@@ -5573,16 +5573,16 @@
           box-shadow: 0 0 0 2px #898de5;
   background: #898de5; }
 
-.wpeo-wrap .wpeo-form .form-element.modern {
+.wpeo-wrap .wpeo-form .form-element.form-modern {
   position: relative;
   width: 100%;
   margin-bottom: 26px; }
 
-.wpeo-wrap .wpeo-form .form-element.modern:after {
+.wpeo-wrap .wpeo-form .form-element.form-modern:after {
   content: '';
   display: block; }
 
-.wpeo-wrap .wpeo-form .form-element.modern input, .wpeo-wrap .wpeo-form .form-element.modern textarea {
+.wpeo-wrap .wpeo-form .form-element.form-modern input, .wpeo-wrap .wpeo-form .form-element.form-modern textarea {
   border: 0;
   border-bottom: 1px solid #2b2b2b;
   -webkit-box-shadow: none;
@@ -5593,13 +5593,13 @@
   font-size: 14px;
   background: transparent; }
 
-.wpeo-wrap .wpeo-form .form-element.modern input:focus ~ .bar, .wpeo-wrap .wpeo-form .form-element.modern textarea:focus ~ .bar {
+.wpeo-wrap .wpeo-form .form-element.form-modern input:focus ~ .form-bar, .wpeo-wrap .wpeo-form .form-element.form-modern textarea:focus ~ .form-bar {
   width: 100%; }
 
-.wpeo-wrap .wpeo-form .form-element.modern textarea:focus ~ .bar {
+.wpeo-wrap .wpeo-form .form-element.form-modern textarea:focus ~ .form-bar {
   width: 100%; }
 
-.wpeo-wrap .wpeo-form .form-element.modern label {
+.wpeo-wrap .wpeo-form .form-element.form-modern label {
   position: absolute;
   top: 10px;
   left: 0em;
@@ -5612,7 +5612,7 @@
   font-weight: 600;
   font-size: 14px; }
 
-.wpeo-wrap .wpeo-form .form-element.modern .bar {
+.wpeo-wrap .wpeo-form .form-element.form-modern .form-bar {
   position: absolute;
   width: 0;
   height: 3px;
@@ -5623,19 +5623,19 @@
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out; }
 
-.wpeo-wrap .wpeo-form .form-element.modern input ~ .bar {
+.wpeo-wrap .wpeo-form .form-element.form-modern input ~ .form-bar {
   bottom: -1px; }
 
-.wpeo-wrap .wpeo-form .form-element.modern input:after {
+.wpeo-wrap .wpeo-form .form-element.form-modern input:after {
   display: block;
   content: ''; }
 
-.wpeo-wrap .wpeo-form .form-element.modern textarea ~ .bar {
+.wpeo-wrap .wpeo-form .form-element.form-modern textarea ~ .form-bar {
   bottom: -1px;
   left: 0;
   right: 0; }
 
-.wpeo-wrap .wpeo-form .form-element.modern select {
+.wpeo-wrap .wpeo-form .form-element.form-modern select {
   width: 100%;
   padding: 6px;
   height: 40px;
@@ -5644,21 +5644,21 @@
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out; }
 
-.wpeo-wrap .wpeo-form .form-element.modern select:focus {
+.wpeo-wrap .wpeo-form .form-element.form-modern select:focus {
   border: 1px solid #898de5; }
 
-.wpeo-wrap .wpeo-form .form-element.modern.active input, .wpeo-wrap .wpeo-form .form-element.modern.active textarea, .wpeo-wrap .wpeo-form .form-element.modern input:focus, .wpeo-wrap .wpeo-form .form-element.modern textarea:focus, .wpeo-wrap .wpeo-form .form-element.modern select:focus {
+.wpeo-wrap .wpeo-form .form-element.form-modern.form-active input, .wpeo-wrap .wpeo-form .form-element.form-modern.form-active textarea, .wpeo-wrap .wpeo-form .form-element.form-modern input:focus, .wpeo-wrap .wpeo-form .form-element.form-modern textarea:focus, .wpeo-wrap .wpeo-form .form-element.form-modern select:focus {
   outline: none; }
 
-.wpeo-wrap .wpeo-form .form-element.modern.active input ~ label, .wpeo-wrap .wpeo-form .form-element.modern.active textarea ~ label, .wpeo-wrap .wpeo-form .form-element.modern input:focus ~ label, .wpeo-wrap .wpeo-form .form-element.modern textarea:focus ~ label, .wpeo-wrap .wpeo-form .form-element.modern select:focus ~ label {
+.wpeo-wrap .wpeo-form .form-element.form-modern.form-active input ~ label, .wpeo-wrap .wpeo-form .form-element.form-modern.form-active textarea ~ label, .wpeo-wrap .wpeo-form .form-element.form-modern input:focus ~ label, .wpeo-wrap .wpeo-form .form-element.form-modern textarea:focus ~ label, .wpeo-wrap .wpeo-form .form-element.form-modern select:focus ~ label {
   font-size: 12px;
   color: #898de5;
   pointer-events: auto; }
 
-.wpeo-wrap .wpeo-form .form-element.modern.active input ~ label, .wpeo-wrap .wpeo-form .form-element.modern input:focus ~ label {
+.wpeo-wrap .wpeo-form .form-element.form-modern.form-active input ~ label, .wpeo-wrap .wpeo-form .form-element.form-modern input:focus ~ label {
   top: -10px; }
 
-.wpeo-wrap .wpeo-form .form-element.modern.active textarea ~ label, .wpeo-wrap .wpeo-form .form-element.modern textarea:focus ~ label {
+.wpeo-wrap .wpeo-form .form-element.form-modern.form-active textarea ~ label, .wpeo-wrap .wpeo-form .form-element.form-modern textarea:focus ~ label {
   top: -16px; }
 
 .wpeo-wrap .wpeo-loader {

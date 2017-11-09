@@ -1,5 +1,5 @@
 // General
-.form-element.modern {
+.form-element.form-modern {
 	position: relative;
 	width: 100%;
 	margin-bottom: 26px;
@@ -11,7 +11,7 @@
 }
 
 // Design
-.form-element.modern {
+.form-element.form-modern {
 	input, textarea {
 		border: 0;
 		border-bottom: 1px solid $color__dark;
@@ -21,12 +21,12 @@
 		width: 100%;
 		font-size: 14px;
 		background: transparent;
-		&:focus ~ .bar {
+		&:focus ~ .form-bar {
 			width: 100%;
 		}
 	}
 	textarea {
-		&:focus ~ .bar {
+		&:focus ~ .form-bar {
 			width: 100%;
 		}
 	}
@@ -41,7 +41,7 @@
 		font-weight: 600;
 		font-size: 14px;
 	}
-	.bar {
+	.form-bar {
 		position: absolute;
 		width: 0;
 		height: 3px;
@@ -50,7 +50,7 @@
 		background: $color__primary;
 		transition: all 0.2s ease-out;
 	}
-	input ~ .bar {
+	input ~ .form-bar {
 		bottom: -1px;
 	}
 	input:after {
@@ -58,7 +58,7 @@
 		content: '';
 
 	}
-	textarea ~ .bar {
+	textarea ~ .form-bar {
 		bottom: -1px;
 		left: 0;
 		right: 0;
@@ -76,8 +76,8 @@
 }
 
 // Active
-.form-element.modern {
-	&.active input, &.active textarea, input:focus, textarea:focus, select:focus {
+.form-element.form-modern {
+	&.form-active input, &.form-active textarea, input:focus, textarea:focus, select:focus {
 		outline: none;
 		& ~ label {
 			font-size: 12px;
@@ -85,12 +85,12 @@
 			pointer-events: auto;
 		}
 	}
-	&.active input, input:focus {
+	&.form-active input, input:focus {
 		& ~ label {
 			top: -10px;
 		}
 	}
-	&.active textarea, textarea:focus {
+	&.form-active textarea, textarea:focus {
 		& ~ label {
 			top: -16px;
 		}
