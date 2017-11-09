@@ -19,15 +19,15 @@
 </script></code></pre>
 
 <div class="wpeo-grid grid-4">
-	<div class=""><div class="box primary"></div></div>
-	<div class=""><div class="box primary"></div></div>
-	<div class=""><div class="box primary"></div></div>
-	<div class=""><div class="box primary"></div></div>
+	<div class=""><div class="box primary">Element 1</div></div>
+	<div class=""><div class="box primary">Element 2</div></div>
+	<div class=""><div class="box primary">Element 3</div></div>
+	<div class=""><div class="box primary">Element 4</div></div>
 </div>
 
 <div class="wpeo-grid grid-2">
-	<div class=""><div class="box secondary"></div></div>
-	<div class=""><div class="box secondary"></div></div>
+	<div class=""><div class="box secondary">Element 1</div></div>
+	<div class=""><div class="box secondary">Element 2</div></div>
 </div>
 
 <h3>Avancé</h3>
@@ -39,37 +39,23 @@ permettra au bloc de faire 2 fois sa taille. <code class="language-css">"grid-3"
 <pre><code class="language-markup"><script type="prism-html-markup">
 <div class="wpeo-grid grid-4">
 	<div>Element 1</div>
-	<div>Element 2</div>
-	<div class="grid-3">Element 3</div>
-	<div>Element 4</div>
-</div>
-</script></code></pre>
-
-<div class="wpeo-grid grid-4">
-	<div class=""><div class="box primary">.grid-1</div></div>
-	<div class="grid-3"><div class="box primary">.grid-3</div></div>
-	<div class=""><div class="box primary"></div></div>
-	<div class=""><div class="box primary"></div></div>
-	<div class=""><div class="box primary"></div></div>
-	<div class=""><div class="box primary"></div></div>
-</div>
-
-<pre><code class="language-markup"><script type="prism-html-markup">
-<div class="wpeo-grid grid-4">
-	<div class="grid-2">Element 1</div>
-	<div>Element 2</div>
+	<div class="grid-3">Element 2</div>
 	<div>Element 3</div>
 	<div>Element 4</div>
+	<div>Element 5</div>
+	<div>Element 6</div>
 </div>
 </script></code></pre>
 
-<div class="wpeo-grid grid-3">
-	<div class="grid-2"><div class="box secondary">.grid-2</div></div>
-	<div class=""><div class="box secondary">.grid-1</div></div>
-	<div class=""><div class="box secondary"></div></div>
-	<div class=""><div class="box secondary"></div></div>
-	<div class=""><div class="box secondary"></div></div>
+<div class="wpeo-grid grid-4">
+	<div><div class="box primary">Element 1 (.grid-1)</div></div>
+	<div class="grid-3"><div class="box primary">Element 2 (.grid-3)</div></div>
+	<div><div class="box primary">Element 3 (.grid-1)</div></div>
+	<div><div class="box primary">Element 4 (.grid-1)</div></div>
+	<div><div class="box primary">Element 5 (.grid-1)</div></div>
+	<div><div class="box primary">Element 6 (.grid-1)</div></div>
 </div>
+
 
 <p class="note"><strong>Note :</strong> sur une grille de 3 blocs. Un bloc ne peut pas faire plus de 3 fois sa taille, car il dépasserait les 100%. les classes <code class="language-css">"grid-4"</code>
 et plus ne fonctionnent pas sur le bloc dans ce cas-là.</p>

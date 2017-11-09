@@ -3,6 +3,7 @@
 	Version : 1.0.0
 
 	.wpeo-loader => classe de base pour le module
+	.loader-spin => icone de chargement
 --------------------------------------------------------------*/
 
 .wpeo-loader {
@@ -24,6 +25,18 @@
 	 left: 50%;
 	 top: 50%;
 	 animation: loader-spin 1s ease-out infinite;
+	}
+	.loader-spin {
+		position: absolute;
+		border: 3px solid #a7a7a7;
+		border-top: 3px solid darken($color__primary, 60%);
+		border-radius: 50%;
+		width: 20px;
+		height: 20px;
+		z-index: 99;
+		left: 50%;
+		top: 50%;
+		animation: loader-spin 1s ease-out infinite;
 	}
 }
 
