@@ -34,7 +34,7 @@ git submodule install https://github.com/Eoxia/eo-framework.git core/external/eo
 
 ## Contribuer
 
-* Faites des [Issues](https://github.com/Eoxia/eo-framework/issues)
+* Faites des suggestions, déclarer un bug en passant par la page [Issues](https://github.com/Eoxia/eo-framework/issues) de GitHub.
 * Suivez nous sur [GitHub](https://github.com/Eoxia) et [Twitter](https://twitter.com/eoxia).
 
 # TODO
