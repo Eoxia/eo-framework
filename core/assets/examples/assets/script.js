@@ -40,6 +40,14 @@ $(document).ready(function() {
 		$( '.wpeo-modal' ).removeClass( 'modal-active' );
 	});
 
+	$('body').on('click','#notification-opener', function() {
+		$( '.wpeo-notification' ).addClass( 'notification-active' );
+	});
+
+	$('body').on('click','.notification-close', function() {
+		$( '.wpeo-notification' ).removeClass( 'notification-active' );
+	});
+
 });
 
 function setTimeoutClass( element, className ) {

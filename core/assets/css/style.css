@@ -5740,7 +5740,7 @@
           box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.4);
   cursor: pointer; }
 
-.wpeo-wrap .wpeo-notification.active {
+.wpeo-wrap .wpeo-notification.notification-active {
   -webkit-animation: notification 0.8s ease-out;
        -o-animation: notification 0.8s ease-out;
           animation: notification 0.8s ease-out;
@@ -5754,7 +5754,7 @@
 .wpeo-wrap .wpeo-notification > * {
   margin: auto 0.2em; }
 
-.wpeo-wrap .wpeo-notification .thumbnail {
+.wpeo-wrap .wpeo-notification .notification-thumbnail {
   width: 40px;
   height: 40px;
   background: rgba(0, 0, 0, 0.1);
@@ -5764,25 +5764,25 @@
   overflow: hidden;
   padding: 0.5em; }
 
-.wpeo-wrap .wpeo-notification .thumbnail img {
+.wpeo-wrap .wpeo-notification .notification-thumbnail img {
   width: 100%;
   height: auto; }
 
-.wpeo-wrap .wpeo-notification .title {
+.wpeo-wrap .wpeo-notification .notification-title {
   font-size: 14px;
   color: rgba(0, 0, 0, 0.7); }
 
-.wpeo-wrap .wpeo-notification .title a {
+.wpeo-wrap .wpeo-notification .notification-title a {
   color: #898de5; }
 
-.wpeo-wrap .wpeo-notification .close {
+.wpeo-wrap .wpeo-notification .notification-close {
   padding-left: 0.4em;
   color: rgba(0, 0, 0, 0.2);
   -webkit-transition: all 0.2s ease-out;
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out; }
 
-.wpeo-wrap .wpeo-notification .close:hover {
+.wpeo-wrap .wpeo-notification .notification-close:hover {
   color: #898de5; }
 
 @-webkit-keyframes notification {

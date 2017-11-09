@@ -1,19 +1,28 @@
 <h2 id="notification" class="module-title">Notification</h2>
 
-<!-- <p class="entete">Le module permet de nombreuses personnalisations en ajoutant des classes à celle de base : <code class="language-css">"wpeo-button"</code></p> -->
+<p class="entete">Le module utilise la classe : <code class="language-css">"wpeo-notification"</code></p>
 
-<!-- <h3 class="module-title">Simple</h3> -->
-
-<!-- <p>Si aucune couleur n'est précisée, la classe <code class="language-css">"primary"</code> est appliquée.</p> -->
-
-<!-- <pre><code class="language-markup"><script type="prism-html-markup">
-<div class="wpeo-button primary">
-	<span>Label bouton</span>
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="wpeo-notification">
+	<img class="notification-thumbnail" src="url" />
+	<div class="notification-title">Titre de la notification</div>
+	<i class="notification-close fa fa-times"></i>
 </div>
-</script></code></pre> -->
+</script></code></pre>
 
-<div class="wpeo-notification active">
-	<img class="thumbnail" src="https://www.digirisk.com/wp-content/uploads/2017/04/logo_digirisk.png" />
-	<div class="title">Titre de la notification</div>
-	<i class="close fa fa-times"></i>
+<p>Ajouter la classe <code class="language-css">"notification-active"</code> pour faire apparaître la notification</p>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="wpeo-notification notification-active">
+...
+</div>
+</script></code></pre>
+
+<a id="notification-opener" class="wpeo-button primary"><i class="icon fa fa-hand-pointer-o"></i> <span>Cliquer pour afficher la notification</span></a>
+
+
+<div class="wpeo-notification">
+	<img class="notification-thumbnail" src="https://www.digirisk.com/wp-content/uploads/2017/04/logo_digirisk.png" />
+	<div class="notification-title">Titre de la notification</div>
+	<i class="notification-close fa fa-times"></i>
 </div>
