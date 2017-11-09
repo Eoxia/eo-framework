@@ -11,13 +11,13 @@ $(document).ready(function() {
 	});
 
 	$('body').on('click','#button-load', function() {
-		setTimeoutClass( $(this), 'load' );
+		setTimeoutClass( $(this), 'button-load' );
 	});
 	$('body').on('click','#button-success', function() {
-		setTimeoutClass( $(this), 'success' );
+		setTimeoutClass( $(this), 'button-success' );
 	});
 	$('body').on('click','#button-error', function() {
-		setTimeoutClass( $(this), 'error' );
+		setTimeoutClass( $(this), 'button-error' );
 	});
 
 	$('body').on('click','.box-animate-click', function() {
