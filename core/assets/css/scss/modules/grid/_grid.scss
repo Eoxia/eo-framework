@@ -1,4 +1,4 @@
-.gridwrapper {
+.wpeo-grid {
 	@include flexbox();
 	margin-left: -0.5em;
 	margin-right: -0.5em;
@@ -6,13 +6,13 @@
 		padding: 0.5em;
 	}
 	@for $i from 1 through 6 {
-		&.w#{$i} > * {
+		&.grid-#{$i} > * {
 			width: 100%/$i;
 		}
 		// Chaque élément enfant peut modifier sa propre taille par rapport au container
 		@for $y from 1 through 6 {
 			@if ( $y <= $i ) {
-				&.w#{$i} > .w#{$y} {
+				&.grid-#{$i} > .grid-#{$y} {
 					width: (100%/$i) * $y;
 				}
 			}
@@ -20,15 +20,15 @@
 	}
 
 	@media ( max-width: $media__medium ) {
-		&.w1 > * {
+		&.grid-1 > * {
 			width: 100%;
 		}
-		&.w2 > *, &.w3 > *, &.w4 > *, &.w5 > *, &.w6 > * {
+		&.grid-2 > *, &.grid-3 > *, &.grid-4 > *, &.grid-5 > *, &.grid-6 > * {
 			width: 50%;
 		}
 	}
 	@media ( max-width: $media__small ) {
-		&.w1 > *, &.w2 > *, &.w3 > *, &.w4 > *, &.w5 > *, &.w6 > * {
+		&.grid-1 > *, &.grid-2 > *, &.grid-3 > *, &.grid-4 > *, &.grid-5 > *, &.grid-6 > * {
 			width: 100%;
 		}
 	}

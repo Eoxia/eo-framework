@@ -2535,7 +2535,7 @@
      -moz-box-sizing: inherit;
           box-sizing: inherit; }
 
-.wpeo-wrap .gridwrapper {
+.wpeo-wrap .wpeo-grid {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -2556,98 +2556,98 @@
   margin-left: -0.5em;
   margin-right: -0.5em; }
 
-.wpeo-wrap .gridwrapper > * {
+.wpeo-wrap .wpeo-grid > * {
   padding: 0.5em; }
 
-.wpeo-wrap .gridwrapper.w1 > * {
+.wpeo-wrap .wpeo-grid.grid-1 > * {
   width: 100%; }
 
-.wpeo-wrap .gridwrapper.w1 > .w1 {
+.wpeo-wrap .wpeo-grid.grid-1 > .grid-1 {
   width: 100%; }
 
-.wpeo-wrap .gridwrapper.w2 > * {
+.wpeo-wrap .wpeo-grid.grid-2 > * {
   width: 50%; }
 
-.wpeo-wrap .gridwrapper.w2 > .w1 {
+.wpeo-wrap .wpeo-grid.grid-2 > .grid-1 {
   width: 50%; }
 
-.wpeo-wrap .gridwrapper.w2 > .w2 {
+.wpeo-wrap .wpeo-grid.grid-2 > .grid-2 {
   width: 100%; }
 
-.wpeo-wrap .gridwrapper.w3 > * {
+.wpeo-wrap .wpeo-grid.grid-3 > * {
   width: 33.33333%; }
 
-.wpeo-wrap .gridwrapper.w3 > .w1 {
+.wpeo-wrap .wpeo-grid.grid-3 > .grid-1 {
   width: 33.33333%; }
 
-.wpeo-wrap .gridwrapper.w3 > .w2 {
+.wpeo-wrap .wpeo-grid.grid-3 > .grid-2 {
   width: 66.66667%; }
 
-.wpeo-wrap .gridwrapper.w3 > .w3 {
+.wpeo-wrap .wpeo-grid.grid-3 > .grid-3 {
   width: 100%; }
 
-.wpeo-wrap .gridwrapper.w4 > * {
+.wpeo-wrap .wpeo-grid.grid-4 > * {
   width: 25%; }
 
-.wpeo-wrap .gridwrapper.w4 > .w1 {
+.wpeo-wrap .wpeo-grid.grid-4 > .grid-1 {
   width: 25%; }
 
-.wpeo-wrap .gridwrapper.w4 > .w2 {
+.wpeo-wrap .wpeo-grid.grid-4 > .grid-2 {
   width: 50%; }
 
-.wpeo-wrap .gridwrapper.w4 > .w3 {
+.wpeo-wrap .wpeo-grid.grid-4 > .grid-3 {
   width: 75%; }
 
-.wpeo-wrap .gridwrapper.w4 > .w4 {
+.wpeo-wrap .wpeo-grid.grid-4 > .grid-4 {
   width: 100%; }
 
-.wpeo-wrap .gridwrapper.w5 > * {
+.wpeo-wrap .wpeo-grid.grid-5 > * {
   width: 20%; }
 
-.wpeo-wrap .gridwrapper.w5 > .w1 {
+.wpeo-wrap .wpeo-grid.grid-5 > .grid-1 {
   width: 20%; }
 
-.wpeo-wrap .gridwrapper.w5 > .w2 {
+.wpeo-wrap .wpeo-grid.grid-5 > .grid-2 {
   width: 40%; }
 
-.wpeo-wrap .gridwrapper.w5 > .w3 {
+.wpeo-wrap .wpeo-grid.grid-5 > .grid-3 {
   width: 60%; }
 
-.wpeo-wrap .gridwrapper.w5 > .w4 {
+.wpeo-wrap .wpeo-grid.grid-5 > .grid-4 {
   width: 80%; }
 
-.wpeo-wrap .gridwrapper.w5 > .w5 {
+.wpeo-wrap .wpeo-grid.grid-5 > .grid-5 {
   width: 100%; }
 
-.wpeo-wrap .gridwrapper.w6 > * {
+.wpeo-wrap .wpeo-grid.grid-6 > * {
   width: 16.66667%; }
 
-.wpeo-wrap .gridwrapper.w6 > .w1 {
+.wpeo-wrap .wpeo-grid.grid-6 > .grid-1 {
   width: 16.66667%; }
 
-.wpeo-wrap .gridwrapper.w6 > .w2 {
+.wpeo-wrap .wpeo-grid.grid-6 > .grid-2 {
   width: 33.33333%; }
 
-.wpeo-wrap .gridwrapper.w6 > .w3 {
+.wpeo-wrap .wpeo-grid.grid-6 > .grid-3 {
   width: 50%; }
 
-.wpeo-wrap .gridwrapper.w6 > .w4 {
+.wpeo-wrap .wpeo-grid.grid-6 > .grid-4 {
   width: 66.66667%; }
 
-.wpeo-wrap .gridwrapper.w6 > .w5 {
+.wpeo-wrap .wpeo-grid.grid-6 > .grid-5 {
   width: 83.33333%; }
 
-.wpeo-wrap .gridwrapper.w6 > .w6 {
+.wpeo-wrap .wpeo-grid.grid-6 > .grid-6 {
   width: 100%; }
 
 @media (max-width: 770px) {
-  .wpeo-wrap .gridwrapper.w1 > * {
+  .wpeo-wrap .wpeo-grid.grid-1 > * {
     width: 100%; }
-  .wpeo-wrap .gridwrapper.w2 > *, .wpeo-wrap .gridwrapper.w3 > *, .wpeo-wrap .gridwrapper.w4 > *, .wpeo-wrap .gridwrapper.w5 > *, .wpeo-wrap .gridwrapper.w6 > * {
+  .wpeo-wrap .wpeo-grid.grid-2 > *, .wpeo-wrap .wpeo-grid.grid-3 > *, .wpeo-wrap .wpeo-grid.grid-4 > *, .wpeo-wrap .wpeo-grid.grid-5 > *, .wpeo-wrap .wpeo-grid.grid-6 > * {
     width: 50%; } }
 
 @media (max-width: 480px) {
-  .wpeo-wrap .gridwrapper.w1 > *, .wpeo-wrap .gridwrapper.w2 > *, .wpeo-wrap .gridwrapper.w3 > *, .wpeo-wrap .gridwrapper.w4 > *, .wpeo-wrap .gridwrapper.w5 > *, .wpeo-wrap .gridwrapper.w6 > * {
+  .wpeo-wrap .wpeo-grid.grid-1 > *, .wpeo-wrap .wpeo-grid.grid-2 > *, .wpeo-wrap .wpeo-grid.grid-3 > *, .wpeo-wrap .wpeo-grid.grid-4 > *, .wpeo-wrap .wpeo-grid.grid-5 > *, .wpeo-wrap .wpeo-grid.grid-6 > * {
     width: 100%; } }
 
 .wpeo-wrap .wpeo-animate {
