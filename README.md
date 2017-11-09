@@ -29,7 +29,7 @@ git submodule install https://github.com/Eoxia/eo-framework.git core/external/eo
 
 ## Documentation
 
-* Lire le ["Getting Started"](https://github.com/Eoxia/eo-framework-starter) si c'est la première fois que vous utiliser EO-Framework.
+* Lire le [Getting Started](https://github.com/Eoxia/eo-framework-starter) si c'est la première fois que vous utiliser EO-Framework.
 * Lire la doc
 
 ## Contribuer
