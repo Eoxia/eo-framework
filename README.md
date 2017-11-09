@@ -1,8 +1,6 @@
 # EO-Framework 1.0.0
 
 EO Framework apporte des fonctionnalités supplémentaires au framework de WordPress.
-Gain de temps pour la création et la maintenance de vos plugins WordPress.
-
 Nous avons fait en sorte que toutes les tâches répétitifs d'une création d'un plugin et surtout de sa maintenance soit réduite au maximum.
 
 Avec **EO Framework**, nous vous offrons la possibilité d'utiliser très rapidement ce dont tout développeur WordPress à besoin.
