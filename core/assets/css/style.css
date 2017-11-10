@@ -5975,6 +5975,73 @@ th {
 .wpeo-modal .modal-container .modal-footer.center {
   text-align: center; }
 
+.wpeo-pagination {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: row wrap;
+     -moz-box-orient: horizontal;
+     -moz-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 1 auto;
+     -moz-box-flex: 0;
+      -ms-flex: 0 1 auto;
+          flex: 0 1 auto;
+  margin: 0;
+  padding: 0; }
+
+.wpeo-pagination .pagination-element {
+  margin: 0;
+  list-style-type: none;
+  padding: 0 0.2em; }
+
+.wpeo-pagination .pagination-element a {
+  padding: 0.2em 0.8em;
+  display: inline-block;
+  background: #fff;
+  -webkit-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 12px; }
+
+.wpeo-pagination .pagination-element a:hover {
+  background: rgba(0, 0, 0, 0.1); }
+
+.wpeo-pagination .pagination-element .pagination-icon {
+  font-size: 12px; }
+
+.wpeo-pagination .pagination-element.pagination-current a {
+  background: #898de5;
+  color: #fff; }
+
+.wpeo-pagination .pagination-element.pagination-current a:hover {
+  background: #898de5; }
+
+.wpeo-pagination .pagination-element.pagination-prev, .wpeo-pagination .pagination-element.pagination-next {
+  font-weight: 700; }
+
+.wpeo-pagination .pagination-element.pagination-prev a, .wpeo-pagination .pagination-element.pagination-next a {
+  background: rgba(0, 0, 0, 0.05); }
+
+.wpeo-pagination .pagination-element.pagination-prev a:hover, .wpeo-pagination .pagination-element.pagination-next a:hover {
+  background: rgba(0, 0, 0, 0.15); }
+
+.wpeo-pagination .pagination-element.pagination-prev .pagination-icon {
+  padding-right: 0.4em; }
+
+.wpeo-pagination .pagination-element.pagination-next .pagination-icon {
+  padding-left: 0.4em; }
+
 .wpeo-table {
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1); }
