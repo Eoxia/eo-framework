@@ -14,7 +14,6 @@
 	bottom: 0;
 	left: 0;
 	opacity: 0;
-	@include transition();
 	pointer-events: none;
 	z-index: 999;
 	white-space: nowrap;
@@ -32,37 +31,77 @@
 		width: 0;
 		height: 0;
 		border-style: solid;
-		border-width: 6px 6px 0 6px;
-		border-color: $color__dark transparent transparent transparent;
 		position: absolute;
-		bottom: -6px;
-		left: 50%;
-		transform: translateX(-50%);
 	}
 	&:focus {
 		outline: none;
 	}
 }
 
-// Fond primaire
-.wpeo-tooltip.tooltip-primary {
-	background: $color__primary;
-	&::before {
-		border-color: $color__primary transparent transparent transparent;
+/* Couleurs */
+@mixin set-arrow-color($color) {
+	&.tooltip-top::before {
+		border-color: $color transparent transparent transparent;
+	}
+	&.tooltip-right::before {
+		border-color: transparent $color transparent transparent;
+	}
+	&.tooltip-bottom::before {
+		border-color: transparent transparent $color transparent;
+	}
+	&.tooltip-left::before {
+		border-color: transparent transparent transparent $color;
 	}
 }
-// Fond light
-.wpeo-tooltip.tooltip-light {
-	background: $color__grey;
-	color: rgba(0,0,0,0.6);
-	&::before {
-		border-color: $color__grey transparent transparent transparent;
+
+.wpeo-tooltip {
+	&.tooltip-dark {
+		background: $color__dark;
+		@include set-arrow-color($color__dark);
+	}
+	&.tooltip-primary {
+		background: $color__primary;
+		@include set-arrow-color($color__primary);
+	}
+	&.tooltip-light {
+		background: $color__grey;
+		color: rgba(0,0,0,0.6);
+		@include set-arrow-color($color__grey);
+	}
+	&.tooltip-red {
+		background: $color__red;
+		@include set-arrow-color($color__red);
 	}
 }
-// Fond rouge
-.wpeo-tooltip.tooltip-red {
-	background: $color__red;
-	&::before {
-		border-color: $color__red transparent transparent transparent;
+
+/* Position de la fleche */
+.wpeo-tooltip {
+	&.tooltip-top::before {
+		border-width: 6px 6px 0 6px;
+		border-color: $color__dark transparent transparent transparent;
+		bottom: -6px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	&.tooltip-right::before {
+		border-width: 6px 6px 6px 0;
+		border-color: transparent $color__dark transparent transparent;
+		top: 50%;
+		transform: translateY(-50%);
+		left: -6px;
+	}
+	&.tooltip-bottom::before {
+		border-width: 0 6px 6px 6px;
+		border-color: transparent transparent $color__dark transparent;
+		top: -6px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	&.tooltip-left::before {
+			border-width: 6px 0 6px 6px;
+			border-color: transparent transparent transparent $color__dark;
+			top: 50%;
+			transform: translateY(-50%);
+			right: -6px;
 	}
 }
