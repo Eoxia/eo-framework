@@ -32,8 +32,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 		else :
 			?><i class="fa fa-paperclip" aria-hidden="true"></i><?php
 		endif; ?>
-	<?php else : ?>
-		<i class="default-image fa fa-picture-o"></i>
+	<?php else :
+		if ( '' === $atts['mime_type'] ) :
+			?><i class="default-image fa fa-picture-o"></i><?php
+		else :
+			?><i class="fa fa-paperclip" aria-hidden="true"></i><?php
+		endif;
+		?>
 		<img src="" class="hidden"/>
 		<input type="hidden" name="<?php echo esc_attr( $atts['field_name'] ); ?>" />
 		&nbsp;
