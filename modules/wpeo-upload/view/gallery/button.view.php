@@ -26,8 +26,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			class="media <?php if ( empty( $main_picture_id ) ) : ?>no-file <?php endif; ?><?php echo ! empty( $atts['custom_class'] ) ? esc_attr( $atts['custom_class'] ) : ''; ?>">
 	<i class="add animated fa fa-plus-circle"></i>
 
-	<?php if ( ! empty( $main_picture_id ) ) : ?>
-		<?php echo wp_get_attachment_image( $main_picture_id, $atts['size'] ); ?>
+	<?php if ( ! empty( $main_picture_id ) ) :
+		if ( '' === $atts['mime_type'] ) :
+			echo wp_get_attachment_image( $main_picture_id, $atts['size'] );
+		else :
+			?><i class="fa fa-paperclip" aria-hidden="true"></i><?php
+		endif; ?>
 	<?php else : ?>
 		<i class="default-image fa fa-picture-o"></i>
 		<img src="" class="hidden"/>
