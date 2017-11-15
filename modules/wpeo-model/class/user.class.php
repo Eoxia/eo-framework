@@ -23,7 +23,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $model_name = 'user_model';
+		protected $model_name = '\eoxia\User_Model';
 
 		/**
 		 * La clé principale pour post_meta
