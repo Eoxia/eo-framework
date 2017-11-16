@@ -191,6 +191,7 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 			$data = array();
 
 			$data['date_input']['date'] = $current_time;
+			$data['date_input']['iso8601'] = mysql2date( 'Y-m-d\TH:i:s\Z', $current_time );
 			$data['date_input']['fr_FR']['date'] = mysql2date( 'd/m/Y', $current_time );
 			$data['date_input']['fr_FR']['date_time'] = mysql2date( 'd/m/Y H:i:s', $current_time );
 			$data['date_input']['fr_FR']['time'] = mysql2date( 'H:i:s', $current_time );
