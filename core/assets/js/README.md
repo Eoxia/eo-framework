@@ -7,3 +7,22 @@
 * Gestion des boutons dans le footer de la modal
 * Gestion des actions sur les boutons personnalisé
 * Gestion des filtres WordPress
+
+### /core/assets/js/modal.lib.js
+
+Ce fichier écoutes ses différents évènements:
+
+```JS
+jQuery( document ).on( 'keyup', window.eoxiaJS.modal.keyup );
+jQuery( document ).on( 'click', '.wpeo-modal-event', window.eoxiaJS.modal.open );
+jQuery( document ).on( 'click', '.wpeo-modal .modal-container', window.eoxiaJS.modal.stopPropagation );
+jQuery( document ).on( 'click', '.wpeo-modal .modal-close', window.eoxiaJS.modal.close );
+jQuery( document ).on( 'click', 'body', window.eoxiaJS.modal.close );
+```
+
+* keyup: Permet de fermer la modal avec la touche "Echap". Cette touche est personnalisable en rajoutant l'attribut data-close-key sur le bouton déclencheur.
+* click(.wpeo-modal-event): Cet évènement est l'élément déclencheur pour ouvrir la modal.
+* click(.wpeo-modal .modal-container): Cet évènement détruit la propagation de l'évènement *clic*. Il fait en sorte que la modal ne se ferme pas quand on clic dessus à l'évènement click(body).
+* click(.wpeo-modal .modal-close): Cet évènement permet de fermer la modal quand on click sur la croix.
+
+Il est important de comprendre que la **modal** est générée dynamiquement dans le DOM (cf ligne 80) en JS. Une fois la modal **fermée**, celle-ci est supprimé du DOM.
