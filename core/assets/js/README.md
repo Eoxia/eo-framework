@@ -31,7 +31,15 @@ Il est important de comprendre que la **modal** est générée dynamiquement dan
 
 ```html
 <a id="modal-opener"
-			class="wpeo-button button-primary wpeo-modal-event"
-			data-title="Modal #1"
-			data-action="test"><i class="button-icon fa fa-hand-pointer-o"></i> <span>Cliquer pour ouvrir la modal #1</span></a>
+   class="wpeo-button button-primary wpeo-modal-event"
+   data-title="Modal #1"
+   data-action="test"><i class="button-icon fa fa-hand-pointer-o"></i> <span>Cliquer pour ouvrir la modal #1</span></a>
 ```
+
+* La classe wpeo-modal-event est obligatoire. Comme on a pu le voir plus haut, l'évènement qui déclenche l'ouverture de la popup écoutes cette classe.
+* L'attribut data-title permet de définir le titre de la popup.
+* L'attribut data-action permet de définir l'action AJAX WordPress.
+
+### Définir le contenu de la popup
+
+Le contenu de la popup est renvoyé par l'action AJAX.
