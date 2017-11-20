@@ -3,19 +3,23 @@ if ( ! window.eoxiaJS.request ) {
 
 	window.eoxiaJS.request.init = function() {};
 
-	window.eoxiaJS.request.send = function( element, data ) {
+	window.eoxiaJS.request.send = function( element, data, cb ) {
 		jQuery.post( window.ajaxurl, data, function( response ) {
 			element.closest( '.loading' ).removeClass( 'loading' );
 
-			if ( response && response.success ) {
-				if ( response.data.namespace && response.data.module && response.data.callback_success ) {
-					window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_success]( element, response );
-				} else if ( response.data.module && response.data.callback_success ) {
-					window.eoxiaJS[response.data.module][response.data.callback_success]( element, response );
-				}
+			if ( cb ) {
+				cb( element, response );
 			} else {
-				if ( response.data.namespace && response.data.module && response.data.callback_error ) {
-					window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_error]( element, response );
+				if ( response && response.success ) {
+					if ( response.data.namespace && response.data.module && response.data.callback_success ) {
+						window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_success]( element, response );
+					} else if ( response.data.module && response.data.callback_success ) {
+						window.eoxiaJS[response.data.module][response.data.callback_success]( element, response );
+					}
+				} else {
+					if ( response.data.namespace && response.data.module && response.data.callback_error ) {
+						window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_error]( element, response );
+					}
 				}
 			}
 		}, 'json' );
