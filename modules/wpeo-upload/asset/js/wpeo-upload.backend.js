@@ -193,7 +193,7 @@ window.eoxiaJS.gallery.init = function() {
  */
 window.eoxiaJS.gallery.event = function() {
 	jQuery( document ).on( 'keyup', window.eoxiaJS.gallery.keyup );
-	jQuery( document ).on( 'click', '.gallery', function( event ) { event.preventDefault(); return false; } );
+	jQuery( document ).on( 'click', '.gallery .modal-footer .button-primary', window.eoxiaJS.gallery.close );
 	jQuery( document ).on( 'click', '.gallery .navigation .prev', window.eoxiaJS.gallery.prevPicture );
 	jQuery( document ).on( 'click', '.gallery .navigation .next', window.eoxiaJS.gallery.nextPicture );
 };
@@ -249,6 +249,19 @@ window.eoxiaJS.gallery.keyup = function( event ) {
 	} else if ( 27 === event.keyCode ) {
 		jQuery( '.gallery .modal-close' ).click();
 	}
+};
+
+/**
+ * Close the popup
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ *
+ * @param  {ClickEvent} event L'évènement lors du clic.
+ * @return {void}
+ */
+window.eoxiaJS.gallery.close = function( event ) {
+	jQuery( '.gallery .modal-close' ).click();
 };
 
 /**
