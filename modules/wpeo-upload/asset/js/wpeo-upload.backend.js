@@ -258,7 +258,7 @@ window.eoxiaJS.gallery.keyup = function( event ) {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.1.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.gallery.prevPicture = function( event ) {
 	if ( jQuery( '.gallery .image-list li.current' ).prev().length <= 0 ) {
@@ -269,6 +269,8 @@ window.eoxiaJS.gallery.prevPicture = function( event ) {
 	}
 
 	jQuery( '.gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.gallery .current' ).attr( 'data-id' ) );
+
+	window.eoxiaJS.gallery.changeURL( jQuery( '.gallery .current' ).attr( 'data-id' ) );
 };
 
 /**
@@ -289,6 +291,23 @@ window.eoxiaJS.gallery.nextPicture = function( event ) {
 	}
 
 	jQuery( '.gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.gallery .current' ).attr( 'data-id' ) );
+	window.eoxiaJS.gallery.changeURL( jQuery( '.gallery .current' ).attr( 'data-id' ) );
+};
+
+/**
+ * Change edit link URL with the current file ID.
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ *
+ * @param  {integer} fileID The current file ID.
+ * @return {void}
+ */
+window.eoxiaJS.gallery.changeURL = function( fileID ) {
+	var href = jQuery( '.gallery .edit-link' ).attr( 'href' );
+	var tmpHREF = href.split( '?' );
+	href = tmpHREF[0] += "?item=" + fileID + "&mode=edit";
+	jQuery( '.gallery .edit-link' ).attr( 'href', href );
 };
 
 /**
