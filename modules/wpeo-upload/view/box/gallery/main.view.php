@@ -53,8 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<!-- Footer -->
 		<div class="modal-footer">
-			<a class="wpeo-button button-grey button-uppercase"><span>annuler</span></a>
-			<a class="wpeo-button button-primary button-uppercase"><span>Valider</span></a>
+			<a class="wpeo-button button-primary button-uppercase"><span><?php esc_html_e( 'Confirm', 'wpeo-upload' ); ?></span></a>
 		</div>
 	</div>
 </div>
