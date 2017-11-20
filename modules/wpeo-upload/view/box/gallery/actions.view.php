@@ -34,4 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				data-file-id="<?php echo esc_attr( $main_picture_id ); ?>"
 				class="edit-thumbnail-id action-attribute" ><i></i><?php esc_html_e( 'Dissociate', 'wpeo-upload' ); ?></a>
 	</li>
+	<li>
+		<a class="edit-link" target="_blank" href="<?php echo esc_attr( admin_url( 'upload.php?item=' . $main_picture_id . '&mode=edit' ) ); ?>"><?php esc_html_e( 'Edit', 'wpeo-upload' ); ?></a>
+	</li>
 </ul>
