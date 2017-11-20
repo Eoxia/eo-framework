@@ -4,9 +4,9 @@
  *
  * @author Eoxia
  * @since 0.1.0-alpha
- * @version 1.2.0
+ * @version 1.0.0
  * @copyright 2017
- * @package WPEO-Upload
+ * @package EO-Framework/WPEO-Upload
  */
 
 namespace eoxia;
@@ -25,7 +25,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * Add actions
 		 *
 		 * @since 0.1.0-alpha
-		 * @version 1.1.0
+		 * @version 1.0.0
 		 */
 		public function __construct() {
 			add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_scripts' ) );
@@ -41,8 +41,8 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		/**
 		 * Charges le CSS
 		 *
-		 * @since 1.1.0
-		 * @version 1.1.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 */
 		public function callback_admin_scripts() {
 			wp_enqueue_style( 'wpeo_upload_style', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->url . '/asset/css/style.css', array() );
@@ -51,8 +51,8 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		/**
 		 * Initialise le fichier MO
 		 *
-		 * @since 1.1.0
-		 * @version 1.1.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 */
 		public function callback_plugins_loaded() {
 			$path = str_replace( str_replace( '\\', '/', WP_PLUGIN_DIR ), '', str_replace( '\\', '/', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path ) );
@@ -69,48 +69,45 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @todo: nonce
 		 */
 		public function callback_associate_file() {
-			$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-			$file_id = ! empty( $_POST['file_id'] ) ? (int) $_POST['file_id'] : 0;
-			$model_name = ! empty( $_POST['model_name'] ) ? stripslashes( sanitize_text_field( $_POST['model_name'] ) ) : '';
-			$field_name = ! empty( $_POST['field_name'] ) ? sanitize_text_field( $_POST['field_name'] ) : '';
-			$single = ! empty( $_POST['single'] ) ? sanitize_text_field( $_POST['single'] ) : 'false';
-			$size = ! empty( $_POST['size'] ) ? sanitize_text_field( $_POST['size'] ) : 'thumbnail';
-			$mime_type = ! empty( $_POST['mime_type'] ) ? sanitize_text_field( $_POST['mime_type'] ) : '';
-			$display_type = ! empty( $_POST['display_type'] ) ? sanitize_text_field( $_POST['display_type'] ) : '';
+			check_ajax_referer( 'associate_file' );
+
+			$data = WPEO_Upload_Class::g()->get_post_data( 'associate_file' );
+
 			$view = '';
 
-			if ( ! empty( $id ) ) {
-				if ( 'true' === $single ) {
-					$element = WPEO_Upload_Class::g()->set_thumbnail( $id, $file_id, $model_name );
+			// If post ID is not empty.
+			if ( ! empty( $data['id'] ) ) {
+				if ( 'true' === $data['single'] ) {
+					$element = WPEO_Upload_Class::g()->set_thumbnail( $data );
 				} else {
-					$element = WPEO_Upload_Class::g()->associate_file( $id, $file_id, $model_name, $field_name );
+					$element = WPEO_Upload_Class::g()->associate_file( $data );
 
 					if ( empty( $element->thumbnail_id ) ) {
-						$element = WPEO_Upload_Class::g()->set_thumbnail( $id, $file_id, $model_name );
+						$element = WPEO_Upload_Class::g()->set_thumbnail( $data );
 					}
 				}
 
 				if ( ! empty( $element->id ) ) {
 					ob_start();
-					do_shortcode( '[wpeo_upload id="' . $element->id . '" model_name="' . str_replace( '\\', '/', $model_name ) . '" field_name="' . $field_name . '" mime_type="' . $mime_type . '" single="' . $single . '" size="' . $size . '" ]' );
+					do_shortcode( '[wpeo_upload id="' . $element->id . '" model_name="' . str_replace( '\\', '/', $data['model_name'] ) . '" field_name="' . $data['field_name'] . '" mime_type="' . $data['mime_type'] . '" single="' . $data['single'] . '" size="' . $data['size'] . '" ]' );
 					$view = ob_get_clean();
 				}
 			}
 
-			if ( 'list' === $display_type ) {
-				$filelink = get_attached_file( $file_id );
+			if ( 'list' === $data['display_type'] ) {
+				$filelink = get_attached_file( $data['file_id'] );
 				$filename_only = basename( $filelink );
-				$fileurl_only = wp_get_attachment_url( $file_id );
+				$fileurl_only = wp_get_attachment_url( $data['file_id'] );
 				ob_start();
-				require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $display_type . '/list-item.view.php' );
+				require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $data['display_type'] . '/list-item.view.php' );
 				$view = ob_get_clean();
 			}
 
 			wp_send_json_success( array(
 				'view' => $view,
-				'id' => $id,
-				'display_type' => $display_type,
-				'media' => wp_get_attachment_image( $file_id, $size ),
+				'id' => $data['id'],
+				'display_type' => $data['display_type'],
+				'media' => wp_get_attachment_image( $data['file_id'], $data['size'] ),
 			) );
 		}
 
@@ -121,29 +118,22 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @version 1.0.0
 		 *
 		 * @return void
-		 * @todo: nonce
 		 */
 		public function callback_dissociate_file() {
-			$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-			$file_id = ! empty( $_POST['file_id'] ) ? (int) $_POST['file_id'] : 0;
-			$model_name = ! empty( $_POST['model_name'] ) ? stripslashes( sanitize_text_field( $_POST['model_name'] ) ) : '';
-			$field_name = ! empty( $_POST['field_name'] ) ? sanitize_text_field( $_POST['field_name'] ) : '';
-			$single = ! empty( $_POST['single'] ) ? sanitize_text_field( $_POST['single'] ) : 'false';
-			$size = ! empty( $_POST['size'] ) ? sanitize_text_field( $_POST['size'] ) : 'thumbnail';
-			$mime_type = ! empty( $_POST['mime_type'] ) ? sanitize_text_field( $_POST['mime_type'] ) : '';
+			$data = WPEO_Upload_Class::g()->get_post_data( 'dissociate_file' );
 
-			$element = WPEO_Upload_Class::g()->dissociate_file( $id, $file_id, $model_name, $field_name );
+			$element = WPEO_Upload_Class::g()->dissociate_file( $data );
 
 			ob_start();
-			do_shortcode( '[wpeo_upload id="' . $element->id . '" model_name="' . str_replace( '\\', '/', $model_name ) . '" field_name="' . $field_name . '" mime_type="' . $mime_type . '" single="' . $single . '" size="' . $size . '" ]' );
+			do_shortcode( '[wpeo_upload id="' . $element->id . '" model_name="' . str_replace( '\\', '/', $data['model_name'] ) . '" field_name="' . $data['field_name'] . '" mime_type="' . $data['mime_type'] . '" single="' . $data['single'] . '" size="' . $data['size'] . '" ]' );
 			wp_send_json_success( array(
 				'namespace' => '',
 				'module' => 'gallery',
 				'callback_success' => 'dissociatedFileSuccess',
 				'view' => ob_get_clean(),
-				'id' => $id,
-				'close_popup' => ! empty( $element->$field_name ) ? false : true,
-			)	);
+				'id' => $data['id'],
+				'close_popup' => ! empty( $element->$data['field_name'] ) ? false : true,
+			) );
 		}
 
 		/**
@@ -153,20 +143,18 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @version 1.0.0
 		 *
 		 * @return void
-		 * @todo: nonce
 		 */
 		public function callback_load_gallery() {
-			$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-			$file_id = ! empty( $_POST['file_id'] ) ? (int) $_POST['file_id'] : 0;
-			$model_name = ! empty( $_POST['model_name'] ) ? stripslashes( sanitize_text_field( $_POST['model_name'] ) ) : '';
-			$field_name = ! empty( $_POST['field_name'] ) ? sanitize_text_field( $_POST['field_name'] ) : '';
-			$single = ! empty( $_POST['single'] ) ? sanitize_text_field( $_POST['single'] ) : 'false';
-			$size = ! empty( $_POST['size'] ) ? sanitize_text_field( $_POST['size'] ) : 'thumbnail';
-			$mime_type = ! empty( $_POST['mime_type'] ) ? sanitize_text_field( $_POST['mime_type'] ) : '';
-			$custom_class = ! empty( $_POST['custom_class'] ) ? sanitize_text_field( $_POST['custom_class'] ) : '';
+			check_ajax_referer( 'load_gallery' );
+
+			$data = WPEO_Upload_Class::g()->get_post_data( 'load_gallery' );
 
 			ob_start();
-			WPEO_Upload_Class::g()->display_gallery( $id, $model_name, $field_name, $size, $single, $mime_type, $custom_class );
+			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $data['display_type'] . '/gallery/button-add.view.php' );
+			$data['title'] .= ob_get_clean();
+
+			ob_start();
+			WPEO_Upload_Class::g()->display_gallery( $data );
 			wp_send_json_success( array(
 				'view' => ob_get_clean(),
 			) );
@@ -180,27 +168,20 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @version 1.0.0
 		 *
 		 * @return void
-		 * @todo: nonce
 		 */
 		public function callback_set_thumbnail() {
-			$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-			$file_id = ! empty( $_POST['file_id'] ) ? (int) $_POST['file_id'] : 0;
-			$model_name = ! empty( $_POST['model_name'] ) ? stripslashes( sanitize_text_field( $_POST['model_name'] ) ) : '';
-			$field_name = ! empty( $_POST['field_name'] ) ? sanitize_text_field( $_POST['field_name'] ) : '';
-			$single = ! empty( $_POST['single'] ) ? sanitize_text_field( $_POST['single'] ) : 'false';
-			$size = ! empty( $_POST['size'] ) ? sanitize_text_field( $_POST['size'] ) : 'thumbnail';
-			$mime_type = ! empty( $_POST['mime_type'] ) ? sanitize_text_field( $_POST['mime_type'] ) : '';
+			$data = WPEO_Upload_Class::g()->get_post_data( 'set_thumbnail' );
 
-			$element = WPEO_Upload_Class::g()->set_thumbnail( $id, $file_id, $model_name );
+			$element = WPEO_Upload_Class::g()->set_thumbnail( $data );
 
 			ob_start();
-			do_shortcode( '[wpeo_upload id="' . $element->id . '" model_name="' . str_replace( '\\', '/', $model_name ) . '" field_name="' . $field_name . '" mime_type="' . $mime_type . '" single="' . $single . '" size="' . $size . '" ]' );
+			do_shortcode( '[wpeo_upload id="' . $element->id . '" model_name="' . str_replace( '\\', '/', $data['model_name'] ) . '" field_name="' . $data['field_name'] . '" mime_type="' . $data['mime_type'] . '" single="' . $data['single'] . '" size="' . $data['size'] . '" ]' );
 			wp_send_json_success( array(
 				'namespace' => '',
 				'module' => 'gallery',
 				'callback_success' => 'successfulSetThumbnail',
 				'view' => ob_get_clean(),
-				'id' => $id,
+				'id' => $data['id'],
 			) );
 		}
 	}

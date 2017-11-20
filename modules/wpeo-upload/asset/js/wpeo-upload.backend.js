@@ -2,7 +2,7 @@
  * Initialise l'objet "upload" ainsi que la méthode "init" obligatoire pour la bibliothèque EoxiaJS.
  *
  * @since 0.1.0-alpha
- * @version 1.2.0
+ * @version 1.0.0
  * @copyright 2017
  * @author Jimmy Latour <jimmy@eoxia.com>
  */
@@ -49,11 +49,11 @@ window.eoxiaJS.upload.init = function() {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 1.2.0
+ * @version 1.0.0
  */
 window.eoxiaJS.upload.event = function() {
-	jQuery( document ).on( 'click', '.media:not(.loading), .wpeo-upload-list a.upload:not(.loading)', window.eoxiaJS.upload.openPopup );
-	jQuery( document ).on( 'click', '.media-toolbar, .media-modal-close, .media-button-insert', function( event ) { event.stopPropagation(); } );
+	jQuery( document ).on( 'click', '.media:not(.loading), .upload:not(.loading)', window.eoxiaJS.upload.openPopup );
+	jQuery( document ).on( 'click', '.media-modal-content, .media-toolbar, .media-modal-close, .media-button-insert', function( event ) { event.stopPropagation(); } );
 };
 
 /**
@@ -63,7 +63,7 @@ window.eoxiaJS.upload.event = function() {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.2.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.upload.openPopup = function( event ) {
 	window.eoxiaJS.upload.currentButton = jQuery( this );
@@ -82,7 +82,7 @@ window.eoxiaJS.upload.openPopup = function( event ) {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.2.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.upload.openMediaFrame = function() {
 	window.eoxiaJS.upload.mediaFrame = new window.wp.media.view.MediaFrame.Post({
@@ -99,7 +99,7 @@ window.eoxiaJS.upload.openMediaFrame = function() {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.2.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.upload.selectedFile = function() {
 	window.eoxiaJS.upload.mediaFrame.state().get( 'selection' ).map( function( attachment ) {
@@ -115,12 +115,13 @@ window.eoxiaJS.upload.selectedFile = function() {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.2.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.upload.associateFile = function() {
 	var data = {
 		action: 'eo_upload_associate_file',
-		file_id: window.eoxiaJS.upload.selectedInfos.id
+		file_id: window.eoxiaJS.upload.selectedInfos.id,
+		_wpnonce: window.eoxiaJS.upload.currentButton.attr( 'data-nonce' ),
 	};
 	var key = '';
 	window.eoxiaJS.upload.currentButton.get_data( function( attrData ) {
@@ -145,7 +146,7 @@ window.eoxiaJS.upload.associateFile = function() {
  * @return {void}
  *
  * @since 0.1.0-alpha
- * @version 1.2.0
+ * @version 1.0.0
  */
 window.eoxiaJS.upload.refreshButton = function( data ) {
 	if( window.eoxiaJS.upload.currentButton.is( 'a' ) ) {
@@ -176,7 +177,7 @@ window.eoxiaJS.gallery = {};
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.1.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.gallery.init = function() {
 	window.eoxiaJS.gallery.event();
@@ -188,14 +189,13 @@ window.eoxiaJS.gallery.init = function() {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.1.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.gallery.event = function() {
 	jQuery( document ).on( 'keyup', window.eoxiaJS.gallery.keyup );
-	jQuery( document ).on( 'click', '.eo-gallery', function( event ) { event.preventDefault(); return false; } );
-	jQuery( document ).on( 'click', '.eo-gallery .navigation .prev', window.eoxiaJS.gallery.prevPicture );
-	jQuery( document ).on( 'click', '.eo-gallery .navigation .next', window.eoxiaJS.gallery.nextPicture );
-	jQuery( document ).on( 'click', '.eo-gallery .close', window.eoxiaJS.gallery.close );
+	jQuery( document ).on( 'click', '.gallery', function( event ) { event.preventDefault(); return false; } );
+	jQuery( document ).on( 'click', '.gallery .navigation .prev', window.eoxiaJS.gallery.prevPicture );
+	jQuery( document ).on( 'click', '.gallery .navigation .next', window.eoxiaJS.gallery.nextPicture );
 };
 
 /**
@@ -204,7 +204,7 @@ window.eoxiaJS.gallery.event = function() {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.2.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.gallery.open = function( append = true ) {
 	var data = {
@@ -219,14 +219,14 @@ window.eoxiaJS.gallery.open = function( append = true ) {
 	window.eoxiaJS.upload.currentButton.addClass( 'loading' );
 
 	if ( append ) {
-		jQuery( '.eo-gallery' ).remove();
+		jQuery( '.gallery' ).remove();
 	}
 
 	jQuery.post( ajaxurl, data, function( response ) {
 		if ( append ) {
 			jQuery( '#wpwrap' ).append( response.data.view );
 		} else {
-			jQuery( '.eo-gallery' ).replaceWith( response.data.view );
+			jQuery( '.gallery' ).replaceWith( response.data.view );
 		}
 		window.eoxiaJS.upload.currentButton.removeClass( 'loading' );
 	});
@@ -239,7 +239,7 @@ window.eoxiaJS.gallery.open = function( append = true ) {
  * @return void
  *
  * @since 0.1.0-alpha
- * @version 0.1.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.gallery.keyup = function( event ) {
 	if ( 37 === event.keyCode ) {
@@ -247,7 +247,7 @@ window.eoxiaJS.gallery.keyup = function( event ) {
 	} else if ( 39 === event.keyCode ) {
 		window.eoxiaJS.gallery.nextPicture();
 	} else if ( 27 === event.keyCode ) {
-		jQuery( '.eo-gallery .close' ).click();
+		jQuery( '.gallery .modal-close' ).click();
 	}
 };
 
@@ -261,14 +261,14 @@ window.eoxiaJS.gallery.keyup = function( event ) {
  * @version 0.1.0-alpha
  */
 window.eoxiaJS.gallery.prevPicture = function( event ) {
-	if ( jQuery( '.eo-gallery .image-list li.current' ).prev().length <= 0 ) {
-		jQuery( '.eo-gallery .image-list li.current' ).toggleClass( 'current hidden' );
-		jQuery( '.eo-gallery .image-list li:last' ).toggleClass( 'hidden current' );
+	if ( jQuery( '.gallery .image-list li.current' ).prev().length <= 0 ) {
+		jQuery( '.gallery .image-list li.current' ).toggleClass( 'current hidden' );
+		jQuery( '.gallery .image-list li:last' ).toggleClass( 'hidden current' );
 	}	else {
-		jQuery( '.eo-gallery .image-list li.current' ).toggleClass( 'current hidden' ).prev().toggleClass( 'hidden current' );
+		jQuery( '.gallery .image-list li.current' ).toggleClass( 'current hidden' ).prev().toggleClass( 'hidden current' );
 	}
 
-	jQuery( '.eo-gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.eo-gallery .current' ).attr( 'data-id' ) );
+	jQuery( '.gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.gallery .current' ).attr( 'data-id' ) );
 };
 
 /**
@@ -281,27 +281,14 @@ window.eoxiaJS.gallery.prevPicture = function( event ) {
  * @version 0.1.0-alpha
  */
 window.eoxiaJS.gallery.nextPicture = function( event ) {
-	if ( jQuery( '.eo-gallery .image-list li.current' ).next().length <= 0 ) {
-		jQuery( '.eo-gallery .image-list li.current' ).toggleClass( 'current hidden' );
-		jQuery( '.eo-gallery .image-list li:first' ).toggleClass( 'hidden current' );
+	if ( jQuery( '.gallery .image-list li.current' ).next().length <= 0 ) {
+		jQuery( '.gallery .image-list li.current' ).toggleClass( 'current hidden' );
+		jQuery( '.gallery .image-list li:first' ).toggleClass( 'hidden current' );
 	} else {
-		jQuery( '.eo-gallery .image-list li.current' ).toggleClass( 'current hidden' ).next().toggleClass( 'hidden current' );
+		jQuery( '.gallery .image-list li.current' ).toggleClass( 'current hidden' ).next().toggleClass( 'hidden current' );
 	}
 
-	jQuery( '.eo-gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.eo-gallery .current' ).attr( 'data-id' ) );
-};
-
-/**
- * Close the gallery
- *
- * @param  {KeyEvent} event Keyboard state
- * @return void
- *
- * @since 0.1.0-alpha
- * @version 0.1.0-alpha
- */
-window.eoxiaJS.gallery.close = function( event ) {
-	jQuery( '.eo-gallery' ).remove();
+	jQuery( '.gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.gallery .current' ).attr( 'data-id' ) );
 };
 
 /**
@@ -313,15 +300,15 @@ window.eoxiaJS.gallery.close = function( event ) {
  * @return {void}
  *
  * @since 0.1.0-alpha
- * @version 0.2.0-alpha
+ * @version 1.0.0
  */
 window.eoxiaJS.gallery.dissociatedFileSuccess = function( element, response ) {
 	if ( response.data.close_popup ) {
-		jQuery( '.eo-gallery' ).remove();
+		jQuery( '.gallery' ).remove();
 	}
 
-	jQuery( '.eo-gallery .image-list .current' ).remove();
-	jQuery( '.eo-gallery .prev' ).click();
+	jQuery( '.gallery .image-list .current' ).remove();
+	jQuery( '.gallery .prev' ).click();
 	window.eoxiaJS.upload.refreshButton( response.data );
 };
 
