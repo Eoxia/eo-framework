@@ -132,7 +132,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 				'callback_success' => 'dissociatedFileSuccess',
 				'view' => ob_get_clean(),
 				'id' => $data['id'],
-				'close_popup' => ! empty( $element->$data['field_name'] ) ? false : true,
+				'close_popup' => ! empty( $element->associated_document_id[ $data['field_name'] ] ) ? false : true,
 			) );
 		}
 
