@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-<div class="wpeo-modal modal-active gallery">
+<div class="wpeo-modal modal-active gallery" data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_gallery' ) ); ?>">
 	<div class="modal-container">
 
 		<!-- Entête -->
