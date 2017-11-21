@@ -39,13 +39,14 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		}
 
 		/**
-		 * Charges le CSS
+		 * Charges le CSS et le JS de WPEO_Upload
 		 *
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 */
 		public function callback_admin_scripts() {
 			wp_enqueue_style( 'wpeo_upload_style', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->url . '/asset/css/style.css', array() );
+			wp_enqueue_script( 'wpeo_upload_script', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->url . '/asset/js/wpeo-upload.js', array( 'jquery' ), \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->version );
 		}
 
 		/**
