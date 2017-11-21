@@ -542,7 +542,7 @@ if ( ! window.eoxiaJS.modal  ) {
 			el[0].className += ' ' + triggeredElement.attr( 'data-class' );
 		}
 
-		jQuery( '.wpeo-wrap' ).append( triggeredElement[0].modalElement );
+		jQuery( 'body' ).append( triggeredElement[0].modalElement );
 
 		// Si data-action existe, cette méthode lances une requête AJAX.
 		if ( triggeredElement.attr( 'data-action' ) ) {
