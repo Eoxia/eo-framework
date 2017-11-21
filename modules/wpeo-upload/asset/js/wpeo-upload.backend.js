@@ -129,11 +129,12 @@ window.eoxiaJS.upload.associateFile = function() {
 			data[key] = attrData[key];
 		}
 	} );
-	window.eoxiaJS.upload.currentButton.addClass( 'loading' );
+	window.eoxiaJS.loader.display( window.eoxiaJS.upload.currentButton  );
+
 	jQuery.post( window.ajaxurl, data, function( response ) {
 		window.eoxiaJS.upload.refreshButton( response.data );
 
-		if ( 'gallery' === response.data.display_type ) {
+		if ( 'box' === response.data.display_type ) {
 			window.eoxiaJS.gallery.open( false );
 		}
 	} );
@@ -150,7 +151,8 @@ window.eoxiaJS.upload.associateFile = function() {
  */
 window.eoxiaJS.upload.refreshButton = function( data ) {
 	if( window.eoxiaJS.upload.currentButton.is( 'a' ) ) {
-		window.eoxiaJS.upload.currentButton.removeClass( 'loading' );
+		window.eoxiaJS.loader.remove( window.eoxiaJS.upload.currentButton  );
+
 		if ( ! data.id ) {
 			window.eoxiaJS.upload.currentButton.closest( 'div' ).find( 'ul' ).append( data.view );
 		}
@@ -220,6 +222,8 @@ window.eoxiaJS.gallery.open = function( append = true ) {
 
 	if ( append ) {
 		jQuery( '.gallery' ).remove();
+	} else {
+		data['_wpnonce'] = window.eoxiaJS.upload.currentButton.closest( '.gallery' ).data( 'nonce' );
 	}
 
 	jQuery.post( ajaxurl, data, function( response ) {
@@ -337,10 +341,10 @@ window.eoxiaJS.gallery.changeURL = function( fileID ) {
 window.eoxiaJS.gallery.dissociatedFileSuccess = function( element, response ) {
 	if ( response.data.close_popup ) {
 		jQuery( '.gallery' ).remove();
+	} else {
+		jQuery( '.gallery .image-list .current' ).remove();
+		jQuery( '.gallery .next' ).click();
 	}
-
-	jQuery( '.gallery .image-list .current' ).remove();
-	jQuery( '.gallery .prev' ).click();
 	window.eoxiaJS.upload.refreshButton( response.data );
 };
 
