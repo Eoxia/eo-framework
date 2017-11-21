@@ -140,6 +140,11 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 				$element->thumbnail_id = 0;
 			}
 
+			// Set another thumbnail id.
+			if ( empty( $element->thumbnail_id ) && 0 < count( $element->associated_document_id[ $data['field_name'] ] ) ) {
+				$element->thumbnail_id = $element->associated_document_id[ $data['field_name'] ][0];
+			}
+
 			$data['model_name']::g()->update( $element );
 
 			return $element;
