@@ -507,18 +507,6 @@ if ( ! window.eoxiaJS.modal  ) {
 	 */
 	window.eoxiaJS.modal.popupTemplate = wpeo_framework.modalView;
 
-	/**
-	 * Les boutons par défaut dans le footer de la modal.
-	 * Vous pouvez ajouter des boutons en utilisant le filtre 'wpeo_modal_buttons_footer'.
-	 * @see https://wpeo-framework/hooks/
-	 *
-	 * @since 1.0.0
-	 * @version 1.0.0
-	 *
-	 * @type {Array}
-	 */
-	window.eoxiaJS.modal.footerButtons = wpeo_framework.modalFooterButtons;
-
 	window.eoxiaJS.modal.init = function() {
 		window.eoxiaJS.modal.event();
 	};
@@ -554,14 +542,6 @@ if ( ! window.eoxiaJS.modal  ) {
 			el[0].className += ' ' + triggeredElement.attr( 'data-class' );
 		}
 
-		for ( var key in window.eoxiaJS.modal.footerButtons ) {
-			var a = jQuery( document.createElement( 'a' ) );
-			a[0].className = window.eoxiaJS.modal.footerButtons[key].class;
-			a[0].innerHTML = window.eoxiaJS.modal.footerButtons[key].text;
-
-			jQuery( triggeredElement[0].modalElement ).find( '.modal-footer' ).append( a[0] );
-		}
-
 		jQuery( '.wpeo-wrap' ).append( triggeredElement[0].modalElement );
 
 		// Si data-action existe, cette méthode lances une requête AJAX.
@@ -576,6 +556,7 @@ if ( ! window.eoxiaJS.modal  ) {
 				window.eoxiaJS.request.send( triggeredElement, data, function( element, response ) {
 					if ( response.data.view ) {
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
+						el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
 					}
 				} );
 			});

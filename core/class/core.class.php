@@ -44,16 +44,6 @@ if ( ! class_exists( '\eoxia\Core_Class' ) ) {
 			$view_modal = ob_get_clean();
 
 			$data = array(
-				'modalFooterButtons' => array(
-					'cancel' => array(
-						'class' => 'wpeo-button button-grey button-uppercase',
-						'text' => 'Cancel',
-					),
-					'ok' => array(
-						'class' => 'wpeo-button button-primary button-uppercase',
-						'text' => 'OK',
-					),
-				),
 				'modalView' => $view_modal,
 			);
 

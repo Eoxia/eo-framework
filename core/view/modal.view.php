@@ -30,5 +30,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="modal-content">{{content}}</div>
 
 	<!-- Footer -->
-	<div class="modal-footer"></div>
+	<div class="modal-footer">{{buttons}}</div>
 </div>
