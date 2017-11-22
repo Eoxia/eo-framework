@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if ( 'false' === $data['single'] ) : ?>
 	<ul class="navigation">
-		<li><a href="#" class="prev"><i class="dashicons dashicons-arrow-left-alt2"></i></a></li>
-		<li><a href="#" class="next"><i class="dashicons dashicons-arrow-right-alt2"></i></a></li>
+		<li class="navigation-prev"><a href="#" class="prev"><i class="dashicons dashicons-arrow-left-alt2"></i></a></li>
+		<li class="navigation-next"><a href="#" class="next"><i class="dashicons dashicons-arrow-right-alt2"></i></a></li>
 	</ul>
 <?php endif; ?>

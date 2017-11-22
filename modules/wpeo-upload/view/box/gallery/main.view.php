@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-<div class="wpeo-modal modal-active gallery" data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_gallery' ) ); ?>">
+<div class="wpeo-modal modal-active wpeo-gallery gallery" data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_gallery' ) ); ?>">
 	<div class="modal-container">
 
 		<!-- Entête -->
@@ -24,6 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				echo wp_kses( $data['title'], array(
 					'span' => array(),
+					'i' => array(
+						'class' => array(),
+					),
 					'div' => array(
 						'class' => array(),
 						'data-id' => array(),
@@ -53,7 +56,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<!-- Footer -->
 		<div class="modal-footer">
-			<a class="wpeo-button button-primary button-uppercase"><span><?php esc_html_e( 'Confirm', 'wpeo-upload' ); ?></span></a>
+			<a class="wpeo-button button-main button-uppercase"><span><?php esc_html_e( 'Confirm', 'wpeo-upload' ); ?></span></a>
 		</div>
 	</div>
 </div>
