@@ -4,15 +4,15 @@
 
 <h3 class="module-title">Simple</h3>
 
-<p>Si aucune couleur n'est précisée, la classe <code class="language-css">"button-primary"</code> est appliquée.</p>
+<p>Si aucune couleur n'est précisée, la classe <code class="language-css">"button-main"</code> est appliquée.</p>
 
 <pre><code class="language-markup"><script type="prism-html-markup">
-<div class="wpeo-button button-primary">
+<div class="wpeo-button button-main">
 	<span>Label bouton</span>
 </div>
 </script></code></pre>
 
-<div class="wpeo-button button-primary"><span>.button-primary</span></div>
+<div class="wpeo-button button-main"><span>.button-main</span></div>
 <div class="wpeo-button button-red"><span>.button-red</span></div>
 <div class="wpeo-button button-yellow"><span>.button-yellow</span></div>
 <div class="wpeo-button button-blue"><span>.button-blue</span></div>
@@ -24,12 +24,12 @@
 <h3 class="module-title">Bordered</h3>
 
 <pre><code class="language-markup"><script type="prism-html-markup">
-<div class="wpeo-button button-primary button-bordered">
+<div class="wpeo-button button-main button-bordered">
 	<span>Label bouton</span>
 </div>
 </script></code></pre>
 
-<div class="wpeo-button button-bordered button-primary"><span>.button-primary</span></div>
+<div class="wpeo-button button-bordered button-main"><span>.button-main</span></div>
 <div class="wpeo-button button-bordered button-red"><span>.button-red</span></div>
 <div class="wpeo-button button-bordered button-yellow"><span>.button-yellow</span></div>
 <div class="wpeo-button button-bordered button-blue"><span>.button-blue</span></div>
@@ -41,19 +41,19 @@
 <h3 class="module-title">Avec button-icone</h3>
 
 <pre><code class="language-markup"><script type="prism-html-markup">
-<div class="wpeo-button button-primary">
+<div class="wpeo-button button-main">
 	<i class="button-icon fa fa-heart"></i>
 	<span>Label bouton</span>
 </div>
 
-<div class="wpeo-button button-primary">
+<div class="wpeo-button button-main">
 	<span>Label bouton</span>
 	<i class="button-icon fa fa-heart"></i>
 </div>
 </script></code></pre>
 
-<div class="wpeo-button button-primary"><span>Bouton</span><i class="button-icon fa fa-heart"></i></div>
-<div class="wpeo-button button-primary"><i class="button-icon fa fa-heart"></i><span>Bouton</span></div>
+<div class="wpeo-button button-main"><span>Bouton</span><i class="button-icon fa fa-heart"></i></div>
+<div class="wpeo-button button-main"><i class="button-icon fa fa-heart"></i><span>Bouton</span></div>
 
 <h3 class="module-title">Carré</h3>
 
@@ -101,6 +101,19 @@ Utilisez dans ce cas la classe <code class="language-css">"button-event"</code> 
 </script></code></pre>
 
 <div class="wpeo-button button-disable button-event"><span>.button-disabled.button-event</span></div>
+
+<h3 class="module-title">Taille</h3>
+
+<p class="note"><strong>Note :</strong> Il n'y a pas besoin d'utiliser de classe pour la taille standard</p>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="wpeo-button button-size-small"><span>Label Bouton</span></div>
+<div class="wpeo-button button-size-large"><span>Label Bouton</span></div>
+</script></code></pre>
+
+<div class="wpeo-button button-size-small"><span>.button-size-small</span></div>
+<div class="wpeo-button"><span>taille standard</span></div>
+<div class="wpeo-button button-size-large"><span>.button-size-large</span></div>
 
 <h3 class="module-title">Progress</h3>
 

@@ -25,6 +25,8 @@
  * .radius-3 -> Arrondis les bords
  * .rounded -> bouton en forme de rond
  * .disable -> désactive les actions sur le bouton
+ * .size-small -> petite taille
+ * .size-large -> grande taille
  * .progress -> Active le progress button
  * 		.load -> le bouton affiche une icone de chargement
  * 		.success -> le bouton affiche une icone succès
@@ -70,7 +72,7 @@
 	border-color: $color__primary;
 	color: $color__primary-text;
 
-	&.button-primary {
+	&.button-main {
 		background: $color__primary;
 		border-color: $color__primary;
 		color: $color__primary-text;
@@ -122,7 +124,7 @@
 	border-color: $color__primary;
 	color: $color__primary;
 
-	&.button-primary {
+	&.button-main {
 		border-color: $color__primary;
 		color: $color__primary;
 		&:hover {
@@ -285,6 +287,20 @@
 	}
 	&.button-event {
 		pointer-events: all;
+	}
+}
+
+// Taille
+.wpeo-button.button-size-small {
+	font-size: 14px;
+	&.button-uppercase span {
+		font-size: 12px;
+	}
+}
+.wpeo-button.button-size-large {
+	font-size: 18px;
+	&.button-uppercase span {
+		font-size: 16px;
 	}
 }
 

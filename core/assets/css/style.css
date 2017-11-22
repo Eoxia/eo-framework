@@ -4917,7 +4917,7 @@ th {
   border-color: #898de5;
   color: #fff; }
 
-.wpeo-button.button-primary {
+.wpeo-button.button-main {
   background: #898de5;
   border-color: #898de5;
   color: #fff; }
@@ -4967,11 +4967,11 @@ th {
   border-color: #898de5;
   color: #898de5; }
 
-.wpeo-button.button-bordered.button-primary {
+.wpeo-button.button-bordered.button-main {
   border-color: #898de5;
   color: #898de5; }
 
-.wpeo-button.button-bordered.button-primary:hover {
+.wpeo-button.button-bordered.button-main:hover {
   -webkit-box-shadow: inset 0 -2.6em #898de5;
           box-shadow: inset 0 -2.6em #898de5;
   color: #fff; }
@@ -5118,6 +5118,18 @@ th {
 
 .wpeo-button.button-disable.button-event {
   pointer-events: all; }
+
+.wpeo-button.button-size-small {
+  font-size: 14px; }
+
+.wpeo-button.button-size-small.button-uppercase span {
+  font-size: 12px; }
+
+.wpeo-button.button-size-large {
+  font-size: 18px; }
+
+.wpeo-button.button-size-large.button-uppercase span {
+  font-size: 16px; }
 
 .wpeo-button.button-progress {
   position: relative; }

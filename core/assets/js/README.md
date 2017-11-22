@@ -31,7 +31,7 @@ Il est important de comprendre que la **modal** est générée dynamiquement dan
 
 ```html
 <a id="modal-opener"
-   class="wpeo-button button-primary wpeo-modal-event"
+   class="wpeo-button button-main wpeo-modal-event"
    data-title="Modal #1"
    data-action="test"><i class="button-icon fa fa-hand-pointer-o"></i> <span>Cliquer pour ouvrir la modal #1</span></a>
 ```
