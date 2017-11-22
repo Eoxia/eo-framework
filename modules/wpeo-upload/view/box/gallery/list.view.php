@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			echo wp_get_attachment_image( $main_picture_id, 'full' );
 		else :
 			?>
-			<i class="fa fa-paperclip" aria-hidden="true"></i>
+			<i class="document fa fa-paperclip" aria-hidden="true"></i>
 			<?php
 		endif;
 		?>
