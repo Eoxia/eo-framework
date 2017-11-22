@@ -47,14 +47,31 @@
 			height: 100%;
 			position: relative;
 		}
-		img {
-			max-width: 100%;
-			height: auto;
+		img, .document {
 			margin: auto;
 			position: absolute;
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
+		}
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+		.document {
+			text-align: center;
+			.icon {
+				font-size: 180px;
+				color: rgba(0,0,0,0.2);
+			}
+			p {
+				font-size: 14px;
+				color: rgba(0,0,0,0.7);
+				font-style: italic;
+				span {
+					font-weight: 700;
+				}
+			}
 		}
 	}
 }

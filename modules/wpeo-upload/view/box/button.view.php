@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php echo WPEO_Upload_Class::g()->out_all_attributes( $atts ); // WPCS: XSS is ok. ?>
 			data-nonce="<?php echo esc_attr( wp_create_nonce( $nonce_name ) ); ?>"
 			class="media <?php if ( empty( $main_picture_id ) ) : ?>no-file <?php endif; ?><?php echo esc_attr( $atts['custom_class'] ); ?>">
-	<i class="add animated fa fa-plus-circle"></i>
+	<i class="button-add animated fa fa-plus-circle"></i>
 
 	<?php
 	if ( ! empty( $main_picture_id ) ) :
@@ -27,7 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 			echo wp_get_attachment_image( $main_picture_id, $atts['size'] );
 		else :
 			?>
-			<i class="fa fa-paperclip" aria-hidden="true"></i>
+			<div class="document">
+				<i class="icon fa fa-paperclip" aria-hidden="true"></i>
+			</div>
 			<?php
 		endif;
 	else :

@@ -22,7 +22,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 			echo wp_get_attachment_image( $main_picture_id, 'full' );
 		else :
 			?>
-			<i class="document fa fa-paperclip" aria-hidden="true"></i>
+			<div class="document">
+				<i class="icon fa fa-paperclip" aria-hidden="true"></i>
+
+				<?php $document_name = get_attached_file( $main_picture_id ); ?>
+				<p>
+					<span><?php echo esc_html( basename( $document_name ) ); ?></span>
+					<?php esc_html_e( 'Preview not available', 'wpeo-upload' ); ?>
+				</p>
+			</div>
 			<?php
 		endif;
 		?>
@@ -37,7 +45,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 						echo wp_get_attachment_image( $id, 'full' );
 					else :
 						?>
-						<i class="fa fa-paperclip" aria-hidden="true"></i>
+						<div class="document">
+							<i class="icon fa fa-paperclip" aria-hidden="true"></i>
+
+							<?php $document_name = get_attached_file( $id ); ?>
+							<p>
+								<span><?php echo esc_html( basename( $document_name ) ); ?></span>
+								<?php esc_html_e( 'Preview not available', 'wpeo-upload' ); ?>
+							</p>
+						</div>
 						<?php
 					endif;
 					?>

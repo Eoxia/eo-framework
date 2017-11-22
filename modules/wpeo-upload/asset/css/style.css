@@ -2493,7 +2493,7 @@
   color: rgba(0, 0, 0, 0.4);
   font-size: 16px; }
 
-.media .add, .wpeo-media .add {
+.media .button-add, .wpeo-media .button-add {
   position: absolute;
   display: inline-block;
   pointer-events: none;
@@ -2501,7 +2501,7 @@
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out; }
 
-.media:not(.no-file) .add, .wpeo-media:not(.no-file) .add {
+.media:not(.no-file) .button-add, .wpeo-media:not(.no-file) .button-add {
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   left: 50%;
@@ -2512,7 +2512,7 @@
           transform: translate(-50%, -50%);
   color: #fff; }
 
-.media.no-file .add, .wpeo-media.no-file .add {
+.media.no-file .button-add, .wpeo-media.no-file .button-add {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   top: 10px;
@@ -2522,7 +2522,7 @@
 .media:hover, .wpeo-media:hover {
   cursor: pointer; }
 
-.media:hover .add, .wpeo-media:hover .add {
+.media:hover .button-add, .wpeo-media:hover .button-add {
   -webkit-animation-fill-mode: both;
        -o-animation-fill-mode: both;
           animation-fill-mode: both;
@@ -2532,12 +2532,12 @@
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; }
 
-.media:hover:not(.no-file) .add, .wpeo-media:hover:not(.no-file) .add {
+.media:hover:not(.no-file) .button-add, .wpeo-media:hover:not(.no-file) .button-add {
   -webkit-animation-name: fileAdd;
        -o-animation-name: fileAdd;
           animation-name: fileAdd; }
 
-.media:hover.no-file .add, .wpeo-media:hover.no-file .add {
+.media:hover.no-file .button-add, .wpeo-media:hover.no-file .button-add {
   -webkit-animation-name: noFileAdd;
        -o-animation-name: noFileAdd;
           animation-name: noFileAdd; }
@@ -2545,6 +2545,18 @@
 .media img, .wpeo-media img {
   width: 100%;
   height: auto; }
+
+.media .document, .wpeo-media .document {
+  width: 100%;
+  line-height: 50px;
+  text-align: center;
+  background: #0d8aff; }
+
+.media .document .icon, .wpeo-media .document .icon {
+  line-height: 50px;
+  color: #fff !important;
+  font-weight: 400;
+  font-size: 16px; }
 
 .wpeo-gallery .modal-container {
   max-width: 1000px;
@@ -2604,9 +2616,7 @@
   height: 100%;
   position: relative; }
 
-.wpeo-gallery .modal-content .image-list img {
-  max-width: 100%;
-  height: auto;
+.wpeo-gallery .modal-content .image-list img, .wpeo-gallery .modal-content .image-list .document {
   margin: auto;
   position: absolute;
   top: 50%;
@@ -2615,6 +2625,25 @@
       -ms-transform: translate(-50%, -50%);
        -o-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%); }
+
+.wpeo-gallery .modal-content .image-list img {
+  max-width: 100%;
+  height: auto; }
+
+.wpeo-gallery .modal-content .image-list .document {
+  text-align: center; }
+
+.wpeo-gallery .modal-content .image-list .document .icon {
+  font-size: 180px;
+  color: rgba(0, 0, 0, 0.2); }
+
+.wpeo-gallery .modal-content .image-list .document p {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.7);
+  font-style: italic; }
+
+.wpeo-gallery .modal-content .image-list .document p span {
+  font-weight: 700; }
 
 .wpeo-gallery .modal-content .action {
   margin: 0;
