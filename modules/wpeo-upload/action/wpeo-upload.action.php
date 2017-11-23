@@ -95,7 +95,9 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 					$view = ob_get_clean();
 				}
 			} else {
-				$document_view = '<div class="document"><i class="icon fa fa-paperclip" aria-hidden="true"></i></div>';
+				if ( 'application' === $data['mime_type'] ) {
+					$document_view = '<div class="document"><i class="icon fa fa-paperclip" aria-hidden="true"></i></div>';
+				}
 			}
 
 			if ( 'list' === $data['display_type'] ) {

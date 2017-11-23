@@ -150,6 +150,7 @@ window.eoxiaJS.upload.associateFile = function() {
  * @version 1.0.0
  */
 window.eoxiaJS.upload.refreshButton = function( data ) {
+	jQuery( window.eoxiaJS.upload.currentButton ).removeClass( 'no-file loading wpeo-loader' );
 	if( window.eoxiaJS.upload.currentButton.is( 'a' ) ) {
 		window.eoxiaJS.loader.remove( window.eoxiaJS.upload.currentButton  );
 
@@ -165,9 +166,7 @@ window.eoxiaJS.upload.refreshButton = function( data ) {
 			}
 		} else if ( data.document_view ) {
 			window.eoxiaJS.upload.currentButton.find( '.default' ).replaceWith( data.document_view );
-			jQuery( window.eoxiaJS.upload.currentButton ).removeClass( 'no-file loading wpeo-loader' );
 			window.eoxiaJS.upload.currentButton.find( 'input[type="hidden"]' ).val( window.eoxiaJS.upload.selectedInfos.JSON.id );
-
 		} else {
 			if ( data.media ) {
 				window.eoxiaJS.upload.currentButton.find( 'img' ).replaceWith( data.media );
