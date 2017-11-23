@@ -34,8 +34,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		endif;
 	else :
 		?>
-		<i class="default-image fa fa-picture-o"></i>
-		<img src="" class="hidden"/>
+		<div class="default">
+			<i class="default-image fa fa-picture-o"></i>
+			<img src="" class="hidden"/>
+		</div>
 		<input type="hidden" name="<?php echo esc_attr( $atts['field_name'] ); ?>" />
 		&nbsp;
 	<?php endif; ?>

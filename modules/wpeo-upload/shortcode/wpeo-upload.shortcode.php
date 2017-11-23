@@ -52,7 +52,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 				'id'           => 0,                                   // The id of the POST Element (Can be a custom post).
 				'title'        => __( 'Upload media', 'wpeo-upload' ), // Popup title.
 				'mode'         => 'edit',                              // Can be "edit" or "view".
-				'field_name'   => '',                                  // For use "_thumbnail_id" postmeta of WordPress let it empty. Again for more details @see.
+				'field_name'   => 'thumbnail_id',                     // For use "_thumbnail_id" postmeta of WordPress let _thumbnail_id. Again for more details @see.
 				'model_name'   => '//eoxia//Post_Class',               // Say to WPEO_Model the model used. Write double slashes when use in shortcode. This method convert it from "//" to "\".
 				'custom_class' => '',                                  // Add custom class
 				'size'         => 'thumbnail',                         // The size of the box (button for upload or open the gallery).

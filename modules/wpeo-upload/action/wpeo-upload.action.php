@@ -75,6 +75,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 			$data = WPEO_Upload_Class::g()->get_post_data( 'associate_file' );
 
 			$view = '';
+			$document_view = '';
 
 			// If post ID is not empty.
 			if ( ! empty( $data['id'] ) ) {
@@ -93,6 +94,8 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 					do_shortcode( '[wpeo_upload id="' . $element->id . '" model_name="' . str_replace( '\\', '/', $data['model_name'] ) . '" field_name="' . $data['field_name'] . '" mime_type="' . $data['mime_type'] . '" single="' . $data['single'] . '" size="' . $data['size'] . '" ]' );
 					$view = ob_get_clean();
 				}
+			} else {
+				$document_view = '<div class="document"><i class="icon fa fa-paperclip" aria-hidden="true"></i></div>';
 			}
 
 			if ( 'list' === $data['display_type'] ) {
@@ -104,11 +107,14 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 				$view = ob_get_clean();
 			}
 
+			$media_view = wp_get_attachment_image( $data['file_id'], $data['size'] );
+
 			wp_send_json_success( array(
 				'view' => $view,
+				'document_view' => $document_view,
 				'id' => $data['id'],
 				'display_type' => $data['display_type'],
-				'media' => wp_get_attachment_image( $data['file_id'], $data['size'] ),
+				'media' => ! empty( $media_view ) ? $media_view : '',
 			) );
 		}
 
