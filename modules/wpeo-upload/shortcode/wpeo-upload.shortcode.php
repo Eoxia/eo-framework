@@ -52,12 +52,12 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 				'id'           => 0,                                   // The id of the POST Element (Can be a custom post).
 				'title'        => __( 'Upload media', 'wpeo-upload' ), // Popup title.
 				'mode'         => 'edit',                              // Can be "edit" or "view".
-				'field_name'   => 'thumbnail_id',                     // For use "_thumbnail_id" postmeta of WordPress let _thumbnail_id. Again for more details @see.
+				'field_name'   => 'thumbnail_id',                      // For use "_thumbnail_id" postmeta of WordPress let _thumbnail_id. Again for more details @see.
 				'model_name'   => '//eoxia//Post_Class',               // Say to WPEO_Model the model used. Write double slashes when use in shortcode. This method convert it from "//" to "\".
 				'custom_class' => '',                                  // Add custom class
 				'size'         => 'thumbnail',                         // The size of the box (button for upload or open the gallery).
 				'single'       => 'true',                              // One media or more.
-				'mime_type'    => '',                                  // Can be application/document, application/png or empty for all mime types.
+				'mime_type'    => '',                                  // Can be application, image, audio or empty for all mime types.
 				'display_type' => 'box',                               // Can be box or list. By default box.
 			), $atts );
 
@@ -80,6 +80,13 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 			}
 
 			$field_name = $atts['field_name'];
+
+			$no_file_class = '';
+			if ( empty( $main_picture_id ) && empty( $element->associated_document_id[ $atts['field_name'] ] ) ) {
+				$no_file_class = 'no-file';
+			} else {
+				$nonce_name = 'load_gallery';
+			}
 
 			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/button.view.php' );
 		}

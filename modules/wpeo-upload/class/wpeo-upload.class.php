@@ -141,7 +141,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 			}
 
 			// Set another thumbnail id.
-			if ( empty( $element->thumbnail_id ) && 0 < count( $element->associated_document_id[ $data['field_name'] ] ) ) {
+			if ( empty( $element->thumbnail_id ) && ! empty( $element->associated_document_id[ $data['field_name'] ] ) ) {
 				$element->thumbnail_id = $element->associated_document_id[ $data['field_name'] ][0];
 			}
 
@@ -180,6 +180,10 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 			), true );
 
 			$main_picture_id = $element->thumbnail_id;
+
+			if ( empty( $main_picture_id ) ) {
+				$main_picture_id = $element->associated_document_id[ $data['field_name'] ][0];
+			}
 
 			$list_id = ! empty( $element->associated_document_id[ $data['field_name']  ] ) ? $element->associated_document_id[ $data['field_name'] ] : array();
 

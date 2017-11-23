@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <ul class="image-list">
 	<li data-id="<?php echo esc_attr( $main_picture_id ); ?>" class="current">
 		<?php
-		if ( '' === $data['mime_type'] ) :
+		if ( 'image' === $data['mime_type'] ) :
 			echo wp_get_attachment_image( $main_picture_id, 'full' );
 		else :
 			?>
@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php if ( $main_picture_id !== $id ) : ?>
 				<li data-id="<?php echo esc_attr( $id ); ?>" class="hidden">
 					<?php
-					if ( '' === $data['mime_type'] ) :
+					if ( 'image' === $data['mime_type'] ) :
 						echo wp_get_attachment_image( $id, 'full' );
 					else :
 						?>

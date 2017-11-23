@@ -134,7 +134,7 @@ window.eoxiaJS.upload.associateFile = function() {
 	jQuery.post( window.ajaxurl, data, function( response ) {
 		window.eoxiaJS.upload.refreshButton( response.data );
 
-		if ( 'box' === response.data.display_type ) {
+		if ( 'box' === response.data.display_type && 0 !== response.data.id ) {
 			window.eoxiaJS.gallery.open( false );
 		}
 	} );
@@ -163,10 +163,18 @@ window.eoxiaJS.upload.refreshButton = function( data ) {
 			} else {
 				jQuery( 'span.media[data-id="' + window.eoxiaJS.upload.currentButton.data( 'id' ) + '"]' ).replaceWith( data.view );
 			}
-		} else {
-			window.eoxiaJS.upload.currentButton.find( 'img' ).replaceWith( data.media );
-			window.eoxiaJS.upload.currentButton.find( 'i' ).hide();
+		} else if ( data.document_view ) {
+			window.eoxiaJS.upload.currentButton.find( '.default' ).replaceWith( data.document_view );
+			jQuery( window.eoxiaJS.upload.currentButton ).removeClass( 'no-file loading wpeo-loader' );
 			window.eoxiaJS.upload.currentButton.find( 'input[type="hidden"]' ).val( window.eoxiaJS.upload.selectedInfos.JSON.id );
+
+		} else {
+			if ( data.media ) {
+				window.eoxiaJS.upload.currentButton.find( 'img' ).replaceWith( data.media );
+				window.eoxiaJS.upload.currentButton.find( 'i' ).hide();
+
+				window.eoxiaJS.upload.currentButton.find( 'input[type="hidden"]' ).val( window.eoxiaJS.upload.selectedInfos.JSON.id );
+			}
 		}
 	}
 };
@@ -195,9 +203,9 @@ window.eoxiaJS.gallery.init = function() {
  */
 window.eoxiaJS.gallery.event = function() {
 	jQuery( document ).on( 'keyup', window.eoxiaJS.gallery.keyup );
-	jQuery( document ).on( 'click', '.gallery .modal-footer .button-primary', window.eoxiaJS.gallery.close );
-	jQuery( document ).on( 'click', '.gallery .navigation .prev', window.eoxiaJS.gallery.prevPicture );
-	jQuery( document ).on( 'click', '.gallery .navigation .next', window.eoxiaJS.gallery.nextPicture );
+	jQuery( document ).on( 'click', '.wpeo-gallery .modal-footer .button-primary', window.eoxiaJS.gallery.close );
+	jQuery( document ).on( 'click', '.wpeo-gallery .navigation .prev', window.eoxiaJS.gallery.prevPicture );
+	jQuery( document ).on( 'click', '.wpeo-gallery .navigation .next', window.eoxiaJS.gallery.nextPicture );
 };
 
 /**
@@ -221,16 +229,16 @@ window.eoxiaJS.gallery.open = function( append = true ) {
 	window.eoxiaJS.upload.currentButton.addClass( 'loading' );
 
 	if ( append ) {
-		jQuery( '.gallery' ).remove();
+		jQuery( '.wpeo-gallery' ).remove();
 	} else {
-		data['_wpnonce'] = window.eoxiaJS.upload.currentButton.closest( '.gallery' ).data( 'nonce' );
+		data['_wpnonce'] = window.eoxiaJS.upload.currentButton.closest( '.wpeo-gallery' ).data( 'nonce' );
 	}
 
 	jQuery.post( ajaxurl, data, function( response ) {
 		if ( append ) {
 			jQuery( '#wpwrap' ).append( response.data.view );
 		} else {
-			jQuery( '.gallery' ).replaceWith( response.data.view );
+			jQuery( '.wpeo-gallery' ).replaceWith( response.data.view );
 		}
 		window.eoxiaJS.upload.currentButton.removeClass( 'loading' );
 	});
@@ -251,7 +259,7 @@ window.eoxiaJS.gallery.keyup = function( event ) {
 	} else if ( 39 === event.keyCode ) {
 		window.eoxiaJS.gallery.nextPicture();
 	} else if ( 27 === event.keyCode ) {
-		jQuery( '.gallery .modal-close' ).click();
+		jQuery( '.wpeo-gallery .modal-close' ).click();
 	}
 };
 
@@ -265,7 +273,7 @@ window.eoxiaJS.gallery.keyup = function( event ) {
  * @return {void}
  */
 window.eoxiaJS.gallery.close = function( event ) {
-	jQuery( '.gallery .modal-close' ).click();
+	jQuery( '.wpeo-gallery .modal-close' ).click();
 };
 
 /**
@@ -278,16 +286,16 @@ window.eoxiaJS.gallery.close = function( event ) {
  * @version 1.0.0
  */
 window.eoxiaJS.gallery.prevPicture = function( event ) {
-	if ( jQuery( '.gallery .image-list li.current' ).prev().length <= 0 ) {
-		jQuery( '.gallery .image-list li.current' ).toggleClass( 'current hidden' );
-		jQuery( '.gallery .image-list li:last' ).toggleClass( 'hidden current' );
+	if ( jQuery( '.wpeo-gallery .image-list li.current' ).prev().length <= 0 ) {
+		jQuery( '.wpeo-gallery .image-list li.current' ).toggleClass( 'current hidden' );
+		jQuery( '.wpeo-gallery .image-list li:last' ).toggleClass( 'hidden current' );
 	}	else {
-		jQuery( '.gallery .image-list li.current' ).toggleClass( 'current hidden' ).prev().toggleClass( 'hidden current' );
+		jQuery( '.wpeo-gallery .image-list li.current' ).toggleClass( 'current hidden' ).prev().toggleClass( 'hidden current' );
 	}
 
-	jQuery( '.gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.gallery .current' ).attr( 'data-id' ) );
+	jQuery( '.wpeo-gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
 
-	window.eoxiaJS.gallery.changeURL( jQuery( '.gallery .current' ).attr( 'data-id' ) );
+	window.eoxiaJS.gallery.changeURL( jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
 };
 
 /**
@@ -300,15 +308,15 @@ window.eoxiaJS.gallery.prevPicture = function( event ) {
  * @version 0.1.0-alpha
  */
 window.eoxiaJS.gallery.nextPicture = function( event ) {
-	if ( jQuery( '.gallery .image-list li.current' ).next().length <= 0 ) {
-		jQuery( '.gallery .image-list li.current' ).toggleClass( 'current hidden' );
-		jQuery( '.gallery .image-list li:first' ).toggleClass( 'hidden current' );
+	if ( jQuery( '.wpeo-gallery .image-list li.current' ).next().length <= 0 ) {
+		jQuery( '.wpeo-gallery .image-list li.current' ).toggleClass( 'current hidden' );
+		jQuery( '.wpeo-gallery .image-list li:first' ).toggleClass( 'hidden current' );
 	} else {
-		jQuery( '.gallery .image-list li.current' ).toggleClass( 'current hidden' ).next().toggleClass( 'hidden current' );
+		jQuery( '.wpeo-gallery .image-list li.current' ).toggleClass( 'current hidden' ).next().toggleClass( 'hidden current' );
 	}
 
-	jQuery( '.gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.gallery .current' ).attr( 'data-id' ) );
-	window.eoxiaJS.gallery.changeURL( jQuery( '.gallery .current' ).attr( 'data-id' ) );
+	jQuery( '.wpeo-gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
+	window.eoxiaJS.gallery.changeURL( jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
 };
 
 /**
@@ -321,10 +329,10 @@ window.eoxiaJS.gallery.nextPicture = function( event ) {
  * @return {void}
  */
 window.eoxiaJS.gallery.changeURL = function( fileID ) {
-	var href = jQuery( '.gallery .edit-link' ).attr( 'href' );
+	var href = jQuery( '.wpeo-gallery .edit-link' ).attr( 'href' );
 	var tmpHREF = href.split( '?' );
 	href = tmpHREF[0] += "?item=" + fileID + "&mode=edit";
-	jQuery( '.gallery .edit-link' ).attr( 'href', href );
+	jQuery( '.wpeo-gallery .edit-link' ).attr( 'href', href );
 };
 
 /**
@@ -340,10 +348,10 @@ window.eoxiaJS.gallery.changeURL = function( fileID ) {
  */
 window.eoxiaJS.gallery.dissociatedFileSuccess = function( element, response ) {
 	if ( response.data.close_popup ) {
-		jQuery( '.gallery' ).remove();
+		jQuery( '.wpeo-gallery' ).remove();
 	} else {
-		jQuery( '.gallery .image-list .current' ).remove();
-		jQuery( '.gallery .next' ).click();
+		jQuery( '.wpeo-gallery .image-list .current' ).remove();
+		jQuery( '.wpeo-gallery .next' ).click();
 	}
 	window.eoxiaJS.upload.refreshButton( response.data );
 };
