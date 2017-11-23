@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } ?>
 
 <div class="wpeo-modal modal-active wpeo-gallery" data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_gallery' ) ); ?>">
+	<input type="hidden" class="main-thumbnail-id" value="<?php echo esc_attr( $main_picture_id ); ?>" />
 	<div class="modal-container">
 
 		<!-- Entête -->
@@ -56,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<!-- Footer -->
 		<div class="modal-footer">
-			<a class="wpeo-button button-main button-uppercase"><span><?php esc_html_e( 'Confirm', 'wpeo-upload' ); ?></span></a>
+			<a class="wpeo-button button-main button-uppercase"><span><?php esc_html_e( 'Close', 'wpeo-upload' ); ?></span></a>
 		</div>
 	</div>
 </div>

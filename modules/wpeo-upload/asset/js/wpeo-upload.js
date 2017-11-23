@@ -203,7 +203,7 @@ window.eoxiaJS.gallery.init = function() {
  */
 window.eoxiaJS.gallery.event = function() {
 	jQuery( document ).on( 'keyup', window.eoxiaJS.gallery.keyup );
-	jQuery( document ).on( 'click', '.wpeo-gallery .modal-footer .button-primary', window.eoxiaJS.gallery.close );
+	jQuery( document ).on( 'click', '.wpeo-gallery .modal-footer .button-main', window.eoxiaJS.gallery.close );
 	jQuery( document ).on( 'click', '.wpeo-gallery .navigation .prev', window.eoxiaJS.gallery.prevPicture );
 	jQuery( document ).on( 'click', '.wpeo-gallery .navigation .next', window.eoxiaJS.gallery.nextPicture );
 };
@@ -296,6 +296,7 @@ window.eoxiaJS.gallery.prevPicture = function( event ) {
 	jQuery( '.wpeo-gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
 
 	window.eoxiaJS.gallery.changeURL( jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
+	window.eoxiaJS.gallery.checkIsFeaturedMedia( jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
 };
 
 /**
@@ -316,7 +317,9 @@ window.eoxiaJS.gallery.nextPicture = function( event ) {
 	}
 
 	jQuery( '.wpeo-gallery .edit-thumbnail-id' ).attr( 'data-file-id', jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
+
 	window.eoxiaJS.gallery.changeURL( jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
+	window.eoxiaJS.gallery.checkIsFeaturedMedia( jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
 };
 
 /**
@@ -335,6 +338,18 @@ window.eoxiaJS.gallery.changeURL = function( fileID ) {
 	jQuery( '.wpeo-gallery .edit-link' ).attr( 'href', href );
 };
 
+window.eoxiaJS.gallery.checkIsFeaturedMedia = function( fileID ) {
+	var mainFeaturedMediaID = jQuery( '.wpeo-gallery input.main-thumbnail-id' ).val();
+
+	if ( mainFeaturedMediaID == fileID ) {
+		jQuery( '.wpeo-gallery .featured-thumbnail i' ).removeClass( 'fa-star-o' );
+		jQuery( '.wpeo-gallery .featured-thumbnail i' ).addClass( 'fa-star' );
+	} else {
+		jQuery( '.wpeo-gallery .featured-thumbnail i' ).removeClass( 'fa-star' );
+		jQuery( '.wpeo-gallery .featured-thumbnail i' ).addClass( 'fa-star-o' );
+	}
+}
+
 /**
  * Le callback en cas de réussite à la requête Ajax "dissociate_file".
  * Remplaces les boutons pour ouvrir la popup "galerie"
@@ -352,8 +367,11 @@ window.eoxiaJS.gallery.dissociatedFileSuccess = function( element, response ) {
 	} else {
 		jQuery( '.wpeo-gallery .image-list .current' ).remove();
 		jQuery( '.wpeo-gallery .next' ).click();
+		jQuery( '.wpeo-gallery input.main-thumbnail-id' ).val( jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
+		window.eoxiaJS.gallery.checkIsFeaturedMedia( jQuery( '.wpeo-gallery .current' ).attr( 'data-id' ) );
 	}
 	window.eoxiaJS.upload.refreshButton( response.data );
+
 };
 
 /**
@@ -369,4 +387,6 @@ window.eoxiaJS.gallery.dissociatedFileSuccess = function( element, response ) {
  */
 window.eoxiaJS.gallery.successfulSetThumbnail = function( element, response ) {
 	window.eoxiaJS.upload.refreshButton( response.data );
+	jQuery( '.wpeo-gallery input.main-thumbnail-id' ).val( response.data.file_id );
+	window.eoxiaJS.gallery.checkIsFeaturedMedia( response.data.file_id );
 };

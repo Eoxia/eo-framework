@@ -20,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<li>
 			<a 	href="#"
 					data-action="eo_upload_set_thumbnail"
+					data-loader="modal-content"
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'set_thumbnail' ) ); ?>"
 					<?php echo WPEO_Upload_Class::g()->out_all_attributes( $data ); // WPCS: XSS is ok. ?>
 					data-file-id="<?php echo esc_attr( $main_picture_id ); ?>"
@@ -31,6 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</li>
 	<li>
 		<a 	href="#"
+				data-loader="modal-content"
 				data-nonce="<?php echo esc_attr( wp_create_nonce( 'dissociate_file' ) ); ?>"
 				data-action="eo_upload_dissociate_file"
 				<?php echo WPEO_Upload_Class::g()->out_all_attributes( $data ); // WPCS: XSS is ok. ?>

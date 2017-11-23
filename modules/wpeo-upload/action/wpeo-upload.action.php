@@ -189,6 +189,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 				'callback_success' => 'successfulSetThumbnail',
 				'view' => ob_get_clean(),
 				'id' => $data['id'],
+				'file_id' => $data['file_id'],
 			) );
 		}
 	}
