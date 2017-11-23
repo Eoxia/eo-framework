@@ -130,7 +130,7 @@ if ( ! window.eoxiaJS.action ) {
 		}
 
 		if ( doAction ) {
-			loaderElement.addClass( 'loading' );
+			window.eoxiaJS.loader.display( loaderElement );
 			listInput = window.eoxiaJS.arrayForm.getInput( parentElement );
 			for ( i = 0; i < listInput.length; i++ ) {
 				if ( listInput[i].name && -1 === inputAlreadyIn.indexOf( listInput[i].name ) ) {
@@ -182,13 +182,13 @@ if ( ! window.eoxiaJS.action ) {
 			if ( jQuery( this ).attr( 'data-confirm' ) ) {
 				if ( window.confirm( jQuery( this ).attr( 'data-confirm' ) ) ) {
 					element.get_data( function( data ) {
-						loaderElement.addClass( 'loading' );
+						window.eoxiaJS.loader.display( loaderElement );
 						window.eoxiaJS.request.send( element, data );
 					} );
 				}
 			} else {
 				element.get_data( function( data ) {
-					loaderElement.addClass( 'loading' );
+					window.eoxiaJS.loader.display( loaderElement );
 					window.eoxiaJS.request.send( element, data );
 				} );
 			}
@@ -229,7 +229,7 @@ if ( ! window.eoxiaJS.action ) {
 		if ( doAction ) {
 			if ( window.confirm( element.attr( 'data-message-delete' ) ) ) {
 				element.get_data( function( data ) {
-					loaderElement.addClass( 'loading' );
+					window.eoxiaJS.loader.display( loaderElement );
 					window.eoxiaJS.request.send( element, data );
 				} );
 			}
@@ -480,6 +480,12 @@ if ( ! window.eoxiaJS.loader ) {
 
 	window.eoxiaJS.loader.display = function( element ) {
 		element.addClass( 'wpeo-loader' );
+	};
+
+	window.eoxiaJS.loader.remove = function( element ) {
+		if ( 0 < element.length ) {
+			element.removeClass( 'wpeo-loader' );
+		}
 	};
 }
 
@@ -778,7 +784,7 @@ if ( ! window.eoxiaJS.request ) {
 
 	window.eoxiaJS.request.send = function( element, data, cb ) {
 		jQuery.post( window.ajaxurl, data, function( response ) {
-			element.closest( '.loading' ).removeClass( 'loading' );
+			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
 
 			if ( cb ) {
 				cb( element, response );

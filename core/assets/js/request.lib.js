@@ -5,7 +5,7 @@ if ( ! window.eoxiaJS.request ) {
 
 	window.eoxiaJS.request.send = function( element, data, cb ) {
 		jQuery.post( window.ajaxurl, data, function( response ) {
-			element.closest( '.loading' ).removeClass( 'loading' );
+			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
 
 			if ( cb ) {
 				cb( element, response );
