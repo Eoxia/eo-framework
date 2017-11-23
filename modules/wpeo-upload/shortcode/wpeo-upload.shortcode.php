@@ -57,7 +57,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 				'custom_class' => '',                                  // Add custom class
 				'size'         => 'thumbnail',                         // The size of the box (button for upload or open the gallery).
 				'single'       => 'true',                              // One media or more.
-				'mime_type'    => '',                                  // Can be application, image, audio or empty for all mime types.
+				'mime_type'    => 'image',                             // Can be application, image, audio or empty for all mime types. By default "image".
 				'display_type' => 'box',                               // Can be box or list. By default box.
 			), $atts );
 
