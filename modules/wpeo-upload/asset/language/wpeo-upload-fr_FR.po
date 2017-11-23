@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPEO_Upload\n"
-"POT-Creation-Date: 2017-10-06 10:17+0200\n"
-"PO-Revision-Date: 2017-10-06 10:17+0200\n"
+"POT-Creation-Date: 2017-11-23 11:51+0100\n"
+"PO-Revision-Date: 2017-11-23 11:52+0100\n"
 "Last-Translator: \n"
 "Language-Team: eoxia (contact@eoxia.com)\n"
 "Language: fr\n"
@@ -17,18 +17,38 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: .git\n"
 
-#: view/gallery.view.php:53
-msgid "Set as default thumbnail"
-msgstr "Définir comme miniature par défaut"
+#: shortcode/wpeo-upload.shortcode.php:53
+msgid "Upload media"
+msgstr "Téléverser un média"
 
-#: view/gallery.view.php:63
-msgid "Add a new file"
-msgstr "Ajouter nouveau"
+#: view/box/gallery/button-add.view.php:22
+msgid "Add new media"
+msgstr "Ajouter un nouveau média"
 
-#: view/gallery.view.php:74
-msgid "Change file"
-msgstr "Changer de fichier"
+#: view/box/gallery/list.view.php:31 view/box/gallery/list.view.php:54
+msgid "Preview not available"
+msgstr "Prévisualisation indisponible"
 
-#: view/gallery.view.php:88
-msgid "Dissociate"
-msgstr "Dissocier"
+#: view/box/gallery/main.view.php:60
+msgid "Close"
+msgstr "Fermer"
+
+#: view/list/button.view.php:32
+msgid "Add an attached file"
+msgstr "Ajouter une pièce jointe"
+
+#: view/list/list.view.php:32
+msgid "No file attached"
+msgstr "Aucune pièce jointe attachée"
+
+#~ msgid "Set as default thumbnail"
+#~ msgstr "Définir comme miniature par défaut"
+
+#~ msgid "Add a new file"
+#~ msgstr "Ajouter nouveau"
+
+#~ msgid "Change file"
+#~ msgstr "Changer de fichier"
+
+#~ msgid "Dissociate"
+#~ msgstr "Dissocier"
