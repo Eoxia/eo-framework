@@ -49,7 +49,7 @@ __[wpeo_upload id=1 single="false" field_name="images"]__
 
 _Attention_: le double backslashes n'est pas une erreur. C'est obligatoire pour faire passer le paramètre au shortcode. La méthode PHP s'occupe de remplacer le double blaskslashes par un slashes, dans notre cas: \\namespace\\Model_Class devient /namespace/Model_Class.
 
-__[wpeo_upload id=1 model_name="\\namespace\\Model_Class"]__
+__[wpeo_upload id=1 model_name="\\\namespace\\\Model_Class"]__
 
 # Le paramètre boolean "single"
 
