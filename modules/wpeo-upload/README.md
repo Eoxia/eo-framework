@@ -37,15 +37,15 @@ Les différents paramètres:
 
 ## Exemple d'utilisation
 
-Association d'une seule image dans le champ 'thumbnail_id' pour le *POST* 1.
+### Association d'une seule image dans le champ 'thumbnail_id' pour le *POST* 1.
 
 __[wpeo_upload id=1]__
 
-Association de plusieurs image dans le champ associated_document['images'] pour le *POST* 1
+### Association de plusieurs image dans le champ associated_document['images'] pour le *POST* 1
 
 __[wpeo_upload id=1 single="false" field_name="images"]__
 
-Association d'une seule image dans le champ 'thumbnail_id' pour le *POST* 1 en utilisant l'objet *Model_Class* dans le namespace *namespace*.
+### Association d'une seule image dans le champ 'thumbnail_id' pour le *POST* 1 en utilisant l'objet *Model_Class* dans le namespace *namespace*.
 
 _Attention_: le double backslashes n'est pas une erreur. C'est obligatoire pour faire passer le paramètre au shortcode. La méthode PHP s'occupe de remplacer le double blaskslashes par un slashes, dans notre cas: \\namespace\\Model_Class devient /namespace/Model_Class.
 
@@ -61,7 +61,7 @@ Le POST ne peut contenir qu'une __seule__ ressource qui sera enregistrée dans _
 
 ## SI false
 
-Le POST peut contenir __plusieurs__ dans une meta qui sera défini par __field__name__. Attention, le champ par défaut __thumbnail_id__ de WordPress ne permet pas d'enregister un tableau d'ID.
+Le POST peut contenir __plusieurs__ dans une meta qui sera défini par __field_name__. Attention, le champ par défaut __thumbnail_id__ de WordPress ne permet pas d'enregister un tableau d'ID.
 Pour utiliser le paramètre __single__ à __false__, il faut obligatoirement définir le paramètre __field_name__.
 
 # Peut-on avoir plusieurs ressources dans un seul élement ?
@@ -69,10 +69,16 @@ Oui. Il est important de comprendre que si __single__ est à __false__ vous pouv
 
 # La galerie
 
-La galerie s'ouvre une fois la première ressource envoyé.
+La galerie s'ouvre après avoir effectuer un deuxième clic sur le bouton "upload" après avoir envoyé une ressource.
 
 Si votre mime_type est de type "image", vous aurez un aperçu de vos images dans la galerie.
 Sinon, pour tout autre mime_type, l'aperçu ne sera pas disponible.
+
+# Le bouton "upload" généré par le shortcode
+
+[image_du_bouton_a_faire]
+
+Description à faire
 
 # Utiliser WPEO_Upload sans shortcode
 
@@ -128,3 +134,4 @@ Le tableau $data doit contenir:
 #TODO
 
 * WPEO_Upload 2.0.0: Utilise wp.media pour utiliser pleinement toutes les fonctionnalitées de WordPress. Pas de date définie pour cette tâche.
+* Faire le point: Le bouton "upload" généré par le shortcode
