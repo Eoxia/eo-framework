@@ -1,6 +1,6 @@
 # wpeo-upload
 
-Shortcode et framework complet CSS/JS pour gérer les medias et la gallery d'un élement (POST, COMMENT, USER ou TERM) dans vos créations de plugin WordPress.
+Shortcode et framework complet PHP ainsi que CSS/JS pour gérer les medias et la galerie d'un élement "POST (CPT) de WordPress dans vos développement de plugin.
 
 # Docs WPEO Upload 1.0.x
 
@@ -13,24 +13,24 @@ WPEO Upload est dépendant de:
 ## Fonctionnalités
 
 * Shortcode
-* Upload de fichier dans tous les types de WordPress (POST, COMMENT, USER, TERM)
-* Upload de plusieurs fichiers dans tous les types de WordPress (POST, COMMENT, USER, TERM)
+* Upload de fichier dans tous les POST (CPT) de WordPress
+* Upload de plusieurs fichiers dans les POST (CPT) de WordPress
 * Galerie de navigation avec différentes actions:
-  * Changer le thumbnail
-  * Uploader un autre fichier
-  * Dissocier un fichier
+  * Changer l'image en vignette (\_thubmnail_id)
+  * Uploader une ressource (image, audio, application...)
+  * Dissocier une ressource (image, audio, application...)
 
 # Shortcode
 
 Le shortcode __[wpeo_upload]__ permet d'utiliser WPEO Upload directement dans vos templates.
 
 Les différents paramètres:
-* __id__ (integer) : Le post ID. *defaut: 0*
-* __field_name__ (string) :    Le champ ou vas être enregistrer les ID des ressources. *defaut: thumbnail_id*
-* __model_name__ (string) :    Obligatoire pour WPEO_Model. *defaut: \eoxia\Post_Class*
-* __custom_class__ (string) :  Utiles si vous devez utiliser plusieurs fois le bouton dans un même template pour le même POST. *defaut: empty*
+* __id__ (integer)          : Le post ID. *defaut: 0*
+* __field_name__ (string)   : Le champ ou vas être enregistrer les ID des ressources. *defaut: thumbnail_id*
+* __model_name__ (string)   : Obligatoire pour WPEO_Model. *defaut: \eoxia\Post_Class*
+* __custom_class__ (string) : Utiles si vous devez utiliser plusieurs fois le bouton dans un même template pour le même POST. *defaut: empty*
 * __size__ (string)         :  Comme les tailles de WordPress: thumbnail, medium, full. *defaut: thumbnail*
-* __single__ (string)       :  Si vous voulez utiliser la galerie ou pas. *defaut: true*
+* __single__ (string)       :  Si vous voulez pouvoir uploader plusieurs ressources pour cet élément ou pas. *défaut: true*
 * __mime_type__ (string)    :  Permet de définir le mime_type des fichiers à upload et de filtrer la vue de wp.media. *defaut: empty*
 
 ## Exemple d'utilisation
@@ -109,7 +109,3 @@ WPEO_Upload_Class::g()->display_gallery( **$id, $model_name, $field_name, $size 
 * string $size La taille de la ressource affichée. Peut être thumbnail, medium ou full. Par défaut thumbnail.
 * boolean $single Voir le point de cette documentation # Le paramètre boolean "single". Par défaut false.
 * string $mime_type Permet de définir le mime_type des fichiers à upload et de filtrer la vue de wp.media. *defaut: empty*
-
-# TODO
-
-* Ajouter le CSS
