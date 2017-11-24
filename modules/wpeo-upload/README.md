@@ -1,6 +1,6 @@
 # wpeo-upload
 
-Shortcode et framework complet PHP ainsi que CSS/JS pour gérer les medias et la galerie d'un élement "POST (CPT) de WordPress dans vos développement de plugin.
+Script complet PHP ainsi que CSS/JS pour gérer les medias et la galerie d'un élement "POST (CPT) de WordPress dans vos développement de plugin, WPEO_Upload est inclus dans [EO-Framework](https://github.com/Eoxia/eo-framework).
 
 # Docs WPEO Upload 1.0.x
 
@@ -34,6 +34,10 @@ Les différents paramètres:
 * __size__ (string)         :  Comme les tailles de WordPress: thumbnail, medium, full. *defaut: thumbnail*
 * __single__ (string)       :  Si vous voulez pouvoir uploader plusieurs ressources pour cet élément ou pas. *défaut: true*
 * __mime_type__ (string)    :  Permet de définir le mime_type des fichiers à upload et de filtrer la vue de wp.media. *defaut: image*. Peut être "application", "image", "audio", ...
+
+## Model_name, WPEO_Model ?
+
+**WPEO_Model** est inclus dans [EO-Framework](https://github.com/Eoxia/eo-framework). Voir la doc   [WPEO_Model](https://github.com/Eoxia/eo-framework/edit/master/modules/wpeo-model), ce n'est pas obligatoire pour utiliser WPEO_Upload.
 
 ## Exemple d'utilisation
 
