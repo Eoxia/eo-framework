@@ -131,7 +131,7 @@ Le tableau $data doit contenir:
 * boolean $single Voir le point de cette documentation # Le paramètre boolean "single". Par défaut false.
 * string $mime_type Permet de définir le mime_type des fichiers à upload et de filtrer la vue de wp.media. *defaut: empty*
 
-#TODO
+# TODO
 
 * WPEO_Upload 2.0.0: Utilise wp.media pour utiliser pleinement toutes les fonctionnalitées de WordPress. Pas de date définie pour cette tâche.
 * Faire le point: Le bouton "upload" généré par le shortcode
