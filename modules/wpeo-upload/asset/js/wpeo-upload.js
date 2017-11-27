@@ -86,8 +86,9 @@ window.eoxiaJS.upload.openPopup = function( event ) {
  */
 window.eoxiaJS.upload.openMediaFrame = function() {
 	window.eoxiaJS.upload.mediaFrame = new window.wp.media.view.MediaFrame.Post({
-		'library':{
-			'type': window.eoxiaJS.upload.currentButton.data( 'mime-type' )
+		multiple: false,
+		library: {
+			type: window.eoxiaJS.upload.currentButton.data( 'mime-type' )
 		}
 	}).open();
 	window.eoxiaJS.upload.mediaFrame.on( 'insert', function() { window.eoxiaJS.upload.selectedFile(); } );

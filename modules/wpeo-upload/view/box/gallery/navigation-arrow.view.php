@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-<?php if ( 'false' === $data['single'] ) : ?>
+<?php if ( 'false' === $data['single'] && 1 !== count( $list_id ) ) : ?>
 	<ul class="navigation">
 		<li class="navigation-prev"><a href="#" class="prev"><i class="dashicons dashicons-arrow-left-alt2"></i></a></li>
 		<li class="navigation-next"><a href="#" class="next"><i class="dashicons dashicons-arrow-right-alt2"></i></a></li>
