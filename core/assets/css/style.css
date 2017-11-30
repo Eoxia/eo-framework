@@ -5673,7 +5673,7 @@
 .wpeo-loader .loader-spin {
   position: absolute;
   border: 3px solid #a7a7a7;
-  border-top: 3px solid #0b0d31;
+  border-top: 3px solid #1d2285;
   -webkit-border-radius: 50%;
           border-radius: 50%;
   width: 20px;
@@ -5681,6 +5681,8 @@
   z-index: 99;
   left: 50%;
   top: 50%;
+  margin: 0 !important;
+  padding: 0 !important;
   -webkit-animation: loader-spin 1s ease-out infinite;
        -o-animation: loader-spin 1s ease-out infinite;
           animation: loader-spin 1s ease-out infinite; }
