@@ -979,23 +979,23 @@ if ( ! window.eoxiaJS.tooltip ) {
 
 		switch( jQuery( this ).data( 'direction' ) ) {
 			case 'left':
-				top = ( pos.top - ( el.height() / 2 ) + ( jQuery( this ).height() / 2 ) ) + 'px';
-				left = ( pos.left - el.width() - 10 ) + 'px';
+				top = ( pos.top - ( el.outerHeight() / 2 ) + ( jQuery( this ).outerHeight() / 2 ) ) + 'px';
+				left = ( pos.left - el.outerWidth() - 10 ) + 3 + 'px';
 				break;
 			case 'right':
-				top = ( pos.top - ( el.height() / 2 ) + ( jQuery( this ).height() / 2 ) ) + 'px';
-				left = pos.left + jQuery( this ).width() + 10 + 'px';
+				top = ( pos.top - ( el.outerHeight() / 2 ) + ( jQuery( this ).outerHeight() / 2 ) ) + 'px';
+				left = pos.left + jQuery( this ).outerWidth() + 8 + 'px';
 				break;
 			case 'bottom':
-				top = ( pos.top + jQuery( this ).height() + 10 ) + 'px';
+				top = ( pos.top + jQuery( this ).height() + 10 ) + 10 + 'px';
 				left = ( pos.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
 				break;
 			case 'top':
-				top = ( pos.top - jQuery( this ).height() ) + 'px';
+				top = ( pos.top - jQuery( this ).height() ) - 10 + 'px';
 				left = ( pos.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
 				break;
 			default:
-				top = ( pos.top - jQuery( this ).height() ) + 'px';
+				top = ( pos.top - jQuery( this ).height() ) - 10 + 'px';
 				left = ( pos.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
 				break;
 		}
