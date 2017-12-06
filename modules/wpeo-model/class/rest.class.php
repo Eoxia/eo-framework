@@ -57,7 +57,7 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		 * Défini et ajoute les routes dans l'api rest de WordPress
 		 *
 		 * @since 1.4.0
-		 * @version 1.5.1
+		 * @version 1.6.0
 		 */
 		public function register_routes() {
 			$element_namespace = new \ReflectionClass( get_called_class() );
@@ -73,7 +73,7 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 					'methods' 		=> \WP_REST_Server::READABLE,
 					'callback'	=> array( $this, 'get_from_parent' ),
 					'permission_callback' => function() {
-						if ( ! $this->check_cap( 'get' ) && ( ( '127.0.0.1' !== $_SERVER['REMOTE_ADDR'] ) && ( '::1' !== $_SERVER['REMOTE_ADDR'] ) ) ) {
+						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'get' ) ) {
 							return false;
 						}
 						return true;
@@ -83,7 +83,7 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 					'methods' 		=> \WP_REST_Server::CREATABLE,
 					'callback'	=> array( $this, 'create_from_parent' ),
 					'permission_callback' => function() {
-						if ( ! $this->check_cap( 'post' ) && ( ( '127.0.0.1' !== $_SERVER['REMOTE_ADDR'] ) && ( '::1' !== $_SERVER['REMOTE_ADDR'] ) ) ) {
+						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'post' ) ) {
 							return false;
 						}
 						return true;
@@ -96,7 +96,7 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 					'method' => \WP_REST_Server::READABLE,
 					'callback'	=> array( $this, 'get_from_parent' ),
 					'permission_callback' => function() {
-						if ( ! $this->check_cap( 'get' ) && ( ( '127.0.0.1' !== $_SERVER['REMOTE_ADDR'] ) && ( '::1' !== $_SERVER['REMOTE_ADDR'] ) ) ) {
+						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'get' ) ) {
 							return false;
 						}
 						return true;
@@ -106,7 +106,7 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 					'methods' 		=> \WP_REST_Server::CREATABLE,
 					'callback'	=> array( $this, 'create_from_parent' ),
 					'permission_callback' => function() {
-						if ( ! $this->check_cap( 'put' ) && ( ( '127.0.0.1' !== $_SERVER['REMOTE_ADDR'] ) && ( '::1' !== $_SERVER['REMOTE_ADDR'] ) ) ) {
+						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'put' ) ) {
 							return false;
 						}
 						return true;
