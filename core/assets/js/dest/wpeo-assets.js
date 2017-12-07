@@ -1065,6 +1065,10 @@ if ( ! window.eoxiaJS.tooltip ) {
 		jQuery( this )[0].tooltipElement = el;
 		jQuery( 'body' ).append( jQuery( this )[0].tooltipElement );
 
+		if ( jQuery( this ).data( 'color' ) ) {
+			el.addClass( 'tooltip-' + jQuery( this ).data( 'color' ) );
+		}
+
 		var top = 0;
 		var left = 0;
 
