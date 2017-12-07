@@ -32,14 +32,6 @@ jQuery(document).ready(function() {
 		setTimeoutClass( jQuery(this), 'wpeo-loader' );
 	});
 
-	jQuery('body').on('click','#modal-opener', function() {
-		jQuery( '.wpeo-modal' ).addClass( 'modal-active' );
-	});
-
-	jQuery('body').on('click','.modal-close', function() {
-		jQuery( '.wpeo-modal' ).removeClass( 'modal-active' );
-	});
-
 	jQuery('body').on('click','#notification-opener', function() {
 		jQuery( '.wpeo-notification' ).addClass( 'notification-active' );
 	});
