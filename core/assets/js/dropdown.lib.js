@@ -24,6 +24,8 @@ if ( ! window.eoxiaJS.dropdown  ) {
 	};
 
 	window.eoxiaJS.dropdown.open = function( event ) {
+		window.eoxiaJS.dropdown.close();
+
 		var triggeredElement = jQuery( this );
 
 		triggeredElement.closest( '.wpeo-dropdown' ).toggleClass( 'dropdown-active' );
