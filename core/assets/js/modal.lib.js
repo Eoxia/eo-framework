@@ -39,6 +39,16 @@ if ( ! window.eoxiaJS.modal  ) {
 	 * @type string
 	 */
 	window.eoxiaJS.modal.popupTemplate = wpeo_framework.modalView;
+	/**
+	 * Les boutons par défault de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
+	 * Voir le fichier /core/view/modal-buttons.view.php
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @type string
+	 */
+	window.eoxiaJS.modal.defaultButtons = wpeo_framework.modalDefautButtons;
 
 	window.eoxiaJS.modal.init = function() {
 		window.eoxiaJS.modal.event();
@@ -91,7 +101,12 @@ if ( ! window.eoxiaJS.modal  ) {
 				window.eoxiaJS.request.send( triggeredElement, data, function( element, response ) {
 					if ( response.data.view ) {
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
-						el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
+
+						if ( response.data.buttons_view ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
+						} else {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
+						}
 					}
 				} );
 			});

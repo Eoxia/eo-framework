@@ -43,8 +43,13 @@ if ( ! class_exists( '\eoxia\Core_Class' ) ) {
 			require( \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal.view.php' );
 			$view_modal = ob_get_clean();
 
+			ob_start();
+			require( \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal-buttons.view.php' );
+			$view_modal_buttons = ob_get_clean();
+
 			$data = array(
-				'modalView' => $view_modal,
+				'modalView'          => $view_modal,
+				'modalDefautButtons' => $view_modal_buttons,
 			);
 
 			return $data;
