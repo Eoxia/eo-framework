@@ -24,10 +24,6 @@ jQuery(document).ready(function() {
 		setTimeoutClass( jQuery(this), 'animate-on' );
 	});
 
-	jQuery('body').on('click','.wpeo-dropdown', function() {
-		jQuery(this).toggleClass('dropdown-active');
-	});
-
 	jQuery('body').on('click','#box-loader', function() {
 		setTimeoutClass( jQuery(this), 'wpeo-loader' );
 	});
