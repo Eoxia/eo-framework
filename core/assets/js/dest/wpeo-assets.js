@@ -388,6 +388,48 @@ if ( ! window.eoxiaJS.date ) {
 	};
 }
 
+/**
+ * Gestion du dropdown.
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+if ( ! window.eoxiaJS.dropdown  ) {
+	window.eoxiaJS.dropdown = {};
+
+	window.eoxiaJS.dropdown.init = function() {
+		window.eoxiaJS.dropdown.event();
+	};
+
+	window.eoxiaJS.dropdown.event = function() {
+		jQuery( document ).on( 'keyup', window.eoxiaJS.dropdown.keyup );
+		jQuery( document ).on( 'click', '.wpeo-dropdown .dropdown-toggle:not(.disabled)', window.eoxiaJS.dropdown.open );
+		jQuery( document ).on( 'click', 'body', window.eoxiaJS.dropdown.close );
+	};
+
+	window.eoxiaJS.dropdown.keyup = function( event ) {
+		if ( 27 === event.keyCode ) {
+			window.eoxiaJS.dropdown.close();
+		}
+	};
+
+	window.eoxiaJS.dropdown.open = function( event ) {
+		window.eoxiaJS.dropdown.close();
+
+		var triggeredElement = jQuery( this );
+
+		triggeredElement.closest( '.wpeo-dropdown' ).toggleClass( 'dropdown-active' );
+		event.stopPropagation();
+	};
+
+	window.eoxiaJS.dropdown.close = function( event ) {
+		jQuery( '.wpeo-dropdown.dropdown-active:not(.no-close)' ).each( function() {
+			var toggle = jQuery( this );
+			toggle.removeClass( 'dropdown-active' );
+		});
+	};
+}
+
 if ( ! window.eoxiaJS.form ) {
 	window.eoxiaJS.form = {};
 
@@ -498,9 +540,27 @@ if ( ! window.eoxiaJS.loader ) {
 /**
  * Gestion de la modal.
  *
- * La modal est créer dynamiquement en JS lors du clic sur le bouton ".wpeo-modal-event".
- * Le template créer dynamiquement est défini en DUR dans le code JS.
- * @todo: Voir pour faire plus propre. Peut être avoir une vrai vue pour le template de la popup ?
+ * La modal peut être ouverte par deux moyens:
+ * -Avec une requête AJAX.
+ * -En plaçant la vue directement dans le DOM.
+ *
+ * Dans tous les cas, il faut placer un élément HTML avec la classe ".wpeo-modal-event".
+ *
+ * Cette élement doit contenir différent attributs.
+ *
+ * Les attributs pour ouvrir la popup avec une requête AJAX:
+ * - data-action: Le nom de l'action WordPress.
+ * - data-title : Le titre de la popup.
+ * - data-class : Pour ajouter une classe dans le contenaire principale de la popup.
+ *
+ * Les attributs pour ouvrir la popup avec une vue implémentée directement dans le DOM:
+ * - data-parent: La classe de l'élement parent contenant la vue de la popup
+ * - data-target: La classe de la popup elle même.
+ *
+ * La modal généré en AJAX est ajouté dans la balise <body> temporairement. Une fois celle-ci fermée
+ * elle se détruit du DOM.
+ *
+ * La modal implémentée dans le DOM (donc non généré en AJAX) reste dans le DOM une fois fermée.
  *
  * @since 1.0.0
  * @version 1.0.0
@@ -509,7 +569,7 @@ if ( ! window.eoxiaJS.modal  ) {
 	window.eoxiaJS.modal = {};
 
 	/**
-	 * Le template de la modal.
+	 * La vue de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
 	 * Voir le fichier /core/view/modal.view.php
 	 *
 	 * @since 1.0.0
@@ -518,6 +578,16 @@ if ( ! window.eoxiaJS.modal  ) {
 	 * @type string
 	 */
 	window.eoxiaJS.modal.popupTemplate = wpeo_framework.modalView;
+	/**
+	 * Les boutons par défault de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
+	 * Voir le fichier /core/view/modal-buttons.view.php
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @type string
+	 */
+	window.eoxiaJS.modal.defaultButtons = wpeo_framework.modalDefautButtons;
 
 	window.eoxiaJS.modal.init = function() {
 		window.eoxiaJS.modal.event();
@@ -525,10 +595,16 @@ if ( ! window.eoxiaJS.modal  ) {
 
 	window.eoxiaJS.modal.event = function() {
 		jQuery( document ).on( 'keyup', window.eoxiaJS.modal.keyup );
-	  jQuery( document ).on( 'click', '.wpeo-modal-event', window.eoxiaJS.modal.open );
+		jQuery( document ).on( 'click', '.wpeo-modal-event', window.eoxiaJS.modal.open );
 		jQuery( document ).on( 'click', '.wpeo-modal .modal-container', window.eoxiaJS.modal.stopPropagation );
 		jQuery( document ).on( 'click', '.wpeo-modal .modal-close', window.eoxiaJS.modal.close );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.modal.close );
+	};
+
+	window.eoxiaJS.modal.keyup = function( event ) {
+		if ( 27 === event.keyCode ) {
+			jQuery( '.wpeo-modal.modal-active:not(.no-close) .modal-close:first' ).click();
+		}
 	};
 
 	window.eoxiaJS.modal.open = function( event ) {
@@ -536,27 +612,7 @@ if ( ! window.eoxiaJS.modal  ) {
 		var callbackData = {};
 		var key = undefined;
 
-		/** Méthode appelée avant l'action */
-		if ( triggeredElement.attr( 'dataCallback' ) ) {
-			// callbackData = window.eoxiaJS[element.attr( 'data-namespace' )][element.attr( 'data-module' )][element.attr( 'data-before-method' )]( element );
-		}
-
-		var el = jQuery( document.createElement( 'div' ) );
-		el[0].className = 'wpeo-modal modal-active';
-		el[0].innerHTML = window.eoxiaJS.modal.popupTemplate;
-		triggeredElement[0].modalElement = el;
-
-		if ( triggeredElement.attr( 'data-title' ) ) {
-			el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
-		}
-
-		if ( triggeredElement.attr( 'data-class' ) ) {
-			el[0].className += ' ' + triggeredElement.attr( 'data-class' );
-		}
-
-		jQuery( 'body' ).append( triggeredElement[0].modalElement );
-
-		// Si data-action existe, cette méthode lances une requête AJAX.
+		// Si data-action existe, ce script ouvre la popup en lançant une requête AJAX.
 		if ( triggeredElement.attr( 'data-action' ) ) {
 			triggeredElement.get_data( function( data ) {
 				for ( key in callbackData ) {
@@ -565,13 +621,45 @@ if ( ! window.eoxiaJS.modal  ) {
 					}
 				}
 
+				var el = jQuery( document.createElement( 'div' ) );
+				el[0].className = 'wpeo-modal modal-active';
+				el[0].innerHTML = window.eoxiaJS.modal.popupTemplate;
+				el[0].typeModal = 'ajax';
+				triggeredElement[0].modalElement = el;
+
+				if ( triggeredElement.attr( 'data-title' ) ) {
+					el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+				}
+
+				if ( triggeredElement.attr( 'data-class' ) ) {
+					el[0].className += ' ' + triggeredElement.attr( 'data-class' );
+				}
+
+				jQuery( 'body' ).append( triggeredElement[0].modalElement );
+
 				window.eoxiaJS.request.send( triggeredElement, data, function( element, response ) {
 					if ( response.data.view ) {
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
-						el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
+
+						if ( response.data.buttons_view ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
+						} else {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
+						}
 					}
 				} );
 			});
+		} else {
+			// Stop le script si un de ses deux attributs n'est pas déclaré.
+			if ( ! triggeredElement.attr( 'data-parent' ) || ! triggeredElement.attr( 'data-target' ) ) {
+				event.stopPropagation();
+				return;
+			}
+
+			var target = triggeredElement.closest( '.' + triggeredElement.attr( 'data-parent' ) ).find( '.' + triggeredElement.attr( 'data-target' ) );
+			target.addClass( 'modal-active' );
+			target[0].typeModal = 'default';
+			triggeredElement[0].modalElement = target;
 		}
 
 		event.stopPropagation();
@@ -585,9 +673,11 @@ if ( ! window.eoxiaJS.modal  ) {
 		jQuery( '.wpeo-modal.modal-active:not(.no-close)' ).each( function() {
 			var popup = jQuery( this );
 			popup.removeClass( 'modal-active' );
-			setTimeout( function() {
-				popup.remove();
-			}, 200 );
+			if ( 'default' !== popup[0].typeModal ) {
+				setTimeout( function() {
+					popup.remove();
+				}, 200 );
+			}
 		} );
 	};
 }
@@ -970,33 +1060,38 @@ if ( ! window.eoxiaJS.tooltip ) {
 	window.eoxiaJS.tooltip.display = function( event ) {
 		var direction = ( jQuery( this ).data( 'direction' ) ) ? jQuery( this ).data( 'direction' ) : 'top';
 		var el = jQuery( '<span class="wpeo-tooltip tooltip-' + direction + '">' + jQuery( this ).attr( 'aria-label' ) + '</span>' );
-		var pos = jQuery( this ).offset();
+		var pos = jQuery( this ).position();
+		var offset = jQuery( this ).offset();
 		jQuery( this )[0].tooltipElement = el;
 		jQuery( 'body' ).append( jQuery( this )[0].tooltipElement );
+
+		if ( jQuery( this ).data( 'color' ) ) {
+			el.addClass( 'tooltip-' + jQuery( this ).data( 'color' ) );
+		}
 
 		var top = 0;
 		var left = 0;
 
 		switch( jQuery( this ).data( 'direction' ) ) {
 			case 'left':
-				top = ( pos.top - ( el.outerHeight() / 2 ) + ( jQuery( this ).outerHeight() / 2 ) ) + 'px';
-				left = ( pos.left - el.outerWidth() - 10 ) + 3 + 'px';
+				top = ( offset.top - ( el.outerHeight() / 2 ) + ( jQuery( this ).outerHeight() / 2 ) ) + 'px';
+				left = ( offset.left - el.outerWidth() - 10 ) + 3 + 'px';
 				break;
 			case 'right':
-				top = ( pos.top - ( el.outerHeight() / 2 ) + ( jQuery( this ).outerHeight() / 2 ) ) + 'px';
-				left = pos.left + jQuery( this ).outerWidth() + 8 + 'px';
+				top = ( offset.top - ( el.outerHeight() / 2 ) + ( jQuery( this ).outerHeight() / 2 ) ) + 'px';
+				left = offset.left + jQuery( this ).outerWidth() + 8 + 'px';
 				break;
 			case 'bottom':
-				top = ( pos.top + jQuery( this ).height() + 10 ) + 10 + 'px';
-				left = ( pos.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
+				top = ( offset.top + jQuery( this ).height() + 10 ) + 10 + 'px';
+				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
 				break;
 			case 'top':
-				top = ( pos.top - jQuery( this ).height() ) - 10 + 'px';
-				left = ( pos.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
+				top = offset.top - el.outerHeight() - 4  + 'px';
+				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
 				break;
 			default:
-				top = ( pos.top - jQuery( this ).height() ) - 10 + 'px';
-				left = ( pos.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
+				top = offset.top - el.outerHeight() - 4  + 'px';
+				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
 				break;
 		}
 
