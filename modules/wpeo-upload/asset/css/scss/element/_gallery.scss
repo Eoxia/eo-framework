@@ -21,8 +21,9 @@
 		margin-left: 6px;
 	}
 	.modal-content {
-		@include flexbox();
+		display: flex;
 		flex-direction: column;
+		flex: 0 1 auto;
 		position: relative;
 		.image-list {
 			width: 80%;
