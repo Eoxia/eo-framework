@@ -5,48 +5,6 @@
 
 	version: 1.2.0
 */
-.wpeo-wrap html, .wpeo-wrap body, .wpeo-wrap div, .wpeo-wrap applet, .wpeo-wrap object, .wpeo-wrap iframe,
-.wpeo-wrap h1, .wpeo-wrap h2, .wpeo-wrap h3, .wpeo-wrap h4, .wpeo-wrap h5, .wpeo-wrap h6, .wpeo-wrap p, .wpeo-wrap blockquote, .wpeo-wrap pre,
-.wpeo-wrap a, .wpeo-wrap abbr, .wpeo-wrap acronym, .wpeo-wrap address, .wpeo-wrap big, .wpeo-wrap cite, .wpeo-wrap code,
-.wpeo-wrap del, .wpeo-wrap dfn, .wpeo-wrap em, .wpeo-wrap img, .wpeo-wrap ins, .wpeo-wrap kbd, .wpeo-wrap q, .wpeo-wrap s, .wpeo-wrap samp,
-.wpeo-wrap small, .wpeo-wrap strike, .wpeo-wrap strong, .wpeo-wrap sub, .wpeo-wrap sup, .wpeo-wrap tt, .wpeo-wrap var,
-.wpeo-wrap b, .wpeo-wrap u, .wpeo-wrap center,
-.wpeo-wrap dl, .wpeo-wrap dt, .wpeo-wrap dd, .wpeo-wrap ol, .wpeo-wrap ul, .wpeo-wrap li,
-.wpeo-wrap fieldset, .wpeo-wrap form, .wpeo-wrap label, .wpeo-wrap legend,
-.wpeo-wrap table, .wpeo-wrap caption, .wpeo-wrap tbody, .wpeo-wrap tfoot, .wpeo-wrap thead, .wpeo-wrap tr, .wpeo-wrap th, .wpeo-wrap td,
-.wpeo-wrap article, .wpeo-wrap aside, .wpeo-wrap canvas, .wpeo-wrap details, .wpeo-wrap embed,
-.wpeo-wrap figure, .wpeo-wrap figcaption, .wpeo-wrap footer, .wpeo-wrap header, .wpeo-wrap hgroup,
-.wpeo-wrap menu, .wpeo-wrap nav, .wpeo-wrap output, .wpeo-wrap ruby, .wpeo-wrap section, .wpeo-wrap summary,
-.wpeo-wrap time, .wpeo-wrap mark, .wpeo-wrap audio, .wpeo-wrap video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline; }
-
-.wpeo-wrap article, .wpeo-wrap aside, .wpeo-wrap details, .wpeo-wrap figcaption, .wpeo-wrap figure,
-.wpeo-wrap footer, .wpeo-wrap header, .wpeo-wrap hgroup, .wpeo-wrap menu, .wpeo-wrap nav, .wpeo-wrap section {
-  display: block; }
-
-.wpeo-wrap body {
-  line-height: 1; }
-
-.wpeo-wrap ol, .wpeo-wrap ul {
-  list-style: none; }
-
-.wpeo-wrap blockquote, .wpeo-wrap q {
-  quotes: none; }
-
-.wpeo-wrap blockquote:before, .wpeo-wrap blockquote:after,
-.wpeo-wrap q:before, .wpeo-wrap q:after {
-  content: '';
-  content: none; }
-
-.wpeo-wrap table {
-  border-collapse: collapse;
-  border-spacing: 0; }
-
 @font-face {
   font-family: 'FontAwesome';
   src: url("font/fontawesome-webfont.eot?v=4.7.0");
