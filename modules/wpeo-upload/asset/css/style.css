@@ -2585,21 +2585,18 @@
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
+  -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-flow: row wrap;
-     -moz-box-orient: horizontal;
+  -webkit-flex-direction: column;
+     -moz-box-orient: vertical;
      -moz-box-direction: normal;
-      -ms-flex-flow: row wrap;
-          flex-flow: row wrap;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-flex: 0;
   -webkit-flex: 0 1 auto;
      -moz-box-flex: 0;
       -ms-flex: 0 1 auto;
           flex: 0 1 auto;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
   position: relative; }
 
 .wpeo-gallery .modal-content .image-list {
