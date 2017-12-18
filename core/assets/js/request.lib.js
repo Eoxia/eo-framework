@@ -34,6 +34,22 @@ if ( ! window.eoxiaJS.request ) {
 						}
 					}
 				}, 1000 );
+			} else {
+				if ( cb ) {
+					cb( element, response );
+				} else {
+					if ( response && response.success ) {
+						if ( response.data.namespace && response.data.module && response.data.callback_success ) {
+							window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_success]( element, response );
+						} else if ( response.data.module && response.data.callback_success ) {
+							window.eoxiaJS[response.data.module][response.data.callback_success]( element, response );
+						}
+					} else {
+						if ( response.data.namespace && response.data.module && response.data.callback_error ) {
+							window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_error]( element, response );
+						}
+					}
+				}
 			}
 		}, 'json').fail( function() {
 			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
