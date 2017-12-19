@@ -700,6 +700,7 @@ if ( ! window.eoxiaJS.modal  ) {
 						} else {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
 						}
+						window.eoxiaJS.refresh();
 					}
 				} );
 			});
