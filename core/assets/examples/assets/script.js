@@ -36,6 +36,14 @@ jQuery(document).ready(function() {
 		jQuery( '.wpeo-notification' ).removeClass( 'notification-active' );
 	});
 
+	/* Tab temporaire en attendant le framework */
+	jQuery('body').on('click','.tab-element:not(.wpeo-dropdown)', function() {
+		jQuery( this ).closest( '.wpeo-tab' ).find( '.tab-content' ).removeClass( 'tab-active' );
+		jQuery( this ).closest( '.wpeo-tab' ).find( '.tab-element' ).removeClass( 'tab-active' );
+		jQuery( this ).addClass( 'tab-active' );
+		jQuery( this ).closest( '.wpeo-tab' ).find( '#' + jQuery(this).data('id') ).addClass( 'tab-active' );
+	});
+
 });
 
 function setTimeoutClass( element, className ) {

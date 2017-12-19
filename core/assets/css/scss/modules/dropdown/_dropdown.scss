@@ -21,6 +21,13 @@
 			content: '\f077';
 		}
 	}
+	.dropdown-toggle {
+		display: inline-block;
+
+		span ~ *[class*="icon"]{
+			margin-left: 10px;
+		}
+	}
 	.dropdown-content {
 		opacity: 0;
 		pointer-events: none;
