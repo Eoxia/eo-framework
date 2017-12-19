@@ -2347,11 +2347,6 @@
   overflow: visible;
   clip: auto; }
 
-.wpeo-wrap * {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box; }
-
 .wpeo-wrap html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -2528,12 +2523,10 @@
 .wpeo-wrap th {
   padding: 0; }
 
-.wpeo-wrap *,
-.wpeo-wrap *:before,
-.wpeo-wrap *:after {
-  -webkit-box-sizing: inherit;
-     -moz-box-sizing: inherit;
-          box-sizing: inherit; }
+.wpeo-wrap * {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box; }
 
 .wpeo-grid {
   display: -webkit-box;
