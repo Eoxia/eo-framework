@@ -125,7 +125,7 @@ if ( ! window.eoxiaJS.action ) {
 			if ( jQuery( this ).attr( 'data-confirm' ) ) {
 				if ( window.confirm( jQuery( this ).attr( 'data-confirm' ) ) ) {
 					element.get_data( function( data ) {
-						window.eoxiaJS.loader.display( loaderElement );
+						window.eoxiaJS.loader.display( element );
 						window.eoxiaJS.request.send( element, data );
 					} );
 				}

@@ -54,7 +54,7 @@ if ( ! class_exists( '\eoxia\LOG_Util' ) ) {
 				error_log( 'Les logs sont enregistrés dans wp-content/uploads/logs/__PLUGIN_NAME__.' );
 				self::log_wp_content( $text, $file_name, $level, $bt );
 			} else {
-				if ( false === ini_get( 'error_log' ) ) {
+				if ( false === ini_get( 'error_log' ) || '' == ini_get( 'error_log' ) ) {
 					error_log( 'Les logs sont enregistrés dans wp-content/uploads/logs/__PLUGIN_NAME__.' );
 					self::log_wp_content( $text, $file_name, $level, $bt );
 				} else {

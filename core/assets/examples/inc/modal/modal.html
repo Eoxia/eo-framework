@@ -66,3 +66,33 @@
 		</div>
 	</div>
 </div>
+
+<p class="entete">Bouton déclenchant l'ouverture d'une modal</p>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="wpeo-button button-main wpeo-modal-event"
+	data-parent="parent-container"
+	data-target="wpeo-modal">
+	<i class="button-icon fa fa-hand-pointer-o"></i> <span>Cliquer pour ouvrir la modal</span>
+</div>
+</script></code></pre>
+
+<p class="entete">Bouton déclenchant l'ouverture d'une modal avec une requête AJAX</p>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="wpeo-button button-main wpeo-modal-event"
+	data-action="load_modal_content">
+	<i class="button-icon fa fa-hand-pointer-o"></i> <span>Cliquer pour ouvrir la modal</span>
+</div>
+</script></code></pre>
+
+<p class="entete">Les attributs du bouton</p>
+<ul>
+	<li><strong>data-action</strong>: permet de lancer une action en AJAX</li>
+	<li><strong>data-title</strong>: permet de définir le titre de la modal</li>
+	<li><strong>data-parent</strong>: permet de définir le contenaire parent, cet attribut est <strong>obligatoire</strong> pour utiliser <strong>data-target</strong></li>
+	<li><strong>data-target</strong>: permet de cibler la modal définie dans la vue, cet attribute doit être utiliser avec <strong>data-parent</strong></li>
+</ul>
+
+<p class="entete">Envoyer des données en AJAX</p>
+<p>Tous les <strong>data-*</strong> dans le bouton sont envoyés dans la requête AJAX déclenché par le bouton</p>
