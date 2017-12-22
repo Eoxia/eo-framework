@@ -22,7 +22,7 @@ if ( ! window.eoxiaJS.scriptsLoaded ) {
 
 				for ( slug in window.eoxiaJS[key] ) {
 
-					if ( window.eoxiaJS[key][slug] && window.eoxiaJS[key][slug].init ) {
+					if ( window.eoxiaJS[key] && window.eoxiaJS[key][slug] && window.eoxiaJS[key][slug].init ) {
 						window.eoxiaJS[key][slug].init();
 					}
 
@@ -47,7 +47,7 @@ if ( ! window.eoxiaJS.scriptsLoaded ) {
 
 			for ( slug in window.eoxiaJS[key] ) {
 
-				if ( window.eoxiaJS[key][slug].refresh ) {
+				if ( window.eoxiaJS[key] && window.eoxiaJS[key][slug] && window.eoxiaJS[key][slug].refresh ) {
 					window.eoxiaJS[key][slug].refresh();
 				}
 			}
@@ -184,7 +184,7 @@ if ( ! window.eoxiaJS.action ) {
 			if ( jQuery( this ).attr( 'data-confirm' ) ) {
 				if ( window.confirm( jQuery( this ).attr( 'data-confirm' ) ) ) {
 					element.get_data( function( data ) {
-						window.eoxiaJS.loader.display( loaderElement );
+						window.eoxiaJS.loader.display( element );
 						window.eoxiaJS.request.send( element, data );
 					} );
 				}
@@ -632,6 +632,7 @@ if ( ! window.eoxiaJS.modal  ) {
 	 * @type string
 	 */
 	window.eoxiaJS.modal.popupTemplate = wpeo_framework.modalView;
+
 	/**
 	 * Les boutons par défault de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
 	 * Voir le fichier /core/view/modal-buttons.view.php
@@ -641,7 +642,18 @@ if ( ! window.eoxiaJS.modal  ) {
 	 *
 	 * @type string
 	 */
-	window.eoxiaJS.modal.defaultButtons = wpeo_framework.modalDefautButtons;
+	window.eoxiaJS.modal.defaultButtons = wpeo_framework.modalDefaultButtons;
+
+	/**
+	 * Le titre par défault de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
+	 * Voir le fichier /core/view/modal-title.view.php
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @type string
+	 */
+	window.eoxiaJS.modal.defaultTitle = wpeo_framework.modalDefaultTitle;
 
 	window.eoxiaJS.modal.init = function() {
 		window.eoxiaJS.modal.event();
@@ -668,6 +680,8 @@ if ( ! window.eoxiaJS.modal  ) {
 
 		// Si data-action existe, ce script ouvre la popup en lançant une requête AJAX.
 		if ( triggeredElement.attr( 'data-action' ) ) {
+			window.eoxiaJS.loader.display( triggeredElement );
+
 			triggeredElement.get_data( function( data ) {
 				for ( key in callbackData ) {
 					if ( ! data[key] ) {
@@ -675,24 +689,26 @@ if ( ! window.eoxiaJS.modal  ) {
 					}
 				}
 
-				var el = jQuery( document.createElement( 'div' ) );
-				el[0].className = 'wpeo-modal modal-active';
-				el[0].innerHTML = window.eoxiaJS.modal.popupTemplate;
-				el[0].typeModal = 'ajax';
-				triggeredElement[0].modalElement = el;
-
-				if ( triggeredElement.attr( 'data-title' ) ) {
-					el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
-				}
-
-				if ( triggeredElement.attr( 'data-class' ) ) {
-					el[0].className += ' ' + triggeredElement.attr( 'data-class' );
-				}
-
-				jQuery( 'body' ).append( triggeredElement[0].modalElement );
-
 				window.eoxiaJS.request.send( triggeredElement, data, function( element, response ) {
+					window.eoxiaJS.loader.remove( triggeredElement );
+
 					if ( response.data.view ) {
+						var el = jQuery( document.createElement( 'div' ) );
+						el[0].className = 'wpeo-modal modal-active';
+						el[0].innerHTML = window.eoxiaJS.modal.popupTemplate;
+						el[0].typeModal = 'ajax';
+						triggeredElement[0].modalElement = el;
+
+						if ( triggeredElement.attr( 'data-title' ) ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+						}
+
+						if ( triggeredElement.attr( 'data-class' ) ) {
+							el[0].className += ' ' + triggeredElement.attr( 'data-class' );
+						}
+
+						jQuery( 'body' ).append( triggeredElement[0].modalElement );
+
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
 
 						if ( response.data.buttons_view ) {
@@ -700,7 +716,14 @@ if ( ! window.eoxiaJS.modal  ) {
 						} else {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
 						}
-						window.eoxiaJS.refresh();
+
+						if ( ! triggeredElement.attr( 'data-title' ) ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', window.eoxiaJS.modal.defaultTitle );
+						}
+
+						if ( window.eoxiaJS.refresh ) {
+							window.eoxiaJS.refresh();
+						}
 					}
 				} );
 			});
@@ -1083,6 +1106,13 @@ if ( ! window.eoxiaJS.request ) {
 
 }
 
+/**
+ * Gestion des onglets.
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 if ( ! window.eoxiaJS.tab ) {
 	window.eoxiaJS.tab = {};
 
@@ -1091,7 +1121,7 @@ if ( ! window.eoxiaJS.tab ) {
 	};
 
 	window.eoxiaJS.tab.event = function() {
-	  jQuery( document ).on( 'click', '.tab-element', window.eoxiaJS.tab.load );
+	  jQuery( document ).on( 'click', '.wpeo-tab .tab-element', window.eoxiaJS.tab.load );
 	};
 
 	window.eoxiaJS.tab.load = function( event ) {
@@ -1101,28 +1131,29 @@ if ( ! window.eoxiaJS.tab ) {
 	  event.preventDefault();
 		event.stopPropagation();
 
-		tabTriggered.closest( '.content' ).removeClass( 'active' );
+		tabTriggered.closest( '.wpeo-tab' ).find( '.tab-element.tab-active' ).removeClass( 'tab-active' );
+		tabTriggered.addClass( 'tab-active' );
 
-		if ( ! tabTriggered.hasClass( 'no-tab' ) && tabTriggered.data( 'action' ) ) {
-			jQuery( '.tab .tab-element.active' ).removeClass( 'active' );
-			tabTriggered.addClass( 'active' );
-
+		if ( ! tabTriggered.attr( 'data-action' ) ) {
+			tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
+			tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content[id="' + tabTriggered.attr( 'data-target' ) + '"]' ).addClass( 'tab-active' );
+		} else {
 			data = {
-				action: 'load_tab_content',
-				_wpnonce: tabTriggered.data( 'nonce' ),
-				tab_to_display: tabTriggered.data( 'action' ),
-				title: tabTriggered.data( 'title' ),
-				element_id: tabTriggered.data( 'id' )
+				action: tabTriggered.attr( 'data-action' ),
+				_wpnonce: tabTriggered.attr( 'data-nonce' ),
+				tab_to_display: tabTriggered.attr( 'data-action' ),
+				title: tabTriggered.attr( 'data-title' ),
+				element_id: tabTriggered.attr( 'data-id' )
 		  };
 
-			jQuery( '.' + tabTriggered.data( 'target' ) ).addClass( 'loading' );
+			window.eoxiaJS.loader.display( tabTriggered );
 
 			jQuery.post( window.ajaxurl, data, function( response ) {
-				jQuery( '.' + tabTriggered.data( 'target' ) ).replaceWith( response.data.template );
-
-				window.eoxiaJS.tab.callTabChanged();
+				window.eoxiaJS.loader.remove( tabTriggered );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content[id="' + tabTriggered.attr( 'data-target' ) + '"]' ).addClass( 'tab-active' );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content[id="' + tabTriggered.attr( 'data-target' ) + '"]' ).html( response.data.view );
 			} );
-
 		}
 
 	};
