@@ -146,7 +146,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			$array_comment = array();
 
 			if ( ! empty( $this->comment_type ) ) {
-				$args['type'] = $this->comment_type;
 				$args['status'] = '-34070';
 			}
 
@@ -187,9 +186,11 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 					$list_comment[ $key ] = Model_Util::exec_callback( $list_comment[ $key ], $this->after_get_function );
 				}
 			} else {
-				$model_name = $this->model_name;
-				$list_comment[0] = new $model_name( array() );
-				$list_comment[0] = Model_Util::exec_callback( $list_comment[0], $this->after_get_function );
+				if ( ! empty( $args['schema'] ) ) {
+					$model_name = $this->model_name;
+					$list_comment[0] = new $model_name( array() );
+					$list_comment[0] = Model_Util::exec_callback( $list_comment[0], $this->after_get_function );
+				}
 			} // End if().
 
 			if ( true === $single && 1 === count( $list_comment ) ) {
