@@ -190,8 +190,12 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 		public function fill_date( $current_time ) {
 			$data = array();
 
+			$locale = get_locale();
+			$date = new \DateTime( $current_time );
+
 			$data['date_input']['date'] = $current_time;
 			$data['date_input']['iso8601'] = mysql2date( 'Y-m-d\TH:i:s\Z', $current_time );
+
 			$data['date_input']['fr_FR']['date'] = mysql2date( 'd/m/Y', $current_time );
 			$data['date_input']['fr_FR']['date_time'] = mysql2date( 'd/m/Y H:i:s', $current_time );
 			$data['date_input']['fr_FR']['time'] = mysql2date( 'H:i:s', $current_time );
@@ -200,10 +204,23 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 			$data['date_input']['en_US']['date_time'] = mysql2date( 'm-d-y H:i:s', $current_time );
 			$data['date_input']['en_US']['time'] = mysql2date( 'H:i:s', $current_time );
 
-			$format = '\L\e d F Y à H\hi';
-			$data['date_human_readable'] = mysql2date( $format, $current_time );
+			$data['mysql'] = $current_time;
+			$data['iso8601'] = mysql_to_rfc3339( $current_time );
 
-			return $data;
+			$formatter = new \IntlDateFormatter( $locale, \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE );
+			$data['date'] = $formatter->format( $date );
+
+			$formatter = new \IntlDateFormatter( $locale, \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT );
+			$data['date_time'] = $formatter->format( $date );
+
+			$formatter = new \IntlDateFormatter( $locale, \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT );
+			$data['time'] = $formatter->format( $date );
+
+			$formatter = new \IntlDateFormatter( $locale, \IntlDateFormatter::FULL, \IntlDateFormatter::SHORT );
+			$data['date_human_readable'] = \ucwords( $formatter->format( $date ) );
+
+			return apply_filters( 'eoframework_fill_date', $data );
 		}
+
 	}
 } // End if().
