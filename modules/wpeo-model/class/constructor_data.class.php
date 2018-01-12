@@ -55,7 +55,11 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 			}
 
 			foreach ( $model as $field_name => $field_def ) {
-				$current_object->$field_name = $this->set_default_data( $field_name, $field_def );
+				if ( is_object( $current_object ) ) {
+					$current_object->$field_name = $this->set_default_data( $field_name, $field_def );
+				} else {
+					$current_object[ $field_name ] = $this->set_default_data( $field_name, $field_def );
+				}
 
 				// Est-ce qu'il existe des enfants ?
 				if ( isset( $field_def['field'] ) && isset( $data[ $field_def['field'] ] ) && ! isset( $field_def['child'] ) ) {
@@ -72,7 +76,11 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 
 				// $field_name existe est n'a pas d'enfant.
 				if ( isset( $data[ $field_name ] ) && isset( $field_def ) && ! isset( $field_def['child'] ) ) {
-					$current_object->$field_name = $data[ $field_name ];
+					if ( is_object( $current_object ) ) {
+						$current_object->$field_name = $data[ $field_name ];
+					} else {
+						$current_object[ $field_name ] = $data[ $field_name ];
+					}
 				}
 
 				$current_object = $this->handle_type( $current_object, $field_def, $field_name );
@@ -134,24 +142,31 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 		}
 
 		public function handle_type( $current_object, $field_def, $field_name ) {
+			$data = is_object( $current_object ) ? $current_object->$field_name : $current_object[ $field_name ];
 			if ( ! empty( $field_def['type'] ) ) {
 				if ( 'wpeo_date' !== $field_def['type'] ) {
-					if ( ! is_array( $current_object->$field_name ) && ! is_object( $current_object->$field_name ) && 'float' === $field_def['type'] ) {
-						$current_object->$field_name = str_replace( ',', '.', $current_object->$field_name );
+					if ( ! is_array( $data ) && ! is_object( $data ) && 'float' === $field_def['type'] ) {
+						$data = str_replace( ',', '.', $data );
 					}
-					settype( $current_object->$field_name, $field_def['type'] );
+					settype( $data, $field_def['type'] );
 
 					if ( ! empty( $field_def['array_type'] ) ) {
-						if ( ! empty( $current_object->$field_name ) ) {
-							foreach ( $current_object->$field_name as &$element ) {
+						if ( ! empty( $data ) ) {
+							foreach ( $data as &$element ) {
 								settype( $element, $field_def['array_type'] );
 							}
 						}
 					}
 				} else {
 					$current_time = ! empty( $current_object->{$field_name}['date_input'] ) && ! empty( $current_object->{$field_name}['date_input']['date'] ) ? $current_object->{$field_name}['date_input']['date'] : $current_object->$field_name;
-					$current_object->$field_name = $this->fill_date( $current_time );
+					$data = $this->fill_date( $current_time );
 				}
+			}
+
+			if ( is_object( $current_object ) ) {
+				$current_object->$field_name = $data;
+			} else {
+				$current_object[ $field_name ] = $data;
 			}
 
 			return $current_object;

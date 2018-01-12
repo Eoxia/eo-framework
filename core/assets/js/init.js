@@ -22,7 +22,7 @@ if ( ! window.eoxiaJS.scriptsLoaded ) {
 
 				for ( slug in window.eoxiaJS[key] ) {
 
-					if ( window.eoxiaJS[key][slug].init ) {
+					if ( window.eoxiaJS[key] && window.eoxiaJS[key][slug] && window.eoxiaJS[key][slug].init ) {
 						window.eoxiaJS[key][slug].init();
 					}
 
@@ -47,7 +47,7 @@ if ( ! window.eoxiaJS.scriptsLoaded ) {
 
 			for ( slug in window.eoxiaJS[key] ) {
 
-				if ( window.eoxiaJS[key][slug].refresh ) {
+				if ( window.eoxiaJS[key] && window.eoxiaJS[key][slug] && window.eoxiaJS[key][slug].refresh ) {
 					window.eoxiaJS[key][slug].refresh();
 				}
 			}

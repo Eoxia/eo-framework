@@ -39,6 +39,7 @@ if ( ! window.eoxiaJS.modal  ) {
 	 * @type string
 	 */
 	window.eoxiaJS.modal.popupTemplate = wpeo_framework.modalView;
+
 	/**
 	 * Les boutons par défault de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
 	 * Voir le fichier /core/view/modal-buttons.view.php
@@ -48,7 +49,18 @@ if ( ! window.eoxiaJS.modal  ) {
 	 *
 	 * @type string
 	 */
-	window.eoxiaJS.modal.defaultButtons = wpeo_framework.modalDefautButtons;
+	window.eoxiaJS.modal.defaultButtons = wpeo_framework.modalDefaultButtons;
+
+	/**
+	 * Le titre par défault de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
+	 * Voir le fichier /core/view/modal-title.view.php
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @type string
+	 */
+	window.eoxiaJS.modal.defaultTitle = wpeo_framework.modalDefaultTitle;
 
 	window.eoxiaJS.modal.init = function() {
 		window.eoxiaJS.modal.event();
@@ -75,6 +87,8 @@ if ( ! window.eoxiaJS.modal  ) {
 
 		// Si data-action existe, ce script ouvre la popup en lançant une requête AJAX.
 		if ( triggeredElement.attr( 'data-action' ) ) {
+			window.eoxiaJS.loader.display( triggeredElement );
+
 			triggeredElement.get_data( function( data ) {
 				for ( key in callbackData ) {
 					if ( ! data[key] ) {
@@ -82,30 +96,40 @@ if ( ! window.eoxiaJS.modal  ) {
 					}
 				}
 
-				var el = jQuery( document.createElement( 'div' ) );
-				el[0].className = 'wpeo-modal modal-active';
-				el[0].innerHTML = window.eoxiaJS.modal.popupTemplate;
-				el[0].typeModal = 'ajax';
-				triggeredElement[0].modalElement = el;
-
-				if ( triggeredElement.attr( 'data-title' ) ) {
-					el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
-				}
-
-				if ( triggeredElement.attr( 'data-class' ) ) {
-					el[0].className += ' ' + triggeredElement.attr( 'data-class' );
-				}
-
-				jQuery( 'body' ).append( triggeredElement[0].modalElement );
-
 				window.eoxiaJS.request.send( triggeredElement, data, function( element, response ) {
+					window.eoxiaJS.loader.remove( triggeredElement );
+
 					if ( response.data.view ) {
+						var el = jQuery( document.createElement( 'div' ) );
+						el[0].className = 'wpeo-modal modal-active';
+						el[0].innerHTML = window.eoxiaJS.modal.popupTemplate;
+						el[0].typeModal = 'ajax';
+						triggeredElement[0].modalElement = el;
+
+						if ( triggeredElement.attr( 'data-title' ) ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+						}
+
+						if ( triggeredElement.attr( 'data-class' ) ) {
+							el[0].className += ' ' + triggeredElement.attr( 'data-class' );
+						}
+
+						jQuery( 'body' ).append( triggeredElement[0].modalElement );
+
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
 
 						if ( response.data.buttons_view ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
 						} else {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
+						}
+
+						if ( ! triggeredElement.attr( 'data-title' ) ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', window.eoxiaJS.modal.defaultTitle );
+						}
+
+						if ( window.eoxiaJS.refresh ) {
+							window.eoxiaJS.refresh();
 						}
 					}
 				} );

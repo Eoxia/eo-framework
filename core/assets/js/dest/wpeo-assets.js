@@ -22,7 +22,7 @@ if ( ! window.eoxiaJS.scriptsLoaded ) {
 
 				for ( slug in window.eoxiaJS[key] ) {
 
-					if ( window.eoxiaJS[key][slug].init ) {
+					if ( window.eoxiaJS[key] && window.eoxiaJS[key][slug] && window.eoxiaJS[key][slug].init ) {
 						window.eoxiaJS[key][slug].init();
 					}
 
@@ -47,7 +47,7 @@ if ( ! window.eoxiaJS.scriptsLoaded ) {
 
 			for ( slug in window.eoxiaJS[key] ) {
 
-				if ( window.eoxiaJS[key][slug].refresh ) {
+				if ( window.eoxiaJS[key] && window.eoxiaJS[key][slug] && window.eoxiaJS[key][slug].refresh ) {
 					window.eoxiaJS[key][slug].refresh();
 				}
 			}
@@ -58,19 +58,23 @@ if ( ! window.eoxiaJS.scriptsLoaded ) {
 }
 
 /**
- * Action for make request AJAX.
+ * Gestion des actions XHR principaux
  *
- * @since 1.0.0-easy
- * @version 1.1.0-easy
- * @todo Replace the three actions to one.
+ * -action-input:     Déclenches une requête XHR avec les balises inputs contenu dans le contenaire parent.
+ * -action-attribute: Déclenches une requête XHR avec les attributs de l'élément déclencheur.
+ * -action-delete:    Déclenches une requête XHR avec les attributs de l'élément déclencheur si l'utilisateur confirme la popin "confirm" du navigateur.
+ *
+ * @since 1.0.0
+ * @version 1.0.0
  */
 
 if ( ! window.eoxiaJS.action ) {
 	/**
 	 * Declare the object action.
 	 *
-	 * @since 1.0.0-easy
-	 * @version 1.0.0-easy
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
 	 * @type {Object}
 	 */
 	window.eoxiaJS.action = {};
@@ -78,8 +82,9 @@ if ( ! window.eoxiaJS.action ) {
 	/**
 	 * This method call the event method
 	 *
-	 * @since 1.0.0-easy
-	 * @version 1.0.0-easy
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
 	 * @return {void}
 	 */
 	window.eoxiaJS.action.init = function() {
@@ -89,8 +94,9 @@ if ( ! window.eoxiaJS.action ) {
 	/**
 	 * This method initialize the click event on three classes.
 	 *
-	 * @since 1.0.0-easy
-	 * @version 1.0.0-easy
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
 	 * @return {void}
 	 */
 	window.eoxiaJS.action.event = function() {
@@ -102,35 +108,34 @@ if ( ! window.eoxiaJS.action ) {
 	/**
 	 * Make a request with input value founded inside the parent of the HTML element clicked.
 	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param  {MouseEvent} event Properties of element triggered by the MouseEvent.
-	 * @since 1.0.0-easy
-	 * @version 1.0.0-easy
+	 *
 	 * @return {void}
 	 */
 	window.eoxiaJS.action.execInput = function( event ) {
-		var element = jQuery( this ), parentElement = element, loaderElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
+		var element = jQuery( this ), parentElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
 		event.preventDefault();
-
-		if ( element.attr( 'data-loader' ) ) {
-			loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
-		}
 
 		if ( element.attr( 'data-parent' ) ) {
 			parentElement = element.closest( '.' + element.attr( 'data-parent' ) );
 		}
 
 		/** Méthode appelée avant l'action */
-		if ( element.attr( 'data-namespace' ) && element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
+		if ( element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
 			doAction = false;
 			doAction = window.eoxiaJS[element.attr( 'data-namespace' )][element.attr( 'data-module' )][element.attr( 'data-before-method' )]( element );
 		}
 
-		if ( element.hasClass( '.grey' ) ) {
-			doAction = false;
+		if ( ! doAction ) {
+			doAction = window.eoxiaJS.action.checkBeforeCB(element);
 		}
 
 		if ( doAction ) {
-			window.eoxiaJS.loader.display( loaderElement );
+			window.eoxiaJS.loader.display( element );
+
 			listInput = window.eoxiaJS.arrayForm.getInput( parentElement );
 			for ( i = 0; i < listInput.length; i++ ) {
 				if ( listInput[i].name && -1 === inputAlreadyIn.indexOf( listInput[i].name ) ) {
@@ -152,21 +157,18 @@ if ( ! window.eoxiaJS.action ) {
 	/**
 	 * Make a request with data on HTML element clicked.
 	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param  {MouseEvent} event Properties of element triggered by the MouseEvent.
-	 * @since 1.0.0-easy
-	 * @version 1.0.0-easy
+	 *
 	 * @return {void}
 	 */
 	window.eoxiaJS.action.execAttribute = function( event ) {
 	  var element = jQuery( this );
 		var doAction = true;
-		var loaderElement = element;
 
 		event.preventDefault();
-
-		if ( element.attr( 'data-loader' ) ) {
-			loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
-		}
 
 		/** Méthode appelée avant l'action */
 		if ( element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
@@ -182,13 +184,13 @@ if ( ! window.eoxiaJS.action ) {
 			if ( jQuery( this ).attr( 'data-confirm' ) ) {
 				if ( window.confirm( jQuery( this ).attr( 'data-confirm' ) ) ) {
 					element.get_data( function( data ) {
-						window.eoxiaJS.loader.display( loaderElement );
+						window.eoxiaJS.loader.display( element );
 						window.eoxiaJS.request.send( element, data );
 					} );
 				}
 			} else {
 				element.get_data( function( data ) {
-					window.eoxiaJS.loader.display( loaderElement );
+					window.eoxiaJS.loader.display( element );
 					window.eoxiaJS.request.send( element, data );
 				} );
 			}
@@ -200,21 +202,18 @@ if ( ! window.eoxiaJS.action ) {
 	/**
 	 * Make a request with data on HTML element clicked with a custom delete message.
 	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param  {MouseEvent} event Properties of element triggered by the MouseEvent.
-	 * @since 1.0.0-easy
-	 * @version 1.0.0-easy
+	 *
 	 * @return {void}
 	 */
 	window.eoxiaJS.action.execDelete = function( event ) {
 		var element = jQuery( this );
 		var doAction = true;
-		var loaderElement = element;
 
 		event.preventDefault();
-
-		if ( element.attr( 'data-loader' ) ) {
-			loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
-		}
 
 		/** Méthode appelée avant l'action */
 		if ( element.attr( 'data-namespace' ) && element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
@@ -229,12 +228,38 @@ if ( ! window.eoxiaJS.action ) {
 		if ( doAction ) {
 			if ( window.confirm( element.attr( 'data-message-delete' ) ) ) {
 				element.get_data( function( data ) {
-					window.eoxiaJS.loader.display( loaderElement );
+					window.eoxiaJS.loader.display( element );
 					window.eoxiaJS.request.send( element, data );
 				} );
 			}
 		}
 	};
+
+	/**
+	 * Si une méthode de callback existe avant l'action, cette méthode l'appel.
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @param  {Object} element L'élément déclencheur.
+	 *
+	 * @return {bool}           True si l'action peut être envoyé, sinon False.
+	 */
+	window.eoxiaJS.action.checkBeforeCB = function( element ) {
+		var beforeMethod = element.attr( 'wpeo-before-cb' );
+
+		if ( ! beforeMethod ) {
+			return true;
+		}
+
+		beforeMethod = beforeMethod.split( '/' );
+
+		if ( ! beforeMethod[0] || ! beforeMethod[1] || ! beforeMethod[2] ) {
+			return true;
+		}
+
+		return window.eoxiaJS[beforeMethod[0]][beforeMethod[1]][beforeMethod[2]]( element );
+	}
 }
 
 /**
@@ -266,6 +291,9 @@ if ( ! window.eoxiaJS.arrayForm ) {
 		switch ( input.getAttribute( 'type' ) ) {
 			case 'checkbox':
 				return input.checked;
+				break;
+			case 'radio':
+				return jQuery( 'input[name="' + jQuery( input ).attr( 'name' ) + '"]:checked' ).val();
 				break;
 			default:
 				return input.value;
@@ -472,6 +500,25 @@ if ( ! window.eoxiaJS.form ) {
 			} );
 		}
 	};
+
+	window.eoxiaJS.form.reset = function( formElement ) {
+		var fields = formElement.find( 'input, textarea, select' );
+
+		fields.each(function () {
+			switch( jQuery( this )[0].tagName ) {
+				case 'INPUT':
+				case 'TEXTAREA':
+					jQuery( this ).val( jQuery( this )[0].defaultValue );
+					break;
+				case 'SELECT':
+					jQuery( this ).val( 'OK' );
+					break;
+				default:
+					jQuery( this ).val( jQuery( this )[0].defaultValue );
+					break;
+			}
+		} );
+	};
 }
 
 if ( ! window.eoxiaJS.global ) {
@@ -510,6 +557,12 @@ if ( ! window.eoxiaJS.global ) {
 
 	}
 
+/**
+ * Gestion du loader.
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
 if ( ! window.eoxiaJS.loader ) {
 	window.eoxiaJS.loader = {};
 
@@ -521,15 +574,19 @@ if ( ! window.eoxiaJS.loader ) {
 	};
 
 	window.eoxiaJS.loader.display = function( element ) {
-		element.addClass( 'wpeo-loader' );
-
-		var el = jQuery( '<span class="loader-spin"></span>' );
-		element[0].loaderElement = el;
-		element.append( element[0].loaderElement );
+		// Loader spécial pour les "button-progress".
+		if ( element.hasClass( 'button-progress' ) ) {
+			element.addClass( 'button-load' )
+		} else {
+			element.addClass( 'wpeo-loader' );
+			var el = jQuery( '<span class="loader-spin"></span>' );
+			element[0].loaderElement = el;
+			element.append( element[0].loaderElement );
+		}
 	};
 
 	window.eoxiaJS.loader.remove = function( element ) {
-		if ( 0 < element.length ) {
+		if ( 0 < element.length && ! element.hasClass( 'button-progress' ) ) {
 			element.removeClass( 'wpeo-loader' );
 
 			jQuery( element[0].loaderElement ).remove();
@@ -578,6 +635,7 @@ if ( ! window.eoxiaJS.modal  ) {
 	 * @type string
 	 */
 	window.eoxiaJS.modal.popupTemplate = wpeo_framework.modalView;
+
 	/**
 	 * Les boutons par défault de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
 	 * Voir le fichier /core/view/modal-buttons.view.php
@@ -587,7 +645,18 @@ if ( ! window.eoxiaJS.modal  ) {
 	 *
 	 * @type string
 	 */
-	window.eoxiaJS.modal.defaultButtons = wpeo_framework.modalDefautButtons;
+	window.eoxiaJS.modal.defaultButtons = wpeo_framework.modalDefaultButtons;
+
+	/**
+	 * Le titre par défault de la modal (Utilisé pour la requête AJAX, les variables dans la vue *{{}}* ne doit pas être modifiées.).
+	 * Voir le fichier /core/view/modal-title.view.php
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @type string
+	 */
+	window.eoxiaJS.modal.defaultTitle = wpeo_framework.modalDefaultTitle;
 
 	window.eoxiaJS.modal.init = function() {
 		window.eoxiaJS.modal.event();
@@ -614,6 +683,8 @@ if ( ! window.eoxiaJS.modal  ) {
 
 		// Si data-action existe, ce script ouvre la popup en lançant une requête AJAX.
 		if ( triggeredElement.attr( 'data-action' ) ) {
+			window.eoxiaJS.loader.display( triggeredElement );
+
 			triggeredElement.get_data( function( data ) {
 				for ( key in callbackData ) {
 					if ( ! data[key] ) {
@@ -621,30 +692,40 @@ if ( ! window.eoxiaJS.modal  ) {
 					}
 				}
 
-				var el = jQuery( document.createElement( 'div' ) );
-				el[0].className = 'wpeo-modal modal-active';
-				el[0].innerHTML = window.eoxiaJS.modal.popupTemplate;
-				el[0].typeModal = 'ajax';
-				triggeredElement[0].modalElement = el;
-
-				if ( triggeredElement.attr( 'data-title' ) ) {
-					el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
-				}
-
-				if ( triggeredElement.attr( 'data-class' ) ) {
-					el[0].className += ' ' + triggeredElement.attr( 'data-class' );
-				}
-
-				jQuery( 'body' ).append( triggeredElement[0].modalElement );
-
 				window.eoxiaJS.request.send( triggeredElement, data, function( element, response ) {
+					window.eoxiaJS.loader.remove( triggeredElement );
+
 					if ( response.data.view ) {
+						var el = jQuery( document.createElement( 'div' ) );
+						el[0].className = 'wpeo-modal modal-active';
+						el[0].innerHTML = window.eoxiaJS.modal.popupTemplate;
+						el[0].typeModal = 'ajax';
+						triggeredElement[0].modalElement = el;
+
+						if ( triggeredElement.attr( 'data-title' ) ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+						}
+
+						if ( triggeredElement.attr( 'data-class' ) ) {
+							el[0].className += ' ' + triggeredElement.attr( 'data-class' );
+						}
+
+						jQuery( 'body' ).append( triggeredElement[0].modalElement );
+
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
 
 						if ( response.data.buttons_view ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
 						} else {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
+						}
+
+						if ( ! triggeredElement.attr( 'data-title' ) ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', window.eoxiaJS.modal.defaultTitle );
+						}
+
+						if ( window.eoxiaJS.refresh ) {
+							window.eoxiaJS.refresh();
 						}
 					}
 				} );
@@ -679,6 +760,80 @@ if ( ! window.eoxiaJS.modal  ) {
 				}, 200 );
 			}
 		} );
+	};
+}
+
+if ( ! window.eoxiaJS.popover ) {
+	window.eoxiaJS.popover = {};
+
+	window.eoxiaJS.popover.init = function() {
+		window.eoxiaJS.popover.event();
+	};
+
+	window.eoxiaJS.popover.event = function() {
+		jQuery( document ).on( 'click', '.wpeo-popover-event.popover-click', window.eoxiaJS.popover.click );
+	};
+
+	window.eoxiaJS.popover.click = function( event ) {
+		window.eoxiaJS.popover.toggle( jQuery( this ) );
+	};
+
+	window.eoxiaJS.popover.toggle = function( element ) {
+		var direction = ( element.data( 'direction' ) ) ? element.data( 'direction' ) : 'top';
+		var el = jQuery( '<span class="wpeo-popover popover-' + direction + '">' + element.attr( 'aria-label' ) + '</span>' );
+		var pos = element.position();
+		var offset = element.offset();
+
+		if ( element[0].popoverElement ) {
+			jQuery( element[0].popoverElement ).remove();
+			delete element[0].popoverElement;
+		} else {
+			element[0].popoverElement = el;
+			jQuery( 'body' ).append( element[0].popoverElement );
+
+			if ( element.data( 'color' ) ) {
+				el.addClass( 'popover-' + element.data( 'color' ) );
+			}
+
+			var top = 0;
+			var left = 0;
+
+			switch( element.data( 'direction' ) ) {
+				case 'left':
+					top = ( offset.top - ( el.outerHeight() / 2 ) + ( element.outerHeight() / 2 ) ) + 'px';
+					left = ( offset.left - el.outerWidth() - 10 ) + 3 + 'px';
+					break;
+				case 'right':
+					top = ( offset.top - ( el.outerHeight() / 2 ) + ( element.outerHeight() / 2 ) ) + 'px';
+					left = offset.left + element.outerWidth() + 8 + 'px';
+					break;
+				case 'bottom':
+					top = ( offset.top + element.height() + 10 ) + 10 + 'px';
+					left = ( offset.left - ( el.outerWidth() / 2 ) + ( element.outerWidth() / 2 ) ) + 'px';
+					break;
+				case 'top':
+					top = offset.top - el.outerHeight() - 4  + 'px';
+					left = ( offset.left - ( el.outerWidth() / 2 ) + ( element.outerWidth() / 2 ) ) + 'px';
+					break;
+				default:
+					top = offset.top - el.outerHeight() - 4  + 'px';
+					left = ( offset.left - ( el.outerWidth() / 2 ) + ( element.outerWidth() / 2 ) ) + 'px';
+					break;
+			}
+
+			el.css( {
+				'top': top,
+				'left': left,
+				'opacity': 1
+			} );
+		}
+	};
+
+	window.eoxiaJS.popover.remove = function( element ) {
+		if ( element[0].popoverElement ) {
+			jQuery( element[0].popoverElement ).remove();
+			delete element[0].popoverElement;
+		}
 	};
 }
 
@@ -873,6 +1028,12 @@ if ( ! window.eoxiaJS.render ) {
 	};
 }
 
+/**
+ * Gestion des requêtes XHR.
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
 if ( ! window.eoxiaJS.request ) {
 	window.eoxiaJS.request = {};
 
@@ -882,22 +1043,54 @@ if ( ! window.eoxiaJS.request ) {
 		jQuery.post( window.ajaxurl, data, function( response ) {
 			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
 
-			if ( cb ) {
-				cb( element, response );
-			} else {
-				if ( response && response.success ) {
-					if ( response.data.namespace && response.data.module && response.data.callback_success ) {
-						window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_success]( element, response );
-					} else if ( response.data.module && response.data.callback_success ) {
-						window.eoxiaJS[response.data.module][response.data.callback_success]( element, response );
+			if ( element.hasClass( 'button-progress' ) ) {
+				element.removeClass( 'button-load' ).addClass( 'button-success' );
+				setTimeout( function() {
+					element.removeClass( 'button-success' );
+
+					if ( cb ) {
+						cb( element, response );
+					} else {
+						if ( response && response.success ) {
+							if ( response.data.namespace && response.data.module && response.data.callback_success ) {
+								window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_success]( element, response );
+							} else if ( response.data.module && response.data.callback_success ) {
+								window.eoxiaJS[response.data.module][response.data.callback_success]( element, response );
+							}
+						} else {
+							if ( response.data.namespace && response.data.module && response.data.callback_error ) {
+								window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_error]( element, response );
+							}
+						}
 					}
+				}, 1000 );
+			} else {
+				if ( cb ) {
+					cb( element, response );
 				} else {
-					if ( response.data.namespace && response.data.module && response.data.callback_error ) {
-						window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_error]( element, response );
+					if ( response && response.success ) {
+						if ( response.data.namespace && response.data.module && response.data.callback_success ) {
+							window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_success]( element, response );
+						} else if ( response.data.module && response.data.callback_success ) {
+							window.eoxiaJS[response.data.module][response.data.callback_success]( element, response );
+						}
+					} else {
+						if ( response.data.namespace && response.data.module && response.data.callback_error ) {
+							window.eoxiaJS[response.data.namespace][response.data.module][response.data.callback_error]( element, response );
+						}
 					}
 				}
 			}
-		}, 'json' );
+		}, 'json').fail( function() {
+			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
+
+			if ( element.hasClass( 'button-progress' ) ) {
+				element.removeClass( 'button-load' ).addClass( 'button-error' );
+				setTimeout( function() {
+					element.removeClass( 'button-error' );
+				}, 1000 );
+			}
+		});
 	};
 
 	window.eoxiaJS.request.get = function( url, data ) {
@@ -916,6 +1109,13 @@ if ( ! window.eoxiaJS.request ) {
 
 }
 
+/**
+ * Gestion des onglets.
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
 if ( ! window.eoxiaJS.tab ) {
 	window.eoxiaJS.tab = {};
 
@@ -924,7 +1124,7 @@ if ( ! window.eoxiaJS.tab ) {
 	};
 
 	window.eoxiaJS.tab.event = function() {
-	  jQuery( document ).on( 'click', '.tab-element', window.eoxiaJS.tab.load );
+	  jQuery( document ).on( 'click', '.wpeo-tab .tab-element', window.eoxiaJS.tab.load );
 	};
 
 	window.eoxiaJS.tab.load = function( event ) {
@@ -934,28 +1134,29 @@ if ( ! window.eoxiaJS.tab ) {
 	  event.preventDefault();
 		event.stopPropagation();
 
-		tabTriggered.closest( '.content' ).removeClass( 'active' );
+		tabTriggered.closest( '.wpeo-tab' ).find( '.tab-element.tab-active' ).removeClass( 'tab-active' );
+		tabTriggered.addClass( 'tab-active' );
 
-		if ( ! tabTriggered.hasClass( 'no-tab' ) && tabTriggered.data( 'action' ) ) {
-			jQuery( '.tab .tab-element.active' ).removeClass( 'active' );
-			tabTriggered.addClass( 'active' );
-
+		if ( ! tabTriggered.attr( 'data-action' ) ) {
+			tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
+			tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content[id="' + tabTriggered.attr( 'data-target' ) + '"]' ).addClass( 'tab-active' );
+		} else {
 			data = {
-				action: 'load_tab_content',
-				_wpnonce: tabTriggered.data( 'nonce' ),
-				tab_to_display: tabTriggered.data( 'action' ),
-				title: tabTriggered.data( 'title' ),
-				element_id: tabTriggered.data( 'id' )
+				action: tabTriggered.attr( 'data-action' ),
+				_wpnonce: tabTriggered.attr( 'data-nonce' ),
+				tab_to_display: tabTriggered.attr( 'data-action' ),
+				title: tabTriggered.attr( 'data-title' ),
+				element_id: tabTriggered.attr( 'data-id' )
 		  };
 
-			jQuery( '.' + tabTriggered.data( 'target' ) ).addClass( 'loading' );
+			window.eoxiaJS.loader.display( tabTriggered );
 
 			jQuery.post( window.ajaxurl, data, function( response ) {
-				jQuery( '.' + tabTriggered.data( 'target' ) ).replaceWith( response.data.template );
-
-				window.eoxiaJS.tab.callTabChanged();
+				window.eoxiaJS.loader.remove( tabTriggered );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content[id="' + tabTriggered.attr( 'data-target' ) + '"]' ).addClass( 'tab-active' );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content[id="' + tabTriggered.attr( 'data-target' ) + '"]' ).html( response.data.view );
 			} );
-
 		}
 
 	};

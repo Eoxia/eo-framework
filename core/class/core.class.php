@@ -40,16 +40,21 @@ if ( ! class_exists( '\eoxia\Core_Class' ) ) {
 		 */
 		public function get_localize_script_data() {
 			ob_start();
-			require( \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal.view.php' );
+			require \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal.view.php';
 			$view_modal = ob_get_clean();
 
 			ob_start();
-			require( \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal-buttons.view.php' );
+			require \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal-title.view.php';
+			$view_modal_title = ob_get_clean();
+
+			ob_start();
+			require \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal-buttons.view.php';
 			$view_modal_buttons = ob_get_clean();
 
 			$data = array(
-				'modalView'          => $view_modal,
-				'modalDefautButtons' => $view_modal_buttons,
+				'modalDefaultTitle'   => $view_modal_title,
+				'modalView'           => $view_modal,
+				'modalDefaultButtons' => $view_modal_buttons,
 			);
 
 			return $data;
