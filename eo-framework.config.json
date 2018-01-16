@@ -2,12 +2,14 @@
 	"name": "EO Framework",
 	"slug": "eo-framework",
 	"version": "1.0.0",
-	"description": "EO Framework is an overlay bringing additional PHP features to the WordPress framework. EO Framework combines templates, REST API, Autoload, Schema data and integrate best WordPress practices.",
+	"description": "L'application EO Framework",
+	"externals": [],
 	"modules": [
 		"core/core.config.json",
 
 		"modules/wpeo-model/wpeo_model.config.json",
-		"modules/wpeo-upload/wpeo_upload.config.json"
+    "modules/wpeo-upload/wpeo_upload.config.json"
 	],
-	"debug": true
+	"debug": false,
+	"hour_equal_one_day": 24
 }

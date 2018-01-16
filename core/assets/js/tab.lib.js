@@ -23,6 +23,7 @@ if ( ! window.eoxiaJS.tab ) {
 	  event.preventDefault();
 		event.stopPropagation();
 
+		tabTriggered.closest( '.wpeo-tab' ).find( '.tab-element.tab-active' ).removeClass( 'tab-active' );
 		tabTriggered.addClass( 'tab-active' );
 
 		if ( ! tabTriggered.attr( 'data-action' ) ) {
@@ -41,8 +42,9 @@ if ( ! window.eoxiaJS.tab ) {
 
 			jQuery.post( window.ajaxurl, data, function( response ) {
 				window.eoxiaJS.loader.remove( tabTriggered );
-				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).addClass( 'tab-active' );
-				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).html( response.data.view );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content[id="' + tabTriggered.attr( 'data-target' ) + '"]' ).addClass( 'tab-active' );
+				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content[id="' + tabTriggered.attr( 'data-target' ) + '"]' ).html( response.data.view );
 			} );
 		}
 
