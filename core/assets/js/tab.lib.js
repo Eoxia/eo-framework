@@ -32,7 +32,7 @@ if ( ! window.eoxiaJS.tab ) {
 			data = {
 				action: tabTriggered.attr( 'data-action' ),
 				_wpnonce: tabTriggered.attr( 'data-nonce' ),
-				tab_to_display: tabTriggered.attr( 'data-action' ),
+				target: tabTriggered.attr( 'data-target' ),
 				title: tabTriggered.attr( 'data-title' ),
 				element_id: tabTriggered.attr( 'data-id' )
 		  };
