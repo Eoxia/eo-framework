@@ -1,12 +1,14 @@
 <?php
 /**
- * Définition des données des posts
+ * Define schema for WP_Post.
+ *
+ * @see https://eoxia.com/documentation/eoframework/references/schema
  *
  * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0
- * @version 1.5.0
- * @copyright 2015-2017
- * @package WPEO_Model
+ * @since 0.1.0
+ * @version 1.0.0
+ * @copyright 2015+
+ * @package EO_Framework
  */
 
 namespace eoxia;
@@ -16,97 +18,149 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( '\eoxia\Post_Model' ) ) {
+
 	/**
-	 * Définition des données des posts
+	 * Define schema for WP_Post.
 	 */
 	class Post_Model extends Constructor_Data_Class {
 
 		/**
-		 * Définition du modèle principal des posts
+		 * Init schema for WP_Post.
 		 *
-		 * @var array Les champs principaux des posts
+		 * @var array
 		 */
-		protected $model = array(
-			'id' => array(
-				'type' => 'integer',
-				'field' => 'ID',
-			),
-			'parent_id' => array(
-				'type' => 'integer',
-				'field' => 'post_parent',
-			),
-			'author_id' => array(
-				'type' => 'integer',
-				'field' => 'post_author',
-			),
-			'date' => array(
-				'type' => 'wpeo_date',
-				'field' => 'post_date',
-			),
-			'date_modified' => array(
-				'type' => 'wpeo_date',
-				'field' => 'post_modified',
-			),
-			'date_input' => array(
-				'type' => 'array',
-			),
-			'date_human_readable' => array(
-				'type' => 'string',
-			),
-			'title' => array(
-				'type' => 'string',
-				'field' => 'post_title',
-			),
-			'slug' => array(
-				'type' => 'string',
-				'field' => 'post_name',
-			),
-			'content' => array(
-				'type' => 'string',
-				'field' => 'post_content',
-			),
-			'status' => array(
-				'type' => 'string',
-				'field' => 'post_status',
-				'bydefault' => 'publish',
-			),
-			'link' => array(
-				'type' => 'string',
-				'field' => 'guid',
-			),
-			'type' => array(
-				'type' => 'string',
-				'field' => 'post_type',
-			),
-			'order' => array(
-				'type' => 'int',
-				'field' => 'menu_order',
-			),
-			'comment_status' => array(
-				'type' => 'string',
-				'field' => 'comment_status',
-			),
-			'comment_count' => array(
-				'type' => 'int',
-				'field' => 'comment_count',
-			),
-			'thumbnail_id' => array(
-				'type' => 'int',
-				'meta_type' => 'single',
-				'field' => '_thumbnail_id',
-			),
-		);
+		protected $schema = array();
 
 		/**
-		 * Gestion des valeurs par défaut.
+		 * Construct define the schema
 		 *
-		 * @param array $data Les données.
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
-		 * @since 1.0.0
-		 * @version 1.5.0
+		 * @param Post_Model $object The object.
 		 */
-		public function __construct( $data ) {
-			$this->model['author_id']['bydefault'] = get_current_user_id();
+		public function __construct( Post_Model $object ) {
+			$this->schema['id'] = array(
+				'type'        => 'integer',
+				'field'       => 'ID',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the ID of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['parent_id'] = array(
+				'type'        => 'integer',
+				'field'       => 'post_parent',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the post_parent of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['author_id'] = array(
+				'type'        => 'integer',
+				'field'       => 'post_author',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the post_author of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['date'] = array(
+				'type'        => 'wpeo_date',
+				'field'       => 'post_date',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the post_date of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['date_modified'] = array(
+				'type'        => 'wpeo_date',
+				'field'       => 'post_modified',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the post_modified of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['title'] = array(
+				'type'        => 'string',
+				'field'       => 'post_title',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the post_title of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['slug'] = array(
+				'type'        => 'string',
+				'field'       => 'post_name',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the slug of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['content'] = array(
+				'type'        => 'string',
+				'field'       => 'post_content',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the content of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['status'] = array(
+				'type'        => 'string',
+				'field'       => 'post_status',
+				'bydefault'   => 'publish',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the status of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['link'] = array(
+				'type'        => 'string',
+				'field'       => 'guid',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the link of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['type'] = array(
+				'type'        => 'string',
+				'field'       => 'post_type',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the type of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['order'] = array(
+				'type'        => 'int',
+				'field'       => 'menu_order',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the order of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['comment_status'] = array(
+				'type'        => 'string',
+				'field'       => 'comment_status',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the comment_status of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['comment_count'] = array(
+				'type'        => 'int',
+				'field'       => 'comment_count',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the comment_count of the wp_post table from WordPress DB and this field',
+			);
+
+			$this->schema['thumbnail_id'] = array(
+				'type'        => 'int',
+				'meta_type'   => 'single',
+				'field'       => '_thumbnail_id',
+				'since'       => '0.1.0',
+				'version'     => '1.0.0',
+				'description' => 'Makes the join between the thumbnail_id of the wp_post table from WordPress DB and this field',
+			);
 
 			parent::__construct( $data );
 		}

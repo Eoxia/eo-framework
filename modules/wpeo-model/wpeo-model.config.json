@@ -1,11 +1,9 @@
 {
-	"name": "WPEO Model",
-	"slug": "wpeo_model",
-	"version": "1.5.0",
-	"api_version": "1",
-	"description": "Le moteur de donnée et de définition de schéma pour WordPress",
+	"name": "EO Model",
+	"slug": "eo-model",
+	"version": "1.0.0",
+	"description": "Define schema and manage WordPress data",
 	"state": true,
-	"path": "core/external/wpeo_model",
 	"dependencies": {
 		"class": {
 			"priority": [
