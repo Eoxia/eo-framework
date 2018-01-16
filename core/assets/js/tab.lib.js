@@ -23,6 +23,7 @@ if ( ! window.eoxiaJS.tab ) {
 	  event.preventDefault();
 		event.stopPropagation();
 
+		tabTriggered.closest( '.wpeo-tab' ).find( '.tab-element.tab-active' ).removeClass( 'tab-active' );
 		tabTriggered.addClass( 'tab-active' );
 
 		if ( ! tabTriggered.attr( 'data-action' ) ) {
