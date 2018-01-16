@@ -68,10 +68,10 @@ if ( ! window.eoxiaJS.action ) {
 		if ( element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
 			doAction = false;
 			doAction = window.eoxiaJS[element.attr( 'data-namespace' )][element.attr( 'data-module' )][element.attr( 'data-before-method' )]( element );
-		}
-
-		if ( ! doAction ) {
-			doAction = window.eoxiaJS.action.checkBeforeCB(element);
+		} else {
+			if ( ! doAction ) {
+				doAction = window.eoxiaJS.action.checkBeforeCB(element);
+			}
 		}
 
 		if ( doAction ) {
