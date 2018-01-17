@@ -3,10 +3,10 @@
  * Définition des données des posts
  *
  * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0
- * @version 1.5.0
- * @copyright 2015-2017
- * @package WPEO_Model
+ * @since 0.1.0
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Framework
  */
 
 namespace eoxia;
@@ -46,12 +46,6 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 			'date_modified' => array(
 				'type' => 'wpeo_date',
 				'field' => 'post_modified',
-			),
-			'date_input' => array(
-				'type' => 'array',
-			),
-			'date_human_readable' => array(
-				'type' => 'string',
 			),
 			'title' => array(
 				'type' => 'string',
