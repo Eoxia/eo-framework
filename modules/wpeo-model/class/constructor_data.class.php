@@ -72,14 +72,15 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 						$current_object[ $field_name ] = $value;
 					}
 				} else {
-					$current_data = ! empty( $data[ $field_name ] ) ? $data[ $field_name ] : array();
+					// Values car c'est un tableau, nous sommes dans "child". Nous avons donc un tableau dans $data[ $field_name ].
+					$values = ! empty( $data[ $field_name ] ) ? $data[ $field_name ] : array();
 
 					if ( empty( $current_object->$field_name ) ) {
 						$current_object->$field_name = new \stdClass();
 					}
 
 					// Récursivité sur les enfants de la définition courante.
-					$current_object->$field_name = $this->handle_data( $data, $current_data, $current_object->$field_name, $field_def['child'] );
+					$current_object->$field_name = $this->handle_data( $data, $values, $current_object->$field_name, $field_def['child'] );
 				}
 
 				// Force le typage.
