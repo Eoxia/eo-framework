@@ -27,7 +27,7 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
-		 * @param Array $data Les données en brut.
+		 * @param Array $data Les données non traité.
 		 */
 		public function __construct( $data ) {
 			$this->handle_data( $data );
@@ -39,16 +39,17 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
-		 * @param array  $data           Toutes les données.
+		 * @param array  $data           Toutes les données non traitée.
 		 * @param array  $current_data   Les données actuelles.
 		 * @param object $current_object L'objet en cours de construction.
 		 * @param array  $model          La définition des données.
-		 * @return object
+		 *
+		 * @return object                Les données traitées, typées et convertie en l'objet demandé.
 		 */
 		private function handle_data( $data, $current_data = null, $current_object = null, $model = null ) {
-			$model          = ( null === $model ) ? $this->model : $model;
-			$current_object = ( null === $current_object ) ? $this : $current_object;
 			$current_data   = ( null === $current_data ) ? $data : $current_data;
+			$current_object = ( null === $current_object ) ? $this : $current_object;
+			$model          = ( null === $model ) ? $this->model : $model;
 
 			foreach ( $model as $field_name => $field_def ) {
 				// Définie les données  par défaut pour l'élément courant par rapport à "bydefault".
@@ -58,10 +59,10 @@ if ( ! class_exists( '\eoxia\Constructor_Data_Class' ) ) {
 				if ( ! isset( $field_def['child'] ) ) {
 
 					// Si on est au premier niveau de $current_object, sinon si on est plus haut que le premier niveau.
-					if ( isset( $field_def['field'] ) && isset( $data[ $field_def['field'] ] ) ) {
-						$value = $data[ $field_def['field'] ];
-					} elseif ( isset( $data[ $field_name ] ) && isset( $field_def ) && ! isset( $field_def['child'] ) ) {
-						$value = $data[ $field_name ];
+					if ( isset( $field_def['field'] ) && isset( $current_data[ $field_def['field'] ] ) ) {
+						$value = $current_data[ $field_def['field'] ];
+					} elseif ( isset( $current_data[ $field_name ] ) && isset( $field_def ) && ! isset( $field_def['child'] ) ) {
+						$value = $current_data[ $field_name ];
 					}
 
 					// Enregistres la valeur soit dans un objet, ou alors dans un tableau.
