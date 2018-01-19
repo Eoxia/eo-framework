@@ -3,7 +3,12 @@ jQuery(document).ready(function() {
 		Prism.highlightAll();
 	});
 
+	$(document).on("scroll", onScroll); /** Menu active au scroll */
+
 	jQuery('.scroll-to').on('click', function() { // Au clic sur un élément
+		$('#page-sidebar a').removeClass('active');
+		$(this).addClass('active');
+
 		var page = jQuery(this).attr('href'); // Page cible
 		var speed = 750; // Durée de l'animation (en ms)
 		jQuery('html, body').animate( { scrollTop: jQuery(page).offset().top - 80 }, speed ); // Go
@@ -51,4 +56,19 @@ function setTimeoutClass( element, className ) {
 	setTimeout( function() {
 		element.removeClass( className );
 	}, 2000 );
+}
+
+function onScroll(event) {
+	var scrollPos = $(document).scrollTop();
+	$('#page-sidebar a').each(function () {
+		var currLink = $(this);
+		var refElement = $(currLink.attr("href"));
+		if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+			$('#page-sidebar a').removeClass("active");
+			$(currLink).addClass("active");
+		}
+		// else {
+		// 	currLink.removeClass("active");
+		// }
+	});
 }
