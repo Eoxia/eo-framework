@@ -14,7 +14,8 @@
 			]
 		},
 		"model": {},
-		"helper": {}
+		"helper": {},
+		"filter": {}
 	},
 	"allowed_ip_for_unauthentified_access_rest": [
 		"127.0.0.1",

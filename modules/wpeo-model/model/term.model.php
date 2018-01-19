@@ -18,7 +18,7 @@ if ( ! class_exists( '\eoxia\Term_Model' ) ) {
 	/**
 	 * Définition des données des terms
 	 */
-	class Term_Model extends Constructor_Data_Class {
+	class Term_Model extends Data_Class {
 
 		/**
 		 * Définition du modèle principal des taxonomies

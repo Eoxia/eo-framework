@@ -3,10 +3,10 @@
  * Gestion des commentaires (POST, PUT, GET, DELETE)
  *
  * @author Jimmy Latour <dev@eoxia.com>
- * @since 0.1.0
- * @version 1.5.0
- * @copyright 2015-2017
- * @package WPEO_Model
+ * @since 1.0.0
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Framework
  */
 
 namespace eoxia;
@@ -39,7 +39,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $comment_type = '';
+		protected $comment_type = 'ping';
 
 		/**
 		 * Slug de base pour la route dans l'api rest
@@ -61,9 +61,9 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @var array
 		 */
 		protected $capabilities = array(
-			'get' => 'read',
-			'put' => 'moderate_comments',
-			'post' => 'moderate_comments',
+			'get'    => 'read',
+			'put'    => 'moderate_comments',
+			'post'   => 'moderate_comments',
 			'delete' => 'moderate_comments',
 		);
 
@@ -175,8 +175,10 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 
 						$comment = array_merge( $comment, $list_meta );
 
+
 						if ( ! empty( $comment[ $this->meta_key ] ) ) {
 							$comment = array_merge( $comment, json_decode( $comment[ $this->meta_key ], true ) );
+
 							unset( $comment[ $this->meta_key ] );
 						}
 					}
@@ -216,56 +218,73 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		/**
 		 * Insère ou met à jour les données dans la base de donnée.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données a insérer ou à mêttre à jour.
 		 * @return Object      L'objet construit grâce au modèle.
 		 */
 		public function update( $data ) {
-			$data = (array) $data;
 			$model_name = $this->model_name;
+			$data       = (array) $data;
+			$req_method = ( ! empty( $data['id'] ) ) ? 'post' : 'put';
+
+			$data = Model_Util::exec_callback( $data, $this->before_post_function );
+
+			// Vérifie l'existence du type.
+			if ( empty( $data['type'] ) ) {
+				$data['type'] = $this->get_type();
+			}
 
 			if ( empty( $data['id'] ) ) {
-				$data = Model_Util::exec_callback( $data, $this->before_model_post_function );
-				$data = new $model_name( $data, array( false ) );
+				$user = wp_get_current_user();
+				if ( $user->exists() ) {
+					if ( empty( $data['author_id'] ) ) {
+						$data['author_id'] = $user->ID;
+					}
 
-				// Ajout du comment type et du status.
-				// @todo: Enlevez ce truc bizarre.
-				if ( empty( $data->type ) ) {
-					$data->type = $this->comment_type;
-					$data->status = '-34070';
+					if ( empty( $data['author_nicename'] ) ) {
+						$data['author_nicename'] = $user->display_name;
+					}
+
+					if ( empty( $data['author_email'] ) ) {
+						$data['author_email'] = $user->user_email;
+					}
+
+					if ( empty( $data['author_url'] ) ) {
+						$data['author_url'] = $user->user_url;
+					}
 				}
+			}
 
-				$data = Model_Util::exec_callback( $data, $this->before_post_function );
+			// Vérifie les données reçu par rapport au schéma de l'objet voulu.
+			$errors = Schema_Class::check_data_from_schema( $data, $this->get_schema() );
 
-				if ( ! empty( $data->error ) && $data->error ) {
-					return false;
-				}
+			if ( ! empty( $errors ) ) {
+				return $errors;
+			}
 
-				$cloned_data = clone $data;
-				$data->id = wp_insert_comment( $cloned_data->do_wp_object() );
-
-				$data = Model_Util::exec_callback( $data, $this->after_post_function );
-			} else {
-				$data = Model_Util::exec_callback( $data, $this->before_model_put_function );
+			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id' => $data['id'],
 				), true );
 
-				$obj_merged = (object) array_merge( (array) $current_data, (array) $data );
-				$data = new $model_name( (array) $obj_merged );
-				$data = Model_Util::exec_callback( $data, $this->before_put_function );
+				$data = array_merge( (array) $current_data, $data );
+			}
 
-				if ( ! empty( $data->error ) && $data->error ) {
-					return false;
+			$data = new $model_name( $data );
+
+			if ( empty( $data->id ) ) {
+				add_filter( 'duplicate_comment_id', '__return_false' );
+				$inserted_comment = wp_new_comment( $data->convert_to_wordpress(), true );
+				if ( is_wp_error( $inserted_comment ) ) {
+					return $inserted_comment;
 				}
 
-				$cloned_data = clone $data;
-				wp_update_comment( $cloned_data->do_wp_object() );
-
-				$data = Model_Util::exec_callback( $data, $this->after_put_function );
-			} // End if().
+				$data->id = $inserted_comment;
+			} else {
+				wp_update_comment( $data->convert_to_wordpress() );
+			}
 
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_comment_meta', $this->meta_key );
 
@@ -282,20 +301,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 */
 		public function get_type() {
 			return $this->comment_type;
-		}
-
-		/**
-		 * Pourquoi cette function ?
-		 *
-		 * @todo: Pourquoi cette function ?
-		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
-		 *
-		 * @return string Le type du commentaire.
-		 */
-		public function get_post_type() {
-			return $this->get_type();
 		}
 
 		/**

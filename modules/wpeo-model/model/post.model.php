@@ -19,7 +19,7 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 	/**
 	 * Définition des données des posts
 	 */
-	class Post_Model extends Constructor_Data_Class {
+	class Post_Model extends Data_Class {
 
 		/**
 		 * Définition du modèle principal des posts
@@ -36,12 +36,13 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 				'field' => 'post_parent',
 			),
 			'author_id' => array(
-				'type' => 'integer',
+				'type' => 'string',
 				'field' => 'post_author',
 			),
 			'date' => array(
 				'type' => 'wpeo_date',
 				'field' => 'post_date',
+				'context' => array( 'GET' ),
 			),
 			'date_modified' => array(
 				'type' => 'wpeo_date',
@@ -73,7 +74,7 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 				'field' => 'post_type',
 			),
 			'order' => array(
-				'type' => 'int',
+				'type' => 'integer',
 				'field' => 'menu_order',
 			),
 			'comment_status' => array(
@@ -81,11 +82,11 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 				'field' => 'comment_status',
 			),
 			'comment_count' => array(
-				'type' => 'int',
+				'type' => 'string',
 				'field' => 'comment_count',
 			),
 			'thumbnail_id' => array(
-				'type' => 'int',
+				'type' => 'integer',
 				'meta_type' => 'single',
 				'field' => '_thumbnail_id',
 			),
@@ -99,10 +100,10 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 		 * @since 1.0.0
 		 * @version 1.5.0
 		 */
-		public function __construct( $data ) {
+		public function __construct( $data = null, $req_method = null ) {
 			$this->model['author_id']['bydefault'] = get_current_user_id();
 
-			parent::__construct( $data );
+			parent::__construct( $data, $req_method );
 		}
 	}
 } // End if().

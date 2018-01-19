@@ -3,11 +3,10 @@
  * Gestion des posts (POST, PUT, GET, DELETE)
  *
  * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0
- * @version 1.5.0
- * @copyright 2015-2017
- * @package wpeo_model
- * @subpackage class
+ * @since 0.1.0
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Framework
  */
 
 namespace eoxia;
@@ -17,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( '\eoxia\Post_Class' ) ) {
+
 	/**
 	 * Gestion des posts (POST, PUT, GET, DELETE)
 	 */
@@ -71,9 +71,9 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @var array
 		 */
 		protected $capabilities = array(
-			'get' => 'read',
-			'put' => 'edit_posts',
-			'post' => 'edit_posts',
+			'get'    => 'read',
+			'put'    => 'edit_posts',
+			'post'   => 'edit_posts',
 			'delete' => 'delete_posts',
 		);
 
@@ -144,8 +144,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @see register_post_type
 		 * @return boolean
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 */
 		public function init_post_type() {
 			$args = array(
@@ -164,8 +164,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Permet de récupérer le schéma avec les données du modèle par défault.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 *
 		 * @return Object
 		 */
@@ -178,8 +178,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Récupères les données selon le modèle définis.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 *
 		 * @param array   $args Les paramètres de get_comments @https://codex.wordpress.org/Function_Reference/WP_Query.
 		 * @param boolean $single Si on veut récupérer un tableau, ou qu'une seule entrée.
@@ -188,9 +188,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 *
 		 * @todo: ligne 128 - Temporaire
 		 */
-		public function get( $args = array(
-				'posts_per_page' => -1,
-			), $single = false ) {
+		public function get( $args = array( 'posts_per_page' => -1 ), $single = false ) {
 
 			$array_posts = array();
 
@@ -249,8 +247,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 					}
 				}
 
-				$model_name = $this->model_name;
-				$array_posts[ $key ] = new $model_name( $post );
+				$model_name          = $this->model_name;
+				$array_posts[ $key ] = new $model_name( $post, 'get' );
 				$array_posts[ $key ] = $this->get_taxonomies_id( $array_posts[ $key ] );
 
 				$array_posts[ $key ] = Model_Util::exec_callback( $array_posts[ $key ], $this->after_get_function );
@@ -266,8 +264,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Appelle la méthode update.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données.
 		 * @return Array $data Les données
@@ -279,82 +277,56 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Insère ou met à jour les données dans la base de donnée.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données a insérer ou à mêttre à jour.
 		 * @return Object      L'objet construit grâce au modèle.
 		 */
 		public function update( $data ) {
 			$model_name = $this->model_name;
-			$data = (array) $data;
+			$data       = (array) $data;
+			$req_method = ( ! empty( $data['id'] ) ) ? 'post' : 'put';
 
-			if ( empty( $data['id'] ) ) {
-				$data = Model_Util::exec_callback( $data, $this->before_model_post_function );
+			$data = Model_Util::exec_callback( $data, $this->before_post_function );
 
-				$data = new $model_name( $data );
+			// Vérifie les données reçu par rapport au schéma de l'objet voulu.
+			// $errors = Schema_Class::check_data_from_schema( $data, $this->get_schema() );
+      //
+			// if ( ! empty( $errors ) ) {
+			// 	return $errors;
+			// }
 
-				// Ajout du post type si il est vide !
-				if ( empty( $data->type ) ) {
-					$data->type = $this->post_type;
-				}
-
-				$data = Model_Util::exec_callback( $data, $this->before_post_function );
-
-				if ( ! empty( $data->error ) && $data->error ) {
-					return false;
-				}
-
-				$cloned_data = clone $data;
-
-				$post_save = wp_insert_post( $cloned_data->do_wp_object(), true );
-				if ( ! is_wp_error( $post_save ) ) {
-					$data->id = $post_save;
-				} else {
-					$data = $post_save;
-				}
-
-				if ( ! is_wp_error( $data ) ) {
-					Save_Meta_Class::g()->save_meta_data( $data, 'update_post_meta', $this->meta_key );
-					// Save taxonomy!
-					$this->save_taxonomies( $data );
-				}
-
-				$data = Model_Util::exec_callback( $data, $this->after_post_function );
-			} else {
-				$data = Model_Util::exec_callback( $data, $this->before_model_put_function );
-
+			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id' => $data['id'],
 				), true );
-				$obj_merged = (object) array_merge( (array) $current_data, (array) $data );
-				$data = new $model_name( (array) $obj_merged );
 
-				if ( empty( $data->type ) ) {
-					$data->type = $this->post_type;
+				$data = array_merge( (array) $current_data, $data );
+			}
+
+			$data = new $model_name( $data, $req_method );
+
+			if ( empty( $data->id ) ) {
+				$inserted_post = wp_insert_post( $data->convert_to_wordpress(), true );
+				if ( is_wp_error( $inserted_post ) ) {
+					return $inserted_post;
 				}
 
-				$data = Model_Util::exec_callback( $data, $this->before_put_function );
+				$data->id = $inserted_post;
+			} else {
+				$data = wp_update_post( $data->convert_to_wordpress(), true );
 
-				if ( ! empty( $data->error ) && $data->error ) {
-					return false;
+				if ( is_wp_error( $data ) ) {
+					return $data;
 				}
+			}
 
-				$cloned_data = clone $data;
-				$post_save = wp_update_post( $cloned_data->do_wp_object(), true );
+			Save_Meta_Class::g()->save_meta_data( $data, 'update_post_meta', $this->meta_key );
+			// Save taxonomy!
+			$this->save_taxonomies( $data );
 
-				if ( is_wp_error( $post_save ) ) {
-					$data = $post_save;
-				}
-
-				if ( ! is_wp_error( $data ) ) {
-					Save_Meta_Class::g()->save_meta_data( $data, 'update_post_meta', $this->meta_key );
-					// Save taxonomy!
-					$this->save_taxonomies( $data );
-				}
-
-				$data = Model_Util::exec_callback( $data, $this->after_put_function );
-			} // End if().
+			$data = Model_Util::exec_callback( $data, $this->after_post_function );
 
 			return $data;
 		}
@@ -362,8 +334,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Recherche dans les meta value.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 *
 		 * @param string $search Le terme de la recherche.
 		 * @param array  $array  La définition de la recherche.
@@ -407,18 +379,15 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			return $list_model;
 		}
 
+
 		/**
-		 * Retourne le post type
+		 * Retourne le post type, mettre get_type de partout et supprimer get_post_type
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 *
 		 * @return string Le post type
 		 */
-		public function get_post_type() {
-			return $this->post_type;
-		}
-
 		public function get_type() {
 			return $this->post_type;
 		}
@@ -426,8 +395,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Utile uniquement pour DigiRisk.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 *
 		 * @return string L'identifiant des commentaires pour DigiRisk.
 		 */
@@ -441,8 +410,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @param  object $data L'objet courant.
 		 * @return object				L'objet avec les taxonomies.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 */
 		private function get_taxonomies_id( $data ) {
 			$model = $data->get_model();
@@ -477,7 +446,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 *
 		 * @param string $model_name Le nom du modèle.
 		 *
-		 * @since 1.0.0.0
+		 * @since 1.0.0
 		 * @version 1.3.6.0
 		 */
 		public function set_model( $model_name ) {

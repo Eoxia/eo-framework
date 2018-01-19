@@ -4,9 +4,9 @@
  *
  * @author Jimmy Latour <dev@eoxia.com>
  * @since 1.0.0
- * @version 1.5.0
- * @copyright 2015-2017
- * @package WPEO_Model
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Framework
  */
 
 namespace eoxia;
@@ -19,7 +19,7 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 	/**
 	 * Définition des données des commentaires
 	 */
-	class Comment_Model extends Constructor_Data_Class {
+	class Comment_Model extends Data_Class {
 
 		/**
 		 * Définition du modèle principal des commentaires
@@ -38,6 +38,7 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 			'post_id' => array(
 				'type' => 'integer',
 				'field' => 'comment_post_ID',
+				'required' => true,
 			),
 			'date' => array(
 				'type' => 'wpeo_date',
@@ -45,7 +46,7 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 			),
 			'author_id' => array(
 				'type' => 'integer',
-				'field' => 'user_id',
+				'field' => 'user_ID',
 			),
 			'author_nicename' => array(
 				'type' => 'string',
@@ -55,6 +56,10 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 				'type' => 'string',
 				'field' => 'comment_author_email',
 			),
+			'author_url' => array(
+				'type' => 'string',
+				'field' => 'comment_author_url',
+			),
 			'author_ip' => array(
 				'type' => 'string',
 				'field' => 'comment_author_IP',
@@ -62,6 +67,7 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 			'content' => array(
 				'type' => 'string',
 				'field' => 'comment_content',
+				'required' => true,
 			),
 			'status' => array(
 				'type' => 'string',
@@ -70,6 +76,7 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 			'type' => array(
 				'type' => 'string',
 				'field' => 'comment_type',
+				'required' => true,
 			),
 		);
 
@@ -82,8 +89,6 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 		 * @param array $data Les données de l'objet.
 		 */
 		public function __construct( $data ) {
-			$this->model['author_id']['bydefault'] = get_current_user_id();
-
 			parent::__construct( $data );
 		}
 	}

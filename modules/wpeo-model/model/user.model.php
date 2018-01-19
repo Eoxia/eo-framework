@@ -18,7 +18,7 @@ if ( ! class_exists( '\eoxia\User_Model' ) ) {
 	/**
 	 * Définition des données des utilisateurs
 	 */
-	class User_Model extends Constructor_Data_Class {
+	class User_Model extends Data_Class {
 
 		/**
 		 * Définition des différentes couleurs pour l'avatar

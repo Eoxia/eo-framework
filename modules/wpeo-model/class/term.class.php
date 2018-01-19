@@ -3,17 +3,20 @@
  * Gestion des termes (POST, PUT, GET, DELETE)
  *
  * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0
- * @version 1.5.0
- * @copyright 2015-2017
- * @package WPEO_Model
+ * @since 0.1.0
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Framework
  */
 
 namespace eoxia;
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( '\eoxia\Term_Class' ) ) {
+
 	/**
 	 * Gestion des termes (POST, PUT, GET, DELETE)
 	 */
@@ -45,7 +48,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $base  = 'category';
+		protected $base = 'category';
 
 		/**
 		 * Utiles pour récupérer la clé unique
@@ -61,10 +64,10 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 * @var array
 		 */
 		protected $capabilities = array(
-			'get'			=> 'read',
-			'put' 		=> 'manage_categories',
-			'post' 		=> 'manage_categories',
-			'delete' 	=> 'manage_categories',
+			'get'    => 'read',
+			'put'    => 'manage_categories',
+			'post'   => 'manage_categories',
+			'delete' => 'manage_categories',
 		);
 
 		/**
@@ -107,8 +110,8 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 *
 		 * @return void
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 */
 		protected function construct() {
 			parent::construct();
@@ -117,8 +120,8 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		/**
 		 * Permet de récupérer le schéma avec les données du modèle par défault.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @return Object
 		 */
@@ -131,8 +134,8 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		/**
 		 * Récupères les données selon le modèle définis.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param array   $args Les paramètres de get_terms @https://codex.wordpress.org/Function_Reference/get_terms.
 		 * @param boolean $single Si on veut récupérer un tableau, ou qu'une seule entrée.
@@ -201,8 +204,8 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		/**
 		 * Appelle la méthode update.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données.
 		 * @return Array $data Les données
@@ -214,50 +217,57 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		/**
 		 * Insère ou met à jour les données dans la base de donnée.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données a insérer ou à mêttre à jour.
 		 * @return Object      L'objet construit grâce au modèle.
 		 */
 		public function update( $data ) {
 			$model_name = $this->model_name;
-			$object = new $model_name( (array) $data );
+			$data       = (array) $data;
+			$req_method = ( ! empty( $data['id'] ) ) ? 'post' : 'put';
 
-			/**	Sauvegarde des données dans la base de données / Save data into database	*/
-			if ( empty( $object->id ) ) {
-				$object = Model_Util::exec_callback( $object, $this->before_post_function );
-				$wp_category_danger = wp_insert_term( $object->name, $this->get_taxonomy(), array(
-					'description'	=> ! empty( $object->description ) ? $object->description : '',
-					'slug'	=> ! empty( $object->slug ) ? $object->slug : sanitize_title( $object->name ),
-					'parent'	=> ! empty( $object->parent_id ) ? (int) $object->parent_id : 0,
-				) );
-				$object = Model_Util::exec_callback( $object, $this->after_post_function );
-			} else {
-				$object = Model_Util::exec_callback( $object, $this->before_put_function );
+			$data = Model_Util::exec_callback( $data, $this->before_post_function );
 
-				$cloned_object = clone $object;
-				$wp_category_danger = wp_update_term( $object->id, $this->get_taxonomy(), $cloned_object->do_wp_object() );
-				$object = Model_Util::exec_callback( $object, $this->after_put_function );
+			$errors = Schema_Class::check_data_from_schema( $data, $this->get_schema() );
+
+			if ( ! empty( $errors ) ) {
+				return $errors;
 			}
 
-			if ( ! is_wp_error( $wp_category_danger ) ) {
-				$object->id = $wp_category_danger['term_id'];
-				$object->term_taxonomy_id = $wp_category_danger['term_taxonomy_id'];
+			if ( ! empty( $data['id'] ) ) {
+				$current_data = $this->get( array(
+					'id' => $data['id'],
+				), true );
 
-				save_meta_class::g()->save_meta_data( $object, 'update_term_meta', $this->meta_key );
+				$data = array_merge( (array) $current_data, $data );
+			}
+
+			$data = new $model_name( $data );
+
+			if ( empty( $data->id ) ) {
+				$term = wp_insert_term( $data->name, $this->get_type(), $data->convert_to_wordpress() );
 			} else {
-				if ( ! empty( $wp_category_danger->error_data['term_exists'] ) && is_int( $wp_category_danger->error_data['term_exists'] ) ) {
-					$list_term_model = $this->get( array(
-						'id' => $wp_category_danger->error_data['term_exists'],
-					) );
-					return $list_term_model[0];
-				} else {
-					return array();
+				$term = wp_update_term( $data->id, $this->get_type(), $data->convert_to_wordpress() );
+			}
+
+			if ( is_wp_error( $term ) ) {
+				if ( ! empty( $term->error_data['term_exists'] ) && is_int( $term->error_data['term_exists'] ) ) {
+					return $this->get( array(
+						'id' => $term->error_data['term_exists'],
+					), true );
 				}
+
+				return $term;
 			}
 
-			return $object;
+			$term->id               = $term['term_id'];
+			$term->term_taxonomy_id = $term['term_taxonomy_id'];
+
+			Save_Meta_Class::g()->save_meta_data( $data, 'update_term_meta', $this->meta_key );
+
+			return $data;
 		}
 
 		/**
@@ -265,8 +275,8 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 *
 		 * @todo: Inutile ?
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param int $id L'ID du term (term_id).
 		 */
@@ -275,39 +285,22 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		}
 
 		/**
-		 * Récupères la taxonomie
+		 * Renvoie le type de la taxonomie.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.6.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
-		 * @return string Le nom de la taxonomie
+		 * @return string Le type du commentaire.
 		 */
-		public function get_taxonomy() {
-			return $this->taxonomy;
-		}
-
-		/**
-		 * Retourne la taxonomie
-		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
-		 *
-		 * @return string Le post type
-		 *
-		 * @todo: Doublon
-		 */
-		public function get_post_type() {
-			return $this->get_taxonomy();
-		}
 		public function get_type() {
-			return $this->get_taxonomy();
+			return $this->taxonomy;
 		}
 
 		/**
 		 * Utile uniquement pour DigiRisk.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @return string L'identifiant des commentaires pour DigiRisk.
 		 */

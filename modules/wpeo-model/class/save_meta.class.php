@@ -4,9 +4,9 @@
  *
  * @author Jimmy Latour <dev@eoxia.com>
  * @since 1.0.0
- * @version 1.5.0
- * @copyright 2015-2017
- * @package WPEO_Model
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Framework
  */
 
 namespace eoxia;
@@ -24,20 +24,21 @@ if ( ! class_exists( '\eoxia\Save_Meta_Class' ) ) {
 		/**
 		 * Le constructeur
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 */
 		protected function construct() {}
 
 		/**
 		 * Apelle la méthode selon si la définition du champ est en meta "single" ou "multiple".
 		 *
+		 *  @since 1.0.0
+		 * @version 1.0.0
+		 *
 		 * @param  object $object   L'objet courant.
 		 * @param  string $function La méthode a appeler.
 		 * @param  string $meta_key Le nom de la meta key.
-		 *
-		 * @since 1.0.0.0
-		 * @ersion 1.3.0.0
+		 * @param  array  $schema   Le schéma.
 		 */
 		public static function save_meta_data( $object, $function, $meta_key ) {
 			$schema = $object->get_model();
@@ -67,8 +68,8 @@ if ( ! class_exists( '\eoxia\Save_Meta_Class' ) ) {
 		 * @param string $function La function a appeler.
 		 * @param string $meta_key Le nom de la meta.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 */
 		private function save_single_meta_data( $id, $value, $function, $meta_key ) {
 			$data = $value;
@@ -93,12 +94,23 @@ if ( ! class_exists( '\eoxia\Save_Meta_Class' ) ) {
 		 * @param string $function    La function a appeler.
 		 * @param string $meta_key    Le nom de la meta.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 */
 		private function save_multiple_meta_data( $id, $array_value, $function, $meta_key ) {
-			$data = \wp_json_encode( $array_value );
-			$data = addslashes( $data );
+
+			// Pour échapper les caractères car les update_*_meta enlève un slashes après.
+			if ( ! empty( $array_value ) ) {
+				foreach ( $array_value as &$value ) {
+					if ( is_string( $value ) ) {
+						$value = addslashes( $value );
+					}
+				}
+			}
+
+			$data = wp_json_encode( $array_value );
+
+			// Remplaces le paramètre $options de json_encode disponible à partir de php 5.4.0: JSON_UNESCAPED_UNICODE.
 			$data = preg_replace_callback( '/\\\\u([0-9a-f]{4})/i', function ( $matches ) {
 				$sym = mb_convert_encoding( pack( 'H*', $matches[1] ), 'UTF-8', 'UTF-16' );
 				return $sym;

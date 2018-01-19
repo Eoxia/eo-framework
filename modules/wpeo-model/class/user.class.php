@@ -3,15 +3,17 @@
  * Gestion des utilisateurs (POST, PUT, GET, DELETE)
  *
  * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0
- * @version 1.5.0
- * @copyright 2015-2017
- * @package WPEO_Model
+ * @since 0.1.0
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Framework
  */
 
 namespace eoxia;
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( '\eoxia\User_Class' ) ) {
 	/**
@@ -55,10 +57,10 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		 * @var array
 		 */
 		protected $capabilities = array(
-			'get'			=> 'list_users',
-			'put' 		=> 'edit_users',
-			'post' 		=> 'edit_users',
-			'delete' 	=> 'delete_users',
+			'get'    => 'list_users',
+			'put'    => 'edit_users',
+			'post'   => 'edit_users',
+			'delete' => 'delete_users',
 		);
 
 		/**
@@ -123,25 +125,13 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $base  = 'user';
-
-		/**
-		 * Le constructeur pour Singleton_Util
-		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
-		 *
-		 * @return void
-		 */
-		protected function construct() {
-			parent::construct();
-		}
+		protected $base = 'user';
 
 		/**
 		 * Permet de récupérer le schéma avec les données du modèle par défault.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @return Object
 		 */
@@ -154,8 +144,8 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		/**
 		 * Get current element type
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @return string The element type.
 		 */
@@ -166,8 +156,8 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		/**
 		 * Récupères les données selon le modèle définis.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param array   $args Les paramètres de get_users @https://codex.wordpress.org/Function_Reference/get_users.
 		 * @param boolean $single Si on veut récupérer un tableau, ou qu'une seule entrée.
@@ -227,8 +217,8 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		/**
 		 * Appelle la méthode update.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données.
 		 * @return Array $data Les données
@@ -240,47 +230,49 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		/**
 		 * Insère ou met à jour les données dans la base de donnée.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données a insérer ou à mêttre à jour.
 		 * @return Object      L'objet construit grâce au modèle.
 		 */
 		public function update( $data ) {
-			$data = (array) $data;
 			$model_name = $this->model_name;
+			$data       = (array) $data;
+			$type       = ( ! empty( $data['id'] ) ) ? 'post' : 'put';
 
-			if ( empty( $data['id'] ) ) {
-				$data = Model_Util::exec_callback( $data, $this->before_model_post_function );
-				$data = new $model_name( (array) $data );
-				$data = Model_Util::exec_callback( $data, $this->before_post_function );
+			$data = Model_Util::exec_callback( $data, $this->before_post_function );
 
-				if ( ! empty( $data->error ) && $data->error ) {
-					return false;
-				}
+			// Vérifie les données reçu par rapport au schéma de l'objet voulu.
+			$errors = Schema_Class::check_data_from_schema( $data, $this->get_schema() );
 
-				$cloned_data = clone $data;
-				$data->id = wp_insert_user( $cloned_data->do_wp_object() );
+			if ( ! empty( $errors ) ) {
+				return $errors;
+			}
 
-				$data = Model_Util::exec_callback( $data, $this->after_post_function );
-			} else {
-				$data = Model_Util::exec_callback( $data, $this->before_model_put_function );
+			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id' => $data['id'],
 				), true );
 
-				$obj_merged = (object) array_merge( (array) $current_data, (array) $data );
-				$data = new $model_name( (array) $obj_merged );
-				$data = Model_Util::exec_callback( $data, $this->before_put_function );
+				$data = array_merge( (array) $current_data, $data );
+			}
 
-				if ( ! empty( $data->error ) && $data->error ) {
-					return false;
+			$data = new $model_name( $data );
+
+			if ( empty( $data->id ) ) {
+				$inserted_user = wp_insert_user( $data->convert_to_wordpress() );
+				if ( is_wp_error( $inserted_user ) ) {
+					return $inserted_user;
 				}
 
-				$cloned_data = clone $data;
-				wp_update_user( $cloned_data->do_wp_object() );
+				$data->id = $inserted_user;
+			} else {
+				$data = wp_update_user( $data->convert_to_wordpress() );
 
-				$data = Model_Util::exec_callback( $data, $this->after_put_function );
+				if ( is_wp_error( $data ) ) {
+					return $data;
+				}
 			}
 
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_user_meta', $this->meta_key );
@@ -293,8 +285,8 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		 *
 		 * @todo: Utile ?
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param  integer $id L'ID de l'utilisateur.
 		 */
@@ -305,8 +297,8 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		/**
 		 * Utile uniquement pour DigiRisk.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @return string L'identifiant des commentaires pour DigiRisk.
 		 */
