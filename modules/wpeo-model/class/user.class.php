@@ -201,7 +201,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 						}
 					}
 
-					$data = new $model_name( $element );
+					$data = new $model_name( $element, 'get' );
 					$data = Model_Util::exec_callback( $data, $this->after_get_function );
 					$list_model_user[] = $data;
 				}

@@ -246,7 +246,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 						unset( $post[ $this->meta_key ] );
 					}
 				}
-
 				$model_name          = $this->model_name;
 				$array_posts[ $key ] = new $model_name( $post, 'get' );
 				$array_posts[ $key ] = $this->get_taxonomies_id( $array_posts[ $key ] );
@@ -290,13 +289,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 			$data = Model_Util::exec_callback( $data, $this->before_post_function );
 
-			// Vérifie les données reçu par rapport au schéma de l'objet voulu.
-			// $errors = Schema_Class::check_data_from_schema( $data, $this->get_schema() );
-      //
-			// if ( ! empty( $errors ) ) {
-			// 	return $errors;
-			// }
-
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id' => $data['id'],
@@ -315,10 +307,10 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 				$data->id = $inserted_post;
 			} else {
-				$data = wp_update_post( $data->convert_to_wordpress(), true );
+				$update_state = wp_update_post( $data->convert_to_wordpress(), true );
 
-				if ( is_wp_error( $data ) ) {
-					return $data;
+				if ( is_wp_error( $update_state ) ) {
+					return $update_state;
 				}
 			}
 

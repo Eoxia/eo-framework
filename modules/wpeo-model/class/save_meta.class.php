@@ -98,17 +98,10 @@ if ( ! class_exists( '\eoxia\Save_Meta_Class' ) ) {
 		 * @version 1.0.0
 		 */
 		private function save_multiple_meta_data( $id, $array_value, $function, $meta_key ) {
+			$data = wp_json_encode( $array_value );
 
 			// Pour échapper les caractères car les update_*_meta enlève un slashes après.
-			if ( ! empty( $array_value ) ) {
-				foreach ( $array_value as &$value ) {
-					if ( is_string( $value ) ) {
-						$value = addslashes( $value );
-					}
-				}
-			}
-
-			$data = wp_json_encode( $array_value );
+			$data = addslashes( $data );
 
 			// Remplaces le paramètre $options de json_encode disponible à partir de php 5.4.0: JSON_UNESCAPED_UNICODE.
 			$data = preg_replace_callback( '/\\\\u([0-9a-f]{4})/i', function ( $matches ) {

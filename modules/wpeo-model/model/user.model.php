@@ -3,16 +3,17 @@
  * Définition des données des utilisateurs
  *
  * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0.0
- * @version 1.3.0.0
- * @copyright 2015-2017
- * @package wpeo_model
- * @subpackage model
+ * @since 0.1.0
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Model
  */
 
 namespace eoxia;
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( '\eoxia\User_Model' ) ) {
 	/**
@@ -25,9 +26,7 @@ if ( ! class_exists( '\eoxia\User_Model' ) ) {
 		 *
 		 * @var array
 		 */
-		public $avatar_color = array(
-			'50a1ed'
-		);
+		public $avatar_color = array( '50a1ed' );
 
 		/**
 		 * L'url pour l'avatar
@@ -101,8 +100,8 @@ if ( ! class_exists( '\eoxia\User_Model' ) ) {
 			),
 		);
 
-		public function __construct( $data ) {
-			parent::__construct( $data );
+		public function __construct( $data, $req_method = null ) {
+			parent::__construct( $data, $req_method );
 		}
 
 		/**

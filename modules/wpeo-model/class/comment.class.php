@@ -184,13 +184,13 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 					}
 
 					$model_name = $this->model_name;
-					$list_comment[ $key ] = new $model_name( $comment );
+					$list_comment[ $key ] = new $model_name( $comment, 'get' );
 					$list_comment[ $key ] = Model_Util::exec_callback( $list_comment[ $key ], $this->after_get_function );
 				}
 			} else {
 				if ( ! empty( $args['schema'] ) ) {
 					$model_name = $this->model_name;
-					$list_comment[0] = new $model_name( array() );
+					$list_comment[0] = new $model_name( array(), 'get' );
 					$list_comment[0] = Model_Util::exec_callback( $list_comment[0], $this->after_get_function );
 				}
 			} // End if().
@@ -255,13 +255,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 						$data['author_url'] = $user->user_url;
 					}
 				}
-			}
-
-			// Vérifie les données reçu par rapport au schéma de l'objet voulu.
-			$errors = Schema_Class::check_data_from_schema( $data, $this->get_schema() );
-
-			if ( ! empty( $errors ) ) {
-				return $errors;
 			}
 
 			if ( ! empty( $data['id'] ) ) {

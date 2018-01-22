@@ -71,8 +71,8 @@ if ( ! class_exists( '\eoxia\Term_Model' ) ) {
 			)
 		);
 
-		public function __construct( $data ) {
-			parent::__construct( $data );
+		public function __construct( $data, $req_method = null ) {
+			parent::__construct( $data, $req_method );
 		}
 	}
 }

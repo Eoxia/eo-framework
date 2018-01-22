@@ -47,6 +47,7 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 			'date_modified' => array(
 				'type' => 'wpeo_date',
 				'field' => 'post_modified',
+				'context' => array( 'GET' ),
 			),
 			'title' => array(
 				'type' => 'string',
@@ -86,9 +87,9 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 				'field' => 'comment_count',
 			),
 			'thumbnail_id' => array(
-				'type' => 'integer',
+				'type'      => 'integer',
 				'meta_type' => 'single',
-				'field' => '_thumbnail_id',
+				'field'     => '_thumbnail_id',
 			),
 		);
 

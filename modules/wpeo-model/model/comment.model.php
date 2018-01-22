@@ -88,8 +88,8 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 		 *
 		 * @param array $data Les données de l'objet.
 		 */
-		public function __construct( $data ) {
-			parent::__construct( $data );
+		public function __construct( $data, $req_method = null ) {
+			parent::__construct( $data, $req_method );
 		}
 	}
 } // End if().

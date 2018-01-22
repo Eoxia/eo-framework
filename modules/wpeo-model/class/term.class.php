@@ -188,7 +188,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 						}
 					}
 
-					$list_term[ $key ] = new $model_name( $term );
+					$list_term[ $key ] = new $model_name( $term, 'get' );
 
 					$list_term[ $key ] = Model_Util::exec_callback( $list_term[ $key ], $this->after_get_function );
 				}

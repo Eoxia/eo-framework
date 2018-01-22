@@ -109,22 +109,43 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 					$values = ! empty( $data[ $field_name ] ) ? $data[ $field_name ] : array();
 
 					if ( empty( $current_object->$field_name ) ) {
-						$current_object->$field_name = new \stdClass();
+						if ( 'array' === $field_def['type'] ) {
+							$current_object->$field_name = array();
+						} else {
+							$current_object->$field_name = new \stdClass();
+						}
 					}
 
 					// Récursivité sur les enfants de la définition courante.
 					$current_object->$field_name = $this->handle_data( $data, $values, $current_object->$field_name, $field_def['child'] );
 				}
 
-				if ( isset( $field_def['required'] ) && $field_def['required'] && null === $value ) {
-					$this->wp_errors->add( 'eo_model_is_required', $field_name . ' is required' );
+				// Traitement de $value au niveau du champ "required".
+				if ( 'GET' !== $this->req_method && isset( $field_def['required'] ) && $field_def['required'] && null === $value ) {
+					$this->wp_errors->add( 'eo_model_is_required', get_class( $this ) . ' => ' . $field_name . ' is required' );
 				}
 
-				// Vérifie le typage de la valeur.
+				// Force le typage de $value en requête mode "GET".
+				if ( 'GET' === $this->req_method ) {
+					$value = $this->handle_value_type( $value, $field_def );
+				}
+
+				// Vérifie le typage $value.
 				$this->check_value_type( $value, $field_name, $field_def );
 
-				if ( isset( $current_object->$field_name ) && null === $value && isset( $field_def['required'] ) && $field_def['required'] ) {
-					unset( $current_object->$field_name );
+				// Pour remettre à jour la valeur dans l'objet.
+				if ( null !== $value ) {
+					if ( is_object( $current_object ) ) {
+						$current_object->$field_name = $value;
+					} else {
+						$current_object[ $field_name ] = $value;
+					}
+				}
+
+				if ( 'GET' !== $this->req_method ) {
+					if ( isset( $current_object->$field_name ) && null === $value && isset( $field_def['required'] ) && $field_def['required'] ) {
+						unset( $current_object->$field_name );
+					}
 				}
 			}
 
@@ -154,36 +175,39 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			return null;
 		}
 
+
 		public function check_value_type( $value, $field_name, $field_def ) {
 			// Vérifie le type de $value.
 			if ( null !== $value ) {
 				if ( empty( $field_def['type'] ) ) {
-					$this->wp_errors->add( 'eo_model_invalid_type', $field_name . ': ' . $value . '(' . gettype( $value ) . ') no setted in schema. Type accepted: ' . join( ',', self::$accepted_types ) );
+					$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') no setted in schema. Type accepted: ' . join( ',', self::$accepted_types ) );
 				} else {
 					switch ( $field_def['type'] ) {
 						case 'string':
 							if ( ! is_string( $value ) ) {
-								$this->wp_errors->add( 'eo_model_invalid_type', $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
+								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
 							}
 							break;
 						case 'integer':
 							if ( ! is_int( $value ) ) {
-								$this->wp_errors->add( 'eo_model_invalid_type', $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
+								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
 							}
 							break;
 						case 'boolean':
 							if ( ! is_bool( $value ) ) {
-								$this->wp_errors->add( 'eo_model_invalid_type', $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
+								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
 							}
 							break;
 						case 'array':
 							if ( ! is_array( $value ) ) {
-								$this->wp_errors->add( 'eo_model_invalid_type', $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
+								$rendered_value = is_object( $value ) ? 'Object item' : $value;
+
+								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $rendered_value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
 							}
 							break;
 						default:
 							if ( ! in_array( $field_def['type'], self::$accepted_types, true ) ) {
-								$this->wp_errors->add( 'eo_model_invalid_type', $field_name . ': ' . $value . '(' . gettype( $value ) . ') incorrect type: "' . $field_def['type'] . '". Type accepted: ' . join( ',', self::$accepted_types ) );
+								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') incorrect type: "' . $field_def['type'] . '". Type accepted: ' . join( ',', self::$accepted_types ) );
 							}
 							break;
 					}
@@ -219,6 +243,10 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			// @see Schema_Class::$accepted_types
 			settype( $value, $field_def['type'] );
 
+			if ( 'GET' === $this->req_method && 'string' === $field_def['type'] ) {
+				$value = stripslashes( $value );
+			}
+
 			// On force le typage des enfants uniquement si array_type est définie.
 			if ( ! empty( $field_def['array_type'] ) && is_array( $value ) && ! empty( $value ) ) {
 				foreach ( $value as $key => $val ) {
@@ -248,10 +276,18 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 
 				if ( ! empty( $field_def['field'] ) ) {
 					if ( isset( $this->$field_name ) ) {
-						$data[ $field_def['field'] ] = $this->$field_name;
+						$value = $this->$field_name;
+						if ( 'wpeo_date' !== $field_def['type'] ) {
+							$data[ $field_def['field'] ] = $value;
+						} else {
+							if ( isset( $value['raw'] ) ) {
+								$data[ $field_def['field'] ] = $value['raw'];
+							}
+						}
 					}
 				}
 			}
+
 			return $data;
 		}
 
