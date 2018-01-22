@@ -2,19 +2,21 @@
 /**
  * Définition des données des terms
  *
- * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0.0
- * @version 1.3.0.0
- * @copyright 2015-2017
- * @package wpeo_model
- * @subpackage model
+ * @author Eoxia <dev@eoxia.com>
+ * @since 1.0.0
+ * @version 1.3.0
+ * @copyright 2015-2018
+ * @package EO_Model
  */
 
 namespace eoxia;
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( '\eoxia\Term_Model' ) ) {
+
 	/**
 	 * Définition des données des terms
 	 */
@@ -25,53 +27,58 @@ if ( ! class_exists( '\eoxia\Term_Model' ) ) {
 		 *
 		 * @var array Les champs principaux d'une taxonomie
 		 */
-		protected $model = array(
-			'id' => array(
-				'type'		=> 'integer',
-				'field'		=> 'term_id',
-				'bydefault'	=> 0,
-			),
-			'type' => array(
-				'type'		=> 'string',
-				'field'		=> 'taxonomy',
-				'bydefault'	=> 0,
-			),
-			'term_taxonomy_id' => array(
-				'type'		=> 'integer',
-				'field'		=> 'term_taxonomy_id',
-				'bydefault'	=> 0,
-			),
-			'name' => array(
-				'type'		=> 'string',
-				'field'		=> 'name',
-				'bydefault'	=> 0,
-				'export'	=> true,
-			),
-			'description' => array(
-				'type'		=> 'string',
-				'field'		=> 'description',
-				'bydefault'	=> 0,
-			),
-			'slug' => array(
-				'export'	=> true,
-				'type'		=> 'string',
-				'field'		=> 'slug',
-				'bydefault'	=> 0
-			),
-			'parent_id' => array(
-				'export' 	=> true,
-				'type'		=> 'integer',
-				'field'		=> 'parent',
-				'bydefault'	=> 0,
-			),
-			'post_id' => array(
-				'type' 	=> 'integer',
-				'field'	=>	'post_id',
-				'bydefault' => 0,
-			)
-		);
+		protected $schema = array();
 
-		public function __construct( $data, $req_method = null ) {
+		/**
+		 * Le constructeur
+		 *
+		 * @since 0.1.0
+		 * @version 1.0.0
+		 *
+		 * @param array $data       Les données de l'objet.
+		 * @param mixed $req_method Peut être "GET", "POST", "PUT" ou null.
+		 */
+		public function __construct( $data = null, $req_method = null ) {
+			$this->schema['id'] = array(
+				'type'  => 'integer',
+				'field' => 'term_id',
+			);
+
+			$this->schema['type'] = array(
+				'type'  => 'string',
+				'field' => 'taxonomy',
+			);
+
+			$this->schema['term_taxonomy_id'] = array(
+				'type'  => 'integer',
+				'field' => 'term_taxonomy_id',
+			);
+
+			$this->schema['name'] = array(
+				'type'  => 'string',
+				'field' => 'name',
+			);
+
+			$this->schema['description'] = array(
+				'type'  => 'string',
+				'field' => 'description',
+			);
+
+			$this->schema['slug'] = array(
+				'type'  => 'string',
+				'field' => 'slug',
+			);
+
+			$this->schema['parent_id'] = array(
+				'type'  => 'integer',
+				'field' => 'parent',
+			);
+
+			$this->schema['post_id'] = array(
+				'type'  => 'integer',
+				'field' => 'post_id',
+			);
+
 			parent::__construct( $data, $req_method );
 		}
 	}

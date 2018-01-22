@@ -40,67 +40,86 @@ if ( ! class_exists( '\eoxia\User_Model' ) ) {
 		 *
 		 * @var array Les champs principaux d'un utilisateur
 		 */
-		protected $model = array(
-			'id' => array(
-				'type'		=> 'integer',
-				'field'		=> 'ID',
-			),
-			'email' => array(
-				'type'			=> 'string',
-				'field'			=> 'user_email',
-				'required'	=> true,
-			),
-			'login' => array(
-				'type'			=> 'string',
-				'field'			=> 'user_login',
-				'required'	=> true,
-			),
-			'password' => array(
-				'type'			=> 'string',
-				'field'			=> 'user_pass',
-				'required'	=> true,
-			),
-			'displayname' => array(
-				'type'		=> 'string',
-				'field'		=> 'display_name',
-			),
-			'date' => array(
-				'type'		=> 'string',
-				'field'		=> 'user_registered',
-			),
-			'avatar' => array(
-				'type'			=> 'string',
-				'meta_type' => 'single',
-				'field'			=> 'avatar',
-				'bydefault'	=> '',
-			),
-			'avatar_color' => array(
-				'type'			=> 'string',
-				'meta_type'	=> 'single',
-				'field'			=> 'avatar_color',
-				'bydefault'	=> '',
-			),
-			'initial'		=> array(
-				'type'			=> 'string',
-				'meta_type'	=> 'single',
-				'field'			=> 'initial',
-				'bydefault'	=> '',
-			),
-			'firstname'		=> array(
-				'type'			=> 'string',
-				'meta_type'	=> 'single',
-				'field'			=> 'first_name',
-				'bydefault'	=> '',
-			),
-			'lastname'		=> array(
-				'type'			=> 'string',
-				'meta_type'	=> 'single',
-				'field'			=> 'last_name',
-				'bydefault'	=> '',
-			),
-		);
+		protected $schema = array();
 
-		public function __construct( $data, $req_method = null ) {
+		/**
+		 * Le constructeur
+		 *
+		 * @since 0.1.0
+		 * @version 1.0.0
+		 *
+		 * @param array $data       Les données de l'objet.
+		 * @param mixed $req_method Peut être "GET", "POST", "PUT" ou null.
+		 */
+		public function __construct( $data = null, $req_method = null ) {
+			$this->schema['id'] = array(
+				'type'  => 'integer',
+				'field' => 'ID',
+			);
+
+			$this->schema['email'] = array(
+				'type'     => 'string',
+				'field'    => 'user_email',
+				'required' => true,
+			);
+
+			$this->schema['login'] = array(
+				'type'     => 'string',
+				'field'    => 'user_login',
+				'required' => true,
+			);
+
+			$this->schema['password'] = array(
+				'type'     => 'string',
+				'field'    => 'user_pass',
+				'required' => true,
+			);
+
+			$this->schema['displayname'] = array(
+				'type'  => 'string',
+				'field' => 'display_name',
+			);
+
+			$this->schema['date'] = array(
+				'type'  => 'string',
+				'field' => 'user_registered',
+			);
+
+			$this->schema['avatar'] = array(
+				'type'      => 'string',
+				'meta_type' => 'single',
+				'field'     => 'avatar',
+				'default'   => '',
+			);
+
+			$this->schema['avatar_color'] = array(
+				'type'      => 'string',
+				'meta_type' => 'single',
+				'field'     => 'avatar_color',
+				'default'   => '',
+			);
+
+			$this->schema['initial'] = array(
+				'type'      => 'string',
+				'meta_type' => 'single',
+				'field'     => 'initial',
+				'default'   => '',
+			);
+
+			$this->schema['firstname'] = array(
+				'type'      => 'string',
+				'meta_type' => 'single',
+				'field'     => 'first_name',
+				'default'   => '',
+			);
+
+			$this->schema['lastname'] = array(
+				'type'      => 'string',
+				'meta_type' => 'single',
+				'field'     => 'last_name',
+				'default'   => '',
+			);
+
 			parent::__construct( $data, $req_method );
 		}
 
