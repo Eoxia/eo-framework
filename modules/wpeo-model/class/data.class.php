@@ -49,7 +49,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 * @param Array $data Les données non traité. Peut être null, permet de récupérer le schéma.
 		 */
 		public function __construct( $data = null, $req_method = null ) {
-			$this->wp_errors      = new \WP_Error();
+			$this->wp_errors  = new \WP_Error();
 			$this->req_method = ( null !== $req_method ) ? strtoupper( $req_method ) : null;
 
 			if ( null !== $data ) {
@@ -71,16 +71,16 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 * @param array  $data           Toutes les données non traitée.
 		 * @param array  $current_data   Les données actuelles.
 		 * @param object $current_object L'objet en cours de construction.
-		 * @param array  $model          La définition des données.
+		 * @param array  $schema          La définition des données.
 		 *
 		 * @return object                Les données traitées, typées et convertie en l'objet demandé.
 		 */
-		private function handle_data( $data, $current_data = null, $current_object = null, $model = null ) {
+		private function handle_data( $data, $current_data = null, $current_object = null, $schema = null ) {
 			$current_data   = ( null === $current_data ) ? $data : $current_data;
 			$current_object = ( null === $current_object ) ? $this : $current_object;
-			$model          = ( null === $model ) ? $this->model : $model;
+			$schema          = ( null === $schema ) ? $this->schema : $schema;
 
-			foreach ( $model as $field_name => $field_def ) {
+			foreach ( $schema as $field_name => $field_def ) {
 				// Définie les données  par défaut pour l'élément courant par rapport à "bydefault".
 				$value = $this->set_default_data( $field_name, $field_def );
 
@@ -167,15 +167,21 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			if ( 'wpeo_date' === $field_def['type'] ) {
 				return current_time( 'mysql' );
 			} else {
-				if ( isset( $field_def['bydefault'] ) ) {
-					return $field_def['bydefault'];
+				if ( isset( $field_def['default'] ) ) {
+					return $field_def['default'];
 				}
 			}
 
 			return null;
 		}
 
-
+		/**
+		 * @todo: A commenter
+		 * @param  [type] $value      [description]
+		 * @param  [type] $field_name [description]
+		 * @param  [type] $field_def  [description]
+		 * @return [type]             [description]
+		 */
 		public function check_value_type( $value, $field_name, $field_def ) {
 			// Vérifie le type de $value.
 			if ( null !== $value ) {
@@ -272,7 +278,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		public function convert_to_wordpress() {
 			$data = array();
 
-			foreach ( $this->model as $field_name => $field_def ) {
+			foreach ( $this->schema as $field_name => $field_def ) {
 
 				if ( ! empty( $field_def['field'] ) ) {
 					if ( isset( $this->$field_name ) ) {

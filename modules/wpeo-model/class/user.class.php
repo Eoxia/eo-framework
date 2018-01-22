@@ -258,7 +258,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 				$data = array_merge( (array) $current_data, $data );
 			}
 
-			$data = new $model_name( $data );
+			$data = new $model_name( $data, $req_method );
 
 			if ( empty( $data->id ) ) {
 				$inserted_user = wp_insert_user( $data->convert_to_wordpress() );
