@@ -39,8 +39,9 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 		 */
 		public function __construct( $data = null, $req_method = null ) {
 			$this->schema['id'] = array(
-				'type'  => 'integer',
-				'field' => 'ID',
+				'type'    => 'integer',
+				'field'   => 'ID',
+				'default' => 0,
 			);
 
 			$this->schema['parent_id'] = array(
@@ -81,9 +82,9 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 			);
 
 			$this->schema['status'] = array(
-				'type'      => 'string',
-				'field'     => 'post_status',
-				'bydefault' => 'publish',
+				'type'    => 'string',
+				'field'   => 'post_status',
+				'default' => 'draft',
 			);
 
 			$this->schema['link'] = array(
@@ -115,6 +116,7 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 				'type'      => 'integer',
 				'meta_type' => 'single',
 				'field'     => '_thumbnail_id',
+				'default'   => 0,
 			);
 
 			parent::__construct( $data, $req_method );

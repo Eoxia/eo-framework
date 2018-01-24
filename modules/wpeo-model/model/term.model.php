@@ -3,8 +3,8 @@
  * Définition des données des terms
  *
  * @author Eoxia <dev@eoxia.com>
- * @since 1.0.0
- * @version 1.3.0
+ * @since 0.1.0
+ * @version 1.0.0
  * @copyright 2015-2018
  * @package EO_Model
  */
@@ -40,8 +40,9 @@ if ( ! class_exists( '\eoxia\Term_Model' ) ) {
 		 */
 		public function __construct( $data = null, $req_method = null ) {
 			$this->schema['id'] = array(
-				'type'  => 'integer',
-				'field' => 'term_id',
+				'type'    => 'integer',
+				'field'   => 'term_id',
+				'default' => 0,
 			);
 
 			$this->schema['type'] = array(

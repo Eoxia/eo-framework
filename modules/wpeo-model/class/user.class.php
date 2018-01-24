@@ -202,7 +202,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 					}
 
 					$data = new $model_name( $element, 'get' );
-					$data = Model_Util::exec_callback( $data, $this->after_get_function );
+					$data = Model_Util::exec_callback( $this->after_get_function, $data, array( 'model_name' => $model_name ) );
 					$list_model_user[] = $data;
 				}
 			}
@@ -239,16 +239,18 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		public function update( $data ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
-			$type       = ( ! empty( $data['id'] ) ) ? 'post' : 'put';
+			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
+			$before_cb  = 'before_' . $req_method . '_function';
+			$after_cb   = 'after_' . $req_method . '_function';
+			$args_cb    = array( 'model_name' => $model_name );
 
-			$data = Model_Util::exec_callback( $data, $this->before_post_function );
-
-			// Vérifie les données reçu par rapport au schéma de l'objet voulu.
-			$errors = Schema_Class::check_data_from_schema( $data, $this->get_schema() );
-
-			if ( ! empty( $errors ) ) {
-				return $errors;
+			if ( 'post' === $req_method ) {
+				while ( username_exists( $data['login'] ) ) {
+					$data['login'] .= rand( 1000, 9999 );
+				}
 			}
+
+			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
 
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
@@ -268,14 +270,18 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 
 				$data->id = $inserted_user;
 			} else {
-				$data = wp_update_user( $data->convert_to_wordpress() );
+				$updated_user = wp_update_user( $data->convert_to_wordpress() );
 
-				if ( is_wp_error( $data ) ) {
-					return $data;
+				if ( is_wp_error( $updated_user ) ) {
+					return $updated_user;
 				}
+
+				$data->id = $updated_user;
 			}
 
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_user_meta', $this->meta_key );
+
+			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
 
 			return $data;
 		}

@@ -2,7 +2,7 @@
 /**
  * Gestion des posts (POST, PUT, GET, DELETE)
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
  * @version 1.0.0
  * @copyright 2015-2018
@@ -141,11 +141,11 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * Initialise le post type selon $name et $name_singular.
 		 * Initialise la taxonomy si elle existe.
 		 *
-		 * @see register_post_type
-		 * @return boolean
-		 *
 		 * @since 1.0.0
 		 * @version 1.0.0
+		 *
+		 * @see register_post_type
+		 * @return boolean
 		 */
 		public function init_post_type() {
 			$args = array(
@@ -164,14 +164,14 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Permet de récupérer le schéma avec les données du modèle par défault.
 		 *
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
 		 * @return Object
 		 */
 		public function get_schema() {
 			$model_name = $this->model_name;
-			$model = new $model_name( array() );
+			$model      = new $model_name( array() );
 			return $model->get_model();
 		}
 
@@ -250,7 +250,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				$array_posts[ $key ] = new $model_name( $post, 'get' );
 				$array_posts[ $key ] = $this->get_taxonomies_id( $array_posts[ $key ] );
 
-				$array_posts[ $key ] = Model_Util::exec_callback( $array_posts[ $key ], $this->after_get_function );
+				$array_posts[ $key ] = Model_Util::exec_callback( $this->after_get_function, $array_posts[ $key ], array( 'model_name' => $model_name ) );
 			} // End foreach().
 
 			if ( true === $single && 1 === count( $array_posts ) ) {
@@ -285,16 +285,41 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		public function update( $data ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
-			$req_method = ( ! empty( $data['id'] ) ) ? 'post' : 'put';
+			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
+			$before_cb  = 'before_' . $req_method . '_function';
+			$after_cb   = 'after_' . $req_method . '_function';
+			$args_cb    = array( 'model_name' => $model_name );
 
-			$data = Model_Util::exec_callback( $data, $this->before_post_function );
+			if ( empty( $data['type'] ) ) {
+				$data['type'] = $this->get_type();
+			}
+
+			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
 
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id' => $data['id'],
 				), true );
 
-				$data = array_merge( (array) $current_data, $data );
+				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data );
+			}
+
+			if ( isset( $data['$push'] ) ) {
+				if ( ! empty( $data['$push'] ) ) {
+					foreach ( $data['$push'] as $field_name => $field_to_push ) {
+						if ( ! empty( $field_to_push ) ) {
+							foreach ( $field_to_push as $sub_field_name => $value ) {
+								if ( ! isset( $data[ $field_name ][ $sub_field_name ] ) ) {
+									$data[ $field_name ][ $sub_field_name ] = array();
+								}
+
+								$data[ $field_name ][ $sub_field_name ][] = $value;
+							}
+						}
+					}
+				}
+
+				unset( $data['$push'] );
 			}
 
 			$data = new $model_name( $data, $req_method );
@@ -314,11 +339,14 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				}
 			}
 
+			// Permet de nettoyer les champs 'wpeo_date' dans les metadonnées de WordPress.
+			$data = $data->clear_date( $data );
+
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_post_meta', $this->meta_key );
 			// Save taxonomy!
 			$this->save_taxonomies( $data );
 
-			$data = Model_Util::exec_callback( $data, $this->after_post_function );
+			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
 
 			return $data;
 		}
@@ -406,12 +434,14 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @version 1.0.0
 		 */
 		private function get_taxonomies_id( $data ) {
-			$model = $data->get_model();
-			if ( ! empty( $model['taxonomy']['child'] ) ) {
-				foreach ( $model['taxonomy']['child'] as $key => $value ) {
-					$data->taxonomy[ $key ] = wp_get_object_terms( $data->id, $key, array(
-						'fields' => 'ids',
-					) );
+			if ( ! empty( $data->id ) ) {
+				$model = $data->get_model();
+				if ( ! empty( $model['taxonomy']['child'] ) ) {
+					foreach ( $model['taxonomy']['child'] as $key => $value ) {
+						$data->taxonomy[ $key ] = wp_get_object_terms( $data->id, $key, array(
+							'fields' => 'ids',
+						) );
+					}
 				}
 			}
 

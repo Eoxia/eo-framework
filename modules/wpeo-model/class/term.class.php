@@ -51,6 +51,13 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		protected $base = 'category';
 
 		/**
+		 * Pour l'association de la taxonomy
+		 *
+		 * @var string|array
+		 */
+		protected $associate_post_types = array();
+
+		/**
 		 * Utiles pour récupérer la clé unique
 		 *
 		 * @todo Rien à faire ici
@@ -115,6 +122,27 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 */
 		protected function construct() {
 			parent::construct();
+
+			add_action( 'init', array( $this, 'callback_init' ) );
+		}
+
+		/**
+		 * Initialise la taxonomie
+		 *
+		 * @since 1.0.0
+		 * @version 1.0.0
+		 *
+		 * @return void
+		 */
+		public function callback_init() {
+			$args = array(
+				'hierarchical'      => false,
+				'show_ui'           => true,
+				'show_admin_column' => true,
+				'query_var'         => true,
+			);
+
+			register_taxonomy( $this->taxonomy, $this->associate_post_types, $args );
 		}
 
 		/**
@@ -127,7 +155,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 */
 		public function get_schema() {
 			$model_name = $this->model_name;
-			$model = new $model_name( array(), array() );
+			$model = new $model_name( array() );
 			return $model->get_model();
 		}
 
@@ -190,7 +218,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 
 					$list_term[ $key ] = new $model_name( $term, 'get' );
 
-					$list_term[ $key ] = Model_Util::exec_callback( $list_term[ $key ], $this->after_get_function );
+					$list_term[ $key ] = Model_Util::exec_callback( $this->after_get_function, $list_term[ $key ], array( 'model_name' => $model_name )  );
 				}
 			}
 
@@ -226,9 +254,12 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		public function update( $data ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
-			$req_method = ( ! empty( $data['id'] ) ) ? 'post' : 'put';
+			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
+			$before_cb  = 'before_' . $req_method . '_function';
+			$after_cb   = 'after_' . $req_method . '_function';
+			$args_cb    = array( 'model_name' => $model_name );
 
-			$data = Model_Util::exec_callback( $data, $this->before_post_function );
+			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
 
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
@@ -260,6 +291,8 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			$data->term_taxonomy_id = $term['term_taxonomy_id'];
 
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_term_meta', $this->meta_key );
+
+			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
 
 			return $data;
 		}

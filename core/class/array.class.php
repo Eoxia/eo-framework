@@ -108,5 +108,32 @@ if ( ! class_exists( '\eoxia\Array_Util' ) ) {
 
 			return $array;
 		}
+
+		/**
+		 * Récursive wp_parse_args de WordPress.
+		 *
+		 * @since 1.0.0
+		 * @version 1.0.0
+		 *
+		 * @param  mixed $a       Les données a mergées.
+		 * @param  mixed $default Les données par défaut.
+		 * @return array          Les données mergées.
+		 */
+		public function recursive_wp_parse_args( &$a, $default ) {
+			$a       = (array) $a;
+			$default = (array) $default;
+
+			$result = $default;
+			foreach ( $a as $k => $v ) {
+				if ( is_array( $v ) && isset( $result[ $k ] ) ) {
+					$result[ $k ] = $this->recursive_wp_parse_args( $v, $result[ $k ] );
+				} else {
+					$result[ $k ] = $v;
+				}
+			}
+
+			return $result;
+		}
+
 	}
 } // End if().

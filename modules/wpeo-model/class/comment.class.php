@@ -2,8 +2,8 @@
 /**
  * Gestion des commentaires (POST, PUT, GET, DELETE)
  *
- * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0
+ * @author Eoxia <dev@eoxia.com>
+ * @since 0.1.0
  * @version 1.0.0
  * @copyright 2015-2018
  * @package EO_Framework
@@ -119,8 +119,8 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		/**
 		 * Permet de récupérer le schéma avec les données du modèle par défault.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @return Comment_Model
 		 */
@@ -133,8 +133,8 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		/**
 		 * Récupères les données selon le modèle définis.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param array   $args Les paramètres de get_comments @https://codex.wordpress.org/Function_Reference/get_comments.
 		 * @param boolean $single Si on veut récupérer un tableau, ou qu'une seule entrée.
@@ -142,18 +142,19 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @return Comment_Model
 		 */
 		public function get( $args = array(), $single = false ) {
-			$array_model = array();
+			$array_model   = array();
 			$array_comment = array();
 
 			if ( ! empty( $this->comment_type ) ) {
 				$args['status'] = '-34070';
+				$args['type']   = $this->get_type();
 			}
 
 			if ( empty( $args['status'] ) && ! empty( $this->status ) ) {
 				$args['status'] = $this->status;
 			}
 
-			if ( ! empty( $args['id'] ) ) {
+			if ( isset( $args['id'] ) ) {
 				$array_comment[] = get_comment( $args['id'], ARRAY_A );
 			} elseif ( isset( $args['schema'] ) ) {
 				$array_comment[] = array();
@@ -185,13 +186,13 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 
 					$model_name = $this->model_name;
 					$list_comment[ $key ] = new $model_name( $comment, 'get' );
-					$list_comment[ $key ] = Model_Util::exec_callback( $list_comment[ $key ], $this->after_get_function );
+					$list_comment[ $key ] = Model_Util::exec_callback( $this->after_get_function, $list_comment[ $key ], array( 'model_name' => $model_name ) );
 				}
 			} else {
 				if ( ! empty( $args['schema'] ) ) {
 					$model_name = $this->model_name;
 					$list_comment[0] = new $model_name( array(), 'get' );
-					$list_comment[0] = Model_Util::exec_callback( $list_comment[0], $this->after_get_function );
+					$list_comment[0] = Model_Util::exec_callback( $this->after_get_function, $list_comment[0], array( 'model_name' => $model_name ) );
 				}
 			} // End if().
 
@@ -205,8 +206,8 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		/**
 		 * Appelle la méthode update.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données.
 		 * @return Array $data Les données
@@ -218,7 +219,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		/**
 		 * Insère ou met à jour les données dans la base de donnée.
 		 *
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données a insérer ou à mêttre à jour.
@@ -227,14 +228,16 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		public function update( $data ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
-			$req_method = ( ! empty( $data['id'] ) ) ? 'post' : 'put';
-
-			$data = Model_Util::exec_callback( $data, $this->before_post_function );
+			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
+			$before_cb  = 'before_' . $req_method . '_function';
+			$after_cb   = 'after_' . $req_method . '_function';
+			$args_cb    = array( 'model_name' => $model_name );
 
 			// Vérifie l'existence du type.
 			if ( empty( $data['type'] ) ) {
 				$data['type'] = $this->get_type();
 			}
+
 
 			if ( empty( $data['id'] ) ) {
 				$user = wp_get_current_user();
@@ -257,12 +260,14 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				}
 			}
 
+			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
+
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id' => $data['id'],
 				), true );
 
-				$data = array_merge( (array) $current_data, $data );
+				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data );
 			}
 
 			$data = new $model_name( $data, $req_method );
@@ -281,14 +286,16 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_comment_meta', $this->meta_key );
 
+			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
+
 			return $data;
 		}
 
 		/**
 		 * Renvoie le type du commentaire
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @return string Le type du commentaire.
 		 */
@@ -299,8 +306,8 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		/**
 		 * Utile uniquement pour DigiRisk.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 0.1.0
+		 * @version 1.0.0
 		 *
 		 * @return string L'identifiant des commentaires pour DigiRisk.
 		 */

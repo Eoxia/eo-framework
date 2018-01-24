@@ -2,8 +2,8 @@
 /**
  * Gestion des meta
  *
- * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0
+ * @author Eoxia <dev@eoxia.com>
+ * @since 0.1.0
  * @version 1.0.0
  * @copyright 2015-2018
  * @package EO_Framework
@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( '\eoxia\Save_Meta_Class' ) ) {
+
 	/**
 	 * Gestion des meta
 	 */
@@ -32,13 +33,12 @@ if ( ! class_exists( '\eoxia\Save_Meta_Class' ) ) {
 		/**
 		 * Apelle la méthode selon si la définition du champ est en meta "single" ou "multiple".
 		 *
-		 *  @since 1.0.0
+		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
 		 * @param  object $object   L'objet courant.
 		 * @param  string $function La méthode a appeler.
 		 * @param  string $meta_key Le nom de la meta key.
-		 * @param  array  $schema   Le schéma.
 		 */
 		public static function save_meta_data( $object, $function, $meta_key ) {
 			$schema = $object->get_model();

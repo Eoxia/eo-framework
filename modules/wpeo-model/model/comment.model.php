@@ -39,29 +39,33 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 		 */
 		public function __construct( $data = null, $req_method = null ) {
 			$this->schema['id'] = array(
-				'type'  => 'integer',
-				'field' => 'comment_ID',
+				'type'    => 'integer',
+				'field'   => 'comment_ID',
+				'default' => 0,
 			);
 
 			$this->schema['parent_id'] = array(
-				'type'  => 'integer',
-				'field' => 'comment_parent',
+				'type'    => 'integer',
+				'field'   => 'comment_parent',
+				'default' => 0,
 			);
 
 			$this->schema['post_id'] = array(
-				'type'     => 'integer',
-				'field'    => 'comment_post_ID',
-				'required' => true,
+				'type'    => 'integer',
+				'field'   => 'comment_post_ID',
+				'default' => 0,
 			);
 
 			$this->schema['date'] = array(
-				'type'  => 'wpeo_date',
-				'field' => 'comment_date',
+				'type'    => 'wpeo_date',
+				'context' => array( 'GET' ),
+				'field'   => 'comment_date',
 			);
 
 			$this->schema['author_id'] = array(
-				'type'  => 'integer',
-				'field' => 'user_ID',
+				'type'    => 'integer',
+				'field'   => 'user_ID',
+				'default' => 0,
 			);
 
 			$this->schema['author_nicename'] = array(
@@ -88,6 +92,7 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 				'type'     => 'string',
 				'field'    => 'comment_content',
 				'required' => true,
+				'default'  => '',
 			);
 
 			$this->schema['status'] = array(

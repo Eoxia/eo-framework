@@ -37,14 +37,20 @@ if ( ! class_exists( '\eoxia\Model_Util' ) ) {
 			return self::$namespace . '\\';
 		}
 
-		public static function exec_callback( $object, $functions ) {
+		/**
+		 * [exec_callback description]
+		 * @param  [type] $data      [description]
+		 * @param  [type] $functions [description]
+		 * @return [type]            [description]
+		 */
+		public static function exec_callback( $functions, $data, $args = array() ) {
 			if ( ! empty( $functions ) ) {
 				foreach ( $functions as $function ) {
-					$object = call_user_func( $function, $object );
+					$data = call_user_func( $function, $data, $args );
 				}
 			}
 
-			return $object;
+			return $data;
 		}
 	}
 }

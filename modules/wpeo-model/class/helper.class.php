@@ -30,7 +30,7 @@ if ( ! class_exists( '\eoxia\Helper_Class' ) ) {
 		 * @return Object le modèle.
 		 */
 		public function get_model() {
-			return $this->model;
+			return $this->schema;
 		}
 
 		public function get_class() {

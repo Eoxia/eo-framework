@@ -53,14 +53,16 @@ if ( ! class_exists( '\eoxia\User_Model' ) ) {
 		 */
 		public function __construct( $data = null, $req_method = null ) {
 			$this->schema['id'] = array(
-				'type'  => 'integer',
-				'field' => 'ID',
+				'type'    => 'integer',
+				'field'   => 'ID',
+				'default' => 0,
 			);
 
 			$this->schema['email'] = array(
 				'type'     => 'string',
 				'field'    => 'user_email',
 				'required' => true,
+				'default'  => '',
 			);
 
 			$this->schema['login'] = array(
