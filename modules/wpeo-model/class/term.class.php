@@ -136,7 +136,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 */
 		public function callback_init() {
 			$args = array(
-				'hierarchical'      => false,
+				'hierarchical'      => true,
 				'show_ui'           => true,
 				'show_admin_column' => true,
 				'query_var'         => true,
@@ -179,6 +179,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			$term_final_args = array_merge( $args, array(
 				'hide_empty' => false,
 			) );
+
 
 			if ( ! empty( $args['id'] ) ) {
 				$array_term[] = get_term_by( 'id', $args['id'], $this->taxonomy, ARRAY_A );

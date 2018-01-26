@@ -67,8 +67,9 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 			);
 
 			$this->schema['title'] = array(
-				'type'  => 'string',
-				'field' => 'post_title',
+				'type'    => 'string',
+				'field'   => 'post_title',
+				'default' => '',
 			);
 
 			$this->schema['slug'] = array(

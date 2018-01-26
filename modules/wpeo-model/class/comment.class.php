@@ -238,6 +238,9 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				$data['type'] = $this->get_type();
 			}
 
+			if ( ! isset( $data['status'] ) ) {
+				$data['status'] = '-34070';
+			}
 
 			if ( empty( $data['id'] ) ) {
 				$user = wp_get_current_user();
@@ -274,6 +277,9 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 
 			if ( empty( $data->id ) ) {
 				add_filter( 'duplicate_comment_id', '__return_false' );
+				add_filter( 'pre_comment_approved', function( $approved, $comment_data ) {
+					return $comment_data['comment_approved'];
+				}, 10, 2 );
 				$inserted_comment = wp_new_comment( $data->convert_to_wordpress(), true );
 				if ( is_wp_error( $inserted_comment ) ) {
 					return $inserted_comment;

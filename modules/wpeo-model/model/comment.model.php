@@ -65,7 +65,7 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 			$this->schema['author_id'] = array(
 				'type'    => 'integer',
 				'field'   => 'user_ID',
-				'default' => 0,
+				'default' => get_current_user_id(),
 			);
 
 			$this->schema['author_nicename'] = array(
