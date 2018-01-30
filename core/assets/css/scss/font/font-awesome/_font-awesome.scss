@@ -2,15 +2,12 @@
 @import "mixins";
 @import "path";
 @import "core";
-
-.wpeo-wrap {
-	@import "larger";
-	@import "fixed-width";
-	@import "list";
-	@import "bordered-pulled";
-	@import "animated";
-	@import "rotated-flipped";
-	@import "stacked";
-	@import "icons";
-	@import "screen-reader";
-}
+@import "larger";
+@import "fixed-width";
+@import "list";
+@import "bordered-pulled";
+@import "animated";
+@import "rotated-flipped";
+@import "stacked";
+@import "icons";
+@import "screen-reader";
