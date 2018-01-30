@@ -4,6 +4,7 @@
 
 	.wpeo-dropdown -> classe de base du mobule
 		.grid -> Affichage en grille
+		.list -> Affichage en liste
 --------------------------------------------------------------*/
 
 .wpeo-dropdown {
@@ -38,7 +39,8 @@
 		z-index: 99;
 		border: 1px solid rgba(0,0,0,0.1);
 		box-shadow: 0 0 10px 0px rgba(0,0,0,0.3);
-		width: 160px;
+		width: 200px;
+		padding: 0.6em;
 	}
 	&.dropdown-active .dropdown-content {
 			opacity: 1;
@@ -49,6 +51,42 @@
 		margin: 0;
 		list-style-type: none;
 		padding: 0;
+	}
+}
+
+// Taille
+.wpeo-dropdown {
+	&.dropdown-small .dropdown-content {
+		width: 60px;
+	}
+	&.dropdown-medium .dropdown-content {
+		width: 200px;
+	}
+	&.dropdown-large .dropdown-content {
+		width: 360px;
+	}
+}
+
+// Padding
+.wpeo-dropdown {
+	&.dropdown-padding-0 .dropdown-content {
+		padding: 0;
+	}
+	&.dropdown-padding-1 .dropdown-content {
+		padding: 0.6em;
+	}
+	&.dropdown-padding-2 .dropdown-content {
+		padding: 1.2em;
+	}
+}
+
+// Alignement
+.wpeo-dropdown {
+	&.dropdown-left .dropdown-content {
+		right: 0;
+	}
+	&.dropdown-right .dropdown-content {
+		left: 0;
 	}
 }
 
