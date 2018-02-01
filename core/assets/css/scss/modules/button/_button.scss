@@ -325,12 +325,12 @@
 	position: relative;
 
 	&:before {
-		content: '';
-		display: inline-block;
+		display: none;
+	}
+	.svg-inline--fa {
 		opacity: 0;
 		transform: translate(-50%, -90%);
 		transition: all 0.2s ease-out;
-		font-family: 'FontAwesome';
 		font-size: 16px;
 		animation-duration: 1s;
 		animation-fill-mode: both;
@@ -344,7 +344,7 @@
 	}
 	&.button-success, &.button-load, &.button-error {
 		pointer-events: none;
-		&:before {
+		.svg-inline--fa {
 			opacity: 1;
 		}
 		.button-icon, span {
@@ -358,7 +358,10 @@
 		border-color: $color__green;
 		color: #fff;
 		&:before {
+			font-family: "Font Awesome 5 Regular";
 			content: "\f00c";
+		}
+		.svg-inline--fa {
 			animation-name: progressSuccess;
 		}
 	}
@@ -368,7 +371,10 @@
 		border-color: $color__red;
 		color: #fff;
 		&:before {
+			font-family: "Font Awesome 5 Regular";
 			content: "\f00d";
+		}
+		.svg-inline--fa {
 			animation-name: progressError;
 		}
 	}
@@ -376,6 +382,11 @@
 		background: $color__grey;
 		&:before {
 			display: inline-block;
+			transform: translate(-50%, -90%);
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			z-index: 99;
 			content: '';
 			border: 3px solid #fff;
 			border-top: 3px solid $color__primary;

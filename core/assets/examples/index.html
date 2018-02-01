@@ -5,15 +5,17 @@
 	<title>Doc Framework CSS Eoxia</title>
 	<script src="assets/jquery.min.js" crossorigin="anonymous"></script>
 	<script type='text/javascript'>
-/* <![CDATA[ */
-var wpeo_framework = {"modalDefaultTitle":"\r\nD\u00e9faut modal titre\r\n","modalView":"\r\n<!-- Structure -->\r\n<div class=\"modal-container\">\r\n\r\n\t<!-- Ent\u00eate -->\r\n\t<div class=\"modal-header\">\r\n\t\t<h2 class=\"modal-title\">{{title}}<\/h2>\r\n\t\t<i class=\"modal-close fa fa-times\"><\/i>\r\n\t<\/div>\r\n\r\n\t<!-- Corps -->\r\n\t<div class=\"modal-content\">{{content}}<\/div>\r\n\r\n\t<!-- Footer -->\r\n\t<div class=\"modal-footer\">{{buttons}}<\/div>\r\n<\/div>\r\n","modalDefaultButtons":"\r\n<a class=\"wpeo-button button-grey button-uppercase modal-close\"><span>Annuler<\/span><\/a>\r\n<a class=\"wpeo-button button-main button-uppercase modal-close\"><span>Valider<\/span><\/a>\r\n"};
-/* ]]> */
-</script>
+		/* <![CDATA[ */
+		var wpeo_framework = {"modalDefaultTitle":"\r\nD\u00e9faut modal titre\r\n","modalView":"\r\n<!-- Structure -->\r\n<div class=\"modal-container\">\r\n\r\n\t<!-- Ent\u00eate -->\r\n\t<div class=\"modal-header\">\r\n\t\t<h2 class=\"modal-title\">{{title}}<\/h2>\r\n\t\t<div class=\"modal-close\"><i class=\"fal fa-times\"><\/i><\/div>\r\n\t<\/div>\r\n\r\n\t<!-- Corps -->\r\n\t<div class=\"modal-content\">{{content}}<\/div>\r\n\r\n\t<!-- Footer -->\r\n\t<div class=\"modal-footer\">{{buttons}}<\/div>\r\n<\/div>\r\n","modalDefaultButtons":"\r\n<a class=\"wpeo-button button-grey button-uppercase modal-close\"><span>Annuler<\/span><\/a>\r\n<a class=\"wpeo-button button-main button-uppercase modal-close\"><span>Valider<\/span><\/a>\r\n"};
+		/* ]]> */
+		FontAwesomeConfig = { searchPseudoElements: true };
+	</script>
 	<!-- Google font -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700,800" rel="stylesheet"> -->
 	<!-- Include HTML -->
 	<script src="assets/includejs.js"></script>
 	<script src="../js/dest/wpeo-assets.js"></script>
+	<script src="../js/dest/font/fontawesome-all.min.js"></script>
 	<!-- Highlight -->
 	<link rel="stylesheet" href="assets/prism.min.css">
 	<!-- Framework -->
@@ -29,7 +31,6 @@ var wpeo_framework = {"modalDefaultTitle":"\r\nD\u00e9faut modal titre\r\n","mod
 </header>
 
 <div id="page">
-
 	<div id="page-sidebar">
 		<ul>
 			<li class="primary"><a href="#heading" class="scroll-to">Général</a></li>

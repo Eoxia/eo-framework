@@ -447,6 +447,13 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		var triggeredElement = jQuery( this );
 
 		triggeredElement.closest( '.wpeo-dropdown' ).toggleClass( 'dropdown-active' );
+
+		/* Toggle Button Icon */
+		var angleElement = triggeredElement.closest( '.wpeo-dropdown' ).find('[data-fa-i2svg]');
+		if ( angleElement ) {
+			window.eoxiaJS.dropdown.toggleAngleClass( angleElement );
+		}
+
 		event.stopPropagation();
 	};
 
@@ -454,8 +461,29 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		jQuery( '.wpeo-dropdown.dropdown-active:not(.no-close)' ).each( function() {
 			var toggle = jQuery( this );
 			toggle.removeClass( 'dropdown-active' );
+
+			/* Toggle Button Icon */
+			var angleElement = jQuery( this ).find('[data-fa-i2svg]');
+			if ( angleElement ) {
+				window.eoxiaJS.dropdown.toggleAngleClass( angleElement );
+			}
 		});
 	};
+
+	window.eoxiaJS.dropdown.toggleAngleClass = function( button ) {
+		if ( button.hasClass('fa-caret-down') || button.hasClass('fa-caret-up') ) {
+			button.toggleClass('fa-caret-down').toggleClass('fa-caret-up');
+		}
+		else if ( button.hasClass('fa-caret-circle-down') || button.hasClass('fa-caret-circle-up') ) {
+			button.toggleClass('fa-caret-circle-down').toggleClass('fa-caret-circle-up');
+		}
+		else if ( button.hasClass('fa-angle-down') || button.hasClass('fa-angle-up') ) {
+			button.toggleClass('fa-angle-down').toggleClass('fa-angle-up');
+		}
+		else if ( button.hasClass('fa-chevron-circle-down') || button.hasClass('fa-chevron-circle-up') ) {
+			button.toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
+		}	
+	}
 }
 
 if ( ! window.eoxiaJS.form ) {
