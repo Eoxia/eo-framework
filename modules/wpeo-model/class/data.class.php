@@ -26,7 +26,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 *
 		 * @var array
 		 */
-		public static $accepted_types = array( 'string', 'integer', 'boolean', 'array', 'wpeo_date' );
+		public static $accepted_types = array( 'string', 'integer', 'boolean', 'array', 'wpeo_date', 'float' );
 
 		/**
 		 * [private description]
