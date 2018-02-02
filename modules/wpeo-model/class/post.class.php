@@ -189,6 +189,16 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @todo: ligne 128 - Temporaire
 		 */
 		public function get( $args = array( 'posts_per_page' => -1 ), $single = false ) {
+			$use_context = ( ! empty( $args['use_context'] ) && $args['use_context'] ) ? true : false;
+			if ( ! isset( $args['use_context'] ) ) {
+				$use_context = true;
+			}
+
+			$req_method = 'get';
+
+			if ( ! $use_context ) {
+				$req_method = null;
+			}
 
 			$array_posts = array();
 
@@ -247,7 +257,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 					}
 				}
 				$model_name          = $this->model_name;
-				$array_posts[ $key ] = new $model_name( $post, 'get' );
+				$array_posts[ $key ] = new $model_name( $post, $req_method );
 				$array_posts[ $key ] = $this->get_taxonomies_id( $array_posts[ $key ] );
 
 				$array_posts[ $key ] = Model_Util::exec_callback( $this->after_get_function, $array_posts[ $key ], array( 'model_name' => $model_name ) );
@@ -298,7 +308,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
-					'id' => $data['id'],
+					'id'          => $data['id'],
+					'use_context' => false,
 				), true );
 
 				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data );
@@ -338,9 +349,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 					return $update_state;
 				}
 			}
-
-			// Permet de nettoyer les champs 'wpeo_date' dans les metadonnées de WordPress.
-			$data = $data->clear_date( $data );
 
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_post_meta', $this->meta_key );
 			// Save taxonomy!
