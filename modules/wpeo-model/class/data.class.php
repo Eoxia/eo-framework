@@ -94,7 +94,9 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 						$value = $current_data[ $field_name ];
 					}
 
-					$value = apply_filters( 'eo_model_handle_value', $value, $field_def, $this->req_method );
+					if ( null !== $this->req_method ) {
+						$value = apply_filters( 'eo_model_handle_value', $value, $field_def, $this->req_method );
+					}
 
 					// Enregistres la valeur soit dans un objet, ou alors dans un tableau.
 					if ( null !== $value ) {
@@ -126,12 +128,12 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				}
 
 				// Force le typage de $value en requête mode "GET".
-				if ( 'GET' === $this->req_method ) {
-					$value = $this->handle_value_type( $value, $field_def );
-				}
+				$value = $this->handle_value_type( $value, $field_def );
 
 				// Vérifie le typage $value.
-				$this->check_value_type( $value, $field_name, $field_def );
+				if ( null !== $this->req_method ) {
+					$this->check_value_type( $value, $field_name, $field_def );
+				}
 
 				// Pour remettre à jour la valeur dans l'objet.
 				if ( null !== $value ) {
