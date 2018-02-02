@@ -96,7 +96,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 				}
 			} else {
 				if ( 'application' === $data['mime_type'] ) {
-					$document_view = '<div class="document"><i class="icon fa fa-paperclip" aria-hidden="true"></i></div>';
+					$document_view = '<div class="document"><i class="icon far fa-paperclip"></i></div>';
 				}
 			}
 

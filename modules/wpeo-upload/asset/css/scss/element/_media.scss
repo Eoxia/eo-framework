@@ -15,11 +15,17 @@
 	text-align: center;
 	@include transition;
 
-	.default-image {
-		display: block;
+	.default-icon-container {
+		width: 100%;
 		line-height: 50px;
-		color: rgba(0,0,0,0.4);
-		font-size: 16px;
+		text-align: center;
+
+		.svg-inline--fa {
+			color: rgba(0,0,0,0.4);
+			line-height: 50px;
+			font-weight: 400;
+			font-size: 16px;
+		}
 	}
 	.button-add {
 		position: absolute;
@@ -67,19 +73,8 @@
 .media, .wpeo-media {
 	&:not(.no-file) .document {
 		background: $color__blue;
-		.icon {
+		.svg-inline--fa {
 			color: #fff !important;
-		}
-	}
-	.document {
-		width: 100%;
-		line-height: 50px;
-		text-align: center;
-		.icon {
-			color: rgba(0,0,0,0.4);
-			line-height: 50px;
-			font-weight: 400;
-			font-size: 16px;
 		}
 	}
 }
