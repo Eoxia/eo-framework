@@ -3,8 +3,8 @@
  * Classe helper pour les modèles.
  *
  * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.0.0.0
- * @version 1.3.0.0
+ * @since 1.0.0
+ * @version 1.0.0
  * @copyright 2015-2017
  * @package wpeo_model
  * @subpackage class
@@ -24,8 +24,8 @@ if ( ! class_exists( '\eoxia\Helper_Class' ) ) {
 		/**
 		 * Récupères le modèle.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 *
 		 * @return Object le modèle.
 		 */
@@ -58,8 +58,8 @@ if ( ! class_exists( '\eoxia\Helper_Class' ) ) {
 		/**
 		 * Supprime le modèle.
 		 *
-		 * @since 1.0.0.0
-		 * @version 1.3.0.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 *
 		 * @param  object $current L'objet complet.
 		 */
