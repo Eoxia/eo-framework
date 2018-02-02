@@ -26,7 +26,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 *
 		 * @var array
 		 */
-		public static $accepted_types = array( 'string', 'integer', 'boolean', 'array', 'wpeo_date', 'float' );
+		public static $accepted_types = array( 'string', 'integer', 'float', 'boolean', 'array', 'wpeo_date' );
 
 		/**
 		 * [private description]
@@ -297,70 +297,6 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			return $data;
 		}
 
-		/**
-		 * Clear les metadonnées de type wpeo_date.
-		 *
-		 * @since 1.0.0
-		 * @version 1.0.0
-		 *
-		 * @param  [type] $current_object [description]
-		 * @param  [type] $schema       [description]
-		 * @return [type]               [description]
-		 */
-		public function clear_date( $data = null, $current_data = null, $current_object = null, $schema = null ) {
-			$current_data   = ( null === $current_data ) ? $data : $current_data;
-			$current_object = ( null === $current_object ) ? $this : $current_object;
-			$schema         = ( null === $schema ) ? $this->schema : $schema;
-
-			foreach ( $schema as $field_name => $field_def ) {
-				$value = null;
-
-				if ( is_object( $current_data ) ) {
-					if ( isset( $current_data->$field_name ) ) {
-						$value = $current_data->$field_name;
-					}
-				} else {
-					if ( isset( $current_data[ $field_name ] ) ) {
-						$value = $current_data[ $field_name ];
-					}
-				}
-
-				// Si la définition de la donnée ne contient pas "child".
-				if ( ! isset( $field_def['child'] ) ) {
-					if ( isset( $value ) ) {
-						if ( 'wpeo_date' === $field_def['type'] && isset( $value['raw'] ) ) {
-							$value = $value['raw'];
-						}
-					}
-
-					if ( null !== $value ) {
-						if ( is_object( $current_object ) ) {
-							$current_object->$field_name = $value;
-						} else {
-							$current_object[ $field_name ] = $value;
-						}
-					}
-				} else {
-					$values = ! empty( $data->$field_name ) ? $data->$field_name : null;
-
-					if ( null !== $values ) {
-						// Récursivité sur les enfants de la définition courante.
-						$current_object->$field_name = $this->clear_date( $data, $values, $current_object->$field_name, $field_def['child'] );
-					}
-				}
-
-				// Pour remettre à jour la valeur dans l'objet. Cette ligne écrase les données des enfants..... OMFG
-				// if ( null !== $value ) {
-				// 	if ( is_object( $current_object ) ) {
-				// 		$current_object->$field_name = $value;
-				// 	} else {
-				// 		$current_object[ $field_name ] = $value;
-				// 	}
-				// }
-			}
-
-			return $current_object;
-		}
 	}
 
 } // End if().
