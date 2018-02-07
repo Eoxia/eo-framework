@@ -1,5 +1,14 @@
 <h2 id="dropdown" class="module-title">Dropdown</h2>
 
+<div class="wpeo-dropdown">
+	<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-caret-down"></i></button>
+	<ul class="dropdown-content">
+		<li class="dropdown-item"><i class="fas fa-heart fa-fw"></i> <span>Item 1</span></li>
+		<li class="dropdown-item"><i class="fas fa-trash fa-fw"></i> <span>Item 2</span></li>
+		<li class="dropdown-item">Item 3</li>
+	</ul>
+</div>
+
 <h3 class="module-title">Dropdown standard / liste</h3>
 
 <pre><code class="language-markup"><script type="prism-html-markup">
@@ -37,7 +46,7 @@
 	</ul>
 </div>
 
-<h3 class="module-title">Icones</h3>
+<h3 class="module-title">Icones pour le Toggle</h3>
 
 <p>Le module bouton est compatible avec le module Dropdown. Certaines icones changent si le dropdown est activé ou non.</p>
 
@@ -112,6 +121,26 @@
 	</div>
 </div>
 
+<h3 class="module-title">Icones liste</h3>
+
+<pre><code class="language-markup"><script type="prism-html-markup">
+<div class="wpeo-dropdown dropdown-left">
+	<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-caret-down"></i></button>
+	<ul class="dropdown-content">
+		<li class="dropdown-item"><i class="fas fa-archive fa-fw"></i> <span>Item 1</span></li>
+		<li class="dropdown-item"><i class="fas fa-trash fa-fw"></i> <span>Item 2</span></li>
+	</ul>
+</div>
+</script></code></pre>
+
+<div class="wpeo-dropdown dropdown-left">
+	<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-caret-down"></i></button>
+	<ul class="dropdown-content">
+		<li class="dropdown-item"><i class="fas fa-archive fa-fw"></i> <span>Item 1</span></li>
+		<li class="dropdown-item"><i class="fas fa-trash fa-fw"></i> <span>Item 2</span></li>
+	</ul>
+</div>
+
 <h3 class="module-title">Alignement</h3>
 
 <pre><code class="language-markup"><script type="prism-html-markup">
@@ -122,7 +151,7 @@
 <div class="wpeo-grid grid-2">
 	<div>
 		<div class="wpeo-dropdown dropdown-left">
-			<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-chevron-circle-down"></i></button>
+			<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-caret-down"></i></button>
 			<ul class="dropdown-content">
 				<li class="dropdown-item">Item 1</li>
 			</ul>
@@ -130,7 +159,7 @@
 	</div>
 	<div>
 		<div class="wpeo-dropdown dropdown-right">
-			<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-chevron-circle-down"></i></button>
+			<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-caret-down"></i></button>
 			<ul class="dropdown-content">
 				<li class="dropdown-item">Item 1</li>
 			</ul>

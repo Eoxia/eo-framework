@@ -445,11 +445,10 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		window.eoxiaJS.dropdown.close();
 
 		var triggeredElement = jQuery( this );
-
 		triggeredElement.closest( '.wpeo-dropdown' ).toggleClass( 'dropdown-active' );
 
 		/* Toggle Button Icon */
-		var angleElement = triggeredElement.closest( '.wpeo-dropdown' ).find('[data-fa-i2svg]');
+		var angleElement = triggeredElement.find('[data-fa-i2svg]');
 		if ( angleElement ) {
 			window.eoxiaJS.dropdown.toggleAngleClass( angleElement );
 		}
@@ -463,7 +462,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 			toggle.removeClass( 'dropdown-active' );
 
 			/* Toggle Button Icon */
-			var angleElement = jQuery( this ).find('[data-fa-i2svg]');
+			var angleElement = jQuery( this ).find('.dropdown-toggle').find('[data-fa-i2svg]');
 			if ( angleElement ) {
 				window.eoxiaJS.dropdown.toggleAngleClass( angleElement );
 			}
@@ -482,7 +481,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		}
 		else if ( button.hasClass('fa-chevron-circle-down') || button.hasClass('fa-chevron-circle-up') ) {
 			button.toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
-		}	
+		}
 	}
 }
 
