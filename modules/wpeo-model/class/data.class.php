@@ -81,11 +81,12 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			$schema         = ( null === $schema ) ? $this->schema : $schema;
 
 			foreach ( $schema as $field_name => $field_def ) {
-				// Définie les données  par défaut pour l'élément courant par rapport à "bydefault".
-				$value = $this->set_default_data( $field_name, $field_def );
 
 				// Si la définition de la donnée ne contient pas "child".
 				if ( ! isset( $field_def['child'] ) ) {
+
+					// Définie les données  par défaut pour l'élément courant par rapport à "bydefault".
+					$value = $this->set_default_data( $field_name, $field_def );
 
 					// Si on est au premier niveau de $current_object, sinon si on est plus haut que le premier niveau.
 					if ( isset( $field_def['field'] ) && isset( $current_data[ $field_def['field'] ] ) ) {
@@ -115,7 +116,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 					}
 
 					// Récursivité sur les enfants de la définition courante.
-					$current_object[ $field_name ] = $this->handle_data( $data, $values, $current_object[ $field_name ], $field_def['child'] );
+					$value = $this->handle_data( $data, $values, $current_object[ $field_name ], $field_def['child'] );
 				}
 
 				// Traitement de $value au niveau du champ "required".
