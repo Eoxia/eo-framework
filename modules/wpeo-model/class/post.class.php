@@ -149,7 +149,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 */
 		public function init_post_type() {
 			$args = array(
-				'label'  => $this->post_type_name,
+				'label' => $this->post_type_name,
 			);
 
 			$return = register_post_type( $this->post_type, $args );
@@ -351,6 +351,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			}
 
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_post_meta', $this->meta_key );
+
 			// Save taxonomy!
 			$this->save_taxonomies( $data );
 
