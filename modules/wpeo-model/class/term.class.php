@@ -155,7 +155,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 */
 		public function get_schema() {
 			$model_name = $this->model_name;
-			$model = new $model_name( array() );
+			$model      = new $model_name( array() );
 			return $model->get_model();
 		}
 
@@ -171,7 +171,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 * @return Object
 		 */
 		public function get( $args = array(), $single = false ) {
-			$list_term = array();
+			$list_term  = array();
 			$array_term = array();
 
 			$model_name = $this->model_name;
@@ -180,10 +180,9 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 				'hide_empty' => false,
 			) );
 
-
-			if ( ! empty( $args['id'] ) ) {
+			if ( isset( $args['id'] ) ) {
 				$array_term[] = get_term_by( 'id', $args['id'], $this->taxonomy, ARRAY_A );
-			} elseif ( ! empty( $args['post_id'] ) ) {
+			} elseif ( isset( $args['post_id'] ) ) {
 				$array_term = wp_get_post_terms( $args['post_id'], $this->taxonomy, $term_final_args );
 
 				if ( empty( $array_term ) ) {
@@ -192,7 +191,12 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			} elseif ( isset( $args['schema'] ) ) {
 				$array_term[] = array();
 			} else {
+
 				$array_term = get_terms( $this->taxonomy, $term_final_args );
+			}
+
+			if ( empty( $array_term ) ) {
+				$array_term[] = array();
 			}
 
 			if ( ! empty( $array_term ) ) {
