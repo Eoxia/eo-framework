@@ -180,6 +180,10 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 				'hide_empty' => false,
 			) );
 
+			if ( empty( $term_final_args['taxonomy'] ) ) {
+				$term_final_args['taxonomy'] = $this->taxonomy;
+			}
+
 			if ( isset( $args['id'] ) ) {
 				$array_term[] = get_term_by( 'id', $args['id'], $this->taxonomy, ARRAY_A );
 			} elseif ( isset( $args['post_id'] ) ) {
@@ -191,8 +195,9 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			} elseif ( isset( $args['schema'] ) ) {
 				$array_term[] = array();
 			} else {
-
-				$array_term = get_terms( $this->taxonomy, $term_final_args );
+				$array_terms = new \WP_Term_Query( $term_final_args );
+				$array_term = $array_terms->terms;
+				unset( $array_term->terms );
 			}
 
 			if ( empty( $array_term ) ) {
