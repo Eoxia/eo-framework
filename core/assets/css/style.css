@@ -4414,7 +4414,8 @@
 .wpeo-table {
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: 14px; }
+  font-size: 14px;
+  border-collapse: collapse; }
 
 .wpeo-table td, .wpeo-table th, .wpeo-table tr {
   text-align: left;
