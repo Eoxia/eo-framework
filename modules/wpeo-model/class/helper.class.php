@@ -19,7 +19,7 @@ if ( ! class_exists( '\eoxia\Helper_Class' ) ) {
 	/**
 	 * Classe helper pour les modèles.
 	 */
-	class Helper_Class {
+	class Helper_Class implements \ArrayAccess {
 
 		/**
 		 * Récupères le modèle.
@@ -79,5 +79,54 @@ if ( ! class_exists( '\eoxia\Helper_Class' ) ) {
 				}
 			}
 		}
+
+		/**
+		 * Checks if a parameter is set.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $offset Parameter name.
+		 * @return bool Whether the parameter is set.
+		 */
+		public function offsetExists( $offset ) {
+			return isset( $this->$offset );
+		}
+
+		/**
+		 * Retrieves a parameter from the request.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $offset Parameter name.
+		 * @return mixed|null Value if set, null otherwise.
+		 */
+		public function offsetGet( $offset ) {
+			return $this->$offset;
+		}
+
+		/**
+		 * Sets a parameter on the request.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $offset Parameter name.
+		 * @param mixed  $value  Parameter value.
+		 */
+		public function offsetSet( $offset, $value ) {
+			$this->$offset = $value;
+		}
+
+		/**
+		 * Removes a parameter from the request.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $offset Parameter name.
+		 */
+		public function offsetUnset( $offset ) {
+			unset( $this->$offset );
+		}
+
 	}
+
 } // End if().

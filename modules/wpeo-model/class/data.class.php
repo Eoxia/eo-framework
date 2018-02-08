@@ -99,27 +99,23 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 					}
 
 					// Enregistres la valeur soit dans un objet, ou alors dans un tableau.
-					if ( null !== $value ) {
-						if ( is_object( $current_object ) ) {
-							$current_object->$field_name = $value;
-						} else {
-							$current_object[ $field_name ] = $value;
-						}
+					if ( ( 'GET' === $this->req_method ) || ( null !== $value ) ) {
+						$current_object[ $field_name ] = $value;
 					}
 				} else {
 					// Values car c'est un tableau, nous sommes dans "child". Nous avons donc un tableau dans $data[ $field_name ].
 					$values = ! empty( $data[ $field_name ] ) ? $data[ $field_name ] : array();
 
-					if ( empty( $current_object->$field_name ) ) {
+					if ( empty( $current_object[ $field_name ] ) ) {
 						if ( 'array' === $field_def['type'] ) {
-							$current_object->$field_name = array();
+							$current_object[ $field_name ] = array();
 						} else {
-							$current_object->$field_name = new \stdClass();
+							$current_object[ $field_name ] = new \stdClass();
 						}
 					}
 
 					// Récursivité sur les enfants de la définition courante.
-					$current_object->$field_name = $this->handle_data( $data, $values, $current_object->$field_name, $field_def['child'] );
+					$current_object[ $field_name ] = $this->handle_data( $data, $values, $current_object[ $field_name ], $field_def['child'] );
 				}
 
 				// Traitement de $value au niveau du champ "required".
@@ -128,7 +124,9 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				}
 
 				// Force le typage de $value en requête mode "GET".
-				$value = $this->handle_value_type( $value, $field_def );
+				if ( 'GET' === $this->req_method ) {
+					$value = $this->handle_value_type( $value, $field_def );
+				}
 
 				// Vérifie le typage $value.
 				if ( null !== $this->req_method ) {
@@ -137,16 +135,12 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 
 				// Pour remettre à jour la valeur dans l'objet.
 				if ( null !== $value ) {
-					if ( is_object( $current_object ) ) {
-						$current_object->$field_name = $value;
-					} else {
-						$current_object[ $field_name ] = $value;
-					}
+					$current_object[ $field_name ] = $value;
 				}
 
 				if ( 'GET' !== $this->req_method ) {
-					if ( isset( $current_object->$field_name ) && null === $value && isset( $field_def['required'] ) && $field_def['required'] ) {
-						unset( $current_object->$field_name );
+					if ( isset( $current_object[ $field_name ] ) && null === $value && isset( $field_def['required'] ) && $field_def['required'] ) {
+						unset( $current_object[ $field_name ] );
 					}
 				}
 			}
@@ -236,6 +230,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 */
 		public function handle_value_type( $value, $field_def ) {
 			if ( null === $value ) {
+				settype( $value, $field_def['type'] );
 				return $value;
 			}
 
