@@ -1,6 +1,11 @@
 .wpeo-dropdown.dropdown-grid {
-	.dropdown-content {
-		display: flex;
-		flex-wrap: wrap;
+	.dropdown-item {
+		padding: 0;
+
+		img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
 	}
 }

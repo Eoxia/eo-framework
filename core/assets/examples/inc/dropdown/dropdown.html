@@ -1,14 +1,5 @@
 <h2 id="dropdown" class="module-title">Dropdown</h2>
 
-<div class="wpeo-dropdown">
-	<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-caret-down"></i></button>
-	<ul class="dropdown-content">
-		<li class="dropdown-item"><i class="fas fa-heart fa-fw"></i> <span>Item 1</span></li>
-		<li class="dropdown-item"><i class="fas fa-trash fa-fw"></i> <span>Item 2</span></li>
-		<li class="dropdown-item">Item 3</li>
-	</ul>
-</div>
-
 <h3 class="module-title">Dropdown standard / liste</h3>
 
 <pre><code class="language-markup"><script type="prism-html-markup">
@@ -33,13 +24,22 @@
 
 <h3 class="module-title">Dropdown grille</h3>
 
-<pre><code class="language-markup"><script type="prism-html-markup">
-<div class="wpeo-dropdown dropdown-grid">...</div>
-</script></code></pre>
+<p>On peut ajouter le module Grid au module Dropdown. Les deux modules associés permettent un affichage grille en dropdown assez poussé.</p>
 
+<pre><code class="language-markup"><script type="prism-html-markup">
 <div class="wpeo-dropdown dropdown-grid">
 	<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-caret-down"></i></button>
-	<ul class="dropdown-content">
+	<ul class="dropdown-content wpeo-grid grid-3">
+		<li class="dropdown-item"><img src="assets/img/gravatar.jpg" /></li>
+		<li class="dropdown-item"><img src="assets/img/gravatar.jpg" /></li>
+		<li class="dropdown-item"><img src="assets/img/gravatar.jpg" /></li>
+	</ul>
+</div>
+</script></code></pre>
+
+<div class="wpeo-dropdown dropdown-grid dropdown-size-min">
+	<button class="dropdown-toggle wpeo-button button-main"><span>Cliquer ici</span><i class="button-icon fas fa-caret-down"></i></button>
+	<ul class="dropdown-content wpeo-grid grid-3">
 		<li class="dropdown-item"><img src="assets/img/gravatar.jpg" /></li>
 		<li class="dropdown-item"><img src="assets/img/gravatar.jpg" /></li>
 		<li class="dropdown-item"><img src="assets/img/gravatar.jpg" /></li>

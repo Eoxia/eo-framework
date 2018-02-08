@@ -11,3 +11,17 @@
 		}
 	}
 }
+
+.wpeo-dropdown.dropdown-list {
+	.dropdown-item {
+		&::after {
+			display: block;
+			content: '';
+			clear: both;
+		}
+		img {
+			float: left;
+			margin-right: 0.4em;
+		}
+	}
+}
