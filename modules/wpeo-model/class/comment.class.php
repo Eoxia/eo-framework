@@ -126,7 +126,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 */
 		public function get_schema() {
 			$model_name = $this->model_name;
-			$model = new $model_name( array() );
+			$model      = new $model_name( array() );
 			return $model->get_model();
 		}
 
@@ -160,6 +160,10 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				$array_comment[] = array();
 			} else {
 				$array_comment = get_comments( $args );
+			}
+
+			if ( empty( $array_comment ) ) {
+				$array_comment[] = array();
 			}
 
 			$list_comment = array();
