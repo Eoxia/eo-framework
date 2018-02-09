@@ -26,13 +26,9 @@
 			transform: translate(-50%, -50%);
 		}
 	}
-	&.no-close {
+	&.modal-force-display {
 		.modal-close {
 			display: none;
-		}
-		.modal-container .modal-footer {
-			opacity: 0.5;
-			pointer-events: none;
 		}
 	}
 }
