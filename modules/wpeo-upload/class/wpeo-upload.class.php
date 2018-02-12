@@ -57,18 +57,18 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 		public function get_post_data( $nonce_name ) {
 			check_ajax_referer( $nonce_name );
 
-			$data = array();
-			$data['id']             = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-			$data['title']          = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
-			$data['mode']           = ! empty( $_POST['mode'] ) ? sanitize_text_field( $_POST['mode'] ) : '';
-			$data['field_name']     = ! empty( $_POST['field_name'] ) ? sanitize_text_field( $_POST['field_name'] ) : '';
-			$data['model_name']     = ! empty( $_POST['model_name'] ) ? stripslashes( sanitize_text_field( $_POST['model_name'] ) ) : '';
-			$data['custom_class']   = ! empty( $_POST['custom_class'] ) ? stripslashes( sanitize_text_field( $_POST['custom_class'] ) ) : '';
-			$data['size']           = ! empty( $_POST['size'] ) ? sanitize_text_field( $_POST['size'] ) : 'thumbnail';
-			$data['single']         = ! empty( $_POST['single'] ) ? sanitize_text_field( $_POST['single'] ) : 'false';
-			$data['mime_type']      = ! empty( $_POST['mime_type'] ) ? sanitize_text_field( $_POST['mime_type'] ) : '';
-			$data['display_type']   = ! empty( $_POST['display_type'] ) ? sanitize_text_field( $_POST['display_type'] ) : '';
-			$data['file_id']        = ! empty( $_POST['file_id'] ) ? (int) $_POST['file_id'] : 0;
+			$data                 = array();
+			$data['id']           = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+			$data['title']        = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
+			$data['mode']         = ! empty( $_POST['mode'] ) ? sanitize_text_field( $_POST['mode'] ) : '';
+			$data['field_name']   = ! empty( $_POST['field_name'] ) ? sanitize_text_field( $_POST['field_name'] ) : '';
+			$data['model_name']   = ! empty( $_POST['model_name'] ) ? stripslashes( sanitize_text_field( $_POST['model_name'] ) ) : '';
+			$data['custom_class'] = ! empty( $_POST['custom_class'] ) ? stripslashes( sanitize_text_field( $_POST['custom_class'] ) ) : '';
+			$data['size']         = ! empty( $_POST['size'] ) ? sanitize_text_field( $_POST['size'] ) : 'thumbnail';
+			$data['single']       = ! empty( $_POST['single'] ) ? sanitize_text_field( $_POST['single'] ) : 'false';
+			$data['mime_type']    = ! empty( $_POST['mime_type'] ) ? sanitize_text_field( $_POST['mime_type'] ) : '';
+			$data['display_type'] = ! empty( $_POST['display_type'] ) ? sanitize_text_field( $_POST['display_type'] ) : '';
+			$data['file_id']      = ! empty( $_POST['file_id'] ) ? (int) $_POST['file_id'] : 0;
 
 			return $data;
 		}
@@ -187,7 +187,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 
 			$list_id = ! empty( $element->associated_document_id[ $data['field_name']  ] ) ? $element->associated_document_id[ $data['field_name'] ] : array();
 
-			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/main.view.php' );
+			require \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/main.view.php';
 		}
 
 		/**
@@ -209,9 +209,9 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 		 */
 		public function set_thumbnail( $data ) {
 			$element = $data['model_name']::g()->update( array(
-				'id' => $data['id'],
+				'id'           => $data['id'],
 				'thumbnail_id' => $data['file_id'],
-			) );
+			), true );
 
 			return $element;
 		}
@@ -241,7 +241,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 		 * @return void
 		 */
 		public function out_all_attributes( $data ) {
-			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/attributes.view.php' );
+			require \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/attributes.view.php';
 		}
 	}
 

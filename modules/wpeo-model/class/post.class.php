@@ -292,7 +292,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @param  Array $data Les données a insérer ou à mêttre à jour.
 		 * @return Object      L'objet construit grâce au modèle.
 		 */
-		public function update( $data ) {
+		public function update( $data, $context = false ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
@@ -309,7 +309,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id'          => $data['id'],
-					'use_context' => false,
+					'use_context' => $context,
 				), true );
 
 				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data );
