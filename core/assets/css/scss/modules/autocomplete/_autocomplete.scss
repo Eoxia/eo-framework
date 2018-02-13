@@ -65,9 +65,9 @@
 }
 
 /** Chargement */
-.wpeo-autocomplete.autocomplete-loading {
+.wpeo-autocomplete {
 	.autocomplete-label {
-		&::before, &::after {
+		.autocomplete-loading, .autocomplete-loading-background {
 			display: block;
 			content: '';
 			position: absolute;
@@ -76,11 +76,11 @@
 			@include transition(width, 0.6s, linear);
 			height: 3px;
 		}
-		&::before {
+		.autocomplete-loading {
 			width: 10%;
 			background: $color__primary;
 		}
-		&::after {
+		.autocomplete-loading-background {
 			width: 100%;
 			background: rgba($color__primary, 0.4);
 		}
@@ -113,13 +113,19 @@
 }
 
 /** Liste de résultats */
-.wpeo-autocomplete .autocomplete-search-list{
+.wpeo-autocomplete .autocomplete-search-list {
+	display: none;
 	margin: 0;
 	padding: 0;
 	width: 100%;
 	position: absolute;
 	box-shadow: 0 2px 2px 0px rgba(0,0,0,0.3);
 	border-top: 1px solid rgba(0,0,0,0.1);
+
+	// Par jimmy à modifier.
+	&.autocomplete-active {
+		display: block;
+	}
 
 	.autocomplete-result, .autocomplete-result-text {
 		list-style-type: none;
