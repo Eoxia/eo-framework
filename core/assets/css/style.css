@@ -2609,7 +2609,7 @@
        -o-transform: translateY(-50%);
           transform: translateY(-50%); }
 
-.wpeo-autocomplete.autocomplete-loading .autocomplete-label:before, .wpeo-autocomplete.autocomplete-loading .autocomplete-label:after {
+.wpeo-autocomplete .autocomplete-label .autocomplete-loading, .wpeo-autocomplete .autocomplete-label .autocomplete-loading-background {
   display: block;
   content: '';
   position: absolute;
@@ -2620,11 +2620,11 @@
   transition: width 0.6s linear;
   height: 3px; }
 
-.wpeo-autocomplete.autocomplete-loading .autocomplete-label:before {
+.wpeo-autocomplete .autocomplete-label .autocomplete-loading {
   width: 10%;
   background: #898de5; }
 
-.wpeo-autocomplete.autocomplete-loading .autocomplete-label:after {
+.wpeo-autocomplete .autocomplete-label .autocomplete-loading-background {
   width: 100%;
   background: rgba(137, 141, 229, 0.4); }
 
@@ -2661,6 +2661,7 @@
           transform: translateY(-50%) translateX(0); }
 
 .wpeo-autocomplete .autocomplete-search-list {
+  display: none;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -2668,6 +2669,9 @@
   -webkit-box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.3);
           box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.3);
   border-top: 1px solid rgba(0, 0, 0, 0.1); }
+
+.wpeo-autocomplete .autocomplete-search-list.autocomplete-active {
+  display: block; }
 
 .wpeo-autocomplete .autocomplete-search-list .autocomplete-result, .wpeo-autocomplete .autocomplete-search-list .autocomplete-result-text {
   list-style-type: none;
@@ -3769,13 +3773,8 @@
        -o-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%); }
 
-.wpeo-modal.no-close .modal-close {
+.wpeo-modal.modal-force-display .modal-close {
   display: none; }
-
-.wpeo-modal.no-close .modal-container .modal-footer {
-  opacity: 0.5;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  pointer-events: none; }
 
 .wpeo-modal .modal-container {
   position: absolute;

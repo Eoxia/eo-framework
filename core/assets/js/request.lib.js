@@ -10,7 +10,7 @@ if ( ! window.eoxiaJS.request ) {
 	window.eoxiaJS.request.init = function() {};
 
 	window.eoxiaJS.request.send = function( element, data, cb ) {
-		jQuery.post( window.ajaxurl, data, function( response ) {
+		return jQuery.post( window.ajaxurl, data, function( response ) {
 			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
 
 			if ( element.hasClass( 'button-progress' ) ) {
