@@ -344,6 +344,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 	window.eoxiaJS.autoComplete.event = function() {
 		jQuery( document ).on( 'keyup', '.wpeo-autocomplete input', window.eoxiaJS.autoComplete.keyUp );
 		jQuery( document ).on( 'click', '.wpeo-autocomplete .autocomplete-icon-after', window.eoxiaJS.autoComplete.deleteContent );
+		jQuery( document ).on( 'click', 'body', window.eoxiaJS.autoComplete.close );
 	};
 
 	/**
@@ -362,7 +363,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		var label   = element.closest( '.autocomplete-label' );
 
 		// If is not a letter or a number, stop func.
-		if ( ! (event.which <= 90 && event.which >= 48 ) ) {
+		if ( ! (event.which <= 90 && event.which >= 48 ) && event.which != 8 ) {
 			return;
 		}
 
@@ -404,6 +405,15 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		});
 	};
 
+	/**
+	 * Delete the content and result list.
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @param  {[type]} event [description]
+	 * @return {[type]}       [description]
+	 */
 	window.eoxiaJS.autoComplete.deleteContent = function( event ) {
 		var element = jQuery( this );
 		var parent  = element.closest( '.wpeo-autocomplete' );
@@ -414,6 +424,22 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		parent.removeClass( 'autocomplete-active' );
 		parent.removeClass( 'autocomplete-full' );
 		parent.find( '.autocomplete-search-list' ).removeClass( 'autocomplete-active' );
+	};
+
+	/**
+	 * Close result list
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @param  {[type]} event [description]
+	 * @return {[type]}       [description]
+	 */
+	window.eoxiaJS.autoComplete.close = function( event ) {
+		jQuery( '.wpeo-autocomplete.autocomplete-active' ).each ( function() {
+			jQuery( this ).removeClass( 'autocomplete-active' );
+			jQuery( this ).find( '.autocomplete-search-list' ).removeClass( 'autocomplete-active' );
+		} );
 	};
 
 	/**
