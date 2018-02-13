@@ -37,6 +37,8 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 			return;
 		}
 
+		parent.find( 'input[type="hidden"]' ).val( '' );
+
 		// If empty searched value, stop func.
 		if ( element.val().length === 0 ) {
 			parent.removeClass( 'autocomplete-full' );
