@@ -14,7 +14,8 @@ if ( ! window.eoxiaJS.date ) {
 			jQuery( this ).closest( '.group-date' ).find( '.mysql-date' ).datetimepicker( {
 				'lang': 'fr',
 				'format': 'Y-m-d',
-				timepicker: false,
+				'timepicker': false,
+				'defaultDate': new Date(),
 				onChangeDateTime: function( dp, $input ) {
 					$input.closest( '.group-date' ).find( '.date' ).val( window.eoxiaJS.date.convertMySQLDate( $input.val(), false ) );
 
