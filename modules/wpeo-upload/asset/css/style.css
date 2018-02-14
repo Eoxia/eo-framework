@@ -206,6 +206,15 @@
   width: 100%;
   height: auto; }
 
+.media[data-mode="view"].no-file, .wpeo-media[data-mode="view"].no-file {
+  pointer-events: none; }
+
+.media[data-mode="view"].no-file:hover, .wpeo-media[data-mode="view"].no-file:hover {
+  cursor: auto; }
+
+.media[data-mode="view"] .button-add, .wpeo-media[data-mode="view"] .button-add {
+  display: none; }
+
 .media:not(.no-file) .document, .wpeo-media:not(.no-file) .document {
   background: #0d8aff; }
 

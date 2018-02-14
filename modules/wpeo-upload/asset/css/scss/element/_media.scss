@@ -69,6 +69,22 @@
 	}
 }
 
+/** Mode lecture seulement */
+.media, .wpeo-media {
+	&[data-mode="view"] {
+		&.no-file {
+			pointer-events: none;
+
+			&:hover {
+				cursor: auto;
+			}
+		}
+		.button-add {
+			display: none;
+		}
+	}
+}
+
 /* Document */
 .media, .wpeo-media {
 	&:not(.no-file) .document {
