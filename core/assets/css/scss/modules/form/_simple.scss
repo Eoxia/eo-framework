@@ -24,11 +24,13 @@
 		border: 1px solid transparent;
 		&:hover {
 			background: darken($color__grey, 5%);
+			box-shadow: none;
 		}
 		&:focus, &:active {
 			outline: none;
 			background: darken($color__grey, 5%);
 			border: 1px solid $color__primary;
+			box-shadow: none;
 		}
 	}
 

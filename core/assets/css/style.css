@@ -2561,6 +2561,15 @@
 .wpeo-autocomplete {
   position: relative; }
 
+.wpeo-autocomplete.autocomplete-active .autocomplete-search-list {
+  opacity: 1;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  pointer-events: auto;
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+       -o-transform: translateY(0);
+          transform: translateY(0); }
+
 .wpeo-autocomplete .autocomplete-label {
   background: #ececec; }
 
@@ -2576,6 +2585,7 @@
 .wpeo-autocomplete .autocomplete-label {
   display: block;
   padding: 1em;
+  margin: 0;
   position: relative;
   -webkit-box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.3);
           box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.3);
@@ -2593,10 +2603,13 @@
   border: 0;
   width: 100%;
   padding: 0 1.6em;
-  font-size: 14px; }
+  font-size: 14px;
+  font-weight: 400; }
 
 .wpeo-autocomplete .autocomplete-search-input:focus {
-  outline: none; }
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none; }
 
 .wpeo-autocomplete .autocomplete-icon-before, .wpeo-autocomplete .autocomplete-icon-after {
   position: absolute;
@@ -2661,17 +2674,23 @@
           transform: translateY(-50%) translateX(0); }
 
 .wpeo-autocomplete .autocomplete-search-list {
-  display: none;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  -webkit-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  -webkit-transform: translateY(-10px);
+      -ms-transform: translateY(-10px);
+       -o-transform: translateY(-10px);
+          transform: translateY(-10px);
   margin: 0;
   padding: 0;
-  width: 100%;
   position: absolute;
   -webkit-box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.3);
           box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(0, 0, 0, 0.1); }
-
-.wpeo-autocomplete .autocomplete-search-list.autocomplete-active {
-  display: block; }
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 99;
+  width: 300px; }
 
 .wpeo-autocomplete .autocomplete-search-list .autocomplete-result, .wpeo-autocomplete .autocomplete-search-list .autocomplete-result-text {
   list-style-type: none;
@@ -2692,7 +2711,8 @@
   -webkit-flex: 0 1 auto;
      -moz-box-flex: 0;
       -ms-flex: 0 1 auto;
-          flex: 0 1 auto; }
+          flex: 0 1 auto;
+  margin: 0; }
 
 .wpeo-autocomplete .autocomplete-search-list .autocomplete-result {
   -webkit-transition: all 0.2s ease-out;
@@ -2704,7 +2724,12 @@
   cursor: pointer; }
 
 .wpeo-autocomplete .autocomplete-search-list .autocomplete-result-image {
-  padding-right: 1em; }
+  margin-right: 1em;
+  width: auto; }
+
+.wpeo-autocomplete .autocomplete-search-list .autocomplete-result-image.autocomplete-image-rounded {
+  -webkit-border-radius: 50%;
+          border-radius: 50%; }
 
 .wpeo-autocomplete .autocomplete-search-list .autocomplete-result-container {
   margin: auto 0; }
@@ -2718,6 +2743,15 @@
 .wpeo-autocomplete .autocomplete-search-list .autocomplete-result-subtitle {
   font-size: 12px;
   color: rgba(0, 0, 0, 0.5); }
+
+.wpeo-autocomplete.autocomplete-small .autocomplete-search-list {
+  width: 200px; }
+
+.wpeo-autocomplete.autocomplete-medium .autocomplete-search-list {
+  width: 300px; }
+
+.wpeo-autocomplete.autocomplete-large .autocomplete-search-list {
+  width: 400px; }
 
 .wpeo-button {
   display: inline-block;
@@ -3371,12 +3405,16 @@
   border: 1px solid transparent; }
 
 .wpeo-form .form-element input:hover, .wpeo-form .form-element textarea:hover, .wpeo-form .form-element select:hover {
-  background: #dfdfdf; }
+  background: #dfdfdf;
+  -webkit-box-shadow: none;
+          box-shadow: none; }
 
 .wpeo-form .form-element input:focus, .wpeo-form .form-element input:active, .wpeo-form .form-element textarea:focus, .wpeo-form .form-element textarea:active, .wpeo-form .form-element select:focus, .wpeo-form .form-element select:active {
   outline: none;
   background: #dfdfdf;
-  border: 1px solid #898de5; }
+  border: 1px solid #898de5;
+  -webkit-box-shadow: none;
+          box-shadow: none; }
 
 .wpeo-form .form-element input[type="radio"] {
   display: inline-block;
