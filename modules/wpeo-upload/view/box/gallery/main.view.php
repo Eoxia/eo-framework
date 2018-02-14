@@ -52,7 +52,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="modal-content">
 			<?php require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/list.view.php' ); ?>
 			<?php require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/navigation-arrow.view.php' ); ?>
-			<?php require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/actions.view.php' ); ?>
+
+			<?php if ( 'edit' === $data['mode'] ) :
+				require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/actions.view.php' );
+			endif;
+			?>
 		</div>
 
 		<!-- Footer -->
