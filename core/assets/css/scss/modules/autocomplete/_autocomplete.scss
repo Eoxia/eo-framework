@@ -133,6 +133,7 @@
 	border-top: 1px solid rgba(0,0,0,0.1);
 	z-index: 99;
 	width: 300px;
+	pointer-events: none;
 
 	.autocomplete-result, .autocomplete-result-text {
 		list-style-type: none;
