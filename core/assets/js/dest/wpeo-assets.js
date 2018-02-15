@@ -363,7 +363,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		var label   = element.closest( '.autocomplete-label' );
 
 		// If is not a letter or a number, stop func.
-		if ( ! (event.which <= 90 && event.which >= 48 ) && event.which != 8 ) {
+		if ( ! (event.which <= 90 && event.which >= 48 ) && event.which != 8 && (event.which <= 96 && event.which >= 105) ) {
 			return;
 		}
 
