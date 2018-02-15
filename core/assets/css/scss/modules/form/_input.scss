@@ -29,7 +29,7 @@
 
 	.dropdown-toggle {
 		width: 100%;
-		background: $color__grey;
+		display: block;
 		@include transition();
 		border: 0;
 		font-size: 14px;
@@ -40,19 +40,16 @@
 			cursor: pointer;
 		}
 	}
-	.svg-inline--fa {
+	.dropdown-toggle > .svg-inline--fa {
 		position: absolute;
 		right: 1em;
 		top: 50%;
 		transform: translateY(-50%);
 	}
 }
-.wpeo-form.form-light {
-	.dropdown-toggle {
-		background: #fff;
-		&:hover {
-			background: $color__grey;
-		}
+.wpeo-form .form-element.disable {
+	.dropdown-toggle > .svg-inline--fa {
+		display: none;
 	}
 }
 
