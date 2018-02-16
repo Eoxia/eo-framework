@@ -96,7 +96,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 					}
 
 					if ( null !== $this->req_method ) {
-						$value = apply_filters( 'eo_model_handle_value', $value, $field_def, $this->req_method );
+						$value = apply_filters( 'eo_model_handle_value', $value, $current_object, $field_def, $this->req_method );
 					}
 
 					// Enregistres la valeur soit dans un objet, ou alors dans un tableau.
