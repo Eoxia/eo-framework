@@ -276,11 +276,23 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
-		 * @param  Array $data Les données.
+		 * @param Array   $data   Les données.
+		 * @param Boolean $context Les données.
+		 *
 		 * @return Array $data Les données
 		 */
-		public function create( $data ) {
-			return $this->update( $data );
+		public function create( $data, $context = false ) {
+			$object = $this->update( $data, $context );
+
+			if ( is_wp_error( $object ) ) {
+				return $object;
+			}
+			$object = $this->get( array(
+				'id'          => $object['id'],
+				'use_context' => $context,
+			), true );
+
+			return $object;
 		}
 
 		/**
@@ -289,7 +301,9 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
-		 * @param  Array $data Les données a insérer ou à mêttre à jour.
+		 * @param Array   $data    Les données a insérer ou à mêttre à jour.
+		 * @param Boolean $context Les données.
+		 *
 		 * @return Object      L'objet construit grâce au modèle.
 		 */
 		public function update( $data, $context = false ) {
