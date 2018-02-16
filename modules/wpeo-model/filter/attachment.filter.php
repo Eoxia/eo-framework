@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestion des filtres principaux de eo_model.
+ * Gestion des filtres pour les attachments.
  *
  * @author Eoxia <dev@eoxia.com>
  * @since 1.0.0
@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Gestion des filtres principaux de eo_model.
+ * Gestion des filtres pour les attachments.
  */
-class Date_Filter {
+class Attachment_Filter {
 
 	public function __construct() {
 		add_filter( 'eo_model_handle_value', array( $this, 'callback_eo_model_handle_value' ), 10, 4 );
@@ -32,11 +32,11 @@ class Date_Filter {
 	 * @return [type]             [description]
 	 */
 	public function callback_eo_model_handle_value( $value, $current_object, $field_def, $req_method ) {
-		if ( ( isset( $field_def['context'] ) && in_array( $req_method, $field_def['context'], true ) ) && 'wpeo_date' === $field_def['type'] ) {
-			$value = array(
-				'raw'      => $value,
-				'rendered' => fill_date( $value ),
-			);
+		if ( ( isset( $field_def['context'] ) && in_array( $req_method, $field_def['context'], true ) ) && 'post_mime_type' === $field_def['field'] ) {
+
+			if ( isset( $current_object->guid ) ) {
+				$value = wp_check_filetype( $current_object->guid );
+			}
 		}
 
 		return $value;
@@ -44,4 +44,4 @@ class Date_Filter {
 
 }
 
-new Date_Filter();
+new Attachment_Filter();
