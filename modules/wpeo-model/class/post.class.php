@@ -448,6 +448,18 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		}
 
 		/**
+		 * Retournes le nom de la catégorie attachée au post.
+		 *
+		 * @since 1.0.0
+		 * @version 1.0.0
+		 *
+		 * @return string Le nom de la catégorie.
+		 */
+		public function get_attached_taxonomy() {
+			return $this->attached_taxonomy_type;
+		}
+
+		/**
 		 * Récupères les ID des taxonomies lié à ce post.
 		 *
 		 * @param  object $data L'objet courant.

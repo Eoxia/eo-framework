@@ -10,10 +10,15 @@
 		"class": {
 			"priority": [
 				"helper",
-				"rest"
+				"rest",
+				"post"
 			]
 		},
-		"model": {},
+		"model": {
+			"priority": [
+				"post"
+			]
+		},
 		"helper": {},
 		"filter": {}
 	},
