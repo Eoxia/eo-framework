@@ -99,16 +99,17 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
-		 * @param array $current_element_type La liste des types pour lesquels il faut récupérer les modèles de documents.
+		 * @param array  $current_element_type La liste des types pour lesquels il faut récupérer les modèles de documents.
+		 * @param string $extension           L'extension à utilisé.
 		 * @return array                      Un statut pour la réponse, un message si une erreur est survenue, le ou les identifiants des modèles si existants.
 		 */
-		public function get_model_for_element( $current_element_type ) {
+		public function get_model_for_element( $current_element_type, $extension = 'odt' ) {
 			$response = array(
 				'status'     => true,
 				'model_id'   => null,
-				'model_path' => str_replace( '\\', '/', $this->model_path . 'core/assets/document_template/' . $current_element_type[0] . '.odt' ),
-				'model_url'  => str_replace( '\\', '/', $this->model_path . 'core/assets/document_template/' . $current_element_type[0] . '.odt' ),
-				'message'    => sprintf( 'Le modèle utilisé est: %1$score/assets/document_template/%2$s.odt', $this->model_path, $current_element_type[0] ),
+				'model_path' => str_replace( '\\', '/', $this->model_path . 'core/assets/document_template/' . $current_element_type[0] . '.' . $extension ),
+				'model_url'  => str_replace( '\\', '/', $this->model_path . 'core/assets/document_template/' . $current_element_type[0] . '.' . $extension ),
+				'message'    => sprintf( 'Le modèle utilisé est: %1$score/assets/document_template/%2$s.' . $extension, $this->model_path, $current_element_type[0] ),
 			);
 
 			$tax_query = array(
@@ -195,14 +196,14 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
-		 * @param object $element            L'élément parent ou le document sera attaché.
-		 * @param array  $types              Les catégories auxquelles associer le document généré.
-		 * @param array  $document_meta      Les données a écrire dans le modèle de document.
-		 * @param array  $generated_document Les données du document généré.
+		 * @param object $element       L'élément parent ou le document sera attaché.
+		 * @param array  $types         Les catégories auxquelles associer le document généré.
+		 * @param array  $document_meta Les données a écrire dans le modèle de document.
+		 * @param string $extension     L'extension à utiliser.
 		 *
-		 * @return array                     Le résultat de la création du document.
+		 * @return array                Le résultat de la création du document.
 		 */
-		public function create_document( $element, $types, $document_meta, $generated_document = null ) {
+		public function create_document( $element, $types, $document_meta, $extension = 'odt' ) {
 			$response = array(
 				'status'   => true,
 				'message'  => '',
@@ -211,7 +212,7 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 				'document' => null,
 			);
 
-			$model_status = $this->get_model_for_element( wp_parse_args( array( 'model', 'default_model' ), $types ) );
+			$model_status = $this->get_model_for_element( wp_parse_args( array( 'model', 'default_model' ), $types ), $extension );
 
 			// Insères l'attachement en base de donnée ainsi que ses métadonnées.
 			$document_args = array(
@@ -246,7 +247,6 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 		 * @return array                   Tableau avec le status d'existence du fichier (True/False) et le lien de téléchargement du fichier.
 		 */
 		public function check_file( $document ) {
-
 			// Définition des valeurs par défaut.
 			$file_check = array(
 				'exists'    => false,
