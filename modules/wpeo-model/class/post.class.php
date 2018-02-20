@@ -486,14 +486,18 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Sauvegardes les taxonomies
 		 *
-		 * @param  object $data L'objet avec les taxonomies à sauvegarder.
+		 * @version 1.0.0
+		 * @since 1.0.0
+		 *
+		 * @param object  $data   L'objet avec les taxonomies à sauvegarder.
+		 * @param boolean $append La taxonomie doit elle être ajoutée à la liste existante ou remplacer la liste existante.
 		 */
-		private function save_taxonomies( $data ) {
+		private function save_taxonomies( $data, $append ) {
 			if ( ! empty( $data->taxonomy ) ) {
 				foreach ( $data->taxonomy as $taxonomy_name => $taxonomy_data ) {
 					if ( ! empty( $taxonomy_name ) ) {
 						if ( is_int( $taxonomy_data ) || is_array( $taxonomy_data ) ) {
-							wp_set_object_terms( $data->id, $taxonomy_data, $taxonomy_name, true );
+							wp_set_object_terms( $data->id, $taxonomy_data, $taxonomy_name, $append );
 						}
 					}
 				}
