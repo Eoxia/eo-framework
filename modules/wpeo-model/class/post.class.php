@@ -492,7 +492,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			if ( ! empty( $data->taxonomy ) ) {
 				foreach ( $data->taxonomy as $taxonomy_name => $taxonomy_data ) {
 					if ( ! empty( $taxonomy_name ) ) {
-						if ( is_int( $taxonomy_data ) ) {
+						if ( is_int( $taxonomy_data ) || is_array( $taxonomy_data ) ) {
 							wp_set_object_terms( $data->id, $taxonomy_data, $taxonomy_name, true );
 						}
 					}
