@@ -329,6 +329,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data );
 			}
 
+			$append = false;
 			if ( isset( $data['$push'] ) ) {
 				if ( ! empty( $data['$push'] ) ) {
 					foreach ( $data['$push'] as $field_name => $field_to_push ) {
@@ -344,6 +345,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 					}
 				}
 
+				$append = true;
 				unset( $data['$push'] );
 			}
 
@@ -367,7 +369,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			Save_Meta_Class::g()->save_meta_data( $data, 'update_post_meta', $this->meta_key );
 
 			// Save taxonomy!
-			$this->save_taxonomies( $data );
+			$this->save_taxonomies( $data, $append );
 
 			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
 
