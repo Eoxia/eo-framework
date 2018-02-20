@@ -10,15 +10,18 @@ if ( ! window.eoxiaJS.date ) {
 	window.eoxiaJS.date = {};
 
 	window.eoxiaJS.date.init = function() {
-		jQuery( '.group-date .date' ).datetimepicker( {
-			lang: 'fr',
-			format: 'd/m/Y',
-			mask: true,
-			timepicker: false,
-			startDate: new Date(),
-			onChangeDateTime : function(ct, $i) {
-				$i.closest( '.group-date' ).find( '.mysql-date' ).val( ct.dateFormat('Y-m-d') );
-			}
-		} );
+		jQuery( document ).on ('click', '.group-date .date', function( e ) {
+			var defaultDate = jQuery( this ).closest( '.group-date' ).find( '.mysql-date' ).val() ?  jQuery( this ).closest( '.group-date' ).find( '.mysql-date' ).val() : new Date();
+			jQuery( this ).datetimepicker( {
+				lang: 'fr',
+				format: 'd/m/Y',
+				mask: true,
+				timepicker: false,
+				startDate: defaultDate,
+				onChangeDateTime : function(ct, $i) {
+					$i.closest( '.group-date' ).find( '.mysql-date' ).val( ct.dateFormat('Y-m-d') );
+				}
+			} ).datetimepicker( 'show' );
+		});
 	};
 }
