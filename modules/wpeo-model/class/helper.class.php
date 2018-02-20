@@ -101,7 +101,7 @@ if ( ! class_exists( '\eoxia\Helper_Class' ) ) {
 		 * @return mixed|null Value if set, null otherwise.
 		 */
 		public function offsetGet( $offset ) {
-			return $this->$offset;
+			return isset( $this->$offset ) ? $this->$offset : null;
 		}
 
 		/**
