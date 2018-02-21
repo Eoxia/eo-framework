@@ -41,9 +41,14 @@
 		list-style-type: none;
 		padding: 0;
 	}
+	.dropdown-item {
+		display: block;
+		color: rgba(0,0,0,0.7);
+		text-decoration: none;
+	}
 }
 
-// Taille
+/** Taille */
 .wpeo-dropdown {
 	&.dropdown-small .dropdown-content {
 		width: 60px;
@@ -56,7 +61,7 @@
 	}
 }
 
-// Padding
+/** Padding */
 .wpeo-dropdown {
 	&.dropdown-padding-0 .dropdown-content {
 		padding: 0;
@@ -69,13 +74,25 @@
 	}
 }
 
-// Alignement
+/** Alignement */
 .wpeo-dropdown {
 	&.dropdown-left .dropdown-content {
 		left: 0;
 	}
 	&.dropdown-right .dropdown-content {
 		right: 0;
+	}
+}
+
+/** Disable */
+.wpeo-dropdown .dropdown-item {
+	&.dropdown-item-disable {
+		opacity: 0.6;
+		cursor: default !important;
+		pointer-events: none;
+		// Pointer events: none; seulement sur les enfants pour permettre l'utilisation d'une tooltip ou autre module.
+		> * {
+		}
 	}
 }
 

@@ -13,6 +13,9 @@
 }
 
 .wpeo-dropdown.dropdown-list {
+	.dropdown-content {
+		text-align: left;
+	}
 	.dropdown-item {
 		&::after {
 			display: block;

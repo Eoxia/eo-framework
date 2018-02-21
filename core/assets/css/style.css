@@ -2798,6 +2798,11 @@
   list-style-type: none;
   padding: 0; }
 
+.wpeo-dropdown .dropdown-item {
+  display: block;
+  color: rgba(0, 0, 0, 0.7);
+  text-decoration: none; }
+
 .wpeo-dropdown.dropdown-small .dropdown-content {
   width: 60px; }
 
@@ -2822,6 +2827,12 @@
 .wpeo-dropdown.dropdown-right .dropdown-content {
   right: 0; }
 
+.wpeo-dropdown .dropdown-item.dropdown-item-disable {
+  opacity: 0.6;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  cursor: default !important;
+  pointer-events: none; }
+
 .wpeo-dropdown .dropdown-content .dropdown-item {
   padding: 0.6em;
   background: #fff;
@@ -2832,6 +2843,9 @@
 .wpeo-dropdown .dropdown-content .dropdown-item:hover {
   cursor: pointer;
   background: rgba(0, 0, 0, 0.1); }
+
+.wpeo-dropdown.dropdown-list .dropdown-content {
+  text-align: left; }
 
 .wpeo-dropdown.dropdown-list .dropdown-item:after {
   display: block;
