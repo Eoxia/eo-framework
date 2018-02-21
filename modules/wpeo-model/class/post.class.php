@@ -257,8 +257,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 					}
 				}
 				$model_name          = $this->model_name;
-				$array_posts[ $key ] = new $model_name( $post, $req_method );
 				$array_posts[ $key ] = $this->get_taxonomies_id( $array_posts[ $key ] );
+				$array_posts[ $key ] = new $model_name( $post, $req_method );
 
 				$array_posts[ $key ] = Model_Util::exec_callback( $this->after_get_function, $array_posts[ $key ], array( 'model_name' => $model_name ) );
 			} // End foreach().
