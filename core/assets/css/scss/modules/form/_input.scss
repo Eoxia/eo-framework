@@ -18,8 +18,7 @@
 
 /** compatibilité Date */
 .wpeo-form .group-date .mysql-date {
-	visibility: hidden;
-	position: absolute;
+	display: none;
 }
 
 /* Compatibility Dropdown */

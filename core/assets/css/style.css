@@ -2879,8 +2879,7 @@
           box-shadow: none; }
 
 .wpeo-form .group-date .mysql-date {
-  visibility: hidden;
-  position: absolute; }
+  display: none; }
 
 .wpeo-form .wpeo-dropdown {
   display: block;
