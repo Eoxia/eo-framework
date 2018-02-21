@@ -276,15 +276,15 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 					'id' => $data['id'],
 				), true );
 
-				$data = array_merge( (array) $current_data, $data );
+				$data = array_merge( $data, (array) $current_data->data );
 			}
 
-			$data = new $model_name( $data, $req_method );
+			$object = new $model_name( $data, $req_method );
 
-			if ( empty( $data->id ) ) {
-				$term = wp_insert_term( $data->name, $this->get_type(), $data->convert_to_wordpress() );
+			if ( empty( $object->data['id'] ) ) {
+				$term = wp_insert_term( $object->data['name'], $this->get_type(), $object->convert_to_wordpress() );
 			} else {
-				$term = wp_update_term( $data->id, $this->get_type(), $data->convert_to_wordpress() );
+				$term = wp_update_term( $object->data['id'], $this->get_type(), $object->convert_to_wordpress() );
 			}
 
 			if ( is_wp_error( $term ) ) {
@@ -297,14 +297,14 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 				return $term;
 			}
 
-			$data->id               = $term['term_id'];
-			$data->term_taxonomy_id = $term['term_taxonomy_id'];
+			$object->data['id']               = $term['term_id'];
+			$object->data['term_taxonomy_id'] = $term['term_taxonomy_id'];
 
-			Save_Meta_Class::g()->save_meta_data( $data, 'update_term_meta', $this->meta_key );
+			Save_Meta_Class::g()->save_meta_data( $object, 'update_term_meta', $this->meta_key );
 
-			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
+			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
 
-			return $data;
+			return $object;
 		}
 
 		/**

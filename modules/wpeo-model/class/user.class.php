@@ -257,33 +257,32 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 					'id' => $data['id'],
 				), true );
 
-				$data = array_merge( (array) $current_data, $data );
+				$data = array_merge( $data, (array) $current_data->data );
 			}
 
-			$data = new $model_name( $data, $req_method );
+			$object = new $model_name( $data, $req_method );
 
-			if ( empty( $data->id ) ) {
-				$inserted_user = wp_insert_user( $data->convert_to_wordpress() );
+			if ( empty( $object->data['id'] ) ) {
+				$inserted_user = wp_insert_user( $object->convert_to_wordpress() );
 				if ( is_wp_error( $inserted_user ) ) {
 					return $inserted_user;
 				}
 
-				$data->id = $inserted_user;
+				$object->data['id'] = $inserted_user;
 			} else {
-				$updated_user = wp_update_user( $data->convert_to_wordpress() );
-
+				$updated_user = wp_update_user( $object->convert_to_wordpress() );
 				if ( is_wp_error( $updated_user ) ) {
 					return $updated_user;
 				}
 
-				$data->id = $updated_user;
+				$object->data['id'] = $updated_user;
 			}
 
-			Save_Meta_Class::g()->save_meta_data( $data, 'update_user_meta', $this->meta_key );
+			Save_Meta_Class::g()->save_meta_data( $object, 'update_user_meta', $this->meta_key );
 
-			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
+			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
 
-			return $data;
+			return $object;
 		}
 
 		/**

@@ -188,13 +188,13 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 						}
 					}
 
-					$model_name = $this->model_name;
+					$model_name           = $this->model_name;
 					$list_comment[ $key ] = new $model_name( $comment, 'get' );
 					$list_comment[ $key ] = Model_Util::exec_callback( $this->after_get_function, $list_comment[ $key ], array( 'model_name' => $model_name ) );
 				}
 			} else {
 				if ( ! empty( $args['schema'] ) ) {
-					$model_name = $this->model_name;
+					$model_name      = $this->model_name;
 					$list_comment[0] = new $model_name( array(), 'get' );
 					$list_comment[0] = Model_Util::exec_callback( $this->after_get_function, $list_comment[0], array( 'model_name' => $model_name ) );
 				}
@@ -274,31 +274,31 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 					'id' => $data['id'],
 				), true );
 
-				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data );
+				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data->data );
 			}
 
-			$data = new $model_name( $data, $req_method );
+			$object = new $model_name( $data, $req_method );
 
-			if ( empty( $data->id ) ) {
+			if ( empty( $object->data['id'] ) ) {
 				add_filter( 'duplicate_comment_id', '__return_false' );
 				add_filter( 'pre_comment_approved', function( $approved, $comment_data ) {
 					return $comment_data['comment_approved'];
 				}, 10, 2 );
-				$inserted_comment = wp_new_comment( $data->convert_to_wordpress(), true );
+				$inserted_comment = wp_new_comment( $object->convert_to_wordpress(), true );
 				if ( is_wp_error( $inserted_comment ) ) {
 					return $inserted_comment;
 				}
 
-				$data->id = $inserted_comment;
+				$object->data['id'] = $inserted_comment;
 			} else {
-				wp_update_comment( $data->convert_to_wordpress() );
+				wp_update_comment( $object->convert_to_wordpress() );
 			}
 
-			Save_Meta_Class::g()->save_meta_data( $data, 'update_comment_meta', $this->meta_key );
+			Save_Meta_Class::g()->save_meta_data( $object, 'update_comment_meta', $this->meta_key );
 
-			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
+			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
 
-			return $data;
+			return $object;
 		}
 
 		/**

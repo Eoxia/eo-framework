@@ -256,10 +256,10 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 						unset( $post[ $this->meta_key ] );
 					}
 				}
-				$model_name = $this->model_name;
-				$builded    = new $model_name( $post, $req_method );
+				$model_name          = $this->model_name;
+				$array_posts[ $key ] = new $model_name( $post, $req_method );
 
-				$array_posts[ $key ] = $this->get_taxonomies_id( $builded->data );
+				$array_posts[ $key ] = $this->get_taxonomies_id( $array_posts[ $key ] );
 
 				$array_posts[ $key ] = Model_Util::exec_callback( $this->after_get_function, $array_posts[ $key ], array( 'model_name' => $model_name ) );
 			} // End foreach().
@@ -327,54 +327,54 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 					'use_context' => $context,
 				), true );
 
-				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data );
+				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data->data );
 			}
 
-			$append = false;
-			if ( isset( $data['$push'] ) ) {
-				if ( ! empty( $data['$push'] ) ) {
-					foreach ( $data['$push'] as $field_name => $field_to_push ) {
-						if ( ! empty( $field_to_push ) ) {
-							foreach ( $field_to_push as $sub_field_name => $value ) {
-								if ( ! isset( $data[ $field_name ][ $sub_field_name ] ) ) {
-									$data[ $field_name ][ $sub_field_name ] = array();
-								}
+			// $append = false;
+			// if ( isset( $data['$push'] ) ) {
+			// 	if ( ! empty( $data['$push'] ) ) {
+			// 		foreach ( $data['$push'] as $field_name => $field_to_push ) {
+			// 			if ( ! empty( $field_to_push ) ) {
+			// 				foreach ( $field_to_push as $sub_field_name => $value ) {
+			// 					if ( ! isset( $data[ $field_name ][ $sub_field_name ] ) ) {
+			// 						$data[ $field_name ][ $sub_field_name ] = array();
+			// 					}
+			//
+			// 					$data[ $field_name ][ $sub_field_name ][] = $value;
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			//
+			// 	$append = true;
+			// 	unset( $data['$push'] );
+			// }
 
-								$data[ $field_name ][ $sub_field_name ][] = $value;
-							}
-						}
-					}
-				}
+			$object = new $model_name( $data, $req_method );
 
-				$append = true;
-				unset( $data['$push'] );
-			}
-
-			$data = new $model_name( $data, $req_method );
-
-			if ( empty( $data->id ) ) {
-				$inserted_post = wp_insert_post( $data->convert_to_wordpress(), true );
+			if ( empty( $object->data['id'] ) ) {
+				$inserted_post = wp_insert_post( $object->convert_to_wordpress(), true );
 				if ( is_wp_error( $inserted_post ) ) {
 					return $inserted_post;
 				}
 
-				$data->id = $inserted_post;
+				$object->data['id'] = $inserted_post;
 			} else {
-				$update_state = wp_update_post( $data->convert_to_wordpress(), true );
+				$update_state = wp_update_post( $object->convert_to_wordpress(), true );
 
 				if ( is_wp_error( $update_state ) ) {
 					return $update_state;
 				}
 			}
 
-			Save_Meta_Class::g()->save_meta_data( $data, 'update_post_meta', $this->meta_key );
+			Save_Meta_Class::g()->save_meta_data( $object, 'update_post_meta', $this->meta_key );
 
 			// Save taxonomy!
-			$this->save_taxonomies( $data, $append );
+			// $this->save_taxonomies( $object, $append );
 
-			$data = Model_Util::exec_callback( $this->$after_cb, $data, $args_cb );
+			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
 
-			return $data;
+			return $object;
 		}
 
 		/**
@@ -463,27 +463,27 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		}
 
 		/**
-		 * Récupères les ID des taxonomies lié à ce post.
+		 * Récupères les ID des taxonomies lié à cet objet.
 		 *
-		 * @param  object $data L'objet courant.
-		 * @return object				L'objet avec les taxonomies.
+		 * @param  object $object L'objet courant.
+		 * @return object       L'objet avec les ID des taxonomies.
 		 *
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 */
-		private function get_taxonomies_id( $data ) {
-			if ( ! empty( $data->id ) ) {
-				$model = $data->get_model();
+		private function get_taxonomies_id( $object ) {
+			if ( ! empty( $object->data->id ) ) {
+				$model = $object->get_model();
 				if ( ! empty( $model['taxonomy']['child'] ) ) {
 					foreach ( $model['taxonomy']['child'] as $key => $value ) {
-						$data->taxonomy[ $key ] = wp_get_object_terms( $data->id, $key, array(
+						$object->data->taxonomy[ $key ] = wp_get_object_terms( $object->data->id, $key, array(
 							'fields' => 'ids',
 						) );
 					}
 				}
 			}
 
-			return $data;
+			return $object;
 		}
 
 		/**

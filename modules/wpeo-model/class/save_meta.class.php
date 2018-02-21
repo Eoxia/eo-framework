@@ -45,18 +45,18 @@ if ( ! class_exists( '\eoxia\Save_Meta_Class' ) ) {
 
 			$list_meta_json = array();
 
-			if ( ! empty( $object->id ) ) {
+			if ( ! empty( $object->data['id'] ) ) {
 				foreach ( $schema as $field_name => $field_def ) {
-					if ( ! empty( $field_def['meta_type'] ) && isset( $object->$field_name ) ) {
+					if ( ! empty( $field_def['meta_type'] ) && isset( $object->data[ $field_name ] ) ) {
 						if ( 'single' === $field_def['meta_type'] ) {
-							self::g()->save_single_meta_data( $object->id, $object->$field_name, $function, $field_def['field'] );
+							self::g()->save_single_meta_data( $object->data['id'], $object->data[ $field_name ], $function, $field_def['field'] );
 						} else {
-							$list_meta_json[ $field_name ] = $object->$field_name;
+							$list_meta_json[ $field_name ] = $object->data[ $field_name ];
 						}
 					}
 				}
 
-				self::g()->save_multiple_meta_data( $object->id, $list_meta_json, $function, $meta_key );
+				self::g()->save_multiple_meta_data( $object->data['id'], $list_meta_json, $function, $meta_key );
 			}
 		}
 

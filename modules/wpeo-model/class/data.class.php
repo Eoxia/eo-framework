@@ -261,8 +261,8 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			foreach ( $this->schema as $field_name => $field_def ) {
 
 				if ( ! empty( $field_def['field'] ) ) {
-					if ( isset( $this->$field_name ) ) {
-						$value = $this->$field_name;
+					if ( isset( $this->data[ $field_name ] ) ) {
+						$value = $this->data[ $field_name ];
 						if ( 'wpeo_date' !== $field_def['type'] ) {
 							$data[ $field_def['field'] ] = $value;
 						} else {
