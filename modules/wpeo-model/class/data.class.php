@@ -53,7 +53,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			$this->req_method = ( null !== $req_method ) ? strtoupper( $req_method ) : null;
 
 			if ( null !== $data ) {
-				$this->handle_data( $data );
+				$this->data = $this->handle_data( $data );
 
 				if ( ! empty( $this->wp_errors->errors ) ) {
 					echo wp_json_encode( $this->wp_errors );
@@ -68,55 +68,28 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
-		 * @param array  $data           Toutes les données non traitée.
-		 * @param array  $current_data   Les données actuelles.
-		 * @param object $current_object L'objet en cours de construction.
-		 * @param array  $schema          La définition des données.
+		 * @param array $data           Toutes les données non traitée.
+		 * @param array $schema         La définition des données.
 		 *
-		 * @return object                Les données traitées, typées et convertie en l'objet demandé.
+		 * @return object               Les données traitées, typées et convertie en l'objet demandé.
 		 */
-		private function handle_data( $data, $current_data = null, $current_object = null, $schema = null ) {
-			$current_data   = ( null === $current_data ) ? $data : $current_data;
-			$current_object = ( null === $current_object ) ? $this : $current_object;
-			$schema         = ( null === $schema ) ? $this->schema : $schema;
+		private function handle_data( $data, $schema = null ) {
+			$object = null;
+			$schema = ( null === $schema ) ? $this->schema : $schema;
 
 			foreach ( $schema as $field_name => $field_def ) {
+				// Définie les données  par défaut pour l'élément courant par rapport à "bydefault".
+				$value = $this->set_default_data( $field_name, $field_def );
 
-				// Si la définition de la donnée ne contient pas "child".
-				if ( ! isset( $field_def['child'] ) ) {
+				// Si on est au premier niveau de $current_object, sinon si on est plus haut que le premier niveau.
+				if ( isset( $field_def['field'] ) && isset( $data[ $field_def['field'] ] ) ) {
+					$value = $data[ $field_def['field'] ];
+				} elseif ( isset( $data[ $field_name ] ) && isset( $field_def ) && ! isset( $field_def['child'] ) ) {
+					$value = $data[ $field_name ];
+				}
 
-					// Définie les données  par défaut pour l'élément courant par rapport à "bydefault".
-					$value = $this->set_default_data( $field_name, $field_def );
-
-					// Si on est au premier niveau de $current_object, sinon si on est plus haut que le premier niveau.
-					if ( isset( $field_def['field'] ) && isset( $current_data[ $field_def['field'] ] ) ) {
-						$value = $current_data[ $field_def['field'] ];
-					} elseif ( isset( $current_data[ $field_name ] ) && isset( $field_def ) && ! isset( $field_def['child'] ) ) {
-						$value = $current_data[ $field_name ];
-					}
-
-					if ( null !== $this->req_method ) {
-						$value = apply_filters( 'eo_model_handle_value', $value, $current_object, $field_def, $this->req_method );
-					}
-
-					// Enregistres la valeur soit dans un objet, ou alors dans un tableau.
-					if ( ( 'GET' === $this->req_method ) || ( null !== $value ) ) {
-						$current_object[ $field_name ] = $value;
-					}
-				} else {
-					// Values car c'est un tableau, nous sommes dans "child". Nous avons donc un tableau dans $data[ $field_name ].
-					$values = ! empty( $data[ $field_name ] ) ? $data[ $field_name ] : array();
-
-					if ( empty( $current_object[ $field_name ] ) ) {
-						if ( 'array' === $field_def['type'] ) {
-							$current_object[ $field_name ] = array();
-						} else {
-							$current_object[ $field_name ] = new \stdClass();
-						}
-					}
-
-					// Récursivité sur les enfants de la définition courante.
-					$value = $this->handle_data( $data, $values, $current_object[ $field_name ], $field_def['child'] );
+				if ( null !== $this->req_method ) {
+					$value = apply_filters( 'eo_model_handle_value', $value, $this, $field_def, $this->req_method );
 				}
 
 				// Traitement de $value au niveau du champ "required".
@@ -136,17 +109,26 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 
 				// Pour remettre à jour la valeur dans l'objet.
 				if ( null !== $value ) {
-					$current_object[ $field_name ] = $value;
+					$object[ $field_name ] = $value;
 				}
 
 				if ( 'GET' !== $this->req_method ) {
-					if ( isset( $current_object[ $field_name ] ) && null === $value && isset( $field_def['required'] ) && $field_def['required'] ) {
-						unset( $current_object[ $field_name ] );
+					if ( isset( $object[ $field_name ] ) && null === $value && isset( $field_def['required'] ) && $field_def['required'] ) {
+						unset( $object[ $field_name ] );
 					}
+				}
+
+				// Si la définition de la donnée ne contient pas "child".
+				if ( isset( $field_def['child'] ) ) {
+					// Values car c'est un tableau, nous sommes dans "child". Nous avons donc un tableau dans $data[ $field_name ].
+					$values = ! empty( $data[ $field_name ] ) ? $data[ $field_name ] : array();
+
+					// Récursivité sur les enfants de la définition courante.
+					$object[ $field_name ] = $this->handle_data( $values, $field_def['child'] );
 				}
 			}
 
-			return $current_object;
+			return $object;
 		}
 
 		/**
