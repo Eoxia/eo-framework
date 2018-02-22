@@ -217,8 +217,8 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 			// Insères l'attachement en base de donnée ainsi que ses métadonnées.
 			$document_args = array(
 				'status'        => 'inherit',
-				'title'         => $element->title,
-				'parent_id'     => $element->parent_id,
+				'title'         => $element->data['title'],
+				'parent_id'     => $element->data['parent_id'],
 				'model_path'    => $model_status['model_path'],
 				'document_meta' => $document_meta,
 				'taxonomy'      => array(
@@ -255,9 +255,9 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 				'link'      => '',
 			);
 
-			if ( ! empty( $document['link'] ) ) {
-				$file_check['path'] = str_replace( site_url( '/' ), ABSPATH, $document['link'] );
-				$file_check['link'] = $document['link'];
+			if ( ! empty( $document->data['link'] ) ) {
+				$file_check['path'] = str_replace( site_url( '/' ), ABSPATH, $document->data['link'] );
+				$file_check['link'] = $document->data['link'];
 			}
 
 			$upload_dir = wp_upload_dir();
@@ -268,9 +268,9 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 			}
 
 			// La vérification principale n'a pas fonctionnée. cf 2 ci-dessus.
-			if ( ! $file_check['exists'] && ! empty( $document['_wp_attached_file'] ) ) {
-				$file_check['path'] = $upload_dir['basedir'] . '/' . $document['_wp_attached_file'];
-				$file_check['link'] = $upload_dir['baseurl'] . '/' . $document['_wp_attached_file'];
+			if ( ! $file_check['exists'] && ! empty( $document->data['_wp_attached_file'] ) ) {
+				$file_check['path'] = $upload_dir['basedir'] . '/' . $document->data['_wp_attached_file'];
+				$file_check['link'] = $upload_dir['baseurl'] . '/' . $document->data['_wp_attached_file'];
 				if ( is_file( $file_check['path'] ) ) {
 					$file_check['exists'] = true;
 				}
