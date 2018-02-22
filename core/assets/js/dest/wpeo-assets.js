@@ -54,6 +54,20 @@ if ( ! window.eoxiaJS.scriptsLoaded ) {
 		}
 	};
 
+	window.eoxiaJS.cb = function( cbName, cbArgs ) {
+		var key = undefined;
+		var slug = undefined;
+		for ( key in window.eoxiaJS ) {
+
+			for ( slug in window.eoxiaJS[key] ) {
+
+				if ( window.eoxiaJS[key] && window.eoxiaJS[key][slug] && window.eoxiaJS[key][slug][cbName] ) {
+					window.eoxiaJS[key][slug][cbName](cbArgs);
+				}
+			}
+		}
+	};
+
 	jQuery( document ).ready( window.eoxiaJS.init );
 }
 
