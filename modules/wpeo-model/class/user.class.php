@@ -257,7 +257,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 					'id' => $data['id'],
 				), true );
 
-				$data = array_merge( $data, (array) $current_data->data );
+				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data->data );
 			}
 
 			$object = new $model_name( $data, $req_method );
