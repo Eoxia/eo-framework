@@ -49,6 +49,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 		endif;
 		?>
 		<input type="hidden" name="<?php echo esc_attr( $atts['field_name'] ); ?>" />
-		&nbsp;
 	<?php endif; ?>
 </span>

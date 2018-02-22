@@ -134,9 +134,15 @@ window.eoxiaJS.upload.associateFile = function() {
 
 	jQuery.post( window.ajaxurl, data, function( response ) {
 		window.eoxiaJS.upload.refreshButton( response.data );
+		window.eoxiaJS.cb( 'eoUploadAssociatedFile', {
+			element: window.eoxiaJS.upload.currentButton,
+			data: data,
+			response: response
+		} );
+
 
 		if ( 'box' === response.data.display_type && 0 !== response.data.id ) {
-			window.eoxiaJS.gallery.open( false );
+			// window.eoxiaJS.gallery.open( false );
 		}
 	} );
 };
@@ -171,7 +177,7 @@ window.eoxiaJS.upload.refreshButton = function( data ) {
 		} else {
 			if ( data.media ) {
 				window.eoxiaJS.upload.currentButton.find( 'img' ).replaceWith( data.media );
-				window.eoxiaJS.upload.currentButton.find( 'i' ).hide();
+				window.eoxiaJS.upload.currentButton.find( 'svg.fa-image' ).hide();
 
 				window.eoxiaJS.upload.currentButton.find( 'input[type="hidden"]' ).val( window.eoxiaJS.upload.selectedInfos.JSON.id );
 			}
