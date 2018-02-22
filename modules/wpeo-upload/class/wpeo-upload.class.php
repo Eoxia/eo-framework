@@ -98,7 +98,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 					'id' => $data['id'],
 				), true );
 
-				$element->associated_document_id[ $data['field_name'] ][] = (int) $data['file_id'];
+				$element->data['associated_document_id'][ $data['field_name'] ][] = (int) $data['file_id'];
 				$data['model_name']::g()->update( $element );
 			}
 
@@ -128,24 +128,24 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 			), true );
 
 			// Check if the file is in associated file list.
-			if ( isset( $element->associated_document_id ) && isset( $element->associated_document_id[ $data['field_name'] ] ) ) {
-				$key = array_search( $data['file_id'], $element->associated_document_id[ $data['field_name'] ], true );
+			if ( isset( $element->data['associated_document_id'] ) && isset( $element->data['associated_document_id'][ $data['field_name'] ] ) ) {
+				$key = array_search( $data['file_id'], $element->data['associated_document_id'][ $data['field_name'] ], true );
 				if ( false !== $key ) {
-					array_splice( $element->associated_document_id[ $data['field_name'] ], $key, 1 );
+					array_splice( $element->data['associated_document_id'][ $data['field_name'] ], $key, 1 );
 				}
 			}
 
 			// Check if the file is set as thumbnail.
-			if ( $data['file_id'] === $element->thumbnail_id ) {
-				$element->thumbnail_id = 0;
+			if ( $data['file_id'] === $element->data['thumbnail_id'] ) {
+				$element->data['thumbnail_id'] = 0;
 			}
 
 			// Set another thumbnail id.
-			if ( empty( $element->thumbnail_id ) && ! empty( $element->associated_document_id[ $data['field_name'] ] ) ) {
-				$element->thumbnail_id = $element->associated_document_id[ $data['field_name'] ][0];
+			if ( empty( $element->data['thumbnail_id'] ) && ! empty( $element->data['associated_document_id'][ $data['field_name'] ] ) ) {
+				$element->data['thumbnail_id'] = $element->data['associated_document_id'][ $data['field_name'] ][0];
 			}
 
-			$data['model_name']::g()->update( $element );
+			$data['model_name']::g()->update( $element->data );
 
 			return $element;
 		}
@@ -179,13 +179,13 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 				'id' => $data['id'],
 			), true );
 
-			$main_picture_id = $element->thumbnail_id;
+			$main_picture_id = $element->data['thumbnail_id'];
 
 			if ( empty( $main_picture_id ) ) {
-				$main_picture_id = $element->associated_document_id[ $data['field_name'] ][0];
+				$main_picture_id = $element->data['associated_document_id'][ $data['field_name'] ][0];
 			}
 
-			$list_id = ! empty( $element->associated_document_id[ $data['field_name']  ] ) ? $element->associated_document_id[ $data['field_name'] ] : array();
+			$list_id = ! empty( $element->data['associated_document_id'][ $data['field_name']  ] ) ? $element->data['associated_document_id'][ $data['field_name'] ] : array();
 
 			require \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/box/gallery/main.view.php';
 		}
