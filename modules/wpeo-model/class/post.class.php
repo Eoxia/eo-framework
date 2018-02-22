@@ -331,7 +331,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data->data );
 			}
 
-			// $append = false;
+			$append = false;
 			// if ( isset( $data['$push'] ) ) {
 			// 	if ( ! empty( $data['$push'] ) ) {
 			// 		foreach ( $data['$push'] as $field_name => $field_to_push ) {
@@ -371,7 +371,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			Save_Meta_Class::g()->save_meta_data( $object, 'update_post_meta', $this->meta_key );
 
 			// Save taxonomy!
-			// $this->save_taxonomies( $object, $append );
+			$this->save_taxonomies( $object, $append );
 
 			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
 
@@ -473,11 +473,11 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @version 1.0.0
 		 */
 		private function get_taxonomies_id( $object ) {
-			if ( ! empty( $object->data->id ) ) {
+			if ( ! empty( $object->data['id'] ) ) {
 				$model = $object->get_model();
 				if ( ! empty( $model['taxonomy']['child'] ) ) {
 					foreach ( $model['taxonomy']['child'] as $key => $value ) {
-						$object->data->taxonomy[ $key ] = wp_get_object_terms( $object->data->id, $key, array(
+						$object->data['taxonomy'][ $key ] = wp_get_object_terms( $object->data['id'], $key, array(
 							'fields' => 'ids',
 						) );
 					}
@@ -493,15 +493,15 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @version 1.0.0
 		 * @since 1.0.0
 		 *
-		 * @param object  $data   L'objet avec les taxonomies à sauvegarder.
+		 * @param object  $object L'objet avec les taxonomies à sauvegarder.
 		 * @param boolean $append La taxonomie doit elle être ajoutée à la liste existante ou remplacer la liste existante.
 		 */
-		private function save_taxonomies( $data, $append ) {
-			if ( ! empty( $data->taxonomy ) ) {
-				foreach ( $data->taxonomy as $taxonomy_name => $taxonomy_data ) {
+		private function save_taxonomies( $object, $append ) {
+			if ( ! empty( $object->data['taxonomy'] ) ) {
+				foreach ( $object->data['taxonomy'] as $taxonomy_name => $taxonomy_data ) {
 					if ( ! empty( $taxonomy_name ) ) {
 						if ( is_int( $taxonomy_data ) || is_array( $taxonomy_data ) ) {
-							wp_set_object_terms( $data->id, $taxonomy_data, $taxonomy_name, $append );
+							wp_set_object_terms( $object->data['id'], $taxonomy_data, $taxonomy_name, $append );
 						}
 					}
 				}

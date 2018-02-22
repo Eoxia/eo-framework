@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php if ( 'edit' === $atts['mode'] ) : ?>
 		<a href="#"
 			class="upload"
-			data-id="<?php echo esc_attr( $element->id ); ?>"
+			data-id="<?php echo esc_attr( $element->data['id'] ); ?>"
 			data-model-name="<?php echo esc_attr( $atts['model_name'] ); ?>"
 			data-field-name="<?php echo esc_attr( $atts['field_name'] ); ?>"
 			data-custom-class="<?php echo ! empty( $atts['custom_class'] ) ? esc_attr( $atts['custom_class'] ) : ''; ?>"

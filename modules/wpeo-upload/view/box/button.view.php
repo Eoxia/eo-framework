@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-<span data-id="<?php echo esc_attr( $element->id ); ?>"
+<span data-id="<?php echo esc_attr( $element->data['id'] ); ?>"
 			<?php echo WPEO_Upload_Class::g()->out_all_attributes( $atts ); // WPCS: XSS is ok. ?>
 			data-nonce="<?php echo esc_attr( wp_create_nonce( $nonce_name ) ); ?>"
 			class="media <?php echo esc_attr( $no_file_class . ' ' . $atts['custom_class'] ); ?>">
