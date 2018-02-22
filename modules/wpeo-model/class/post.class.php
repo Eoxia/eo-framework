@@ -288,8 +288,9 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			if ( is_wp_error( $object ) ) {
 				return $object;
 			}
+
 			$object = $this->get( array(
-				'id'          => $object['id'],
+				'id'          => $object->data['id'],
 				'use_context' => $context,
 			), true );
 
