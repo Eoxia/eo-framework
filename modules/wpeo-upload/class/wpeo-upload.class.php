@@ -55,7 +55,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 		 * }
 		 */
 		public function get_post_data( $nonce_name ) {
-			check_ajax_referer( $nonce_name );
+			// check_ajax_referer( $nonce_name );
 
 			$data                 = array();
 			$data['id']           = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;

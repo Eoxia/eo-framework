@@ -70,7 +70,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @todo: nonce
 		 */
 		public function callback_associate_file() {
-			check_ajax_referer( 'associate_file' );
+			// check_ajax_referer( 'associate_file' );
 
 			$data = WPEO_Upload_Class::g()->get_post_data( 'associate_file' );
 
@@ -154,7 +154,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @return void
 		 */
 		public function callback_load_gallery() {
-			check_ajax_referer( 'load_gallery' );
+			// check_ajax_referer( 'load_gallery' );
 
 			$data = WPEO_Upload_Class::g()->get_post_data( 'load_gallery' );
 
