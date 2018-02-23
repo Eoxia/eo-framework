@@ -33,7 +33,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		var label   = element.closest( '.autocomplete-label' );
 
 		// If is not a letter or a number, stop func.
-		if ( ! (event.which <= 90 && event.which >= 48 ) && event.which != 8 ) {
+		if ( ! (event.which <= 90 && event.which >= 48 ) && event.which != 8 &&  event.which <= 96 && event.which >= 105  ) {
 			return;
 		}
 
@@ -89,6 +89,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 	window.eoxiaJS.autoComplete.deleteContent = function( event ) {
 		var element = jQuery( this );
 		var parent  = element.closest( '.wpeo-autocomplete' );
+		var label   = element.closest( '.autocomplete-label' );
 
 		parent.find( 'input' ).val( '' );
 		parent.find( 'input' ).trigger( 'keyUp' );
@@ -96,6 +97,11 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		parent.removeClass( 'autocomplete-active' );
 		parent.removeClass( 'autocomplete-full' );
 		parent.find( '.autocomplete-search-list' ).removeClass( 'autocomplete-active' );
+
+		if ( parent[0].xhr ) {
+			parent[0].xhr.abort();
+			window.eoxiaJS.autoComplete.clear(parent, label);
+		}
 	};
 
 	/**
@@ -189,8 +195,10 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 	 * @return {void}
 	 */
 	window.eoxiaJS.autoComplete.clear = function( parent, label ) {
-		clearInterval(label[0].interval);
-		label[0].interval = undefined;
+		if ( label[0] ) {
+			clearInterval(label[0].interval);
+			label[0].interval = undefined;
+		}
 
 		if ( parent[0] ) {
 			parent[0].xhr = undefined;

@@ -377,7 +377,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		var label   = element.closest( '.autocomplete-label' );
 
 		// If is not a letter or a number, stop func.
-		if ( ! (event.which <= 90 && event.which >= 48 ) && event.which != 8 ) {
+		if ( ! (event.which <= 90 && event.which >= 48 ) && event.which != 8 &&  event.which <= 96 && event.which >= 105  ) {
 			return;
 		}
 
@@ -433,6 +433,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 	window.eoxiaJS.autoComplete.deleteContent = function( event ) {
 		var element = jQuery( this );
 		var parent  = element.closest( '.wpeo-autocomplete' );
+		var label   = element.closest( '.autocomplete-label' );
 
 		parent.find( 'input' ).val( '' );
 		parent.find( 'input' ).trigger( 'keyUp' );
@@ -440,6 +441,11 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		parent.removeClass( 'autocomplete-active' );
 		parent.removeClass( 'autocomplete-full' );
 		parent.find( '.autocomplete-search-list' ).removeClass( 'autocomplete-active' );
+
+		if ( parent[0].xhr ) {
+			parent[0].xhr.abort();
+			window.eoxiaJS.autoComplete.clear(parent, label);
+		}
 	};
 
 	/**
@@ -533,8 +539,10 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 	 * @return {void}
 	 */
 	window.eoxiaJS.autoComplete.clear = function( parent, label ) {
-		clearInterval(label[0].interval);
-		label[0].interval = undefined;
+		if ( label[0] ) {
+			clearInterval(label[0].interval);
+			label[0].interval = undefined;
+		}
 
 		if ( parent[0] ) {
 			parent[0].xhr = undefined;
@@ -594,7 +602,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 
 	window.eoxiaJS.dropdown.event = function() {
 		jQuery( document ).on( 'keyup', window.eoxiaJS.dropdown.keyup );
-		jQuery( document ).on( 'click', '.wpeo-dropdown .dropdown-toggle:not(.disabled)', window.eoxiaJS.dropdown.open );
+		jQuery( document ).on( 'click', '.wpeo-dropdown:not(.dropdown-active) .dropdown-toggle:not(.disabled)', window.eoxiaJS.dropdown.open );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.dropdown.close );
 	};
 
@@ -608,7 +616,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		window.eoxiaJS.dropdown.close();
 
 		var triggeredElement = jQuery( this );
-		triggeredElement.closest( '.wpeo-dropdown' ).toggleClass( 'dropdown-active' );
+		triggeredElement.closest( '.wpeo-dropdown' ).addClass( 'dropdown-active' );
 
 		/* Toggle Button Icon */
 		var angleElement = triggeredElement.find('[data-fa-i2svg]');
@@ -623,6 +631,8 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		jQuery( '.wpeo-dropdown.dropdown-active:not(.no-close)' ).each( function() {
 			var toggle = jQuery( this );
 			toggle.removeClass( 'dropdown-active' );
+			event.stopPropagation();
+
 
 			/* Toggle Button Icon */
 			var angleElement = jQuery( this ).find('.dropdown-toggle').find('[data-fa-i2svg]');
@@ -630,6 +640,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 				window.eoxiaJS.dropdown.toggleAngleClass( angleElement );
 			}
 		});
+
 	};
 
 	window.eoxiaJS.dropdown.toggleAngleClass = function( button ) {
