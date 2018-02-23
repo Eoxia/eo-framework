@@ -579,6 +579,7 @@ if ( ! window.eoxiaJS.date ) {
 				mask: true,
 				timepicker: false,
 				startDate: defaultDate,
+				closeOnDateSelect: true,
 				onChangeDateTime : function(ct, $i) {
 					$i.closest( '.group-date' ).find( '.mysql-date' ).val( ct.dateFormat('Y-m-d') );
 				}
