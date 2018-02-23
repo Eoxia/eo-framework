@@ -366,6 +366,11 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				if ( is_wp_error( $update_state ) ) {
 					return $update_state;
 				}
+
+				// Si on envoi date_modified a notre objet, on modifie en "dur" car bloqué par WordPress de base.
+				if ( ! empty( $data ) && empty( $data['date_modified'] ) && ! empty( $data['date_modified'] ) ) {
+					$GLOBALS['wpdb']->update( $GLOBALS['wpdb']->posts, array( 'date_modified' => $data['date_modified'] ) );
+				}
 			}
 
 			Save_Meta_Class::g()->save_meta_data( $object, 'update_post_meta', $this->meta_key );
