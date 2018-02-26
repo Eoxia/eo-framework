@@ -24,34 +24,19 @@ if ( ! function_exists( 'eoxia\build_user_initial' ) ) {
 	function build_user_initial( $user ) {
 		$initial = '';
 
-		if ( is_array( $user ) ) {
-			if ( ! empty( $user['firstname'] ) ) {
-				$initial .= substr( $user['firstname'], 0, 1 );
-			}
-			if ( ! empty( $user['lastname'] ) ) {
-				$initial .= substr( $user['lastname'], 0, 1 );
-			}
-			if ( empty( $initial ) ) {
-				if ( ! empty( $user['login'] ) ) {
-					$initial .= substr( $user['login'], 0, 1 );
-				}
-			}
-			$user['initial'] = $initial;
-
-		} else {
-			if ( ! empty( $user->firstname ) ) {
-				$initial .= substr( $user->firstname, 0, 1 );
-			}
-			if ( ! empty( $user->lastname ) ) {
-				$initial .= substr( $user->lastname, 0, 1 );
-			}
-			if ( empty( $initial ) ) {
-				if ( ! empty( $user->login ) ) {
-					$initial .= substr( $user->login, 0, 1 );
-				}
-			}
-			$user->initial = $initial;
+		if ( ! empty( $user['data']['firstname'] ) ) {
+			$initial .= substr( $user['data']['firstname'], 0, 1 );
 		}
+		if ( ! empty( $user['data']['lastname'] ) ) {
+			$initial .= substr( $user['data']['lastname'], 0, 1 );
+		}
+		if ( empty( $initial ) ) {
+			if ( ! empty( $user['data']['login'] ) ) {
+				$initial .= substr( $user['data']['login'], 0, 1 );
+			}
+		}
+
+		$user->data['initial'] = $initial;
 
 		return $user;
 	}
@@ -78,7 +63,7 @@ if ( ! function_exists( 'eoxia\build_avatar_color' ) ) {
 			'734fe9',
 		);
 
-		$user['avatar_color'] = $avatar_color[ array_rand( $avatar_color, 1 ) ];
+		$user['data']['avatar_color'] = $avatar_color[ array_rand( $avatar_color, 1 ) ];
 
 		return $user;
 	}
