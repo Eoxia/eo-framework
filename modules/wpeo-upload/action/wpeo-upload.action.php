@@ -74,7 +74,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 
 			$data = WPEO_Upload_Class::g()->get_post_data( 'associate_file' );
 
-			$view = '';
+			$view          = '';
 			$document_view = '';
 
 			// If post ID is not empty.
@@ -134,14 +134,14 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 			$element = WPEO_Upload_Class::g()->dissociate_file( $data );
 
 			ob_start();
-			do_shortcode( '[wpeo_upload id="' . $element->id . '" model_name="' . str_replace( '\\', '/', $data['model_name'] ) . '" field_name="' . $data['field_name'] . '" mime_type="' . $data['mime_type'] . '" single="' . $data['single'] . '" size="' . $data['size'] . '" ]' );
+			do_shortcode( '[wpeo_upload id="' . $element->date['id'] . '" model_name="' . str_replace( '\\', '/', $data['model_name'] ) . '" field_name="' . $data['field_name'] . '" mime_type="' . $data['mime_type'] . '" single="' . $data['single'] . '" size="' . $data['size'] . '" ]' );
 			wp_send_json_success( array(
-				'namespace' => '',
-				'module' => 'gallery',
+				'namespace'        => '',
+				'module'           => 'gallery',
 				'callback_success' => 'dissociatedFileSuccess',
-				'view' => ob_get_clean(),
-				'id' => $data['id'],
-				'close_popup' => ! empty( $element->associated_document_id[ $data['field_name'] ] ) ? false : true,
+				'view'             => ob_get_clean(),
+				'id'               => $data['id'],
+				'close_popup'      => ! empty( $element->data['associated_document_id'][ $data['field_name'] ] ) ? false : true,
 			) );
 		}
 

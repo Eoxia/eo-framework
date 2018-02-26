@@ -328,28 +328,28 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 					'use_context' => $context,
 				), true );
 
-				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data->data );
+				$data = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
 			}
 
 			$append = false;
-			// if ( isset( $data['$push'] ) ) {
-			// 	if ( ! empty( $data['$push'] ) ) {
-			// 		foreach ( $data['$push'] as $field_name => $field_to_push ) {
-			// 			if ( ! empty( $field_to_push ) ) {
-			// 				foreach ( $field_to_push as $sub_field_name => $value ) {
-			// 					if ( ! isset( $data[ $field_name ][ $sub_field_name ] ) ) {
-			// 						$data[ $field_name ][ $sub_field_name ] = array();
-			// 					}
-			//
-			// 					$data[ $field_name ][ $sub_field_name ][] = $value;
-			// 				}
-			// 			}
-			// 		}
-			// 	}
-			//
-			// 	$append = true;
-			// 	unset( $data['$push'] );
-			// }
+			if ( isset( $data['$push'] ) ) {
+				if ( ! empty( $data['$push'] ) ) {
+					foreach ( $data['$push'] as $field_name => $field_to_push ) {
+						if ( ! empty( $field_to_push ) ) {
+							foreach ( $field_to_push as $sub_field_name => $value ) {
+								if ( ! isset( $data[ $field_name ][ $sub_field_name ] ) ) {
+									$data[ $field_name ][ $sub_field_name ] = array();
+								}
+
+								$data[ $field_name ][ $sub_field_name ][] = $value;
+							}
+						}
+					}
+				}
+
+				$append = true;
+				unset( $data['$push'] );
+			}
 
 			$object = new $model_name( $data, $req_method );
 
