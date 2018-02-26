@@ -142,6 +142,17 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @return Comment_Model
 		 */
 		public function get( $args = array(), $single = false ) {
+			$use_context = ( ! empty( $args['use_context'] ) && $args['use_context'] ) ? true : false;
+			if ( ! isset( $args['use_context'] ) ) {
+				$use_context = true;
+			}
+
+			$req_method = 'get';
+
+			if ( ! $use_context ) {
+				$req_method = null;
+			}
+
 			$array_model   = array();
 			$array_comment = array();
 
@@ -162,10 +173,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				$array_comment = get_comments( $args );
 			}
 
-			if ( empty( $array_comment ) ) {
-				$array_comment[] = array();
-			}
-
 			$list_comment = array();
 
 			if ( ! empty( $array_comment ) ) {
@@ -180,7 +187,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 
 						$comment = array_merge( $comment, $list_meta );
 
-
 						if ( ! empty( $comment[ $this->meta_key ] ) ) {
 							$comment = array_merge( $comment, json_decode( $comment[ $this->meta_key ], true ) );
 
@@ -189,13 +195,13 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 					}
 
 					$model_name           = $this->model_name;
-					$list_comment[ $key ] = new $model_name( $comment, 'get' );
+					$list_comment[ $key ] = new $model_name( $comment, $req_method );
 					$list_comment[ $key ] = Model_Util::exec_callback( $this->after_get_function, $list_comment[ $key ], array( 'model_name' => $model_name ) );
 				}
 			} else {
 				if ( ! empty( $args['schema'] ) ) {
 					$model_name      = $this->model_name;
-					$list_comment[0] = new $model_name( array(), 'get' );
+					$list_comment[0] = new $model_name( array(), $req_method );
 					$list_comment[0] = Model_Util::exec_callback( $this->after_get_function, $list_comment[0], array( 'model_name' => $model_name ) );
 				}
 			} // End if().

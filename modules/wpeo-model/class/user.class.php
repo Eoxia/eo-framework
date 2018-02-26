@@ -165,6 +165,17 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		 * @return Comment_Model
 		 */
 		public function get( $args = array(), $single = false ) {
+			$use_context = ( ! empty( $args['use_context'] ) && $args['use_context'] ) ? true : false;
+			if ( ! isset( $args['use_context'] ) ) {
+				$use_context = true;
+			}
+
+			$req_method = 'get';
+
+			if ( ! $use_context ) {
+				$req_method = null;
+			}
+
 			$list_user = array();
 			$list_model_user = array();
 
@@ -201,8 +212,8 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 						}
 					}
 
-					$data = new $model_name( $element, 'get' );
-					$data = Model_Util::exec_callback( $this->after_get_function, $data, array( 'model_name' => $model_name ) );
+					$data              = new $model_name( $element, $req_method );
+					$data              = Model_Util::exec_callback( $this->after_get_function, $data, array( 'model_name' => $model_name ) );
 					$list_model_user[] = $data;
 				}
 			}
