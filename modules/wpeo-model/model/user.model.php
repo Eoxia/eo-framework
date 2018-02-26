@@ -72,9 +72,8 @@ if ( ! class_exists( '\eoxia\User_Model' ) ) {
 			);
 
 			$this->schema['password'] = array(
-				'type'     => 'string',
-				'field'    => 'user_pass',
-				'required' => true,
+				'type'  => 'string',
+				'field' => 'user_pass',
 			);
 
 			$this->schema['displayname'] = array(
