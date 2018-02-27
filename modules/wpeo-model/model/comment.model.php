@@ -64,7 +64,7 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 
 			$this->schema['author_id'] = array(
 				'type'    => 'integer',
-				'field'   => 'user_ID',
+				'field'   => 'user_id',
 				'default' => get_current_user_id(),
 			);
 
@@ -98,6 +98,12 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 			$this->schema['status'] = array(
 				'type'  => 'string',
 				'field' => 'comment_approved',
+			);
+
+			$this->schema['agent'] = array(
+				'type'    => 'string',
+				'field'   => 'comment_agent',
+				'default' => isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '',
 			);
 
 			$this->schema['type'] = array(
