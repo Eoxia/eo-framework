@@ -22,21 +22,37 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 	class Data_Class extends Helper_Class {
 
 		/**
-		 * Types accepted in schema.
+		 * La liste des types de base dans PHP acceptés par EO_Framework pour les champs.
 		 *
 		 * @var array
 		 */
-		public static $accepted_types = array( 'string', 'integer', 'float', 'boolean', 'array', 'wpeo_date' );
+		public static $built_in_types = array( 'string', 'integer', 'float', 'boolean', 'array' );
 
 		/**
-		 * [private description]
-		 * @var [type]
+		 * La liste des types de personnalisés acceptés par EO_Framework pour les champs.
+		 *
+		 * @var array
+		 */
+		public static $custom_types = array( 'wpeo_date' );
+
+		/**
+		 * La liste complétes des types de champs acceptés pour les champs dans EO_Framework.
+		 *
+		 * @var array
+		 */
+		public static $accepted_types = array();
+
+		/**
+		 * Variable contenant l'ensemble des erreurs rencontrées lors de la création d'un objet.
+		 *
+		 * @var WP_Error
 		 */
 		private $wp_errors;
 
 		/**
-		 * [private description]
-		 * @var [type]
+		 * Variable contenant la méthode actuellement utilisée. Permet de construire l'objet demandé selon la méthode HTTP utilisée.
+		 *
+		 * @var string
 		 */
 		private $req_method;
 
@@ -46,11 +62,15 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
-		 * @param Array $data Les données non traité. Peut être null, permet de récupérer le schéma.
+		 * @param Array  $data       Les données non traité. Peut être null, permet de récupérer le schéma.
+		 * @param string $req_method La méthode HTTP actuellement utilisée.
 		 */
 		public function __construct( $data = null, $req_method = null ) {
 			$this->wp_errors  = new \WP_Error();
 			$this->req_method = ( null !== $req_method ) ? strtoupper( $req_method ) : null;
+
+			// On construit les types autorisés à partir des listes séparées. Permet de ne pas mettre de type en dur dans le code.
+			self::$accepted_types = wp_parse_args( self::$custom_types, self::$built_in_types );
 
 			if ( null !== $data ) {
 				$this->data = $this->handle_data( $data );
@@ -68,31 +88,34 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
-		 * @param array $data           Toutes les données non traitée.
-		 * @param array $schema         La définition des données.
+		 * @param array $data   Les données envoyées par l'utilisateur pour construire un objet selon un schéma.
+		 * @param array $schema Optionnal. La définition des données. Ce paramètre est utilisé uniquement dans le cas d'un schéma récursif.
 		 *
-		 * @return object               Les données traitées, typées et convertie en l'objet demandé.
+		 * @return object       Les données traitées, typées et converties en l'objet demandé.
 		 */
 		private function handle_data( $data, $schema = null ) {
 			$object = null;
 			$schema = ( null === $schema ) ? $this->schema : $schema;
 
 			foreach ( $schema as $field_name => $field_def ) {
-				// Définie les données  par défaut pour l'élément courant par rapport à "bydefault".
-				$value = $this->set_default_data( $field_name, $field_def );
+				// Définie les données  par défaut pour l'élément courant par rapport à "default".
+				if ( isset( $field_def['default'] ) ) {
+					$value = $field_def['default'];
+				} else {
+					$value = null;
+				}
 
-				// Si on est au premier niveau de $current_object, sinon si on est plus haut que le premier niveau.
-				if ( isset( $field_def['field'] ) && isset( $data[ $field_def['field'] ] ) ) {
+				// On vérifie si la valeur du champs actuelle est fournie dans les données envoyées pour construction.
+				if ( isset( $field_def['field'] ) && isset( $data[ $field_def['field'] ] ) ) { // On vérifie si la clé correspondant au champs de la BDD existe. $data['post_date'].
 					$value = $data[ $field_def['field'] ];
-				} elseif ( isset( $data[ $field_name ] ) && isset( $field_def ) && ! isset( $field_def['child'] ) ) {
+				} elseif ( isset( $data[ $field_name ] ) && isset( $field_def ) && ! isset( $field_def['child'] ) ) { // On vérifie si la clé correspondant au schéma défini existe. $data['date'].
 					$value = $data[ $field_name ];
 				}
 
-				if ( null !== $this->req_method ) {
-					$value = apply_filters( 'eo_model_handle_value', $value, $this, $field_def, $this->req_method );
-				}
+				$value = apply_filters( 'eo_model_handle_value', $value, $this, $field_def, $this->req_method );
 
-				// Traitement de $value au niveau du champ "required".
+				// Dans le cas ou la méthode actuelle implique un enregistrement dans la base de données.
+				// On vérifie que le schéma n'indique pas une valeur obligatoire. Si le champs est vide on retourne une erreur.
 				if ( 'GET' !== $this->req_method && isset( $field_def['required'] ) && $field_def['required'] && null === $value ) {
 					$this->wp_errors->add( 'eo_model_is_required', get_class( $this ) . ' => ' . $field_name . ' is required' );
 				}
@@ -102,10 +125,8 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 					$value = $this->handle_value_type( $value, $field_def );
 				}
 
-				// Vérifie le typage $value.
-				if ( null !== $this->req_method ) {
-					$this->check_value_type( $value, $field_name, $field_def );
-				}
+				// Vérifie le typage de $value.
+				$this->check_value_type( $value, $field_name, $field_def );
 
 				// Pour remettre à jour la valeur dans l'objet.
 				if ( null !== $value ) {
@@ -132,34 +153,13 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		}
 
 		/**
-		 * Si la définition bydefault existe, récupères la valeur.
+		 * Vérification du type de la valeur d'un champs. Si le type n'est pas correct on rempli la variable $this->wp_errors qui sera retournée en fin de traitement.
 		 *
-		 * @since 1.0.0
-		 * @version 1.0.0
+		 * @param mixed  $value      La valeur du champs à vérifier.
+		 * @param string $field_name Le nom du champs à vérifier. Utilisé pour le message d'erreur.
+		 * @param array  $field_def  La définition complète du champs à vérifier.
 		 *
-		 * @param string $field_name Le nom du champ.
-		 * @param array  $field_def  La définition du champ.
-		 *
-		 * @return mixed             La donnée par défaut.
-		 */
-		private function set_default_data( $field_name, $field_def ) {
-			if ( 'wpeo_date' === $field_def['type'] ) {
-				return current_time( 'mysql' );
-			} else {
-				if ( isset( $field_def['default'] ) ) {
-					return $field_def['default'];
-				}
-			}
-
-			return null;
-		}
-
-		/**
-		 * @todo: A commenter
-		 * @param  [type] $value      [description]
-		 * @param  [type] $field_name [description]
-		 * @param  [type] $field_def  [description]
-		 * @return [type]             [description]
+		 * @return void
 		 */
 		public function check_value_type( $value, $field_name, $field_def ) {
 			// Vérifie le type de $value.
@@ -167,20 +167,21 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				if ( empty( $field_def['type'] ) ) {
 					$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') no setted in schema. Type accepted: ' . join( ',', self::$accepted_types ) );
 				} else {
+					$field_type = true;
 					switch ( $field_def['type'] ) {
 						case 'string':
 							if ( ! is_string( $value ) ) {
-								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
+								$field_type = false;
 							}
 							break;
 						case 'integer':
 							if ( ! is_int( $value ) ) {
-								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
+								$field_type = false;
 							}
 							break;
 						case 'boolean':
 							if ( ! is_bool( $value ) ) {
-								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
+								$field_type = false;
 							}
 							break;
 						case 'array':
@@ -195,6 +196,11 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $value . '(' . gettype( $value ) . ') incorrect type: "' . $field_def['type'] . '". Type accepted: ' . join( ',', self::$accepted_types ) );
 							}
 							break;
+					}
+
+					if ( ! $field_type ) {
+						// Translators: 1.Current className 2.Field name 3.Given value 4.Field Real type 5.Field expected type.
+						$this->wp_errors->add( 'eo_model_invalid_type', sprintf( __( '%1$s => %2$s: %3$s ( %4$s ) is not a %5$s', 'eo-framework' ), get_class( $this ), $field_name, $value, gettype( $value ), $field_def['type'] ) );
 					}
 				}
 			}
@@ -212,31 +218,35 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 * @return mixed           L'objet avec le typage forcé.
 		 */
 		public function handle_value_type( $value, $field_def ) {
-			if ( null === $value ) {
-				settype( $value, $field_def['type'] );
+			// Si le type du champs à vérifier est parmis les types personnalisés (non défini par PHP) alors on retourne simplement la valeur, la fonction risque de corrompre les données.
+			if ( in_array( $field_def['type'], self::$custom_types, true ) ) {
 				return $value;
 			}
 
-			// On construit l'objet "wpeo_date" uniquement dans le GET.
-			if ( 'wpeo_date' === $field_def['type'] ) {
-				return $value;
-			}
-
+			// Traitement spécial pour les champs de type "float" on remplace systèmatiquement les "," par des "." obligatoires pour la base de données.
 			if ( ! is_array( $value ) && ! is_object( $value ) && 'float' === $field_def['type'] ) {
 				$value = str_replace( ',', '.', $value );
 			}
-
-			// @see Schema_Class::$accepted_types
-			settype( $value, $field_def['type'] );
 
 			if ( 'GET' === $this->req_method && 'string' === $field_def['type'] ) {
 				$value = stripslashes( $value );
 			}
 
-			// On force le typage des enfants uniquement si array_type est définie.
+			/**
+			 * On type la valeur.
+			 *
+			 * @see self::$accepted_types
+			 */
+			settype( $value, $field_def['type'] );
+
+			// On force le typage des enfants uniquement si array_type est défini.
 			if ( ! empty( $field_def['array_type'] ) && is_array( $value ) && ! empty( $value ) ) {
 				foreach ( $value as $key => $val ) {
-					// @see Schema_Class::$accepted_types
+					/**
+					 * On type la valeur.
+					 *
+					 * @see self::$accepted_types
+					 */
 					settype( $value[ $key ], $field_def['array_type'] );
 				}
 			}
@@ -249,9 +259,6 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @version 1.0.0
-		 *
-		 * @param array $datas  Toutes les données à convertir au format WordPress selon $schema.
-		 * @param array $schema Le schéma des données à convertir.
 		 *
 		 * @return array Tableau compatible avec les fonctions WordPress.
 		 */
