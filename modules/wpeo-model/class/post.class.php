@@ -187,26 +187,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			$default_args = array(
 				'post_status'    => 'any',
 				'post_type'      => $this->get_type(),
-				'posts_per_page' => -1,
+				'posts_per_page' => isset( $args['p'] ) ? 1 : -1,
 			);
-
-			// L'argument "include" était utilisé, mais est devenu obsolète. Permet de garder une compatibilité.
-			if ( ! empty( $args['include'] ) ) {
-				$args['post__in'] = $args['include'];
-				if ( ! is_array( $args['post__in'] ) ) {
-					$args['post__in'] = (array) $args['post__in'];
-				}
-				unset( $args['include'] );
-			}
-
-			if ( isset( $args['p'] ) ) {
-				if ( ! isset( $args['post__in'] ) ) {
-					$args['post__in'] = array();
-				}
-
-				$args['post__in'] = array_merge( (array) $args['p'], $args['post__in'] );
-				unset( $args['p'] );
-			}
 
 			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
 			if ( isset( $args['schema'] ) ) {
@@ -254,7 +236,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
-					'id'          => $data['id'],
+					'p'           => $data['id'],
 					'use_context' => $context,
 				), true );
 

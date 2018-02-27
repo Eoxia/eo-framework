@@ -126,7 +126,7 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 			}
 
 			$object = $this->get( array(
-				'id'          => $object->data['id'],
+				'p'           => $object->data['id'],
 				'use_context' => $context,
 			), true );
 
