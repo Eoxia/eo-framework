@@ -20,7 +20,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 	/**
 	 * Gestion des posts (POST, PUT, GET, DELETE)
 	 */
-	class Post_Class extends Rest_Class {
+	class Post_Class extends Object_Class {
 
 		/**
 		 * Le nom du modèle
@@ -34,7 +34,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $post_type = 'post';
+		protected $type = 'post';
 
 		/**
 		 * Le type du post
@@ -82,7 +82,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 *
 		 * @var array
 		 */
-		protected $after_get_function = array();
+		protected $after_get_function = array( '\eoxia\after_get_post' );
 
 		/**
 		 * Fonction de callback avant d'insérer les données en mode POST.
@@ -152,60 +152,45 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				'label' => $this->post_type_name,
 			);
 
-			$return = register_post_type( $this->post_type, $args );
+			$return = register_post_type( $this->get_type(), $args );
 
 			if ( ! empty( $this->attached_taxonomy_type ) ) {
-				register_taxonomy( $this->attached_taxonomy_type, $this->post_type );
+				register_taxonomy( $this->attached_taxonomy_type, $this->get_type() );
 			}
 
 			return $return;
 		}
 
 		/**
-		 * Permet de récupérer le schéma avec les données du modèle par défault.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return Object
-		 */
-		public function get_schema() {
-			$model_name = $this->model_name;
-			$model      = new $model_name( array() );
-			return $model->get_model();
-		}
-
-		/**
-		 * Récupères les données selon le modèle définis.
+		 * Récupères les données selon le modèle défini.
 		 *
 		 * @since 1.0.0
 		 * @version 1.0.0
 		 *
-		 * @param array   $args Les paramètres de get_comments @https://codex.wordpress.org/Function_Reference/WP_Query.
+		 * @param array   $args   Les paramètres à appliquer pour la récupération @see https://codex.wordpress.org/Function_Reference/WP_Query.
 		 * @param boolean $single Si on veut récupérer un tableau, ou qu'une seule entrée.
 		 *
 		 * @return Object
-		 *
-		 * @todo: ligne 128 - Temporaire
 		 */
-		public function get( $args = array( 'posts_per_page' => -1 ), $single = false ) {
-			$use_context = ( ! empty( $args['use_context'] ) && $args['use_context'] ) ? true : false;
-			if ( ! isset( $args['use_context'] ) ) {
-				$use_context = true;
-			}
-
-			$req_method = 'get';
-
-			if ( ! $use_context ) {
-				$req_method = null;
-			}
-
+		public function get( $args = array(), $single = false ) {
 			$array_posts = array();
 
-			if ( empty( $args['post_type'] ) ) {
-				$args['post_type'] = $this->post_type;
-			}
+			// Doit on utiliser le contexte?
+			// Dans le cas d'une mise à jour "partielle" (ou on envoi pas toutes les données).
+			$use_context = ( ! isset( $args['use_context'] ) || ( ! empty( $args['use_context'] ) && $args['use_context'] ) ) ? true : false;
 
+			// La méthode HTTP de base est le "GET" (on est dans la méthode get).
+			// Si use_context est à false on ne va pas utiliser la méthode GET, ce qui permet de ne pas écraser des données à l'enregistrement.
+			$req_method = $use_context ? 'get' : null;
+
+			// Définition des arguments par défaut pour la récupération des "posts".
+			$default_args = array(
+				'post_status'    => 'any',
+				'post_type'      => $this->get_type(),
+				'posts_per_page' => -1,
+			);
+
+			// L'argument "include" était utilisé, mais est devenu obsolète. Permet de garder une compatibilité.
 			if ( ! empty( $args['include'] ) ) {
 				$args['post__in'] = $args['include'];
 				if ( ! is_array( $args['post__in'] ) ) {
@@ -214,87 +199,32 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				unset( $args['include'] );
 			}
 
-			if ( ! isset( $args['posts_per_page'] ) ) {
-				$args['posts_per_page'] = -1;
+			if ( isset( $args['p'] ) ) {
+				if ( ! isset( $args['post__in'] ) ) {
+					$args['post__in'] = array();
+				}
+
+				$args['post__in'] = array_merge( (array) $args['p'], $args['post__in'] );
+				unset( $args['p'] );
 			}
 
-			if ( ! isset( $args['post_status'] ) ) {
-				$args['post_status'] = 'any';
-			}
-
-			if ( isset( $args['id'] ) ) {
-				$array_posts[] = get_post( $args['id'], ARRAY_A );
-				unset( $args['id'] );
-			} elseif ( isset( $args['schema'] ) ) {
+			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
+			if ( isset( $args['schema'] ) ) {
 				$array_posts[] = array();
-			} else {
-				$query_posts = new \WP_Query( $args );
+			} else { // On lance la requête pour récupèrer les "posts" demandés.
+				$query_posts = new \WP_Query( wp_parse_args( $args, $default_args ) );
 				$array_posts = $query_posts->posts;
 				unset( $query_posts->posts );
 			}
 
-			foreach ( $array_posts as $key => $post ) {
-				$post = (array) $post;
+			$array_posts = $this->build_objects( $array_posts, 'ID', 'get_post_meta', $req_method );
 
-				// Si post['ID'] existe, on récupère les meta.
-				if ( ! empty( $post['ID'] ) ) {
-					$list_meta = get_post_meta( $post['ID'] );
-					foreach ( $list_meta as &$meta ) {
-						$meta = array_shift( $meta );
-						$meta = JSON_Util::g()->decode( $meta );
-					}
-
-					$post = array_merge( $post, $list_meta );
-
-					if ( ! empty( $post[ $this->meta_key ] ) ) {
-						$data_json = JSON_Util::g()->decode( $post[ $this->meta_key ] );
-						if ( is_array( $data_json ) ) {
-							$post = array_merge( $post, $data_json );
-						} else {
-							$post[ $this->meta_key ] = $data_json;
-						}
-						unset( $post[ $this->meta_key ] );
-					}
-				}
-				$model_name          = $this->model_name;
-				$array_posts[ $key ] = new $model_name( $post, $req_method );
-
-				$array_posts[ $key ] = $this->get_taxonomies_id( $array_posts[ $key ] );
-
-				$array_posts[ $key ] = Model_Util::exec_callback( $this->after_get_function, $array_posts[ $key ], array( 'model_name' => $model_name ) );
-			} // End foreach().
-
+			// Si on a demandé qu'une seule entrée et qu'il n'y a bien qu'une seule entrée correspondant à la demande alors on ne retourne que cette entrée.
 			if ( true === $single && 1 === count( $array_posts ) ) {
 				$array_posts = $array_posts[0];
 			}
 
 			return $array_posts;
-		}
-
-		/**
-		 * Appelle la méthode update.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @param Array   $data   Les données.
-		 * @param Boolean $context Les données.
-		 *
-		 * @return Array $data Les données
-		 */
-		public function create( $data, $context = false ) {
-			$object = $this->update( $data, $context );
-
-			if ( is_wp_error( $object ) ) {
-				return $object;
-			}
-
-			$object = $this->get( array(
-				'id'          => $object->data['id'],
-				'use_context' => $context,
-			), true );
-
-			return $object;
 		}
 
 		/**
@@ -431,31 +361,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			return $list_model;
 		}
 
-
-		/**
-		 * Retourne le post type, mettre get_type de partout et supprimer get_post_type
-		 *
-		 * @since 1.0.0
-		 * @version 1.0.0
-		 *
-		 * @return string Le post type
-		 */
-		public function get_type() {
-			return $this->post_type;
-		}
-
-		/**
-		 * Utile uniquement pour DigiRisk.
-		 *
-		 * @since 1.0.0
-		 * @version 1.0.0
-		 *
-		 * @return string L'identifiant des commentaires pour DigiRisk.
-		 */
-		public function get_identifier_helper() {
-			return $this->identifier_helper;
-		}
-
 		/**
 		 * Retournes le nom de la catégorie attachée au post.
 		 *
@@ -466,30 +371,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 */
 		public function get_attached_taxonomy() {
 			return $this->attached_taxonomy_type;
-		}
-
-		/**
-		 * Récupères les ID des taxonomies lié à cet objet.
-		 *
-		 * @param  object $object L'objet courant.
-		 * @return object       L'objet avec les ID des taxonomies.
-		 *
-		 * @since 1.0.0
-		 * @version 1.0.0
-		 */
-		private function get_taxonomies_id( $object ) {
-			if ( ! empty( $object->data['id'] ) ) {
-				$model = $object->get_model();
-				if ( ! empty( $model['taxonomy']['child'] ) ) {
-					foreach ( $model['taxonomy']['child'] as $key => $value ) {
-						$object->data['taxonomy'][ $key ] = wp_get_object_terms( $object->data['id'], $key, array(
-							'fields' => 'ids',
-						) );
-					}
-				}
-			}
-
-			return $object;
 		}
 
 		/**
@@ -513,16 +394,5 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			}
 		}
 
-		/**
-		 * Permet de changer le modèle en dur.
-		 *
-		 * @param string $model_name Le nom du modèle.
-		 *
-		 * @since 1.0.0
-		 * @version 1.3.6.0
-		 */
-		public function set_model( $model_name ) {
-			$this->model_name = $model_name;
-		}
 	}
 } // End if().

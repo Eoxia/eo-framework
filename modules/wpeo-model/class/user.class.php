@@ -19,7 +19,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 	/**
 	 * Gestion des utilisateurs (POST, PUT, GET, DELETE)
 	 */
-	class User_Class extends Rest_Class {
+	class User_Class extends Object_Class {
 		/**
 		 * Le nom du modèle
 		 *
@@ -128,32 +128,6 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		protected $base = 'user';
 
 		/**
-		 * Permet de récupérer le schéma avec les données du modèle par défault.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return Object
-		 */
-		public function get_schema() {
-			$model_name = $this->model_name;
-			$model = new $model_name( array(), array() );
-			return $model->get_model();
-		}
-
-		/**
-		 * Get current element type
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return string The element type.
-		 */
-		public function get_type() {
-			return $this->type;
-		}
-
-		/**
 		 * Récupères les données selon le modèle définis.
 		 *
 		 * @since 0.1.0
@@ -223,19 +197,6 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 			}
 
 			return $list_model_user;
-		}
-
-		/**
-		 * Appelle la méthode update.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @param  Array $data Les données.
-		 * @return Array $data Les données
-		 */
-		public function create( $data ) {
-			return $this->update( $data );
 		}
 
 		/**
@@ -310,16 +271,5 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 			wp_delete_user( $id );
 		}
 
-		/**
-		 * Utile uniquement pour DigiRisk.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return string L'identifiant des commentaires pour DigiRisk.
-		 */
-		public function get_identifier_helper() {
-			return $this->identifier_helper;
-		}
 	}
 } // End if().

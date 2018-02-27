@@ -20,7 +20,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 	/**
 	 * Gestion des termes (POST, PUT, GET, DELETE)
 	 */
-	class Term_Class extends Rest_Class {
+	class Term_Class extends Object_Class {
 
 		/**
 		 * Le nom du modèle
@@ -41,7 +41,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $taxonomy = 'category';
+		protected $type = 'category';
 
 		/**
 		 * Slug de base pour la route dans l'api rest
@@ -142,21 +142,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 				'query_var'         => true,
 			);
 
-			register_taxonomy( $this->taxonomy, $this->associate_post_types, $args );
-		}
-
-		/**
-		 * Permet de récupérer le schéma avec les données du modèle par défault.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return Object
-		 */
-		public function get_schema() {
-			$model_name = $this->model_name;
-			$model      = new $model_name( array() );
-			return $model->get_model();
+			register_taxonomy( $this->get_type(), $this->associate_post_types, $args );
 		}
 
 		/**
@@ -181,13 +167,13 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			) );
 
 			if ( empty( $term_final_args['taxonomy'] ) ) {
-				$term_final_args['taxonomy'] = $this->taxonomy;
+				$term_final_args['taxonomy'] = $this->get_type();
 			}
 
 			if ( isset( $args['id'] ) ) {
-				$array_term[] = get_term_by( 'id', $args['id'], $this->taxonomy, ARRAY_A );
+				$array_term[] = get_term_by( 'id', $args['id'], $this->get_type(), ARRAY_A );
 			} elseif ( isset( $args['post_id'] ) ) {
-				$array_term = wp_get_post_terms( $args['post_id'], $this->taxonomy, $term_final_args );
+				$array_term = wp_get_post_terms( $args['post_id'], $this->get_type(), $term_final_args );
 
 				if ( empty( $array_term ) ) {
 					$array_term[] = array();
@@ -237,19 +223,6 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			}
 
 			return $list_term;
-		}
-
-		/**
-		 * Appelle la méthode update.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @param  Array $data Les données.
-		 * @return Array $data Les données
-		 */
-		public function create( $data ) {
-			return $this->update( $data );
 		}
 
 		/**
@@ -321,28 +294,5 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			wp_delete_term( $id );
 		}
 
-		/**
-		 * Renvoie le type de la taxonomie.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return string Le type du commentaire.
-		 */
-		public function get_type() {
-			return $this->taxonomy;
-		}
-
-		/**
-		 * Utile uniquement pour DigiRisk.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return string L'identifiant des commentaires pour DigiRisk.
-		 */
-		public function get_identifier_helper() {
-			return $this->identifier_helper;
-		}
 	}
 } // End if().

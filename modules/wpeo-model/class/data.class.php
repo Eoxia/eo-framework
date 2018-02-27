@@ -128,20 +128,22 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				// Vérifie le typage de $value.
 				$this->check_value_type( $value, $field_name, $field_def );
 
-				// Pour remettre à jour la valeur dans l'objet.
+				// On assigne la valeur "construite" au champs dans l'objet en cours de construction.
 				if ( null !== $value ) {
 					$object[ $field_name ] = $value;
 				}
 
+				// Dans le cas ou la méthode actuelle implique un enregistrement dans la base de données.
+				// Si la valeur "construite" est "null" (aucun cas précédent n'a rempli ce champs) et que le champs est requis alors on le supprime pour ne pas supprimer de la BDD.
 				if ( 'GET' !== $this->req_method ) {
 					if ( isset( $object[ $field_name ] ) && null === $value && isset( $field_def['required'] ) && $field_def['required'] ) {
 						unset( $object[ $field_name ] );
 					}
 				}
 
-				// Si la définition de la donnée ne contient pas "child".
+				// Si le champs traité contient l'entrée "child" il s'agit d'un tableau mutli-dimensionnel alors on lance une récursivité.
 				if ( isset( $field_def['child'] ) ) {
-					// Values car c'est un tableau, nous sommes dans "child". Nous avons donc un tableau dans $data[ $field_name ].
+					// On vérifie si des données correspondantes au champs en traitement ont été envoyées.
 					$values = ! empty( $data[ $field_name ] ) ? $data[ $field_name ] : array();
 
 					// Récursivité sur les enfants de la définition courante.
@@ -223,15 +225,6 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				return $value;
 			}
 
-			// Traitement spécial pour les champs de type "float" on remplace systèmatiquement les "," par des "." obligatoires pour la base de données.
-			if ( ! is_array( $value ) && ! is_object( $value ) && 'float' === $field_def['type'] ) {
-				$value = str_replace( ',', '.', $value );
-			}
-
-			if ( 'GET' === $this->req_method && 'string' === $field_def['type'] ) {
-				$value = stripslashes( $value );
-			}
-
 			/**
 			 * On type la valeur.
 			 *
@@ -270,12 +263,10 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				if ( ! empty( $field_def['field'] ) ) {
 					if ( isset( $this->data[ $field_name ] ) ) {
 						$value = $this->data[ $field_name ];
-						if ( 'wpeo_date' !== $field_def['type'] ) {
+						if ( ! in_array( $field_def['type'], self::$custom_types, true ) ) {
 							$data[ $field_def['field'] ] = $value;
-						} else {
-							if ( isset( $value['raw'] ) ) {
-								$data[ $field_def['field'] ] = $value['raw'];
-							}
+						} elseif ( isset( $value['raw'] ) ) {
+							$data[ $field_def['field'] ] = $value['raw'];
 						}
 					}
 				}

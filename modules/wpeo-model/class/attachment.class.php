@@ -34,7 +34,7 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $post_type = 'attachment';
+		protected $type = 'attachment';
 
 		/**
 		 * Le type du post

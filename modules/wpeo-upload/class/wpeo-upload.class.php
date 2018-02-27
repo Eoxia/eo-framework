@@ -95,7 +95,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 
 			if ( ! empty( $data['id'] ) ) {
 				$element = $data['model_name']::g()->get( array(
-					'id' => $data['id'],
+					'p' => $data['id'],
 				), true );
 
 				echo "<pre>"; print_r($element); echo "</pre>";exit;
@@ -126,7 +126,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 		 */
 		public function dissociate_file( $data ) {
 			$element = $data['model_name']::g()->get( array(
-				'id' => $data['id'],
+				'p' => $data['id'],
 			), true );
 
 			// Check if the file is in associated file list.
@@ -178,7 +178,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 		 */
 		public function display_gallery( $data ) {
 			$element = $data['model_name']::g()->get( array(
-				'id' => $data['id'],
+				'p' => $data['id'],
 			), true );
 
 			$main_picture_id = $element->data['thumbnail_id'];
@@ -210,7 +210,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 		 * @return mixed
 		 */
 		public function set_thumbnail( $data ) {
-			$element = $data['model_name']::g()->get( array( 'id' => $data['id'] ), true );
+			$element = $data['model_name']::g()->get( array( 'p' => $data['id'] ), true );
 
 			$element->data['thumbnail_id'] = $data['file_id'];
 

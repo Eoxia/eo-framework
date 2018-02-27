@@ -19,7 +19,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 	/**
 	 * Gestion des commentaires (POST, PUT, GET, DELETE)
 	 */
-	class Comment_Class extends Rest_Class {
+	class Comment_Class extends Object_Class {
 		/**
 		 * Le nom du modèle à utiliser.
 		 *
@@ -39,7 +39,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $comment_type = 'ping';
+		protected $type ='ping';
 
 		/**
 		 * Slug de base pour la route dans l'api rest
@@ -115,20 +115,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @var array
 		 */
 		protected $after_put_function = array();
-
-		/**
-		 * Permet de récupérer le schéma avec les données du modèle par défault.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return Comment_Model
-		 */
-		public function get_schema() {
-			$model_name = $this->model_name;
-			$model      = new $model_name( array() );
-			return $model->get_model();
-		}
 
 		/**
 		 * Récupères les données selon le modèle définis.
@@ -214,30 +200,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		}
 
 		/**
-		 * Appelle la méthode update.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @param  Array $data Les données.
-		 * @return Array $data Les données
-		 */
-		public function create( $data, $context = false ) {
-			$object = $this->update( $data, $context );
-
-			if ( is_wp_error( $object ) ) {
-				return $object;
-			}
-
-			$object = $this->get( array(
-				'id'          => $object->data['id'],
-				'use_context' => $context,
-			), true );
-
-			return $object;
-		}
-
-		/**
 		 * Insère ou met à jour les données dans la base de donnée.
 		 *
 		 * @since 0.1.0
@@ -319,28 +281,5 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			return $object;
 		}
 
-		/**
-		 * Renvoie le type du commentaire
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return string Le type du commentaire.
-		 */
-		public function get_type() {
-			return $this->comment_type;
-		}
-
-		/**
-		 * Utile uniquement pour DigiRisk.
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @return string L'identifiant des commentaires pour DigiRisk.
-		 */
-		public function get_identifier_helper() {
-			return $this->identifier_helper;
-		}
 	}
 } // End if().
