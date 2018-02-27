@@ -222,8 +222,19 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @param  Array $data Les données.
 		 * @return Array $data Les données
 		 */
-		public function create( $data ) {
-			return $this->update( $data );
+		public function create( $data, $context = false ) {
+			$object = $this->update( $data, $context );
+
+			if ( is_wp_error( $object ) ) {
+				return $object;
+			}
+
+			$object = $this->get( array(
+				'id'          => $object->data['id'],
+				'use_context' => $context,
+			), true );
+
+			return $object;
 		}
 
 		/**
@@ -235,7 +246,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @param  Array $data Les données a insérer ou à mêttre à jour.
 		 * @return Object      L'objet construit grâce au modèle.
 		 */
-		public function update( $data ) {
+		public function update( $data, $context = false ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
@@ -278,6 +289,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id' => $data['id'],
+					'use_context' => $context,
 				), true );
 
 				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data->data );
@@ -290,7 +302,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				add_filter( 'pre_comment_approved', function( $approved, $comment_data ) {
 					return $comment_data['comment_approved'];
 				}, 10, 2 );
-				$inserted_comment = wp_new_comment( $object->convert_to_wordpress(), true );
+				$inserted_comment = wp_insert_comment( $object->convert_to_wordpress() );
 				if ( is_wp_error( $inserted_comment ) ) {
 					return $inserted_comment;
 				}
