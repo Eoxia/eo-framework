@@ -187,8 +187,17 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			$default_args = array(
 				'post_status'    => 'any',
 				'post_type'      => $this->get_type(),
-				'posts_per_page' => isset( $args['p'] ) ? 1 : -1,
+				'posts_per_page' => -1,
 			);
+
+			// Si le paramètre "p" est passé on le transforme en "post__in" pour eviter les problèmes de statuts.
+			if ( isset( $args['p'] ) ) {
+				if ( ! isset( $args['post__in'] ) ) {
+					$args['post__in'] = array();
+				}
+				$args['post__in'] = array_merge( (array) $args['p'], $args['post__in'] );
+				unset( $args['p'] );
+			}
 
 			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
 			if ( isset( $args['schema'] ) ) {
