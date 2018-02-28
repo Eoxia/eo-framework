@@ -39,7 +39,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $type ='ping';
+		protected $type = 'ping';
 
 		/**
 		 * Slug de base pour la route dans l'api rest
@@ -142,7 +142,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			$array_model   = array();
 			$array_comment = array();
 
-			if ( ! empty( $this->comment_type ) ) {
+			if ( ! empty( $this->type ) ) {
 				$args['status'] = '-34070';
 				$args['type']   = $this->get_type();
 			}

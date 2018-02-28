@@ -103,7 +103,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 *
 		 * @var array
 		 */
-		protected $after_post_function = array();
+		protected $after_post_function = array( '\eoxia\after_put_posts' );
 
 		/**
 		 * Fonction de callback avant de mêttre à jour les données en mode PUT.
@@ -124,7 +124,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 *
 		 * @var array
 		 */
-		protected $after_put_function = array();
+		protected $after_put_function = array( '\eoxia\after_put_posts' );
 
 		/**
 		 * Appelle l'action "init" de WordPress
@@ -190,13 +190,14 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				'posts_per_page' => -1,
 			);
 
-			// Si le paramètre "p" est passé on le transforme en "post__in" pour eviter les problèmes de statuts.
-			if ( isset( $args['p'] ) ) {
+			// Si le paramètre "id" est passé on le transforme en "post__in" pour eviter les problèmes de statuts.
+			// Dans un soucis d'homogénéité du code, le paramètre "id" templace le paramètre "p" qui est de base dans WP_Query.
+			if ( isset( $args['id'] ) ) {
 				if ( ! isset( $args['post__in'] ) ) {
 					$args['post__in'] = array();
 				}
-				$args['post__in'] = array_merge( (array) $args['p'], $args['post__in'] );
-				unset( $args['p'] );
+				$args['post__in'] = array_merge( (array) $args['id'], $args['post__in'] );
+				unset( $args['id'] );
 			}
 
 			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
@@ -208,7 +209,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				unset( $query_posts->posts );
 			}
 
-			$array_posts = $this->build_objects( $array_posts, 'ID', 'get_post_meta', $req_method );
+			$array_posts = $this->prepare_items_for_response( $array_posts, 'ID', 'get_post_meta', $req_method );
 
 			// Si on a demandé qu'une seule entrée et qu'il n'y a bien qu'une seule entrée correspondant à la demande alors on ne retourne que cette entrée.
 			if ( true === $single && 1 === count( $array_posts ) ) {
@@ -235,7 +236,11 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
 			$before_cb  = 'before_' . $req_method . '_function';
 			$after_cb   = 'after_' . $req_method . '_function';
-			$args_cb    = array( 'model_name' => $model_name );
+			$args_cb    = array(
+				'model_name' => $model_name,
+				'req_method' => $req_method,
+				'meta_key'   => $this->meta_key,
+			);
 
 			if ( empty( $data['type'] ) ) {
 				$data['type'] = $this->get_type();
@@ -243,14 +248,15 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
 
-			if ( ! empty( $data['id'] ) ) {
+			if ( $context && ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
-					'p'           => $data['id'],
+					'id'          => $data['id'],
 					'use_context' => $context,
 				), true );
 
 				$data = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
 			}
+			$args_cb['data'] = $data;
 
 			$append = false;
 			if ( isset( $data['$push'] ) ) {
@@ -271,33 +277,22 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				$append = true;
 				unset( $data['$push'] );
 			}
+			$args_cb['append_taxonomies'] = $append;
 
 			$object = new $model_name( $data, $req_method );
 
 			if ( empty( $object->data['id'] ) ) {
-				$inserted_post = wp_insert_post( $object->convert_to_wordpress(), true );
-				if ( is_wp_error( $inserted_post ) ) {
-					return $inserted_post;
-				}
+				$post_save_result = wp_insert_post( $object->convert_to_wordpress(), true );
 
-				$object->data['id'] = $inserted_post;
+				$object->data['id'] = $post_save_result;
 			} else {
-				$update_state = wp_update_post( $object->convert_to_wordpress(), true );
-
-				if ( is_wp_error( $update_state ) ) {
-					return $update_state;
-				}
-
-				// Si on envoi date_modified a notre objet, on modifie en "dur" car bloqué par WordPress de base.
-				if ( ! empty( $data ) && empty( $data['date_modified'] ) && ! empty( $data['date_modified'] ) ) {
-					$GLOBALS['wpdb']->update( $GLOBALS['wpdb']->posts, array( 'date_modified' => $data['date_modified'] ) );
-				}
+				$post_save_result = wp_update_post( $object->convert_to_wordpress(), true );
 			}
 
-			Save_Meta_Class::g()->save_meta_data( $object, 'update_post_meta', $this->meta_key );
-
-			// Save taxonomy!
-			$this->save_taxonomies( $object, $append );
+			// Une erreur est survenue à la sauvegarden on retourne l'erreur.
+			if ( is_wp_error( $post_save_result ) ) {
+				return $post_save_result;
+			}
 
 			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
 
@@ -362,27 +357,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 */
 		public function get_attached_taxonomy() {
 			return $this->attached_taxonomy_type;
-		}
-
-		/**
-		 * Sauvegardes les taxonomies
-		 *
-		 * @version 1.0.0
-		 * @since 1.0.0
-		 *
-		 * @param object  $object L'objet avec les taxonomies à sauvegarder.
-		 * @param boolean $append La taxonomie doit elle être ajoutée à la liste existante ou remplacer la liste existante.
-		 */
-		private function save_taxonomies( $object, $append ) {
-			if ( ! empty( $object->data['taxonomy'] ) ) {
-				foreach ( $object->data['taxonomy'] as $taxonomy_name => $taxonomy_data ) {
-					if ( ! empty( $taxonomy_name ) ) {
-						if ( is_int( $taxonomy_data ) || is_array( $taxonomy_data ) ) {
-							wp_set_object_terms( $object->data['id'], $taxonomy_data, $taxonomy_name, $append );
-						}
-					}
-				}
-			}
 		}
 
 	}

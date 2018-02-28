@@ -68,7 +68,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 
 			// Load the POST element with WPEO_Model.
 			$element = $atts['model_name']::g()->get( array(
-				'p' => $atts['id'],
+				'id' => $atts['id'],
 			), true );
 
 			$main_picture_id = $element->data['thumbnail_id'];
@@ -88,7 +88,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 				$nonce_name = 'load_gallery';
 			}
 
-			require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/button.view.php' );
+			require \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/button.view.php';
 		}
 	}
 

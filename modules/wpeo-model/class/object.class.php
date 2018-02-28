@@ -119,15 +119,14 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 * @return Array $data Les données
 		 */
 		public function create( $data, $context = false ) {
-			$object = $this->update( $data, $context );
+			$object = $this->update( $data, true );
 
 			if ( is_wp_error( $object ) ) {
 				return $object;
 			}
 
 			$object = $this->get( array(
-				'p'           => $object->data['id'],
-				'use_context' => $context,
+				'id' => $object->data['id'],
 			), true );
 
 			return $object;
@@ -143,7 +142,7 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 *
 		 * @return array                   [description]
 		 */
-		public function build_objects( $object_list, $id_field, $get_meta_function, $req_method ) {
+		public function prepare_items_for_response( $object_list, $id_field, $get_meta_function, $req_method ) {
 			$model_name = $this->model_name;
 
 			foreach ( $object_list as $key => $object ) {

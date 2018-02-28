@@ -2,17 +2,19 @@
 /**
  * Gestion des routes
  *
- * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.4.0
- * @version 1.6.0
- * @copyright 2015-2017
- * @package wpeo_model
- * @subpackage class
+ * @author Eoxit <dev@eoxia.com>
+ * @since 1.0.0
+ * @version 1.0.0
+ * @copyright 2015-2018
+ * @package EO_Framework
+ * @subpackage wpeo_model
  */
 
 namespace eoxia;
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 	/**
@@ -56,22 +58,22 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		/**
 		 * Défini et ajoute les routes dans l'api rest de WordPress
 		 *
-		 * @since 1.4.0
-		 * @version 1.6.0
+		 * @since 1.0.0
+		 * @version 1.0.0
 		 */
 		public function register_routes() {
 			$element_namespace = new \ReflectionClass( get_called_class() );
-			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version , '/' . $this->base . '/schema', array(
+			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version, '/' . $this->base . '/schema', array(
 				array(
-					'method' 		=> \WP_REST_Server::READABLE,
-					'callback'	=> array( $this, 'get_schema' ),
+					'method'   => \WP_REST_Server::READABLE,
+					'callback' => array( $this, 'get_schema' ),
 				),
 			) );
 
-			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version , '/' . $this->base, array(
+			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version, '/' . $this->base, array(
 				array(
-					'methods' 		=> \WP_REST_Server::READABLE,
-					'callback'	=> array( $this, 'get_from_parent' ),
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_from_parent' ),
 					'permission_callback' => function() {
 						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'get' ) ) {
 							return false;
@@ -80,8 +82,8 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 					},
 				),
 				array(
-					'methods' 		=> \WP_REST_Server::CREATABLE,
-					'callback'	=> array( $this, 'create_from_parent' ),
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'create_from_parent' ),
 					'permission_callback' => function() {
 						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'post' ) ) {
 							return false;
@@ -91,10 +93,10 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 				),
 			), true );
 
-			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version , '/' . $this->base . '/(?P<id>[\d]+)', array(
+			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version, '/' . $this->base . '/(?P<id>[\d]+)', array(
 				array(
-					'method' => \WP_REST_Server::READABLE,
-					'callback'	=> array( $this, 'get_from_parent' ),
+					'method'              => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_from_parent' ),
 					'permission_callback' => function() {
 						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'get' ) ) {
 							return false;
@@ -103,8 +105,8 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 					},
 				),
 				array(
-					'methods' 		=> \WP_REST_Server::CREATABLE,
-					'callback'	=> array( $this, 'create_from_parent' ),
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'create_from_parent' ),
 					'permission_callback' => function() {
 						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'put' ) ) {
 							return false;
@@ -114,10 +116,10 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 				),
 			), true );
 
-			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version , '/' . $this->base . 's/(?P<id>[\d]+)', array(
+			register_rest_route( $element_namespace->getNamespaceName() . '/v' . Config_Util::$init['eo-framework']->wpeo_model->api_version, '/' . $this->base . 's/(?P<id>[\d]+)', array(
 				array(
-					'method' => \WP_REST_Server::READABLE,
-					'callback'	=> array( $this, 'get_parent_from_parent' ),
+					'method'              => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_parent_from_parent' ),
 					'permission_callback' => function() {
 						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'get' ) ) {
 							return false;
@@ -140,15 +142,25 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		 * @return mixed                     Element list or single element if id was specified.
 		 */
 		public function get_from_parent( $request ) {
-			$args = array();
+			$args   = array();
 			$single = false;
+			$list   = null;
 
 			if ( ! empty( $request ) && ( ! empty( $request['id'] ) ) ) {
 				$args['id'] = $request['id'];
-				$single = true;
+				$single     = true;
 			}
 
-			return $this->get( $args, $single );
+			$elements = $this->get( $args, $single );
+			if ( $single ) {
+				$list = $elements->data;
+			} else {
+				foreach ( $elements as $element ) {
+					$list[] = $element->data;
+				}
+			}
+
+			return $list;
 		}
 
 		/**
@@ -162,13 +174,13 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		 * @return mixed                     Element list or single element if id was specified.
 		 */
 		public function get_parent_from_parent( $request ) {
-			$args = array();
+			$args   = array();
 			$single = false;
 
 			if ( ! empty( $request ) && ( ! empty( $request['id'] ) ) ) {
 				$args['post_id'] = $request['id'];
-				$args['status'] = '-34070';
-				$single = true;
+				$args['status']  = '-34070';
+				$single          = true;
 			}
 
 			return $this->get( $args, $single );

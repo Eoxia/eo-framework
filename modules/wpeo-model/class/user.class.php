@@ -133,31 +133,31 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
-		 * @param array   $args Les paramètres de get_users @https://codex.wordpress.org/Function_Reference/get_users.
+		 * @param array   $args Les paramètres de WP_User_Query @see https://codex.wordpress.org/Class_Reference/WP_User_Query.
 		 * @param boolean $single Si on veut récupérer un tableau, ou qu'une seule entrée.
 		 *
 		 * @return Comment_Model
 		 */
 		public function get( $args = array(), $single = false ) {
-			$use_context = ( ! empty( $args['use_context'] ) && $args['use_context'] ) ? true : false;
-			if ( ! isset( $args['use_context'] ) ) {
-				$use_context = true;
-			}
+			$array_users = array();
+			$model_name  = $this->model_name;
 
-			$req_method = 'get';
+			// Doit on utiliser le contexte?
+			// Dans le cas d'une mise à jour "partielle" (ou on envoi pas toutes les données).
+			$use_context = ( ! isset( $args['use_context'] ) || ( ! empty( $args['use_context'] ) && $args['use_context'] ) ) ? true : false;
 
-			if ( ! $use_context ) {
-				$req_method = null;
-			}
-
-			$list_user = array();
-			$list_model_user = array();
-
-			$model_name = $this->model_name;
+			// La méthode HTTP de base est le "GET" (on est dans la méthode get).
+			// Si use_context est à false on ne va pas utiliser la méthode GET, ce qui permet de ne pas écraser des données à l'enregistrement.
+			$req_method = $use_context ? 'get' : null;
 
 			if ( ! empty( $args['id'] ) ) {
-				$list_user[] = get_user_by( 'id', $args['id'] );
-			} elseif ( isset( $args['schema'] ) ) {
+				if ( ! isset( $args['include'] ) ) {
+					$args['include'] = array();
+				}
+				$args['include'] = array_merge( (array) $args['id'], $args['include'] );
+			}
+
+			if ( isset( $args['schema'] ) ) {
 				$list_user[] = array();
 			} else {
 				$list_user = get_users( $args );
@@ -166,37 +166,31 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 			if ( ! empty( $list_user ) ) {
 				foreach ( $list_user as $element ) {
 					$element = (array) $element;
-
 					if ( ! empty( $element['ID'] ) ) {
 						$list_meta = get_user_meta( $element['ID'] );
 						foreach ( $list_meta as &$meta ) {
 							$meta = array_shift( $meta );
 						}
-
 						$element = array_merge( $element, $list_meta );
-
 						if ( ! empty( $element['data'] ) ) {
 							$element = array_merge( $element, (array) $element['data'] );
 							unset( $element['data'] );
 						}
-
 						if ( ! empty( $element[ $this->meta_key ] ) ) {
 							$element = array_merge( $element, json_decode( $element[ $this->meta_key ], true ) );
 							unset( $element[ $this->meta_key ] );
 						}
 					}
-
-					$data              = new $model_name( $element, $req_method );
-					$data              = Model_Util::exec_callback( $this->after_get_function, $data, array( 'model_name' => $model_name ) );
-					$list_model_user[] = $data;
+					$data          = new $model_name( $element, $req_method );
+					$array_users[] = Model_Util::exec_callback( $this->after_get_function, $data, array( 'model_name' => $model_name ) );
 				}
 			}
 
-			if ( true === $single && 1 === count( $list_model_user ) ) {
-				$list_model_user = $list_model_user[0];
+			if ( true === $single && 1 === count( $array_users ) ) {
+				$array_users = $array_users[0];
 			}
 
-			return $list_model_user;
+			return $array_users;
 		}
 
 		/**
@@ -218,7 +212,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 
 			if ( 'post' === $req_method ) {
 				while ( username_exists( $data['login'] ) ) {
-					$data['login'] .= rand( 1000, 9999 );
+					$data['login'] .= wp_rand( 1000, 9999 );
 				}
 			}
 
@@ -229,7 +223,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 					'id' => $data['id'],
 				), true );
 
-				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data->data );
+				$data = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
 			}
 
 			$object = new $model_name( $data, $req_method );
@@ -242,6 +236,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 
 				$object->data['id'] = $inserted_user;
 			} else {
+
 				$updated_user = wp_update_user( $object->convert_to_wordpress() );
 				if ( is_wp_error( $updated_user ) ) {
 					return $updated_user;
