@@ -77,54 +77,14 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			'delete' => 'delete_posts',
 		);
 
-		/**
-		 * Fonction de callback après avoir récupérer le modèle en mode GET.
-		 *
-		 * @var array
-		 */
-		protected $after_get_function = array( '\eoxia\after_get_post' );
-
-		/**
-		 * Fonction de callback avant d'insérer les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $before_post_function = array();
-
-		/**
-		 * Fonction de callback avant de dispacher les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $before_model_post_function = array();
-
-		/**
-		 * Fonction de callback après avoir inséré les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $after_post_function = array( '\eoxia\after_put_posts' );
-
-		/**
-		 * Fonction de callback avant de mêttre à jour les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $before_put_function = array();
-
-		/**
-		 * Fonction de callback avant de dispatcher les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $before_model_put_function = array();
-
-		/**
-		 * Fonction de callback après avoir mis à jour les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $after_put_function = array( '\eoxia\after_put_posts' );
+		protected $built_in_func = array(
+			'before_get'  => array(),
+			'before_put'  => array(),
+			'before_post' => array(),
+			'after_get'   => array( '\eoxia\after_get_post' ),
+			'after_put'   => array( '\eoxia\after_put_posts' ),
+			'after_post'  => array( '\eoxia\after_put_posts' ),
+		);
 
 		/**
 		 * Appelle l'action "init" de WordPress
@@ -191,7 +151,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			);
 
 			// Si le paramètre "id" est passé on le transforme en "post__in" pour eviter les problèmes de statuts.
-			// Dans un soucis d'homogénéité du code, le paramètre "id" templace le paramètre "p" qui est de base dans WP_Query.
+			// Dans un soucis d'homogénéité du code, le paramètre "id" remplace le paramètre "p" qui est de base dans WP_Query.
 			if ( isset( $args['id'] ) ) {
 				if ( ! isset( $args['post__in'] ) ) {
 					$args['post__in'] = array();
@@ -204,7 +164,13 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			if ( isset( $args['schema'] ) ) {
 				$array_posts[] = array();
 			} else { // On lance la requête pour récupèrer les "posts" demandés.
-				$query_posts = new \WP_Query( wp_parse_args( $args, $default_args ) );
+				$args_cb    = array(
+					'args'         => $args,
+					'default_args' => $default_args,
+				);
+				$final_args = Model_Util::exec_callback( $this->callback_func['before_get'], wp_parse_args( $args, $default_args ), $args_cb );
+
+				$query_posts = new \WP_Query( $final_args );
 				$array_posts = $query_posts->posts;
 				unset( $query_posts->posts );
 			}
@@ -217,6 +183,54 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			}
 
 			return $array_posts;
+		}
+
+		/**
+		 * Factorisation de la fonction de construction des objet après un GET.
+		 *
+		 * @param  array  $object_list       La liste des objets récupérés.
+		 * @param  string $id_field          Le champs identifiant principal du type d'objet en cours de construction.
+		 * @param  string $get_meta_function Le nom de la fonction permettant de récupèrer les meta données pour le type d'objet en cours de construction.
+		 * @param  string $req_method        La méthode HTTP actuellement utilisée pour la construction de l'objet.
+		 *
+		 * @return array                   [description]
+		 */
+		public function prepare_items_for_response( $object_list, $id_field, $get_meta_function, $req_method ) {
+			$model_name = $this->model_name;
+
+			foreach ( $object_list as $key => $object ) {
+				$object = (array) $object;
+
+				// Si $object[ $id_field ] existe, on récupère les meta.
+				if ( ! empty( $object[ $id_field ] ) ) {
+					$list_meta = call_user_func( $get_meta_function, $object[ $id_field ] );
+					foreach ( $list_meta as &$meta ) {
+						$meta = array_shift( $meta );
+						$meta = JSON_Util::g()->decode( $meta );
+					}
+
+					$object = array_merge( $object, $list_meta );
+
+					if ( ! empty( $object[ $this->meta_key ] ) ) {
+						$data_json = JSON_Util::g()->decode( $object[ $this->meta_key ] );
+						if ( is_array( $data_json ) ) {
+							$object = array_merge( $object, $data_json );
+						} else {
+							$object[ $this->meta_key ] = $data_json;
+						}
+						unset( $object[ $this->meta_key ] );
+					}
+				}
+
+				// Construction de l'objet selon les données reçues.
+				// Soit un objet vide si l'argument schema est défini. Soit l'objet avec ses données.
+				$object_list[ $key ] = new $model_name( $object, $req_method );
+
+				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
+				$object_list[ $key ] = Model_Util::exec_callback( $this->callback_func['after_get'], $object_list[ $key ], array( 'model_name' => $model_name ) );
+			} // End foreach().
+
+			return $object_list;
 		}
 
 		/**
@@ -234,8 +248,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
-			$before_cb  = 'before_' . $req_method . '_function';
-			$after_cb   = 'after_' . $req_method . '_function';
 			$args_cb    = array(
 				'model_name' => $model_name,
 				'req_method' => $req_method,
@@ -246,16 +258,16 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				$data['type'] = $this->get_type();
 			}
 
-			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
+			$data = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
 
-			if ( $context && ! empty( $data['id'] ) ) {
-				$current_data = $this->get( array(
-					'id'          => $data['id'],
-					'use_context' => $context,
-				), true );
-
-				$data = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
-			}
+			// if ( $context && ! empty( $data['id'] ) ) {
+			// 	$current_data = $this->get( array(
+			// 		'id'          => $data['id'],
+			// 		'use_context' => $context,
+			// 	), true );
+			//
+			// 	$data = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
+			// }
 			$args_cb['data'] = $data;
 
 			$append = false;
@@ -280,7 +292,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			$args_cb['append_taxonomies'] = $append;
 
 			$object = new $model_name( $data, $req_method );
-
+echo "<pre>"; print_r($object); echo "</pre>";exit;
 			if ( empty( $object->data['id'] ) ) {
 				$post_save_result = wp_insert_post( $object->convert_to_wordpress(), true );
 
@@ -294,7 +306,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				return $post_save_result;
 			}
 
-			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
+			$object = Model_Util::exec_callback( $this->callback_func[ 'after_' . $req_method ], $object, $args_cb );
 
 			return $object;
 		}

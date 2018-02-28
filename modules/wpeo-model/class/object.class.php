@@ -57,6 +57,35 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 */
 		protected $identifier_helper = '';
 
+		protected $built_in_func = array(
+			'before_get'  => array(),
+			'before_put'  => array(),
+			'before_post' => array(),
+			'after_get'   => array(),
+			'after_put'   => array(),
+			'after_post'  => array(),
+		);
+
+		protected $callback_func = array(
+			'before_get'  => array(),
+			'before_put'  => array(),
+			'before_post' => array(),
+			'after_get'   => array(),
+			'after_put'   => array(),
+			'after_post'  => array(),
+		);
+
+		/**
+		 * Appelle l'action "init" de WordPress
+		 *
+		 * @return void
+		 */
+		protected function construct() {
+			parent::construct();
+
+			$this->callback_func = array_merge_recursive( $this->built_in_func, $this->callback_func );
+		}
+
 		/**
 		 * Utile uniquement pour DigiRisk.
 		 *
@@ -130,54 +159,6 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 			), true );
 
 			return $object;
-		}
-
-		/**
-		 * Factorisation de la fonction de construction des objet après un GET.
-		 *
-		 * @param  array  $object_list       La liste des objets récupérés.
-		 * @param  string $id_field          Le champs identifiant principal du type d'objet en cours de construction.
-		 * @param  string $get_meta_function Le nom de la fonction permettant de récupèrer les meta données pour le type d'objet en cours de construction.
-		 * @param  string $req_method        La méthode HTTP actuellement utilisée pour la construction de l'objet.
-		 *
-		 * @return array                   [description]
-		 */
-		public function prepare_items_for_response( $object_list, $id_field, $get_meta_function, $req_method ) {
-			$model_name = $this->model_name;
-
-			foreach ( $object_list as $key => $object ) {
-				$object = (array) $object;
-
-				// Si $object[ $id_field ] existe, on récupère les meta.
-				if ( ! empty( $object[ $id_field ] ) ) {
-					$list_meta = call_user_func( $get_meta_function, $object[ $id_field ] );
-					foreach ( $list_meta as &$meta ) {
-						$meta = array_shift( $meta );
-						$meta = JSON_Util::g()->decode( $meta );
-					}
-
-					$object = array_merge( $object, $list_meta );
-
-					if ( ! empty( $object[ $this->meta_key ] ) ) {
-						$data_json = JSON_Util::g()->decode( $object[ $this->meta_key ] );
-						if ( is_array( $data_json ) ) {
-							$object = array_merge( $object, $data_json );
-						} else {
-							$object[ $this->meta_key ] = $data_json;
-						}
-						unset( $object[ $this->meta_key ] );
-					}
-				}
-
-				// Construction de l'objet selon les données reçues.
-				// Soit un objet vide si l'argument schema est défini. Soit l'objet avec ses données.
-				$object_list[ $key ] = new $model_name( $object, $req_method );
-
-				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
-				$object_list[ $key ] = Model_Util::exec_callback( $this->after_get_function, $object_list[ $key ], array( 'model_name' => $model_name ) );
-			} // End foreach().
-
-			return $object_list;
 		}
 
 	}
