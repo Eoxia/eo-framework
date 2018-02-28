@@ -99,10 +99,9 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 
 			foreach ( $schema as $field_name => $field_def ) {
 				// Définie les données  par défaut pour l'élément courant par rapport à "default".
-				if ( isset( $field_def['default'] ) ) {
+				$value = null;
+				if ( isset( $field_def['default'] ) && in_array( $this->req_method, array( 'GET', 'POST' ), true ) ) {
 					$value = $field_def['default'];
-				} else {
-					$value = null;
 				}
 
 				// On vérifie si la valeur du champs actuelle est fournie dans les données envoyées pour construction.
@@ -262,11 +261,14 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 
 				if ( ! empty( $field_def['field'] ) ) {
 					if ( isset( $this->data[ $field_name ] ) ) {
-						$value = $this->data[ $field_name ];
-						if ( ! in_array( $field_def['type'], self::$custom_types, true ) ) {
-							$data[ $field_def['field'] ] = $value;
-						} elseif ( isset( $value['raw'] ) ) {
-							$data[ $field_def['field'] ] = $value['raw'];
+						$value = isset( $this->data[ $field_name ] ) ? $this->data[ $field_name ] : null;
+
+						if ( null !== $value ) {
+							if ( ! in_array( $field_def['type'], self::$custom_types, true ) ) {
+								$data[ $field_def['field'] ] = $value;
+							} elseif ( isset( $value['raw'] ) ) {
+								$data[ $field_def['field'] ] = $value['raw'];
+							}
 						}
 					}
 				}

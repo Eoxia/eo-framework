@@ -39,7 +39,7 @@ class String_Filter {
 	 */
 	public function callback_eo_model_handle_value( $value, $current_object, $field_def, $req_method ) {
 		// Si la méthode HTTP appelée est la méthode GET alors on enlève les "slash" en trop.
-		if ( 'GET' === $req_method && 'string' === $field_def['type'] ) {
+		if ( ( null !== $value ) && ( 'GET' === $req_method ) && ( 'string' === $field_def['type'] ) ) {
 			$value = stripslashes( $value );
 		}
 

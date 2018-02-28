@@ -39,8 +39,8 @@ class Float_Filter {
 	 */
 	public function callback_eo_model_handle_value( $value, $current_object, $field_def, $req_method ) {
 		// Traitement spécial pour les champs de type "float" on remplace systèmatiquement les "," par des "." obligatoires pour la base de données.
-		if ( ! is_array( $value ) && ! is_object( $value ) && 'float' === $field_def['type'] ) {
-			$value = str_replace( ',', '.', $value );
+		if ( ( null !== $value ) && ! is_array( $value ) && ! is_object( $value ) && 'float' === $field_def['type'] ) {
+			$value = (float) str_replace( ',', '.', $value );
 		}
 
 		return $value;

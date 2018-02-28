@@ -239,12 +239,11 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
-		 * @param Array   $data    Les données a insérer ou à mêttre à jour.
-		 * @param Boolean $context Les données.
+		 * @param Array $data    Les données a insérer ou à mêttre à jour.
 		 *
 		 * @return Object      L'objet construit grâce au modèle.
 		 */
-		public function update( $data, $context = false ) {
+		public function update( $data ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
@@ -260,14 +259,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 			$data = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
 
-			// if ( $context && ! empty( $data['id'] ) ) {
-			// 	$current_data = $this->get( array(
-			// 		'id'          => $data['id'],
-			// 		'use_context' => $context,
-			// 	), true );
-			//
-			// 	$data = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
-			// }
 			$args_cb['data'] = $data;
 
 			$append = false;
@@ -292,7 +283,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			$args_cb['append_taxonomies'] = $append;
 
 			$object = new $model_name( $data, $req_method );
-echo "<pre>"; print_r($object); echo "</pre>";exit;
 			if ( empty( $object->data['id'] ) ) {
 				$post_save_result = wp_insert_post( $object->convert_to_wordpress(), true );
 
@@ -334,7 +324,7 @@ echo "<pre>"; print_r($object); echo "</pre>";exit;
 				foreach ( $array as $key => $element ) {
 					if ( is_array( $element ) ) {
 						foreach ( $element as $sub_element ) {
-							$where .= ' AND ( ' === $where  ? '' : ' OR ';
+							$where .= ' AND ( ' === $where ? '' : ' OR ';
 							$where .= ' (PM.meta_key="' . $sub_element . '" AND PM.meta_value LIKE "%' . $search . '%") ';
 						}
 					} else {
