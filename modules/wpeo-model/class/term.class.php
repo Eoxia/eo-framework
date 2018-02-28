@@ -191,30 +191,21 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			}
 
 			if ( ! empty( $array_term ) ) {
-				foreach ( $array_term as $key => $term ) {
-					$term = (array) $term;
+				foreach ( $array_term as $key => $object ) {
+					$object = (array) $object;
 
 					if ( ! empty( $args['post_id'] ) ) {
-						$term['post_id'] = $args['post_id'];
+						$object['post_id'] = $args['post_id'];
 					}
 
-					if ( ! empty( $term['term_id'] ) ) {
-						$list_meta = get_term_meta( $term['term_id'] );
-						foreach ( $list_meta as &$meta ) {
-							$meta = array_shift( $meta );
-						}
-
-						$term = array_merge( $term, $list_meta );
-
-						if ( ! empty( $term[ $this->meta_key ] ) ) {
-							$term = array_merge( $term, json_decode( $term[ $this->meta_key ], true ) );
-							unset( $term[ $this->meta_key ] );
-						}
+					// Si $object['term_id'] existe, on récupère les meta.
+					if ( ! empty( $object['term_id'] ) ) {
+						$object = $this->prepare_item_meta_for_response( get_term_meta, $object['term_id'], $this->meta_key );
 					}
 
-					$list_term[ $key ] = new $model_name( $term, 'get' );
+					$list_term[ $key ] = new $model_name( $object, 'get' );
 
-					$list_term[ $key ] = Model_Util::exec_callback( $this->after_get_function, $list_term[ $key ], array( 'model_name' => $model_name )  );
+					$list_term[ $key ] = Model_Util::exec_callback( $this->after_get_function, $list_term[ $key ], array( 'model_name' => $model_name ) );
 				}
 			}
 

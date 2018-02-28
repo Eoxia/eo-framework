@@ -142,14 +142,6 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 			$array_users = array();
 			$model_name  = $this->model_name;
 
-			// Doit on utiliser le contexte?
-			// Dans le cas d'une mise à jour "partielle" (ou on envoi pas toutes les données).
-			$use_context = ( ! isset( $args['use_context'] ) || ( ! empty( $args['use_context'] ) && $args['use_context'] ) ) ? true : false;
-
-			// La méthode HTTP de base est le "GET" (on est dans la méthode get).
-			// Si use_context est à false on ne va pas utiliser la méthode GET, ce qui permet de ne pas écraser des données à l'enregistrement.
-			$req_method = $use_context ? 'get' : null;
-
 			if ( ! empty( $args['id'] ) ) {
 				if ( ! isset( $args['include'] ) ) {
 					$args['include'] = array();
@@ -164,24 +156,21 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 			}
 
 			if ( ! empty( $list_user ) ) {
-				foreach ( $list_user as $element ) {
-					$element = (array) $element;
-					if ( ! empty( $element['ID'] ) ) {
-						$list_meta = get_user_meta( $element['ID'] );
-						foreach ( $list_meta as &$meta ) {
-							$meta = array_shift( $meta );
+				foreach ( $list_user as $object ) {
+					$object = (array) $object;
+					if ( ! empty( $object['ID'] ) ) {
+						$object = $this->get_metas( 'get_user_meta', $object['ID'] );
+
+						if ( ! empty( $object['data'] ) ) {
+							$object = array_merge( $object, (array) $object['data'] );
+							unset( $object['data'] );
 						}
-						$element = array_merge( $element, $list_meta );
-						if ( ! empty( $element['data'] ) ) {
-							$element = array_merge( $element, (array) $element['data'] );
-							unset( $element['data'] );
-						}
-						if ( ! empty( $element[ $this->meta_key ] ) ) {
-							$element = array_merge( $element, json_decode( $element[ $this->meta_key ], true ) );
-							unset( $element[ $this->meta_key ] );
+						if ( ! empty( $object[ $this->meta_key ] ) ) {
+							$object = array_merge( $object, json_decode( $object[ $this->meta_key ], true ) );
+							unset( $object[ $this->meta_key ] );
 						}
 					}
-					$data          = new $model_name( $element, $req_method );
+					$data          = new $model_name( $object, 'get' );
 					$array_users[] = Model_Util::exec_callback( $this->after_get_function, $data, array( 'model_name' => $model_name ) );
 				}
 			}

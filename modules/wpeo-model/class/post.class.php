@@ -77,6 +77,11 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			'delete' => 'delete_posts',
 		);
 
+		/**
+		 * Définition des fonctions de callback.
+		 *
+		 * @var array
+		 */
 		protected $built_in_func = array(
 			'before_get'  => array(),
 			'before_put'  => array(),
@@ -135,14 +140,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		public function get( $args = array(), $single = false ) {
 			$array_posts = array();
 
-			// Doit on utiliser le contexte?
-			// Dans le cas d'une mise à jour "partielle" (ou on envoi pas toutes les données).
-			$use_context = ( ! isset( $args['use_context'] ) || ( ! empty( $args['use_context'] ) && $args['use_context'] ) ) ? true : false;
-
-			// La méthode HTTP de base est le "GET" (on est dans la méthode get).
-			// Si use_context est à false on ne va pas utiliser la méthode GET, ce qui permet de ne pas écraser des données à l'enregistrement.
-			$req_method = $use_context ? 'get' : null;
-
 			// Définition des arguments par défaut pour la récupération des "posts".
 			$default_args = array(
 				'post_status'    => 'any',
@@ -175,7 +172,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				unset( $query_posts->posts );
 			}
 
-			$array_posts = $this->prepare_items_for_response( $array_posts, 'ID', 'get_post_meta', $req_method );
+			$array_posts = $this->prepare_items_for_response( $array_posts );
 
 			// Si on a demandé qu'une seule entrée et qu'il n'y a bien qu'une seule entrée correspondant à la demande alors on ne retourne que cette entrée.
 			if ( true === $single && 1 === count( $array_posts ) ) {
@@ -188,43 +185,24 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		/**
 		 * Factorisation de la fonction de construction des objet après un GET.
 		 *
-		 * @param  array  $object_list       La liste des objets récupérés.
-		 * @param  string $id_field          Le champs identifiant principal du type d'objet en cours de construction.
-		 * @param  string $get_meta_function Le nom de la fonction permettant de récupèrer les meta données pour le type d'objet en cours de construction.
-		 * @param  string $req_method        La méthode HTTP actuellement utilisée pour la construction de l'objet.
+		 * @param  array $object_list      La liste des objets récupérés.
 		 *
 		 * @return array                   [description]
 		 */
-		public function prepare_items_for_response( $object_list, $id_field, $get_meta_function, $req_method ) {
+		public function prepare_items_for_response( $object_list ) {
 			$model_name = $this->model_name;
 
 			foreach ( $object_list as $key => $object ) {
 				$object = (array) $object;
 
-				// Si $object[ $id_field ] existe, on récupère les meta.
-				if ( ! empty( $object[ $id_field ] ) ) {
-					$list_meta = call_user_func( $get_meta_function, $object[ $id_field ] );
-					foreach ( $list_meta as &$meta ) {
-						$meta = array_shift( $meta );
-						$meta = JSON_Util::g()->decode( $meta );
-					}
-
-					$object = array_merge( $object, $list_meta );
-
-					if ( ! empty( $object[ $this->meta_key ] ) ) {
-						$data_json = JSON_Util::g()->decode( $object[ $this->meta_key ] );
-						if ( is_array( $data_json ) ) {
-							$object = array_merge( $object, $data_json );
-						} else {
-							$object[ $this->meta_key ] = $data_json;
-						}
-						unset( $object[ $this->meta_key ] );
-					}
+				// Si $object['ID'] existe, on récupère les meta.
+				if ( ! empty( $object['ID'] ) ) {
+					$object = $this->prepare_item_meta_for_response( 'get_post_meta', $object['ID'], $this->meta_key );
 				}
 
 				// Construction de l'objet selon les données reçues.
 				// Soit un objet vide si l'argument schema est défini. Soit l'objet avec ses données.
-				$object_list[ $key ] = new $model_name( $object, $req_method );
+				$object_list[ $key ] = new $model_name( $object, 'get' );
 
 				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
 				$object_list[ $key ] = Model_Util::exec_callback( $this->callback_func['after_get'], $object_list[ $key ], array( 'model_name' => $model_name ) );

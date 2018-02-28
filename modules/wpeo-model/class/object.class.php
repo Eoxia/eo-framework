@@ -161,6 +161,27 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 			return $object;
 		}
 
+		public function prepare_item_meta_for_response( $function, $id, $meta_key ) {
+			$list_meta = call_user_func( $function, $id, $meta_key );
+			foreach ( $list_meta as &$meta ) {
+				$meta = array_shift( $meta );
+				$meta = JSON_Util::g()->decode( $meta );
+			}
+
+			$object = array_merge( $object, $list_meta );
+
+			if ( ! empty( $object[ $meta_key ] ) ) {
+				$data_json = JSON_Util::g()->decode( $object[ $meta_key ] );
+				if ( is_array( $data_json ) ) {
+					$object = array_merge( $object, $data_json );
+				} else {
+					$object[ $meta_key ] = $data_json;
+				}
+				unset( $object[ $meta_key ] );
+			}
+
+			return $object;
+		}
 	}
 
 }

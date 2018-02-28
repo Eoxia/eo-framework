@@ -74,7 +74,7 @@ if ( ! class_exists( '\eoxia\JSON_Util' ) ) {
 
 			if ( ! $json_decoded ) {
 				$json_to_decode = str_replace( '\\', '', $json_to_decode );
-				$json_decoded = json_decode( $json_to_decode, true );
+				$json_decoded   = json_decode( $json_to_decode, true );
 
 				if ( ! $json_decoded ) {
 					return $json_to_decode;

@@ -68,53 +68,18 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		);
 
 		/**
-		 * Fonction de callback après avoir récupérer le modèle en mode GET.
+		 * Définition des fonctions de callback.
 		 *
 		 * @var array
 		 */
-		protected $after_get_function = array();
-
-		/**
-		 * Fonction de callback avant d'insérer les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $before_post_function = array();
-
-		/**
-		 * Fonction de callback avant de dispatcher les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $before_model_post_function = array();
-
-		/**
-		 * Fonction de callback après avoir inséré les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $after_post_function = array();
-
-		/**
-		 * Fonction de callback avant de mêttre à jour les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $before_put_function = array();
-
-		/**
-		 * Fonction de callback avant de dispatcher les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $before_model_put_function = array();
-
-		/**
-		 * Fonction de callback après avoir mis à jour les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $after_put_function = array();
+		protected $built_in_func = array(
+			'before_get'  => array(),
+			'before_put'  => array(),
+			'before_post' => array(),
+			'after_get'   => array( '\eoxia\after_get_post' ),
+			'after_put'   => array( '\eoxia\after_put_posts' ),
+			'after_post'  => array( '\eoxia\after_put_posts' ),
+		);
 
 		/**
 		 * Récupères les données selon le modèle définis.
@@ -200,15 +165,43 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		}
 
 		/**
+		 * Factorisation de la fonction de construction des objet après un GET.
+		 *
+		 * @param  array $object_list      La liste des objets récupérés.
+		 *
+		 * @return array                   [description]
+		 */
+		public function prepare_items_for_response( $object_list ) {
+			$model_name = $this->model_name;
+
+			foreach ( $object_list as $key => $object ) {
+				$object = (array) $object;
+
+				// Si $object['ID'] existe, on récupère les meta.
+				if ( ! empty( $object['comment_ID'] ) ) {
+					$object = $this->prepare_item_meta_for_response( 'get_comment_meta', $object['comment_ID'], $this->meta_key );
+				}
+
+				// Construction de l'objet selon les données reçues.
+				// Soit un objet vide si l'argument schema est défini. Soit l'objet avec ses données.
+				$object_list[ $key ] = new $model_name( $object, 'get' );
+
+				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
+				$object_list[ $key ] = Model_Util::exec_callback( $this->callback_func['after_get'], $object_list[ $key ], array( 'model_name' => $model_name ) );
+			} // End foreach().
+
+			return $object_list;
+		}
+
+		/**
 		 * Insère ou met à jour les données dans la base de donnée.
 		 *
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
 		 * @param  Array $data Les données a insérer ou à mêttre à jour.
-		 * @return Object      L'objet construit grâce au modèle.
 		 */
-		public function update( $data, $context = false ) {
+		public function update( $data ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
@@ -247,15 +240,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			}
 
 			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
-
-			if ( ! empty( $data['id'] ) ) {
-				$current_data = $this->get( array(
-					'id' => $data['id'],
-					'use_context' => $context,
-				), true );
-
-				$data = Array_Util::g()->recursive_wp_parse_args( $data, (array) $current_data->data );
-			}
 
 			$object = new $model_name( $data, $req_method );
 
