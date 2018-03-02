@@ -85,7 +85,7 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 			$this->schema['status'] = array(
 				'type'    => 'string',
 				'field'   => 'post_status',
-				'default' => 'draft',
+				'default' => 'publish',
 			);
 
 			$this->schema['link'] = array(

@@ -254,29 +254,28 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 *
 		 * @return array Tableau compatible avec les fonctions WordPress.
 		 */
-		public function convert_to_wordpress() {
-			$data = array();
+		 public function convert_to_wordpress() {
+ 			$data = array();
 
-			foreach ( $this->schema as $field_name => $field_def ) {
+ 			foreach ( $this->schema as $field_name => $field_def ) {
 
-				if ( ! empty( $field_def['field'] ) ) {
-					if ( isset( $this->data[ $field_name ] ) ) {
-						$value = isset( $this->data[ $field_name ] ) ? $this->data[ $field_name ] : null;
+ 				if ( ! empty( $field_def['field'] ) ) {
+ 					if ( isset( $this->data[ $field_name ] ) ) {
+ 						$value = ( ( isset( $this->data[ $field_name ] ) && null !== $this->data[ $field_name ] ) ) ? $this->data[ $field_name ] : null;
 
-						if ( null !== $value ) {
-							if ( ! in_array( $field_def['type'], self::$custom_types, true ) ) {
-								$data[ $field_def['field'] ] = $value;
-							} elseif ( isset( $value['raw'] ) ) {
-								$data[ $field_def['field'] ] = $value['raw'];
-							}
-						}
-					}
-				}
-			}
+ 						if ( null !== $value ) {
+ 							if ( ! in_array( $field_def['type'], self::$custom_types, true ) ) {
+ 								$data[ $field_def['field'] ] = $value;
+ 							} elseif ( isset( $value['raw'] ) ) {
+ 								$data[ $field_def['field'] ] = $value['raw'];
+ 							}
+ 						}
+ 					}
+ 				}
+ 			}
 
-			return $data;
-		}
-
+ 			return $data;
+ 		}
 	}
 
 } // End if().
