@@ -144,8 +144,7 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
-		 * @param Array   $data   Les données.
-		 * @param Boolean $context Les données.
+		 * @param Array $data Les données.
 		 *
 		 * @return Array $data Les données
 		 */
