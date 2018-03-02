@@ -83,6 +83,36 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		);
 
 		/**
+		 * Initialise pre_get_comments
+		 *
+		 * @since 1.0.0
+		 * @version 1.0.0
+		 *
+		 * @return void
+		 */
+		protected function construct() {
+			if ( ! in_array( $this->get_type(), \eoxia\Config_Util::$init['eo-framework']->comments_displayed_edit_comments ) ) {
+				add_action( 'pre_get_comments', array( $this, 'callback_pre_get_comments' ) );
+			}
+		}
+
+		/**
+		 * N'affiches pas les commentaires dans la liste des commentaires.
+		 *
+		 * @since 1.0.0
+		 * @version 1.0.0
+		 *
+		 * @param  WP_Comment_Query $query Query args.
+		 *
+		 * @return void
+		 */
+		public function callback_pre_get_comments( $query ) {
+			if ( $query->query_vars['type'] !== $this->get_type() ) {
+				$query->query_vars['type__not_in'] = array_merge( (array) $query->query_vars['type__not_in'], array( $this->get_type() ) );
+			}
+		}
+
+		/**
 		 * Récupères les données selon le modèle définis.
 		 *
 		 * @since 0.1.0
@@ -100,14 +130,13 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				'type' => $this->get_type(),
 			);
 
-			if ( empty( $args['status'] ) && ! empty( $this->status ) ) {
-				$args['status'] = $this->status;
-			}
-
 			// Si le paramètre "id" est passé on le transforme en "ID" qui est le paramètre attendu par get_comments.
 			// Dans un souci d'homogénéité du code, le paramètre "id" remplace "ID".
 			if ( isset( $args['id'] ) ) {
-				$args['ID'] = $args['id'];
+				if ( ! isset( $args['comment__in'] ) ) {
+					$args['comment__in'] = array();
+				}
+				$args['comment__in'] = array_merge( (array) $args['id'], $args['comment__in'] );
 				unset( $args['id'] );
 			}
 
@@ -156,10 +185,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			// Vérifie l'existence du type.
 			if ( empty( $data['type'] ) ) {
 				$data['type'] = $this->get_type();
-			}
-
-			if ( ! isset( $data['status'] ) ) {
-				$data['status'] = '-34070';
 			}
 
 			if ( empty( $data['id'] ) ) {
