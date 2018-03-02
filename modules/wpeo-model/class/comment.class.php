@@ -96,10 +96,9 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		public function get( $args = array(), $single = false ) {
 			$array_comments = array();
 
-			if ( ! empty( $this->type ) ) {
-				$args['status'] = '-34070';
-				$args['type']   = $this->get_type();
-			}
+			$default_args = array(
+				'type' => $this->get_type(),
+			);
 
 			if ( empty( $args['status'] ) && ! empty( $this->status ) ) {
 				$args['status'] = $this->status;
@@ -116,9 +115,13 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			if ( isset( $args['schema'] ) ) {
 				$array_comments[] = array();
 			} else { // On lance la requête pour récupèrer les "comments" demandés.
-				$args = Model_Util::exec_callback( $this->callback_func['before_get'], $args );
+				$args_cb    = array(
+					'args'         => $args,
+					'default_args' => $default_args,
+				);
+				$final_args = Model_Util::exec_callback( $this->callback_func['before_get'], wp_parse_args( $args, $default_args ), $args_cb );
 
-				$array_comments = get_comments( $args );
+				$array_comments = get_comments( $final_args );
 			}
 
 			// Traitement de la liste des résultats pour le retour.

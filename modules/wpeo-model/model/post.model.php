@@ -50,7 +50,7 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 			);
 
 			$this->schema['author_id'] = array(
-				'type'  => 'string',
+				'type'  => 'integer',
 				'field' => 'post_author',
 			);
 

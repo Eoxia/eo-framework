@@ -237,19 +237,5 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			return $object;
 		}
 
-		/**
-		 * Supprime un term
-		 *
-		 * @todo: Inutile ?
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @param int $id L'ID du term (term_id).
-		 */
-		public function delete( $id ) {
-			wp_delete_term( $id );
-		}
-
 	}
 } // End if().

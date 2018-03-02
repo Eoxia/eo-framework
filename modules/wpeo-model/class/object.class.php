@@ -110,7 +110,7 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 */
 		public function get_schema() {
 			$model_name = $this->model_name;
-			$model      = new $model_name( array() );
+			$model      = new $model_name( array(), null );
 			return $model->get_model();
 		}
 
@@ -149,8 +149,8 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 *
 		 * @return Array $data Les données
 		 */
-		public function create( $data, $context = false ) {
-			$object = $this->update( $data, true );
+		public function create( $data ) {
+			$object = $this->update( $data );
 
 			if ( is_wp_error( $object ) ) {
 				return $object;
