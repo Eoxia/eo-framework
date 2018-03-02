@@ -65,20 +65,20 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 		 * @param Array  $data       Les données non traité. Peut être null, permet de récupérer le schéma.
 		 * @param string $req_method La méthode HTTP actuellement utilisée.
 		 */
-		public function __construct( $data = null, $req_method = null ) {
+		public function __construct( $data = null, $req_method ) {
 			$this->wp_errors  = new \WP_Error();
 			$this->req_method = ( null !== $req_method ) ? strtoupper( $req_method ) : null;
 
 			// On construit les types autorisés à partir des listes séparées. Permet de ne pas mettre de type en dur dans le code.
 			self::$accepted_types = wp_parse_args( self::$custom_types, self::$built_in_types );
 
-			if ( null !== $data ) {
+			if ( null !== $data && null !== $this->req_method ) {
 				$this->data = $this->handle_data( $data );
+			}
 
-				if ( ! empty( $this->wp_errors->errors ) ) {
-					echo wp_json_encode( $this->wp_errors );
-					exit;
-				}
+			if ( ! empty( $this->wp_errors->errors ) ) {
+				echo wp_json_encode( $this->wp_errors );
+				exit;
 			}
 		}
 

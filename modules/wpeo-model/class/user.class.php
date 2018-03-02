@@ -192,19 +192,5 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 			return $object;
 		}
 
-		/**
-		 * Supprimes un utilisateur
-		 *
-		 * @todo: Utile ?
-		 *
-		 * @since 0.1.0
-		 * @version 1.0.0
-		 *
-		 * @param  integer $id L'ID de l'utilisateur.
-		 */
-		public function delete( $id ) {
-			wp_delete_user( $id );
-		}
-
 	}
 } // End if().
