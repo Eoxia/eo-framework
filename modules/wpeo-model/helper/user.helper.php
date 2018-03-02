@@ -68,3 +68,46 @@ if ( ! function_exists( 'eoxia\build_avatar_color' ) ) {
 		return $user;
 	}
 }
+
+if ( ! function_exists( 'eoxia\after_put_users' ) ) {
+	/**
+	 * Execute des actions complémentaire après avoir mis à jour un objet de type "User"
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @param User_Model $object L'objet qu'il faut "modifier".
+	 * @param array      $args   Les paramètres complémentaires permettant de modifier l'objet.
+	 *
+	 * @return User_Model L'objet de type User "modifié" par le helper.
+	 */
+	function after_put_users( $object, $args ) {
+		// Mise à jour des metas.
+		Save_Meta_Class::g()->save_meta_data( $object, 'update_user_meta', $args['meta_key'] );
+
+		return $object;
+	}
+}
+
+if ( ! function_exists( 'eoxia\after_get_meta_users' ) ) {
+	/**
+	 * Execute des actions complémentaire après avoir récupéré les métadonnées d'un objet de type "User"
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @param User_Model $object L'objet qu'il faut "modifier".
+	 * @param array      $args   Les paramètres complémentaires permettant de modifier l'objet.
+	 *
+	 * @return User_Model L'objet de type User "modifié" par le helper.
+	 */
+	function after_get_meta_users( $object, $args ) {
+
+		if ( ! empty( $object['data'] ) ) {
+			$object = array_merge( $object, (array) $object['data'] );
+			unset( $object['data'] );
+		}
+
+		return $object;
+	}
+}

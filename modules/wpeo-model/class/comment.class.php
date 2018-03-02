@@ -73,12 +73,13 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @var array
 		 */
 		protected $built_in_func = array(
-			'before_get'  => array(),
-			'before_put'  => array(),
-			'before_post' => array(),
-			'after_get'   => array( '\eoxia\after_get_post' ),
-			'after_put'   => array( '\eoxia\after_put_posts' ),
-			'after_post'  => array( '\eoxia\after_put_posts' ),
+			'before_get'     => array(),
+			'before_put'     => array(),
+			'before_post'    => array(),
+			'after_get'      => array(),
+			'after_get_meta' => array(),
+			'after_put'      => array( 'eoxia\after_put_comments' ),
+			'after_post'     => array( 'eoxia\after_put_comments' ),
 		);
 
 		/**
@@ -93,19 +94,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @return Comment_Model
 		 */
 		public function get( $args = array(), $single = false ) {
-			$use_context = ( ! empty( $args['use_context'] ) && $args['use_context'] ) ? true : false;
-			if ( ! isset( $args['use_context'] ) ) {
-				$use_context = true;
-			}
-
-			$req_method = 'get';
-
-			if ( ! $use_context ) {
-				$req_method = null;
-			}
-
-			$array_model   = array();
-			$array_comment = array();
+			$array_comments = array();
 
 			if ( ! empty( $this->type ) ) {
 				$args['status'] = '-34070';
@@ -116,98 +105,50 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				$args['status'] = $this->status;
 			}
 
+			// Si le paramètre "id" est passé on le transforme en "ID" qui est le paramètre attendu par get_comments.
+			// Dans un souci d'homogénéité du code, le paramètre "id" remplace "ID".
 			if ( isset( $args['id'] ) ) {
-				$array_comment[] = get_comment( $args['id'], ARRAY_A );
-			} elseif ( isset( $args['schema'] ) ) {
-				$array_comment[] = array();
-			} else {
-				$array_comment = get_comments( $args );
+				$args['ID'] = $args['id'];
+				unset( $args['id'] );
 			}
 
-			$list_comment = array();
+			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
+			if ( isset( $args['schema'] ) ) {
+				$array_comments[] = array();
+			} else { // On lance la requête pour récupèrer les "comments" demandés.
+				$args = Model_Util::exec_callback( $this->callback_func['before_get'], $args );
 
-			if ( ! empty( $array_comment ) ) {
-				foreach ( $array_comment as $key => $comment ) {
-					$comment = (array) $comment;
-
-					if ( ! empty( $comment['comment_ID'] ) ) {
-						$list_meta = get_comment_meta( $comment['comment_ID'] );
-						foreach ( $list_meta as &$meta ) {
-							$meta = array_shift( $meta );
-						}
-
-						$comment = array_merge( $comment, $list_meta );
-
-						if ( ! empty( $comment[ $this->meta_key ] ) ) {
-							$comment = array_merge( $comment, json_decode( $comment[ $this->meta_key ], true ) );
-
-							unset( $comment[ $this->meta_key ] );
-						}
-					}
-
-					$model_name           = $this->model_name;
-					$list_comment[ $key ] = new $model_name( $comment, $req_method );
-					$list_comment[ $key ] = Model_Util::exec_callback( $this->after_get_function, $list_comment[ $key ], array( 'model_name' => $model_name ) );
-				}
-			} else {
-				if ( ! empty( $args['schema'] ) ) {
-					$model_name      = $this->model_name;
-					$list_comment[0] = new $model_name( array(), $req_method );
-					$list_comment[0] = Model_Util::exec_callback( $this->after_get_function, $list_comment[0], array( 'model_name' => $model_name ) );
-				}
-			} // End if().
-
-			if ( true === $single && 1 === count( $list_comment ) ) {
-				$list_comment = $list_comment[0];
+				$array_comments = get_comments( $args );
 			}
 
-			return $list_comment;
+			// Traitement de la liste des résultats pour le retour.
+			$array_comments = $this->prepare_items_for_response( $array_comments, 'get_comment_meta', $this->meta_key, 'comment_ID' );
+
+			// Si on a demandé qu'une seule entrée et qu'il n'y a bien qu'une seule entrée correspondant à la demande alors on ne retourne que cette entrée.
+			if ( true === $single && 1 === count( $array_comments ) ) {
+				$array_comments = $array_comments[0];
+			}
+
+			return $array_comments;
 		}
 
 		/**
-		 * Factorisation de la fonction de construction des objet après un GET.
-		 *
-		 * @param  array $object_list      La liste des objets récupérés.
-		 *
-		 * @return array                   [description]
-		 */
-		public function prepare_items_for_response( $object_list ) {
-			$model_name = $this->model_name;
-
-			foreach ( $object_list as $key => $object ) {
-				$object = (array) $object;
-
-				// Si $object['ID'] existe, on récupère les meta.
-				if ( ! empty( $object['comment_ID'] ) ) {
-					$object = $this->prepare_item_meta_for_response( 'get_comment_meta', $object['comment_ID'], $this->meta_key );
-				}
-
-				// Construction de l'objet selon les données reçues.
-				// Soit un objet vide si l'argument schema est défini. Soit l'objet avec ses données.
-				$object_list[ $key ] = new $model_name( $object, 'get' );
-
-				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
-				$object_list[ $key ] = Model_Util::exec_callback( $this->callback_func['after_get'], $object_list[ $key ], array( 'model_name' => $model_name ) );
-			} // End foreach().
-
-			return $object_list;
-		}
-
-		/**
-		 * Insère ou met à jour les données dans la base de donnée.
+		 * Insère ou met à jour les données dans la base de données.
 		 *
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
-		 * @param  Array $data Les données a insérer ou à mêttre à jour.
+		 * @param  Array $data Les données a insérer ou à mettre à jour.
 		 */
 		public function update( $data ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
-			$before_cb  = 'before_' . $req_method . '_function';
-			$after_cb   = 'after_' . $req_method . '_function';
-			$args_cb    = array( 'model_name' => $model_name );
+			$args_cb    = array(
+				'model_name' => $model_name,
+				'req_method' => $req_method,
+				'meta_key'   => $this->meta_key,
+			);
 
 			// Vérifie l'existence du type.
 			if ( empty( $data['type'] ) ) {
@@ -239,7 +180,8 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				}
 			}
 
-			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
+			$data            = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
+			$args_cb['data'] = $data;
 
 			$object = new $model_name( $data, $req_method );
 
@@ -258,9 +200,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				wp_update_comment( $object->convert_to_wordpress() );
 			}
 
-			Save_Meta_Class::g()->save_meta_data( $object, 'update_comment_meta', $this->meta_key );
-
-			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
+			$object = Model_Util::exec_callback( $this->callback_func[ 'after_' . $req_method ], $object, $args_cb );
 
 			return $object;
 		}

@@ -78,39 +78,19 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		);
 
 		/**
-		 * Fonction de callback après avoir récupérer le modèle en mode GET.
+		 * Définition des fonctions de callback.
 		 *
 		 * @var array
 		 */
-		protected $after_get_function = array();
-
-		/**
-		 * Fonction de callback avant d'insérer les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $before_post_function = array();
-
-		/**
-		 * Fonction de callback après avoir inséré les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $after_post_function = array();
-
-		/**
-		 * Fonction de callback avant de mêttre à jour les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $before_put_function = array();
-
-		/**
-		 * Fonction de callback après avoir mis à jour les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $after_put_function = array();
+		protected $built_in_func = array(
+			'before_get'     => array(),
+			'before_put'     => array(),
+			'before_post'    => array(),
+			'after_get_meta' => array(),
+			'after_get'      => array( '\eoxia\after_get_term' ),
+			'after_put'      => array( '\eoxia\after_put_terms' ),
+			'after_post'     => array( '\eoxia\after_put_terms' ),
+		);
 
 		/**
 		 * Le constructeur
@@ -157,63 +137,56 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		 * @return Object
 		 */
 		public function get( $args = array(), $single = false ) {
-			$list_term  = array();
-			$array_term = array();
+			$array_terms = array();
 
-			$model_name = $this->model_name;
-
-			$term_final_args = array_merge( $args, array(
+			$default_args = array(
 				'hide_empty' => false,
-			) );
+				'taxonomy'   => $this->get_type(),
+			);
 
-			if ( empty( $term_final_args['taxonomy'] ) ) {
-				$term_final_args['taxonomy'] = $this->get_type();
-			}
-
+			// Si le paramètre "id" est passé on le transforme en "include" qui est la paramètre attendu par WP_Term_Query.
+			// Dans un soucis d'homogénéité du code, le paramètre "id" remplace le paramètre "include" dans les appels de la fonction.
 			if ( isset( $args['id'] ) ) {
-				$array_term[] = get_term_by( 'id', $args['id'], $this->get_type(), ARRAY_A );
-			} elseif ( isset( $args['post_id'] ) ) {
-				$array_term = wp_get_post_terms( $args['post_id'], $this->get_type(), $term_final_args );
-
-				if ( empty( $array_term ) ) {
-					$array_term[] = array();
+				if ( ! isset( $args['include'] ) ) {
+					$args['include'] = array();
 				}
-			} elseif ( isset( $args['schema'] ) ) {
-				$array_term[] = array();
-			} else {
-				$array_terms = new \WP_Term_Query( $term_final_args );
-				$array_term = $array_terms->terms;
-				unset( $array_term->terms );
+				$args['include'] = array_merge( $args['include'], (array) $args['id'] );
+				unset( $args['id'] );
 			}
 
-			if ( empty( $array_term ) ) {
-				$array_term[] = array();
+			// @Todo: a voir pourquoi wp_get_post_terms et pas wp_get_object_terms et si pas d'autre moyen que ici.
+			// elseif ( isset( $args['post_id'] ) ) {
+			// 	$array_term = wp_get_post_terms( $args['post_id'], $this->get_type(), $term_final_args );
+			//
+			// 	if ( empty( $array_term ) ) {
+			// 		$array_term[] = array();
+			// 	}
+			// }
+
+			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
+			if ( isset( $args['schema'] ) ) {
+				$array_terms[] = array();
+			} else { // On lance la requête pour récupèrer les "terms" demandés.
+				$args_cb    = array(
+					'args'         => $args,
+					'default_args' => $default_args,
+				);
+				$final_args = Model_Util::exec_callback( $this->callback_func['before_get'], wp_parse_args( $args, $default_args ), $args_cb );
+
+				$query_terms = new \WP_Term_Query( $final_args );
+				$array_terms = $query_terms->terms;
+				unset( $query_terms->terms );
 			}
 
-			if ( ! empty( $array_term ) ) {
-				foreach ( $array_term as $key => $object ) {
-					$object = (array) $object;
+			// Traitement de la liste des résultats pour le retour.
+			$array_terms = $this->prepare_items_for_response( $array_terms, 'get_term_meta', $this->meta_key, 'term_id' );
 
-					if ( ! empty( $args['post_id'] ) ) {
-						$object['post_id'] = $args['post_id'];
-					}
-
-					// Si $object['term_id'] existe, on récupère les meta.
-					if ( ! empty( $object['term_id'] ) ) {
-						$object = $this->prepare_item_meta_for_response( get_term_meta, $object['term_id'], $this->meta_key );
-					}
-
-					$list_term[ $key ] = new $model_name( $object, 'get' );
-
-					$list_term[ $key ] = Model_Util::exec_callback( $this->after_get_function, $list_term[ $key ], array( 'model_name' => $model_name ) );
-				}
+			// Si on a demandé qu'une seule entrée et qu'il n'y a bien qu'une seule entrée correspondant à la demande alors on ne retourne que cette entrée.
+			if ( true === $single && 1 === count( $array_terms ) ) {
+				$array_terms = $array_terms[0];
 			}
 
-			if ( true === $single && 1 === count( $list_term ) ) {
-				$list_term = $list_term[0];
-			}
-
-			return $list_term;
+			return $array_terms;
 		}
 
 		/**
@@ -229,19 +202,14 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
-			$before_cb  = 'before_' . $req_method . '_function';
-			$after_cb   = 'after_' . $req_method . '_function';
-			$args_cb    = array( 'model_name' => $model_name );
+			$args_cb    = array(
+				'model_name' => $model_name,
+				'req_method' => $req_method,
+				'meta_key'   => $this->meta_key,
+			);
 
-			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
-
-			if ( ! empty( $data['id'] ) ) {
-				$current_data = $this->get( array(
-					'id' => $data['id'],
-				), true );
-
-				$data = array_merge( $data, (array) $current_data->data );
-			}
+			$data            = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
+			$args_cb['data'] = $data;
 
 			$object = new $model_name( $data, $req_method );
 
@@ -264,9 +232,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			$object->data['id']               = $term['term_id'];
 			$object->data['term_taxonomy_id'] = $term['term_taxonomy_id'];
 
-			Save_Meta_Class::g()->save_meta_data( $object, 'update_term_meta', $this->meta_key );
-
-			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
+			$object = Model_Util::exec_callback( $this->callback_func[ 'after_' . $req_method ], $object, $args_cb );
 
 			return $object;
 		}

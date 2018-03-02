@@ -52,6 +52,14 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		protected $type = 'user';
 
 		/**
+		 * Utiles pour DigiRisk
+		 *
+		 * @todo Rien à faire ici
+		 * @var string
+		 */
+		public $element_prefix = 'U';
+
+		/**
 		 * La liste des droits a avoir pour accèder aux différentes méthodes
 		 *
 		 * @var array
@@ -64,61 +72,19 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		);
 
 		/**
-		 * Utiles pour DigiRisk
-		 *
-		 * @todo Rien à faire ici
-		 * @var string
-		 */
-		public $element_prefix = 'U';
-
-		/**
-		 * Fonction de callback après avoir récupérer les données dans la base de donnée en mode GET.
+		 * Définition des fonctions de callback.
 		 *
 		 * @var array
 		 */
-		protected $after_get_function = array( '\eoxia\build_user_initial' );
-
-		/**
-		 * Fonction de callback avant d'insérer les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $before_post_function = array();
-
-		/**
-		 * Fonction de callback avant de dispatcher les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $before_model_post_function = array();
-
-		/**
-		 * Fonction de callback après avoir inséré les données en mode POST.
-		 *
-		 * @var array
-		 */
-		protected $after_post_function = array();
-
-		/**
-		 * Fonction de callback avant de mêttre à jour les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $before_put_function = array();
-
-		/**
-		 * Fonction de callback avant de dispatcher les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $before_model_put_function = array();
-
-		/**
-		 * Fonction de callback après avoir mis à jour les données en mode PUT.
-		 *
-		 * @var array
-		 */
-		protected $after_put_function = array();
+		protected $built_in_func = array(
+			'before_get'     => array(),
+			'before_put'     => array(),
+			'before_post'    => array(),
+			'after_get'      => array( '\eoxia\build_user_initial' ),
+			'after_get_meta' => array( '\eoxia\after_get_meta_users' ),
+			'after_put'      => array( '\eoxia\after_put_users' ),
+			'after_post'     => array( '\eoxia\after_put_users' ),
+		);
 
 		/**
 		 * Slug de base pour la route dans l'api rest
@@ -140,40 +106,25 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		 */
 		public function get( $args = array(), $single = false ) {
 			$array_users = array();
-			$model_name  = $this->model_name;
 
 			if ( ! empty( $args['id'] ) ) {
 				if ( ! isset( $args['include'] ) ) {
 					$args['include'] = array();
 				}
 				$args['include'] = array_merge( (array) $args['id'], $args['include'] );
+				unset( $args['id'] );
 			}
 
 			if ( isset( $args['schema'] ) ) {
-				$list_user[] = array();
+				$array_users[] = array();
 			} else {
-				$list_user = get_users( $args );
+				$args = Model_Util::exec_callback( $this->callback_func['before_get'], $args );
+
+				$array_users = get_users( $args );
 			}
 
-			if ( ! empty( $list_user ) ) {
-				foreach ( $list_user as $object ) {
-					$object = (array) $object;
-					if ( ! empty( $object['ID'] ) ) {
-						$object = $this->get_metas( 'get_user_meta', $object['ID'] );
-
-						if ( ! empty( $object['data'] ) ) {
-							$object = array_merge( $object, (array) $object['data'] );
-							unset( $object['data'] );
-						}
-						if ( ! empty( $object[ $this->meta_key ] ) ) {
-							$object = array_merge( $object, json_decode( $object[ $this->meta_key ], true ) );
-							unset( $object[ $this->meta_key ] );
-						}
-					}
-					$data          = new $model_name( $object, 'get' );
-					$array_users[] = Model_Util::exec_callback( $this->after_get_function, $data, array( 'model_name' => $model_name ) );
-				}
-			}
+			// Traitement de la liste des résultats pour le retour.
+			$array_users = $this->prepare_items_for_response( $array_users, 'get_user_meta', $this->meta_key, 'ID' );
 
 			if ( true === $single && 1 === count( $array_users ) ) {
 				$array_users = $array_users[0];
@@ -195,9 +146,11 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 			$model_name = $this->model_name;
 			$data       = (array) $data;
 			$req_method = ( ! empty( $data['id'] ) ) ? 'put' : 'post';
-			$before_cb  = 'before_' . $req_method . '_function';
-			$after_cb   = 'after_' . $req_method . '_function';
-			$args_cb    = array( 'model_name' => $model_name );
+			$args_cb    = array(
+				'model_name' => $model_name,
+				'req_method' => $req_method,
+				'meta_key'   => $this->meta_key,
+			);
 
 			if ( 'post' === $req_method ) {
 				while ( username_exists( $data['login'] ) ) {
@@ -205,15 +158,15 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 				}
 			}
 
-			$data = Model_Util::exec_callback( $this->$before_cb, $data, $args_cb );
-
 			if ( ! empty( $data['id'] ) ) {
 				$current_data = $this->get( array(
 					'id' => $data['id'],
 				), true );
-
-				$data = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
+				$data         = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
 			}
+
+			$data            = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
+			$args_cb['data'] = $data;
 
 			$object = new $model_name( $data, $req_method );
 
@@ -234,9 +187,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 				$object->data['id'] = $updated_user;
 			}
 
-			Save_Meta_Class::g()->save_meta_data( $object, 'update_user_meta', $this->meta_key );
-
-			$object = Model_Util::exec_callback( $this->$after_cb, $object, $args_cb );
+			$object = Model_Util::exec_callback( $this->callback_func[ 'after_' . $req_method ], $object, $args_cb );
 
 			return $object;
 		}

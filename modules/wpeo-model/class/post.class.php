@@ -83,12 +83,13 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @var array
 		 */
 		protected $built_in_func = array(
-			'before_get'  => array(),
-			'before_put'  => array(),
-			'before_post' => array(),
-			'after_get'   => array( '\eoxia\after_get_post' ),
-			'after_put'   => array( '\eoxia\after_put_posts' ),
-			'after_post'  => array( '\eoxia\after_put_posts' ),
+			'before_get'     => array(),
+			'before_put'     => array(),
+			'before_post'    => array(),
+			'after_get'      => array( '\eoxia\after_get_post' ),
+			'after_get_meta' => array(),
+			'after_put'      => array( '\eoxia\after_put_posts' ),
+			'after_post'     => array( '\eoxia\after_put_posts' ),
 		);
 
 		/**
@@ -172,7 +173,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				unset( $query_posts->posts );
 			}
 
-			$array_posts = $this->prepare_items_for_response( $array_posts );
+			// Traitement de la liste des résultats pour le retour.
+			$array_posts = $this->prepare_items_for_response( $array_posts, 'get_post_meta', $this->meta_key, 'ID' );
 
 			// Si on a demandé qu'une seule entrée et qu'il n'y a bien qu'une seule entrée correspondant à la demande alors on ne retourne que cette entrée.
 			if ( true === $single && 1 === count( $array_posts ) ) {
@@ -180,35 +182,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			}
 
 			return $array_posts;
-		}
-
-		/**
-		 * Factorisation de la fonction de construction des objet après un GET.
-		 *
-		 * @param  array $object_list      La liste des objets récupérés.
-		 *
-		 * @return array                   [description]
-		 */
-		public function prepare_items_for_response( $object_list ) {
-			$model_name = $this->model_name;
-
-			foreach ( $object_list as $key => $object ) {
-				$object = (array) $object;
-
-				// Si $object['ID'] existe, on récupère les meta.
-				if ( ! empty( $object['ID'] ) ) {
-					$object = $this->prepare_item_meta_for_response( 'get_post_meta', $object['ID'], $this->meta_key );
-				}
-
-				// Construction de l'objet selon les données reçues.
-				// Soit un objet vide si l'argument schema est défini. Soit l'objet avec ses données.
-				$object_list[ $key ] = new $model_name( $object, 'get' );
-
-				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
-				$object_list[ $key ] = Model_Util::exec_callback( $this->callback_func['after_get'], $object_list[ $key ], array( 'model_name' => $model_name ) );
-			} // End foreach().
-
-			return $object_list;
 		}
 
 		/**
@@ -235,10 +208,6 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				$data['type'] = $this->get_type();
 			}
 
-			$data = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
-
-			$args_cb['data'] = $data;
-
 			$append = false;
 			if ( isset( $data['$push'] ) ) {
 				if ( ! empty( $data['$push'] ) ) {
@@ -259,6 +228,9 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 				unset( $data['$push'] );
 			}
 			$args_cb['append_taxonomies'] = $append;
+
+			$data            = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
+			$args_cb['data'] = $data;
 
 			$object = new $model_name( $data, $req_method );
 			if ( empty( $object->data['id'] ) ) {

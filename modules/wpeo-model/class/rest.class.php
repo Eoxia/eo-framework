@@ -152,11 +152,13 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 			}
 
 			$elements = $this->get( $args, $single );
-			if ( $single ) {
-				$list = $elements->data;
-			} else {
-				foreach ( $elements as $element ) {
-					$list[] = $element->data;
+			if ( ! empty( $elements ) ) {
+				if ( $single ) {
+					$list = $elements->data;
+				} else {
+					foreach ( $elements as $element ) {
+						$list[] = $element->data;
+					}
 				}
 			}
 

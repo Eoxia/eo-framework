@@ -58,21 +58,23 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		protected $identifier_helper = '';
 
 		protected $built_in_func = array(
-			'before_get'  => array(),
-			'before_put'  => array(),
-			'before_post' => array(),
-			'after_get'   => array(),
-			'after_put'   => array(),
-			'after_post'  => array(),
+			'before_get'     => array(),
+			'before_put'     => array(),
+			'before_post'    => array(),
+			'after_get'      => array(),
+			'after_get_meta' => array(),
+			'after_put'      => array(),
+			'after_post'     => array(),
 		);
 
 		protected $callback_func = array(
-			'before_get'  => array(),
-			'before_put'  => array(),
-			'before_post' => array(),
-			'after_get'   => array(),
-			'after_put'   => array(),
-			'after_post'  => array(),
+			'before_get'     => array(),
+			'before_put'     => array(),
+			'before_post'    => array(),
+			'after_get'      => array(),
+			'after_get_meta' => array(),
+			'after_put'      => array(),
+			'after_post'     => array(),
 		);
 
 		/**
@@ -161,27 +163,59 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 			return $object;
 		}
 
-		public function prepare_item_meta_for_response( $function, $id, $meta_key ) {
-			$list_meta = call_user_func( $function, $id, $meta_key );
-			foreach ( $list_meta as &$meta ) {
-				$meta = array_shift( $meta );
-				$meta = JSON_Util::g()->decode( $meta );
-			}
+		/**
+		 * Factorisation de la fonction de construction des objets après un GET.
+		 *
+		 * @param array  $object_list     La liste des objets récupérés.
+		 * @param string $get_meta_func   Le nom de la fonction a appeler pour récupèrer les métadonnées pour le type de l'objet courant.
+		 * @param string $meta_key        La clé de la métadonnée principale que l'on a défini pour l'objet.
+		 * @param string $object_id_field la clé primaire permettant d'identifier l'objet.
+		 *
+		 * @return array                  La liste des objets construits selon le modèle défini.
+		 */
+		public function prepare_items_for_response( $object_list, $get_meta_func, $meta_key, $object_id_field ) {
+			$model_name = $this->model_name;
 
-			$object = array_merge( $object, $list_meta );
+			foreach ( $object_list as $key => $object ) {
+				$object = (array) $object;
 
-			if ( ! empty( $object[ $meta_key ] ) ) {
-				$data_json = JSON_Util::g()->decode( $object[ $meta_key ] );
-				if ( is_array( $data_json ) ) {
-					$object = array_merge( $object, $data_json );
-				} else {
-					$object[ $meta_key ] = $data_json;
+				// Si $object[ $object_id_field ] existe, on récupère les meta.
+				if ( ! empty( $object[ $object_id_field ] ) ) {
+					$list_meta = call_user_func( $get_meta_func, $object[ $object_id_field ] );
+					foreach ( $list_meta as &$meta ) {
+						$meta = array_shift( $meta );
+						$meta = JSON_Util::g()->decode( $meta );
+					}
+
+					$object = Model_Util::exec_callback( $this->callback_func['after_get_meta'], $object, array(
+						'model_name' => $model_name,
+						'list_meta'  => $list_meta,
+					) );
+
+					$object = array_merge( $object, $list_meta );
+
+					if ( ! empty( $object[ $meta_key ] ) ) {
+						$data_json = JSON_Util::g()->decode( $object[ $meta_key ] );
+						if ( is_array( $data_json ) ) {
+							$object = array_merge( $object, $data_json );
+						} else {
+							$object[ $meta_key ] = $data_json;
+						}
+						unset( $object[ $meta_key ] );
+					}
 				}
-				unset( $object[ $meta_key ] );
-			}
 
-			return $object;
+				// Construction de l'objet selon les données reçues.
+				// Soit un objet vide si l'argument schema est défini. Soit l'objet avec ses données.
+				$object_list[ $key ] = new $model_name( $object, 'get' );
+
+				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
+				$object_list[ $key ] = Model_Util::exec_callback( $this->callback_func['after_get'], $object_list[ $key ], array( 'model_name' => $model_name ) );
+			} // End foreach().
+
+			return $object_list;
 		}
+
 	}
 
 }
