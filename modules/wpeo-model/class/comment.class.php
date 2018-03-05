@@ -109,7 +109,9 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @return void
 		 */
 		public function callback_pre_get_comments( $query ) {
-			if ( $query->query_vars['type'] !== $this->get_type() ) {
+			global $pagenow;
+
+			if ( $query->query_vars['type'] !== $this->get_type() && 'edit-comments.php' === $pagenow ) {
 				$query->query_vars['type__not_in'] = array_merge( (array) $query->query_vars['type__not_in'], array( $this->get_type() ) );
 			}
 		}
