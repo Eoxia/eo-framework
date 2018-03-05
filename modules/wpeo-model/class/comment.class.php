@@ -91,6 +91,8 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		 * @return void
 		 */
 		protected function construct() {
+			parent::construct();
+
 			if ( ! in_array( $this->get_type(), \eoxia\Config_Util::$init['eo-framework']->not__in_display_comment ) ) {
 				add_action( 'pre_get_comments', array( $this, 'callback_pre_get_comments' ) );
 			}
