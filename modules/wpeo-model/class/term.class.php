@@ -78,21 +78,6 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 		);
 
 		/**
-		 * Définition des fonctions de callback.
-		 *
-		 * @var array
-		 */
-		protected $built_in_func = array(
-			'before_get'     => array(),
-			'before_put'     => array(),
-			'before_post'    => array(),
-			'after_get_meta' => array(),
-			'after_get'      => array( '\eoxia\after_get_term' ),
-			'after_put'      => array( '\eoxia\after_put_terms' ),
-			'after_post'     => array( '\eoxia\after_put_terms' ),
-		);
-
-		/**
 		 * Le constructeur
 		 *
 		 * @return void
@@ -171,7 +156,11 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 					'args'         => $args,
 					'default_args' => $default_args,
 				);
-				$final_args = Model_Util::exec_callback( $this->callback_func['before_get'], wp_parse_args( $args, $default_args ), $args_cb );
+				$final_args = apply_filters( 'eo_model_term_before_get', wp_parse_args( $args, $default_args ), $args_cb );
+				// Il ne faut pas lancer plusieurs fois pour term.
+				if ( 'term' !== $this->get_type() ) {
+					$final_args = apply_filters( 'eo_model_' . $this->get_type() . '_before_get', $final_args, $args_cb );
+				}
 
 				$query_terms = new \WP_Term_Query( $final_args );
 				$array_terms = $query_terms->terms;
@@ -179,7 +168,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			}
 
 			// Traitement de la liste des résultats pour le retour.
-			$array_terms = $this->prepare_items_for_response( $array_terms, 'get_term_meta', $this->meta_key, 'term_id' );
+			$array_terms = $this->prepare_items_for_response( $array_terms, 'term', $this->meta_key, 'term_id' );
 
 			// Si on a demandé qu'une seule entrée et qu'il n'y a bien qu'une seule entrée correspondant à la demande alors on ne retourne que cette entrée.
 			if ( true === $single && 1 === count( $array_terms ) ) {
@@ -208,7 +197,11 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 				'meta_key'   => $this->meta_key,
 			);
 
-			$data            = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
+			$data = apply_filters( 'eo_model_term_before_' . $req_method, $data, $args_cb );
+			// Il ne faut pas lancer plusieurs fois pour category.
+			if ( 'category' !== $this->get_type() ) {
+				$data = apply_filters( 'eo_model_' . $this->get_type() . '_before_' . $req_method, $data, $args_cb );
+			}
 			$args_cb['data'] = $data;
 
 			$object = new $model_name( $data, $req_method );
@@ -232,7 +225,11 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			$object->data['id']               = $term['term_id'];
 			$object->data['term_taxonomy_id'] = $term['term_taxonomy_id'];
 
-			$object = Model_Util::exec_callback( $this->callback_func[ 'after_' . $req_method ], $object, $args_cb );
+			$object = apply_filters( 'eo_model_term_after_' . $req_method, $object, $args_cb );
+			// Il ne faut pas lancer plusieurs fois pour category.
+			if ( 'category' !== $this->get_type() ) {
+				$object = apply_filters( 'eo_model_' . $this->get_type() . '_after_' . $req_method, $object, $args_cb );
+			}
 
 			return $object;
 		}

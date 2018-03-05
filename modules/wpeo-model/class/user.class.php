@@ -72,21 +72,6 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 		);
 
 		/**
-		 * Définition des fonctions de callback.
-		 *
-		 * @var array
-		 */
-		protected $built_in_func = array(
-			'before_get'     => array(),
-			'before_put'     => array(),
-			'before_post'    => array(),
-			'after_get'      => array( '\eoxia\build_user_initial' ),
-			'after_get_meta' => array( '\eoxia\after_get_meta_users' ),
-			'after_put'      => array( '\eoxia\after_put_users' ),
-			'after_post'     => array( '\eoxia\after_put_users' ),
-		);
-
-		/**
 		 * Slug de base pour la route dans l'api rest
 		 *
 		 * @var string
@@ -118,13 +103,13 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 			if ( isset( $args['schema'] ) ) {
 				$array_users[] = array();
 			} else {
-				$args = Model_Util::exec_callback( $this->callback_func['before_get'], $args );
+				$args = apply_filters( 'eo_model_user_before_get', $args );
 
 				$array_users = get_users( $args );
 			}
 
 			// Traitement de la liste des résultats pour le retour.
-			$array_users = $this->prepare_items_for_response( $array_users, 'get_user_meta', $this->meta_key, 'ID' );
+			$array_users = $this->prepare_items_for_response( $array_users, 'user', $this->meta_key, 'ID' );
 
 			if ( true === $single && 1 === count( $array_users ) ) {
 				$array_users = $array_users[0];
@@ -165,7 +150,8 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 				$data         = Array_Util::g()->recursive_wp_parse_args( $data, $current_data->data );
 			}
 
-			$data            = Model_Util::exec_callback( $this->callback_func[ 'before_' . $req_method ], $data, $args_cb );
+			$data = apply_filters( 'eo_model_user_before_' . $req_method, $data, $args_cb );
+
 			$args_cb['data'] = $data;
 
 			$object = new $model_name( $data, $req_method );
@@ -187,7 +173,7 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 				$object->data['id'] = $updated_user;
 			}
 
-			$object = Model_Util::exec_callback( $this->callback_func[ 'after_' . $req_method ], $object, $args_cb );
+			$object = apply_filters( 'eo_model_user_after_' . $req_method, $object, $args_cb );
 
 			return $object;
 		}

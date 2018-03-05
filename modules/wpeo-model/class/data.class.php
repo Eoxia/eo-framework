@@ -261,7 +261,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 
 				if ( ! empty( $field_def['field'] ) ) {
 					if ( isset( $this->data[ $field_name ] ) ) {
-						$value = isset( $this->data[ $field_name ] ) ? $this->data[ $field_name ] : null;
+						$value = ( ( isset( $this->data[ $field_name ] ) && null !== $this->data[ $field_name ] ) ) ? $this->data[ $field_name ] : null;
 
 						if ( null !== $value ) {
 							if ( ! in_array( $field_def['type'], self::$custom_types, true ) ) {
@@ -276,7 +276,6 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 
 			return $data;
 		}
-
 	}
 
 } // End if().

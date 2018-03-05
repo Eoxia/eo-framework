@@ -50,9 +50,40 @@ class Core_Action {
 		wp_enqueue_style( 'wpeo-assets-styles', Config_Util::$init['eo-framework']->core->url . 'assets/css/style.min.css', \eoxia\Config_Util::$init['eo-framework']->version );
 		wp_enqueue_style( 'wpeo-assets-datepicker', Config_Util::$init['eo-framework']->core->url . 'assets/css/jquery.datetimepicker.css', array(), \eoxia\Config_Util::$init['eo-framework']->version );
 
-		wp_localize_script( 'wpeo-assets-scripts', 'wpeo_framework', Core_Class::g()->get_localize_script_data() );
+		wp_localize_script( 'wpeo-assets-scripts', 'wpeo_framework', $this->get_localize_script_data() );
 		wp_enqueue_script( 'wpeo-assets-scripts' );
 		wp_enqueue_script( 'wpeo-assets-fontawesome' );
+	}
+
+	/**
+	 * Renvoies les données pour les scripts JS.
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @return array {
+	 * }.
+	 */
+	public function get_localize_script_data() {
+		ob_start();
+		require \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal.view.php';
+		$view_modal = ob_get_clean();
+
+		ob_start();
+		require \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal-title.view.php';
+		$view_modal_title = ob_get_clean();
+
+		ob_start();
+		require \eoxia\Config_Util::$init['eo-framework']->path . 'core/view/modal-buttons.view.php';
+		$view_modal_buttons = ob_get_clean();
+
+		$data = array(
+			'modalDefaultTitle'   => $view_modal_title,
+			'modalView'           => $view_modal,
+			'modalDefaultButtons' => $view_modal_buttons,
+		);
+
+		return $data;
 	}
 
 	/**

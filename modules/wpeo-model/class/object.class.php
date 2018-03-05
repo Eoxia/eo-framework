@@ -57,37 +57,6 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 */
 		protected $identifier_helper = '';
 
-		protected $built_in_func = array(
-			'before_get'     => array(),
-			'before_put'     => array(),
-			'before_post'    => array(),
-			'after_get'      => array(),
-			'after_get_meta' => array(),
-			'after_put'      => array(),
-			'after_post'     => array(),
-		);
-
-		protected $callback_func = array(
-			'before_get'     => array(),
-			'before_put'     => array(),
-			'before_post'    => array(),
-			'after_get'      => array(),
-			'after_get_meta' => array(),
-			'after_put'      => array(),
-			'after_post'     => array(),
-		);
-
-		/**
-		 * Appelle l'action "init" de WordPress
-		 *
-		 * @return void
-		 */
-		protected function construct() {
-			parent::construct();
-
-			$this->callback_func = array_merge_recursive( $this->built_in_func, $this->callback_func );
-		}
-
 		/**
 		 * Utile uniquement pour DigiRisk.
 		 *
@@ -144,8 +113,7 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
-		 * @param Array   $data   Les données.
-		 * @param Boolean $context Les données.
+		 * @param Array $data Les données.
 		 *
 		 * @return Array $data Les données
 		 */
@@ -167,30 +135,32 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 * Factorisation de la fonction de construction des objets après un GET.
 		 *
 		 * @param array  $object_list     La liste des objets récupérés.
-		 * @param string $get_meta_func   Le nom de la fonction a appeler pour récupèrer les métadonnées pour le type de l'objet courant.
+		 * @param string $type            Le type de l'élément actuel en cours de traitement.
 		 * @param string $meta_key        La clé de la métadonnée principale que l'on a défini pour l'objet.
 		 * @param string $object_id_field la clé primaire permettant d'identifier l'objet.
 		 *
 		 * @return array                  La liste des objets construits selon le modèle défini.
 		 */
-		public function prepare_items_for_response( $object_list, $get_meta_func, $meta_key, $object_id_field ) {
+		public function prepare_items_for_response( $object_list, $type, $meta_key, $object_id_field ) {
 			$model_name = $this->model_name;
 
 			foreach ( $object_list as $key => $object ) {
-				$object = (array) $object;
+				$object  = (array) $object;
+				$args_cb = array(
+					'type'       => $type,
+					'model_name' => $model_name,
+				);
 
 				// Si $object[ $object_id_field ] existe, on récupère les meta.
 				if ( ! empty( $object[ $object_id_field ] ) ) {
-					$list_meta = call_user_func( $get_meta_func, $object[ $object_id_field ] );
+					$list_meta = call_user_func( 'get_' . $type . '_meta', $object[ $object_id_field ] );
 					foreach ( $list_meta as &$meta ) {
 						$meta = array_shift( $meta );
 						$meta = JSON_Util::g()->decode( $meta );
 					}
 
-					$object = Model_Util::exec_callback( $this->callback_func['after_get_meta'], $object, array(
-						'model_name' => $model_name,
-						'list_meta'  => $list_meta,
-					) );
+					$object = apply_filters( 'eo_model_' . $type . '_after_get_meta', $object, array_merge( $args_cb, array( 'list_meta' => $list_meta ) ) );
+					$object = apply_filters( 'eo_model_' . $this->get_type() . '_after_get_meta', $object, array_merge( $args_cb, array( 'list_meta' => $list_meta ) ) );
 
 					$object = array_merge( $object, $list_meta );
 
@@ -210,7 +180,8 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 				$object_list[ $key ] = new $model_name( $object, 'get' );
 
 				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
-				$object_list[ $key ] = Model_Util::exec_callback( $this->callback_func['after_get'], $object_list[ $key ], array( 'model_name' => $model_name ) );
+				$object_list[ $key ] = apply_filters( 'eo_model_' . $type . '_after_get', $object_list[ $key ], $args_cb );
+				$object_list[ $key ] = apply_filters( 'eo_model_' . $this->get_type() . '_after_get', $object_list[ $key ], $args_cb );
 			} // End foreach().
 
 			return $object_list;

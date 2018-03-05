@@ -33,17 +33,6 @@ if ( ! class_exists( '\eoxia\Helper_Class' ) ) {
 			return $this->schema;
 		}
 
-		public function get_class() {
-			$called_class = \get_called_class();
-			$called_class = explode( '\\', $called_class );
-
-			$class = str_replace( 'model', 'class', \get_class( $this ) );
-			$class = str_replace( 'Model', 'Class', $class );
-			$class = str_replace( $called_class[0], '', $class );
-			$class = str_replace( '\\', '', $class );
-			return $class;
-		}
-
 		/**
 		 * Permet de faire echo sur un objet et supprimes la définition du modèle avant l'affichage.
 		 *

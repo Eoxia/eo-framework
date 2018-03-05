@@ -20,7 +20,6 @@
 				"post"
 			]
 		},
-		"helper": {},
 		"filter": {}
 	},
 	"allowed_ip_for_unauthentified_access_rest": [
