@@ -82,10 +82,17 @@ class Post_Filter {
 		// Si on envoi date_modified a notre objet, on modifie en "dur" car bloqué par WordPress de base.
 		if ( ! empty( $args['data'] ) && ! empty( $args['data']['date_modified'] ) ) {
 			$final_date = $args['data']['date_modified'];
-			$date_time  = explode( ' ', $args['data']['date_modified'] );
+
+			if ( isset( $final_date['raw'] ) ) {
+				$final_date = $final_date['raw'];
+			}
+
+			$date_time = explode( ' ', $final_date );
+
 			if ( 1 === count( $date_time ) ) {
 				$final_date = $final_date . ' ' . current_time( 'H:i:s' );
 			}
+
 			$GLOBALS['wpdb']->update( $GLOBALS['wpdb']->posts, array( 'post_modified' => $final_date ), array( 'ID' => $object->data['id'] ) );
 			$object->data['date_modified'] = $final_date;
 		}
