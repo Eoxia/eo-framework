@@ -148,20 +148,20 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 			// 	}
 			// }
 
+			$args_cb    = array(
+				'args'         => $args,
+				'default_args' => $default_args,
+			);
+			$final_args = apply_filters( 'eo_model_term_before_get', wp_parse_args( $args, $default_args ), $args_cb );
+			// Il ne faut pas lancer plusieurs fois pour term.
+			if ( 'term' !== $this->get_type() ) {
+				$final_args = apply_filters( 'eo_model_' . $this->get_type() . '_before_get', $final_args, $args_cb );
+			}
+
 			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
 			if ( isset( $args['schema'] ) ) {
 				$array_terms[] = array();
 			} else { // On lance la requête pour récupèrer les "terms" demandés.
-				$args_cb    = array(
-					'args'         => $args,
-					'default_args' => $default_args,
-				);
-				$final_args = apply_filters( 'eo_model_term_before_get', wp_parse_args( $args, $default_args ), $args_cb );
-				// Il ne faut pas lancer plusieurs fois pour term.
-				if ( 'term' !== $this->get_type() ) {
-					$final_args = apply_filters( 'eo_model_' . $this->get_type() . '_before_get', $final_args, $args_cb );
-				}
-
 				$query_terms = new \WP_Term_Query( $final_args );
 				$array_terms = $query_terms->terms;
 				unset( $query_terms->terms );

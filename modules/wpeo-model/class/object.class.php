@@ -135,31 +135,32 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 * Factorisation de la fonction de construction des objets après un GET.
 		 *
 		 * @param array  $object_list     La liste des objets récupérés.
-		 * @param string $type            Le type de l'élément actuel en cours de traitement.
+		 * @param string $wp_type         Le type de l'élément actuel en cours de traitement.
 		 * @param string $meta_key        La clé de la métadonnée principale que l'on a défini pour l'objet.
 		 * @param string $object_id_field la clé primaire permettant d'identifier l'objet.
 		 *
 		 * @return array                  La liste des objets construits selon le modèle défini.
 		 */
-		public function prepare_items_for_response( $object_list, $type, $meta_key, $object_id_field ) {
+		public function prepare_items_for_response( $object_list, $wp_type, $meta_key, $object_id_field ) {
 			$model_name = $this->model_name;
 
 			foreach ( $object_list as $key => $object ) {
 				$object  = (array) $object;
 				$args_cb = array(
-					'type'       => $type,
-					'model_name' => $model_name,
+					'wp_type'      => $wp_type,
+					'element_type' => $this->get_type(),
+					'model_name'   => $model_name,
 				);
 
 				// Si $object[ $object_id_field ] existe, on récupère les meta.
 				if ( ! empty( $object[ $object_id_field ] ) ) {
-					$list_meta = call_user_func( 'get_' . $type . '_meta', $object[ $object_id_field ] );
+					$list_meta = call_user_func( 'get_' . $wp_type . '_meta', $object[ $object_id_field ] );
 					foreach ( $list_meta as &$meta ) {
 						$meta = array_shift( $meta );
 						$meta = JSON_Util::g()->decode( $meta );
 					}
 
-					$object = apply_filters( 'eo_model_' . $type . '_after_get_meta', $object, array_merge( $args_cb, array( 'list_meta' => $list_meta ) ) );
+					$object = apply_filters( 'eo_model_' . $wp_type . '_after_get_meta', $object, array_merge( $args_cb, array( 'list_meta' => $list_meta ) ) );
 					$object = apply_filters( 'eo_model_' . $this->get_type() . '_after_get_meta', $object, array_merge( $args_cb, array( 'list_meta' => $list_meta ) ) );
 
 					$object = array_merge( $object, $list_meta );
@@ -180,7 +181,7 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 				$object_list[ $key ] = new $model_name( $object, 'get' );
 
 				// On donne la possibilité de lancer des actions sur l'élément actuel une fois qu'il est complément construit.
-				$object_list[ $key ] = apply_filters( 'eo_model_' . $type . '_after_get', $object_list[ $key ], $args_cb );
+				$object_list[ $key ] = apply_filters( 'eo_model_' . $wp_type . '_after_get', $object_list[ $key ], $args_cb );
 				$object_list[ $key ] = apply_filters( 'eo_model_' . $this->get_type() . '_after_get', $object_list[ $key ], $args_cb );
 			} // End foreach().
 

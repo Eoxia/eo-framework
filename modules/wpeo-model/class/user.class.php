@@ -100,11 +100,11 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 				unset( $args['id'] );
 			}
 
+			$args = apply_filters( 'eo_model_user_before_get', $args );
+
 			if ( isset( $args['schema'] ) ) {
 				$array_users[] = array();
 			} else {
-				$args = apply_filters( 'eo_model_user_before_get', $args );
-
 				$array_users = get_users( $args );
 			}
 

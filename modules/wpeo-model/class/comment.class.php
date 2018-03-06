@@ -129,20 +129,20 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 				unset( $args['id'] );
 			}
 
+			$args_cb    = array(
+				'args'         => $args,
+				'default_args' => $default_args,
+			);
+			$final_args = apply_filters( 'eo_model_comment_before_get', wp_parse_args( $args, $default_args ), $args_cb );
+			// Il ne faut pas lancer plusieurs fois pour ping.
+			if ( 'ping' !== $this->get_type() ) {
+				$final_args = apply_filters( 'eo_model_' . $this->get_type() . '_before_get', $final_args, $args_cb );
+			}
+
 			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
 			if ( isset( $args['schema'] ) ) {
 				$array_comments[] = array();
 			} else { // On lance la requête pour récupèrer les "comments" demandés.
-				$args_cb    = array(
-					'args'         => $args,
-					'default_args' => $default_args,
-				);
-				$final_args = apply_filters( 'eo_model_comment_before_get', wp_parse_args( $args, $default_args ), $args_cb );
-				// Il ne faut pas lancer plusieurs fois pour ping.
-				if ( 'ping' !== $this->get_type() ) {
-					$final_args = apply_filters( 'eo_model_' . $this->get_type() . '_before_get', $final_args, $args_cb );
-				}
-
 				$array_comments = get_comments( $final_args );
 			}
 
