@@ -52,6 +52,11 @@ class Handle_Value_Filter {
 					'rendered' => Date_Util::g()->fill_date( $value ),
 				);
 			}
+
+			if ( in_array( $req_method, array( 'PUT', 'POST' ), true ) && isset( $value['raw'] ) ) {
+				$value = $value['raw'];
+			}
+
 		}
 
 		// Traitement spécial pour les champs de type "float" on remplace systèmatiquement les "," par des "." obligatoires pour la base de données.
