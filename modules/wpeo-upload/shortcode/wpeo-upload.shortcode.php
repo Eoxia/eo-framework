@@ -67,9 +67,13 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 			}
 
 			// Load the POST element with WPEO_Model.
-			$element = $atts['model_name']::g()->get( array(
-				'id' => $atts['id'],
-			), true );
+			$args = array( 'id' => $atts['id'] );
+
+			if ( empty( $atts['id'] ) ) {
+				$args = array( 'schema' => true );
+			}
+
+			$element = $atts['model_name']::g()->get( $args, true );
 
 			$main_picture_id = $element->data['thumbnail_id'];
 
