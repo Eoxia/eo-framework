@@ -102,40 +102,6 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 		}
 
 		/**
-		 * Initialise pre_get_comments
-		 *
-		 * @since 1.0.0
-		 * @version 1.0.0
-		 *
-		 * @return void
-		 */
-		protected function construct() {
-			parent::construct();
-
-			if ( ! in_array( $this->get_type(), \eoxia\Config_Util::$init['eo-framework']->not__in_display_comment ) ) {
-				add_action( 'pre_get_comments', array( $this, 'callback_pre_get_comments' ) );
-			}
-		}
-
-		/**
-		 * N'affiches pas les commentaires dans la liste des commentaires.
-		 *
-		 * @since 1.0.0
-		 * @version 1.0.0
-		 *
-		 * @param  WP_Comment_Query $query Query args.
-		 *
-		 * @return void
-		 */
-		public function callback_pre_get_comments( $query ) {
-			global $pagenow;
-
-			if ( $query->query_vars['type'] !== $this->get_type() && 'edit-comments.php' === $pagenow ) {
-				$query->query_vars['type__not_in'] = array_merge( (array) $query->query_vars['type__not_in'], array( $this->get_type() ) );
-			}
-		}
-
-		/**
 		 * Récupères les données selon le modèle définis.
 		 *
 		 * @since 0.1.0
