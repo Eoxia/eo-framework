@@ -160,7 +160,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 
 			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
 			if ( isset( $args['schema'] ) ) {
-				$array_terms[] = array();
+				$array_terms[] = $final_args;
 			} else { // On lance la requête pour récupèrer les "terms" demandés.
 				$query_terms = new \WP_Term_Query( $final_args );
 				$array_terms = $query_terms->terms;

@@ -141,7 +141,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 
 			// Si l'argument "schema" est présent c'est lui qui prend le dessus et ne va pas récupérer d'élément dans la base de données.
 			if ( isset( $args['schema'] ) ) {
-				$array_comments[] = array();
+				$array_comments[] = $final_args;
 			} else { // On lance la requête pour récupèrer les "comments" demandés.
 				$array_comments = get_comments( $final_args );
 			}
