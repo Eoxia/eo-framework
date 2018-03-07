@@ -3409,9 +3409,11 @@
   position: relative; }
 
 .wpeo-button.button-progress:before {
-  display: none; }
+  display: block;
+  font-family: "Font Awesome 5 Regular";
+  content: ''; }
 
-.wpeo-button.button-progress .svg-inline--fa {
+.wpeo-button.button-progress .svg-inline--fa:not(.button-icon) {
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   -webkit-transform: translate(-50%, -90%);
@@ -3431,25 +3433,29 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  z-index: 99; }
+  z-index: 99;
+  transition: all 0.2s ease-out; }
 
 .wpeo-button.button-progress .button-icon, .wpeo-button.button-progress span {
-  display: inline-block; }
+  display: inline-block;
+  -webkit-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out; }
 
 .wpeo-button.button-progress.button-success, .wpeo-button.button-progress.button-load, .wpeo-button.button-progress.button-error {
   pointer-events: none; }
 
-.wpeo-button.button-progress.button-success .svg-inline--fa, .wpeo-button.button-progress.button-load .svg-inline--fa, .wpeo-button.button-progress.button-error .svg-inline--fa {
+.wpeo-button.button-progress.button-success .svg-inline--fa:not(.button-icon), .wpeo-button.button-progress.button-load .svg-inline--fa:not(.button-icon), .wpeo-button.button-progress.button-error .svg-inline--fa:not(.button-icon) {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; }
 
 .wpeo-button.button-progress.button-success .button-icon, .wpeo-button.button-progress.button-success span, .wpeo-button.button-progress.button-load .button-icon, .wpeo-button.button-progress.button-load span, .wpeo-button.button-progress.button-error .button-icon, .wpeo-button.button-progress.button-error span {
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  -webkit-transform: translate(0, 20%);
-      -ms-transform: translate(0, 20%);
-       -o-transform: translate(0, 20%);
-          transform: translate(0, 20%); }
+  -webkit-transform: translate(0, 40%);
+      -ms-transform: translate(0, 40%);
+       -o-transform: translate(0, 40%);
+          transform: translate(0, 40%); }
 
 .wpeo-button.button-progress.button-success {
   background: #47e58e;

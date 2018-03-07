@@ -1,0 +1,81 @@
+// Progress
+.wpeo-button.button-progress {
+	position: relative;
+
+	&:before {
+		display: block;
+		font-family: "Font Awesome 5 Regular";
+		content: '';
+	}
+	.svg-inline--fa:not(.button-icon) {
+		opacity: 0;
+		transform: translate(-50%, -90%);
+		transition: all 0.2s ease-out;
+		font-size: 16px;
+		animation-duration: 1s;
+		animation-fill-mode: both;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		z-index: 99;
+		@include transition();
+	}
+	.button-icon, span {
+		display: inline-block;
+		@include transition();
+	}
+	&.button-success, &.button-load, &.button-error {
+		pointer-events: none;
+		.svg-inline--fa:not(.button-icon) {
+			opacity: 1;
+		}
+		.button-icon, span {
+			opacity: 0;
+			transform: translate(0, 40%);
+		}
+	}
+
+	&.button-success {
+		background: $color__green;
+		border-color: $color__green;
+		color: #fff;
+		&:before {
+			font-family: "Font Awesome 5 Regular";
+			content: "\f00c";
+		}
+		.svg-inline--fa {
+			animation-name: progressSuccess;
+		}
+	}
+
+	&.button-error {
+		background: $color__red;
+		border-color: $color__red;
+		color: #fff;
+		&:before {
+			font-family: "Font Awesome 5 Regular";
+			content: "\f00d";
+		}
+		.svg-inline--fa {
+			animation-name: progressError;
+		}
+	}
+	&.button-load {
+		background: $color__grey;
+		&:before {
+			display: inline-block;
+			transform: translate(-50%, -90%);
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			z-index: 99;
+			content: '';
+			border: 3px solid #fff;
+			border-top: 3px solid $color__primary;
+			border-radius: 50%;
+			width: 20px;
+			height: 20px;
+			animation: spin 1s ease-out infinite;
+		}
+	}
+}
