@@ -98,8 +98,6 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Class' ) ) {
 					'id' => $data['id'],
 				), true );
 
-				echo "<pre>"; print_r($element); echo "</pre>";exit;
-
 				$element->data['associated_document_id'][ $data['field_name'] ][] = (int) $data['file_id'];
 				$data['model_name']::g()->update( $element->data );
 			}
