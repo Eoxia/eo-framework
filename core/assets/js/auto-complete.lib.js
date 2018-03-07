@@ -92,6 +92,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		var label   = element.closest( '.autocomplete-label' );
 
 		parent.find( 'input' ).val( '' );
+		parent.find( 'input[type=hidden]' ).change();
 		parent.find( 'input' ).trigger( 'keyUp' );
 
 		parent.removeClass( 'autocomplete-active' );
