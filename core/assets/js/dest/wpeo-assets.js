@@ -605,6 +605,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 	window.eoxiaJS.dropdown.event = function() {
 		jQuery( document ).on( 'keyup', window.eoxiaJS.dropdown.keyup );
 		jQuery( document ).on( 'click', '.wpeo-dropdown:not(.dropdown-active) .dropdown-toggle:not(.disabled)', window.eoxiaJS.dropdown.open );
+		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active', function ( e ) { window.eoxiaJS.dropdown.close( e ); e.stopPropagation(); } );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.dropdown.close );
 	};
 
@@ -615,7 +616,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 	};
 
 	window.eoxiaJS.dropdown.open = function( event ) {
-		window.eoxiaJS.dropdown.close();
+		window.eoxiaJS.dropdown.close( event, jQuery( this ) );
 
 		var triggeredElement = jQuery( this );
 		triggeredElement.closest( '.wpeo-dropdown' ).addClass( 'dropdown-active' );
@@ -632,9 +633,8 @@ if ( ! window.eoxiaJS.dropdown  ) {
 	window.eoxiaJS.dropdown.close = function( event ) {
 		jQuery( '.wpeo-dropdown.dropdown-active:not(.no-close)' ).each( function() {
 			var toggle = jQuery( this );
-			toggle.removeClass( 'dropdown-active' );
-			event.stopPropagation();
 
+			toggle.removeClass( 'dropdown-active' );
 
 			/* Toggle Button Icon */
 			var angleElement = jQuery( this ).find('.dropdown-toggle').find('[data-fa-i2svg]');
@@ -642,7 +642,6 @@ if ( ! window.eoxiaJS.dropdown  ) {
 				window.eoxiaJS.dropdown.toggleAngleClass( angleElement );
 			}
 		});
-
 	};
 
 	window.eoxiaJS.dropdown.toggleAngleClass = function( button ) {
