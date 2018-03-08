@@ -13,6 +13,7 @@
 	"debug": false,
 	"hour_equal_one_day": 24,
 	"not__in_display_comment": [
-		"ping"
+		"ping",
+		""
 	]
 }
