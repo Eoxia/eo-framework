@@ -6360,25 +6360,25 @@
       -ms-flex-wrap: wrap;
           flex-wrap: wrap; }
 
-.wpeo-form .form-element .form-field-container .form-field, .wpeo-form .form-element .form-field-container .form-icon {
+.wpeo-form .form-element .form-field-container .form-field, .wpeo-form .form-element .form-field-container [class*="form-field-icon"] {
   background: #ececec; }
 
-.wpeo-form .form-element .form-field-container:hover .form-field, .wpeo-form .form-element .form-field-container:hover .form-icon {
+.wpeo-form .form-element .form-field-container:hover .form-field, .wpeo-form .form-element .form-field-container:hover [class*="form-field-icon"] {
   background: #dfdfdf; }
 
-.wpeo-form .form-element .form-prev-label, .wpeo-form .form-element .form-next-label {
+.wpeo-form .form-element [class*="form-field-label"] {
   background: #dfdfdf; }
 
-.wpeo-form.form-light .form-element .form-field-container .form-field, .wpeo-form.form-light .form-element .form-field-container .form-icon {
+.wpeo-form.form-light .form-element .form-field-container .form-field, .wpeo-form.form-light .form-element .form-field-container [class*="form-field-icon"] {
   background: #fff; }
 
-.wpeo-form.form-light .form-element .form-field-container:hover .form-field, .wpeo-form.form-light .form-element .form-field-container:hover .form-icon {
+.wpeo-form.form-light .form-element .form-field-container:hover .form-field, .wpeo-form.form-light .form-element .form-field-container:hover [class*="form-field-icon"] {
   background: #ececec; }
 
-.wpeo-form.form-light .form-element .form-prev-label, .wpeo-form.form-light .form-element .form-next-label {
+.wpeo-form.form-light .form-element [class*="form-field-label"] {
   background: #ececec; }
 
-.wpeo-form .form-element .form-icon {
+.wpeo-form .form-element [class*="form-field-icon"] {
   padding: 0.8em 0 0.8em 0.8em;
   color: rgba(0, 0, 0, 0.4);
   font-size: 16px;
@@ -6386,14 +6386,20 @@
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out; }
 
-.wpeo-form .form-element .form-prev-label, .wpeo-form .form-element .form-next-label {
+.wpeo-form .form-element .form-field-icon-prev {
+  padding: 0.8em 0 0.8em 0.8em; }
+
+.wpeo-form .form-element .form-field-icon-next {
+  padding: 0.8em 0.8em 0.8em 0; }
+
+.wpeo-form .form-element [class*="form-field-label"] {
   padding: 1.2em 1em;
   font-size: 12px; }
 
-.wpeo-form .form-element .form-prev-label {
+.wpeo-form .form-element .form-field-label-prev {
   border-right: 1px solid rgba(0, 0, 0, 0.1); }
 
-.wpeo-form .form-element .form-next-label {
+.wpeo-form .form-element .form-field-label-next {
   border-left: 1px solid rgba(0, 0, 0, 0.1); }
 
 .wpeo-form .form-element.form-element-required .form-label:after {

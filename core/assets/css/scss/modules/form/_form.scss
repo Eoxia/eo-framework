@@ -58,51 +58,57 @@
 /** Couleur */
 .wpeo-form .form-element {
 	.form-field-container {
-		.form-field, .form-icon {
+		.form-field, [class*="form-field-icon"] {
 			background: $color__grey;
 		}
-		&:hover .form-field, &:hover .form-icon {
+		&:hover .form-field, &:hover [class*="form-field-icon"] {
 			background: darken($color__grey, 5%);
 		}
 	}
-	.form-prev-label, .form-next-label {
+	[class*="form-field-label"] {
 		background: darken($color__grey, 5%);
 	}
 }
 .wpeo-form.form-light .form-element {
 	.form-field-container {
-		.form-field, .form-icon {
+		.form-field, [class*="form-field-icon"] {
 			background: #fff;
 		}
-		&:hover .form-field, &:hover .form-icon {
+		&:hover .form-field, &:hover [class*="form-field-icon"] {
 			background: $color__grey;
 		}
 	}
-	.form-prev-label, .form-next-label {
+	[class*="form-field-label"] {
 		background: $color__grey;
 	}
 }
 
 /** Icone */
 .wpeo-form .form-element {
-	.form-icon {
+	[class*="form-field-icon"] {
 		padding: 0.8em 0 0.8em 0.8em;
 		color: rgba(0,0,0,0.4);
 		font-size: 16px;
 		@include transition();
 	}
+	.form-field-icon-prev {
+		padding: 0.8em 0 0.8em 0.8em;
+	}
+	.form-field-icon-next {
+		padding: 0.8em 0.8em 0.8em 0;
+	}
 }
 
 /** Previous & next label */
 .wpeo-form .form-element {
-	.form-prev-label, .form-next-label {
+	[class*="form-field-label"] {
 		padding: 1.2em 1em;
 		font-size: 12px;
 	}
-	.form-prev-label {
+	.form-field-label-prev {
 		border-right: 1px solid rgba(0,0,0,0.1);
 	}
-	.form-next-label {
+	.form-field-label-next {
 		border-left: 1px solid rgba(0,0,0,0.1);
 	}
 }
