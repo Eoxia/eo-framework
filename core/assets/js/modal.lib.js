@@ -155,7 +155,7 @@ if ( ! window.eoxiaJS.modal  ) {
 	};
 
 	window.eoxiaJS.modal.close = function( event ) {
-		jQuery( '.wpeo-modal.modal-active:not(.no-close)' ).each( function() {
+		jQuery( '.wpeo-modal.modal-active:not(.modal-force-display)' ).each( function() {
 			var popup = jQuery( this );
 			popup.removeClass( 'modal-active' );
 			if ( 'default' !== popup[0].typeModal ) {
