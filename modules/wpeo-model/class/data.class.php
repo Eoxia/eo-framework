@@ -264,7 +264,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 						$value = ( ( isset( $this->data[ $field_name ] ) && null !== $this->data[ $field_name ] ) ) ? $this->data[ $field_name ] : null;
 
 						if ( null !== $value ) {
-							if ( ! in_array( $field_def['type'], self::$custom_types, true ) ) {
+							if ( ! in_array( $field_def['type'], self::$custom_types, true ) || ! isset( $value['raw'] ) ) {
 								$data[ $field_def['field'] ] = $value;
 							} elseif ( isset( $value['raw'] ) ) {
 								$data[ $field_def['field'] ] = $value['raw'];
