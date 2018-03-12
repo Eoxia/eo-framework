@@ -121,13 +121,17 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 
 			// Si le paramètre "id" est passé on le transforme en "ID" qui est le paramètre attendu par get_comments.
 			// Dans un souci d'homogénéité du code, le paramètre "id" remplace "ID".
-			if ( isset( $args['id'] ) ) {
+			$args['id'] = ! empty( $args['comment_ID'] ) ? $args['comment_ID'] : ( isset( $args['id'] ) ? $args['id'] : 0 );
+			if ( ! empty( $args['id'] ) ) {
+				if ( isset( $args['comment_ID'] ) ) {
+					unset( $args['comment_ID'] );
+				}
 				if ( ! isset( $args['comment__in'] ) ) {
 					$args['comment__in'] = array();
 				}
 				$args['comment__in'] = array_merge( (array) $args['id'], $args['comment__in'] );
-				unset( $args['id'] );
 			}
+			unset( $args['id'] );
 
 			$args_cb    = array(
 				'args'         => $args,
@@ -226,6 +230,8 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			}
 
 			$object = apply_filters( 'eo_model_comment_after_' . $req_method, $object, $args_cb );
+			$object = $this->get( $object->convert_to_wordpress(), true );
+
 			// Il ne faut pas lancer plusieurs fois pour ping.
 			if ( 'ping' !== $this->get_type() ) {
 				$object = apply_filters( 'eo_model_' . $this->get_type() . '_after_' . $req_method, $object, $args_cb );

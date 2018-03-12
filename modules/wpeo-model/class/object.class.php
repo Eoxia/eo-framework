@@ -118,17 +118,7 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 * @return Array $data Les données
 		 */
 		public function create( $data ) {
-			$object = $this->update( $data );
-
-			if ( is_wp_error( $object ) ) {
-				return $object;
-			}
-
-			$object = $this->get( array(
-				'id' => $object->data['id'],
-			), true );
-
-			return $object;
+			return $this->update( $data );
 		}
 
 		/**

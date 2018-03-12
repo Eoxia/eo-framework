@@ -135,13 +135,17 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 			// Si le paramètre "id" est passé on le transforme en "post__in" pour eviter les problèmes de statuts.
 			// Dans un soucis d'homogénéité du code, le paramètre "id" remplace le paramètre "p" qui est de base dans WP_Query.
-			if ( isset( $args['id'] ) ) {
+			$args['id'] = ! empty( $args['ID'] ) ? $args['ID'] : ( isset( $args['id'] ) ? $args['id'] : 0 );
+			if ( ! empty( $args['id'] ) ) {
+				if ( isset( $args['ID'] ) ) {
+					unset( $args['ID'] );
+				}
 				if ( ! isset( $args['post__in'] ) ) {
 					$args['post__in'] = array();
 				}
 				$args['post__in'] = array_merge( (array) $args['id'], $args['post__in'] );
-				unset( $args['id'] );
 			}
+			unset( $args['id'] );
 
 			$args_cb    = array(
 				'args'         => $args,
@@ -241,6 +245,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			}
 
 			$object = apply_filters( 'eo_model_post_after_' . $req_method, $object, $args_cb );
+			$object = $this->get( $object->convert_to_wordpress(), true );
+
 			// Il ne faut pas lancer plusieurs fois pour post.
 			if ( 'post' !== $this->get_type() ) {
 				$object = apply_filters( 'eo_model_' . $this->get_type() . '_after_' . $req_method, $object, $args_cb );
