@@ -362,3 +362,8 @@ th {
 .box.secondary {
 	background: #80bdff;
 }
+
+.wpeo-notification.static {
+	position: static;
+	margin: 1em 0;
+}

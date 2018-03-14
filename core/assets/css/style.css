@@ -6996,9 +6996,10 @@
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
   z-index: 900;
-  padding: 0.6em 1em;
+  padding: 1em;
   bottom: 3em;
   right: 1em;
+  max-width: 600px;
   -webkit-box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.2);
           box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.2);
   display: -webkit-box;
@@ -7038,28 +7039,63 @@
           border-radius: 50%;
   display: inline-block;
   overflow: hidden;
-  padding: 0.5em; }
+  margin-right: 0.4em; }
 
 .wpeo-notification .notification-thumbnail img {
   width: 100%;
   height: auto; }
+
+.wpeo-notification .notification-icon {
+  margin-right: 0.4em; }
 
 .wpeo-notification .notification-title {
   font-size: 14px;
   color: rgba(0, 0, 0, 0.7); }
 
 .wpeo-notification .notification-title a {
-  color: #898de5; }
+  color: #898de5;
+  text-decoration: none; }
+
+.wpeo-notification .notification-title a:hover {
+  text-decoration: underline; }
 
 .wpeo-notification .notification-close {
   padding-left: 0.4em;
   color: rgba(0, 0, 0, 0.2);
   -webkit-transition: all 0.2s ease-out;
   -o-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out; }
+  transition: all 0.2s ease-out;
+  margin-left: auto; }
 
 .wpeo-notification .notification-close:hover {
   color: #898de5; }
+
+.wpeo-notification .notification-icon {
+  color: rgba(0, 0, 0, 0.3); }
+
+.wpeo-notification.notification-green {
+  border-left: 4px solid #47e58e; }
+
+.wpeo-notification.notification-green .notification-icon {
+  color: #47e58e; }
+
+.wpeo-notification.notification-orange {
+  border-left: 4px solid #e9ad4f; }
+
+.wpeo-notification.notification-orange .notification-icon {
+  color: #e9ad4f; }
+
+.wpeo-notification.notification-red {
+  border-left: 4px solid #e05353; }
+
+.wpeo-notification.notification-red .notification-icon {
+  color: #e05353; }
+
+.wpeo-notification.notification-blue {
+  border-left: 4px solid #0d8aff; }
+
+.wpeo-notification.notification-blue .notification-icon {
+  color: #0d8aff; }
 
 @-webkit-keyframes notification {
   from, 60%, 75%, 90%, to {
