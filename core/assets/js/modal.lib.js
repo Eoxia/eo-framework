@@ -118,7 +118,7 @@ if ( ! window.eoxiaJS.modal  ) {
 
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
 
-						if ( response.data.buttons_view ) {
+						if ( typeof response.data.buttons_view !== 'undefined' ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
 						} else {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
