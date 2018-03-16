@@ -606,6 +606,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		jQuery( document ).on( 'keyup', window.eoxiaJS.dropdown.keyup );
 		jQuery( document ).on( 'click', '.wpeo-dropdown:not(.dropdown-active) .dropdown-toggle:not(.disabled)', window.eoxiaJS.dropdown.open );
 		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active .dropdown-content', function(e) { e.stopPropagation() } );
+		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active .dropdown-content .dropdown-item', window.eoxiaJS.dropdown.close  );
 		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active', function ( e ) { window.eoxiaJS.dropdown.close( e ); e.stopPropagation(); } );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.dropdown.close );
 	};
