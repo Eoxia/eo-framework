@@ -230,7 +230,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			}
 
 			$object = apply_filters( 'eo_model_comment_after_' . $req_method, $object, $args_cb );
-			$object = $this->get( $object->convert_to_wordpress(), true );
+			$object = $this->get( array( 'id' => $object->data['id'] ), true );
 
 			// Il ne faut pas lancer plusieurs fois pour ping.
 			if ( 'ping' !== $this->get_type() ) {
