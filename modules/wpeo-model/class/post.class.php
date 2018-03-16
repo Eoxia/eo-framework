@@ -245,7 +245,10 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			}
 
 			$object = apply_filters( 'eo_model_post_after_' . $req_method, $object, $args_cb );
-			$object = $this->get( array( 'id' => $object->data['id'] ), true );
+			$object = $this->get( array(
+				'id'          => $object->data['id'],
+				'post_status' => array( 'any', 'trash' ),
+			), true );
 
 			// Il ne faut pas lancer plusieurs fois pour post.
 			if ( 'post' !== $this->get_type() ) {
