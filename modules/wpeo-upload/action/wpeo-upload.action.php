@@ -45,8 +45,8 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @version 1.0.0
 		 */
 		public function callback_admin_scripts() {
-			wp_enqueue_style( 'wpeo_upload_style', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->url . '/asset/css/style.css', array() );
-			wp_enqueue_script( 'wpeo_upload_script', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->url . '/asset/js/wpeo-upload.js', array( 'jquery' ), \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->version );
+			wp_enqueue_style( 'wpeo_upload_style', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->url . '/assets/css/style.css', array() );
+			wp_enqueue_script( 'wpeo_upload_script', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->url . '/assets/js/wpeo-upload.js', array( 'jquery' ), \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->version );
 		}
 
 		/**
