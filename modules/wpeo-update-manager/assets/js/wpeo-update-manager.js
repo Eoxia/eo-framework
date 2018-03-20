@@ -29,6 +29,10 @@ window.eoxiaJS.updateManager.declareUpdateForm = function() {
 	jQuery( '.wpeo-update-item' ).find( 'form' ).ajaxForm({
 		dataType: 'json',
 		success: function( responseText, statusText, xhr, $form ) {
+			$form.find( '.wpeo-update-item-stats' ).html( responseText.data.progression );
+			$form.find( 'input[name="done_number"]' ).val( responseText.data.doneElementNumber );
+			$form.find( '.wpeo-update-item-progression' ).css( 'width', responseText.data.progressionPerCent + '%' );
+
 			if ( responseText.data.done ) {
 				$form.closest( '.wpeo-update-item' ).removeClass( 'wpeo-update-waiting-item' );
 				$form.closest( '.wpeo-update-item' ).removeClass( 'wpeo-update-in-progress-item' );

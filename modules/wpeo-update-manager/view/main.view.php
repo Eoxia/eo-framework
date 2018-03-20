@@ -52,6 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									$total_number = call_user_func( $def['count_callback'] );
 								?>
 								<input type="hidden" name="total_number" value="<?php echo esc_attr( $total_number ); ?>" />
+								<input type="hidden" name="done_number" value="0" />
 								<div class="wpeo-update-item-progress" >
 									<div class="wpeo-update-item-progression" >&nbsp;</div>
 									<div class="wpeo-update-item-stats" >0 / <?php echo esc_html( $total_number ); ?></div>
