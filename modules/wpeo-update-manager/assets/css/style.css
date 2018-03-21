@@ -1,9 +1,16 @@
+@charset "UTF-8";
 /*!
 	EOXIA FRAMEWORK CSS
 	Created by Eoxia
 
 	version: 1.0.0
 */
+/*--------------------------------------------------------------
+# Elements
+--------------------------------------------------------------*/
+/**
+ * Interface de mise à jour des données
+ */
 .wpeo-project-wrap .wpeo-project-update-manager .wpeo-update-item {
   display: block;
   width: 100%;
@@ -56,7 +63,6 @@
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: lightblue;
   z-index: 20; }
 
 .wpeo-project-wrap .wpeo-project-update-manager .wpeo-update-item .wpeo-update-item-progress .wpeo-update-item-stats {
@@ -79,9 +85,6 @@
 .wpeo-project-wrap .wpeo-project-update-manager .wpeo-update-item.wpeo-update-in-progress-item.wpeo-update-waiting-item > div i.dashicons:before {
   content: ""; }
 
-.wpeo-project-wrap .wpeo-project-update-manager .wpeo-update-item.wpeo-update-done-item {
-  background-color: lightgreen; }
-
 .wpeo-project-wrap .wpeo-project-update-manager .wpeo-update-item.wpeo-update-done-item > div i.dashicons {
   font-size: 30px;
   color: lightgreen;
@@ -94,3 +97,9 @@
 
 .wpeo-project-wrap .wpeo-project-update-manager .wpeo-update-item.wpeo-update-done-item .wpeo-update-item-progress .wpeo-update-item-progression {
   width: 100%; }
+
+.wpeo-project-wrap .wpeo-project-update-manager .wpeo-update-general-message {
+  width: 80%;
+  margin: 0 auto;
+  font-size: 14px;
+  text-align: center; }

@@ -23,17 +23,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if ( ! empty( $waiting_updates ) ) : ?>
 		<div class="notice notice-info" >
-			<?php esc_html_e( 'Be careful, before using this data update manager, please back up your datas', 'task-manager' ); ?></br>
-			<?php esc_html_e( 'You may loose data if you quit this page until the update is in progress', 'task-manager' ); ?>
+			<?php esc_html_e( 'Be careful, before using this data update manager, please back up your datas', 'eoxia' ); ?></br>
+			<?php esc_html_e( 'You may loose data if you quit this page until the update is in progress', 'eoxia' ); ?>
 		</div>
 
 	<?php foreach ( $waiting_updates as $version => $data ) : ?>
-		<h2><?php /* Translators: %s represent current version number. */ echo esc_html( sprintf( __( 'List of updates for version %s', 'task-manager' ), $version ) ); ?></h2>
+		<h2><?php /* Translators: %s represent current version number. */ echo esc_html( sprintf( __( 'List of updates for version %s', 'eoxia' ), $version ) ); ?></h2>
 
 		<div class="wpeo-grid grid-3" >
-			<?php foreach ( $data as $index => $def ) : ?>
+			<?php
+			foreach ( $data as $index => $def ) :
+				$total_number = null;
+				$stats        = '';
+				if ( isset( $def['count_callback'] ) && ! empty( $def['count_callback'] ) ) {
+					$total_number = call_user_func( $def['count_callback'] );
+					$stats        = '0 / ' . $total_number;
+					if ( 0 === $total_number ) {
+						$stats = __( 'No update requires for your installation', 'eoxia' );
+					}
+				}
+			?>
 			<div>
-				<div class="wpeo-update-item wpeo-update-waiting-item" id="wpeo-upate-item-<?php echo esc_attr( $def['update_index'] ); ?>" >
+				<div class="wpeo-update-item <?php echo esc_attr( null === $total_number ? 'wpeo-update-waiting-item' : 'wpeo-update-done-item' ); ?>" id="wpeo-upate-item-<?php echo esc_attr( $def['update_index'] ); ?>" >
 					<div>
 						<span class="spinner" ></span>
 						<i class="dashicons" ></i>
@@ -47,17 +58,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<p><?php echo esc_attr( $def['description'] ); ?></p>
 							</div>
 							<div class="wpeo-update-item-result" >
-								<?php
-								if ( isset( $def['count_callback'] ) && ! empty( $def['count_callback'] ) ) :
-									$total_number = call_user_func( $def['count_callback'] );
-								?>
-								<input type="hidden" name="total_number" value="<?php echo esc_attr( $total_number ); ?>" />
+								<input type="hidden" name="total_number" value="<?php echo ( null !== $total_number ? esc_attr( $total_number ) : 0 ); ?>" />
 								<input type="hidden" name="done_number" value="0" />
 								<div class="wpeo-update-item-progress" >
 									<div class="wpeo-update-item-progression" >&nbsp;</div>
-									<div class="wpeo-update-item-stats" >0 / <?php echo esc_html( $total_number ); ?></div>
+									<div class="wpeo-update-item-stats" ><?php echo esc_html( $stats ); ?></div>
 								</div>
-								<?php endif; ?>
 							</div>
 						</form>
 					</div>
@@ -66,9 +72,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php endforeach; ?>
 		</div>
 	<?php endforeach; ?>
+	<div class="wpeo-update-waiting-item" id="wpeo-update-redirect-to-application" >
+		<form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="POST">
+			<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $def['action'] ) ); ?>" />
+			<input type="hidden" name="action" value="<?php echo esc_attr( $redirect_action ); ?>" />
+		</form>
+	</div>
+	<div class="wpeo-update-general-message" ></div>
 <?php else : ?>
-		<?php esc_html_e( 'No updates available for current version', 'task-manager' ); ?>
-		<strong><a href="<?php echo esc_attr( admin_url( '?page=wpeomtm-dashboard' ) ); ?>"><?php echo esc_html_e( 'Back to main application', 'task-manager' ); ?></a></strong>
+		<h1><?php esc_html_e( 'Update manager', 'eoxia' ); ?></h1>
+		<?php esc_html_e( 'No updates available for current version', 'eoxia' ); ?>
+		<strong><a href="<?php echo esc_attr( admin_url( '?page=' . $dashboard_url ) ); ?>"><?php echo esc_html_e( 'Back to main application', 'eoxia' ); ?></a></strong>
 <?php endif; ?>
 	</div>
 </div>

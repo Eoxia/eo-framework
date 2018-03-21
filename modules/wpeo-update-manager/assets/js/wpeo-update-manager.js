@@ -15,9 +15,11 @@ window.eoxiaJS.updateManager = {};
  * @version 1.0.0
  */
 window.eoxiaJS.updateManager.init = function() {
-	window.eoxiaJS.updateManager.declareUpdateForm();
-	window.eoxiaJS.updateManager.requestUpdate();
-	window.addEventListener( 'beforeunload', window.eoxiaJS.updateManager.safeExit );
+	if ( 0 < jQuery( '.wpeo-update-waiting-item' ).length ) {
+		window.eoxiaJS.updateManager.declareUpdateForm();
+		window.eoxiaJS.updateManager.requestUpdate();
+		window.addEventListener( 'beforeunload', window.eoxiaJS.updateManager.safeExit );
+	}
 };
 
 /**
@@ -26,18 +28,26 @@ window.eoxiaJS.updateManager.init = function() {
  * @type {void}
  */
 window.eoxiaJS.updateManager.declareUpdateForm = function() {
-	jQuery( '.wpeo-update-item' ).find( 'form' ).ajaxForm({
+	jQuery( '.wpeo-update-item, #wpeo-update-redirect-to-application' ).find( 'form' ).ajaxForm({
 		dataType: 'json',
 		success: function( responseText, statusText, xhr, $form ) {
-			$form.find( '.wpeo-update-item-stats' ).html( responseText.data.progression );
-			$form.find( 'input[name="done_number"]' ).val( responseText.data.doneElementNumber );
-			$form.find( '.wpeo-update-item-progression' ).css( 'width', responseText.data.progressionPerCent + '%' );
+			if ( ! responseText.data.updateComplete ) {
+				$form.find( '.wpeo-update-item-stats' ).html( responseText.data.progression );
+				$form.find( 'input[name="done_number"]' ).val( responseText.data.doneElementNumber );
+				$form.find( '.wpeo-update-item-progression' ).css( 'width', responseText.data.progressionPerCent + '%' );
 
-			if ( responseText.data.done ) {
-				$form.closest( '.wpeo-update-item' ).removeClass( 'wpeo-update-waiting-item' );
-				$form.closest( '.wpeo-update-item' ).removeClass( 'wpeo-update-in-progress-item' );
-				$form.closest( '.wpeo-update-item' ).addClass( 'wpeo-update-done-item' );
-				$form.find( '.wpeo-update-item-stats' ).html( responseText.data.doneDescription );
+				if ( responseText.data.done ) {
+					$form.closest( '.wpeo-update-item' ).removeClass( 'wpeo-update-waiting-item' );
+					$form.closest( '.wpeo-update-item' ).removeClass( 'wpeo-update-in-progress-item' );
+					$form.closest( '.wpeo-update-item' ).addClass( 'wpeo-update-done-item' );
+					$form.find( '.wpeo-update-item-stats' ).html( responseText.data.doneDescription );
+				}
+			} else {
+				jQuery( '.wpeo-update-general-message' ).html( response.data.url );
+				window.removeEventListener( 'beforeunload', window.eoxiaJS.updateManager.safeExit );
+				setTimeout( function() {
+					window.location = response.data.url;
+				}, 1500 );
 			}
 			window.eoxiaJS.updateManager.requestUpdate();
 		}
@@ -50,7 +60,7 @@ window.eoxiaJS.updateManager.declareUpdateForm = function() {
  * @return {void}
  */
 window.eoxiaJS.updateManager.requestUpdate = function() {
-	var currentUpdateItemID = '#' + jQuery( '.wpeo-update-waiting-item:first-child' ).attr( 'id' );
+	var currentUpdateItemID = '#' + jQuery( '.wpeo-update-waiting-item:first' ).attr( 'id' );
 	jQuery( currentUpdateItemID ).addClass( 'wpeo-update-in-progress-item' );
 	jQuery( currentUpdateItemID ).find( 'form' ).submit();
 };

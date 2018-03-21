@@ -64,14 +64,12 @@ class Update_Manager_Action {
 		if ( ! strpos( $_SERVER['REQUEST_URI'], 'admin-ajax.php' ) ) {
 			$current_version_to_check = (int) str_replace( '.', '', Config_Util::$init[ $this->current_plugin_slug ]->version );
 			$last_version_done        = (int) get_option( Config_Util::$init[ $this->current_plugin_slug ]->key_last_update_version, 1300 );
-
 			if ( 3 === strlen( $current_version_to_check ) ) {
 				$current_version_to_check *= 10;
 			}
 
 			if ( $last_version_done !== $current_version_to_check ) {
 				$update_data_path = Config_Util::$init[ $this->current_plugin_slug ]->update_manager->path . 'data/';
-
 				for ( $i = ( (int) substr( $last_version_done, 0, 4 ) + 1 ); $i <= $current_version_to_check; $i++ ) {
 					if ( is_file( $update_data_path . 'update-' . $i . '-data.php' ) ) {
 						require_once $update_data_path . 'update-' . $i . '-data.php';
@@ -96,38 +94,6 @@ class Update_Manager_Action {
 		$element_namespace             = new \ReflectionClass( get_called_class() );
 		$current_plugin_update_manager = '\\' . $element_namespace->getNamespaceName() . '\Update_Manager';
 		add_submenu_page( 'eo-update-manager-' . $this->current_plugin_slug, __( 'Update Manager', 'eoxia' ), __( 'Update Manager', 'eoxia' ), 'manage_options', Config_Util::$init[ $this->current_plugin_slug ]->update_page_url, array( $current_plugin_update_manager::g(), 'display' ) );
-	}
-
-	/**
-	 * AJAX Callback - Return the website url
-	 *
-	 * @since 1.6.0
-	 * @version 1.6.0
-	 */
-	public function callback_tm_redirect_to_dashboard() {
-		$error_version = ! empty( $_POST['error_version'] ) ? sanitize_text_field( $_POST['error_version'] ) : '';
-		$error_status  = ! empty( $_POST['error_status'] ) ? sanitize_text_field( $_POST['error_status'] ) : '';
-		$error_text    = ! empty( $_POST['error_text'] ) ? sanitize_text_field( $_POST['error_text'] ) : '';
-
-		if ( ! empty( $error_version ) ) {
-			LOG_Util::log( apply_filters( 'digi_update_redirect_to_dashboard', 'FIN - Mise à jour ' . $error_version, $error_version, $error_status, $error_text ), $this->current_plugin_slug );
-		}
-
-		LOG_Util::log( 'mise à jour end', $this->current_plugin_slug );
-
-		$version = (int) str_replace( '.', '', Config_Util::$init[ $this->current_plugin_slug ]->version );
-		if ( 3 === strlen( $version ) ) {
-			$version *= 10;
-		}
-		update_option( Config_Util::$init[ $this->current_plugin_slug ]->key_last_update_version, $version );
-		delete_option( Config_Util::$init[ $this->current_plugin_slug ]->key_waiting_updates );
-
-		$data = array(
-			'url'     => admin_url( 'admin.php?page=' . Config_Util::$init[ $this->current_plugin_slug ]->dashboard_page_url ),
-			'message' => __( 'Redirect to Task Manager', 'task-manager' ),
-		);
-
-		wp_send_json_success( $data );
 	}
 
 }
