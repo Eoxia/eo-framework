@@ -34,6 +34,23 @@ if ( ! class_exists( '\eoxia\Helper_Class' ) ) {
 		}
 
 		/**
+		 * Récupères le nom de la classe selon le model.
+		 *
+		 * @since 1.0.0
+		 * @version 1.0.0
+		 *
+		 * @return string Le nom de la classe avec le namespace si existant.
+		 */
+		 public function get_class() {
+			 $class_name = get_class( $this );
+			 $class_name = str_replace( 'Model', 'Class', $class_name );
+			 $class_name = str_replace( 'model', 'Class', $class_name );
+			 $class_name = str_replace( '\\', '/', $class_name );
+
+			 return $class_name;
+		 }
+
+		/**
 		 * Permet de faire echo sur un objet et supprimes la définition du modèle avant l'affichage.
 		 *
 		 * @return string void

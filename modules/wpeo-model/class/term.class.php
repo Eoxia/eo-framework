@@ -226,6 +226,9 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 				return $term;
 			}
 
+			// Lors de la création, $object->data['id'] est vide là, du coup le get ne marchait pas.
+			$object->data['id'] = $term['term_id'];
+
 			$object = apply_filters( 'eo_model_term_after_' . $req_method, $object, $args_cb );
 			$object = $this->get( array( 'id' => $object->data['id'] ), true );
 

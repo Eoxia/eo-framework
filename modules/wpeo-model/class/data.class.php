@@ -72,6 +72,9 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			// On construit les types autorisés à partir des listes séparées. Permet de ne pas mettre de type en dur dans le code.
 			self::$accepted_types = wp_parse_args( self::$custom_types, self::$built_in_types );
 
+			// Filtre du schéma.
+			$this->schema = apply_filters( 'eo_model_handle_schema', $this->schema, $this->req_method );
+
 			if ( null !== $data && null !== $this->req_method ) {
 				$this->data = $this->handle_data( $data );
 			}

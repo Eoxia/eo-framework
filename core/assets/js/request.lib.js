@@ -30,7 +30,7 @@ if ( ! window.eoxiaJS.request ) {
 		} );
 	};
 
-	window.eoxiaJS.request.get = function( url, data ) {
+	window.eoxiaJS.request.get = function( element, url, data, cb ) {
 		jQuery.get( url, data, function( response ) {
 			window.eoxiaJS.request.callCB( element, response, cb );
 		}, 'json' ).fail( function() {
@@ -57,13 +57,15 @@ if ( ! window.eoxiaJS.request ) {
 	}
 
 	window.eoxiaJS.request.fail = function( element ) {
-		window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
+		if ( element ) {
+			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
 
-		if ( element.hasClass( 'button-progress' ) ) {
-			element.removeClass( 'button-load' ).addClass( 'button-error' );
-			setTimeout( function() {
-				element.removeClass( 'button-error' );
-			}, 1000 );
+			if ( element.hasClass( 'button-progress' ) ) {
+				element.removeClass( 'button-load' ).addClass( 'button-error' );
+				setTimeout( function() {
+					element.removeClass( 'button-error' );
+				}, 1000 );
+			}
 		}
 	}
 }
