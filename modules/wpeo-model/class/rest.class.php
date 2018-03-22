@@ -181,7 +181,7 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 
 			if ( ! empty( $request ) && ( ! empty( $request['id'] ) ) ) {
 				$args['post_id'] = $request['id'];
-				$args['status']  = '-34070';
+				$args['status']  = '1';
 				$single          = true;
 			}
 
