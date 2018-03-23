@@ -193,6 +193,18 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 								$rendered_value = is_object( $value ) ? 'Object item' : $value;
 
 								$this->wp_errors->add( 'eo_model_invalid_type', get_class( $this ) . ' => ' . $field_name . ': ' . $rendered_value . '(' . gettype( $value ) . ') is not a ' . $field_def['type'] );
+							} elseif ( isset( $field_def['array_type'] ) ) {
+								if ( ! empty( $value ) ) {
+									foreach ( $value as $key => $sub_value ) {
+										$field_def['type'] = $field_def['array_type'];
+										$this->check_value_type( $sub_value, $field_name, $field_def );
+
+										if ( isset( $field_def['key_type'] ) ) {
+											$field_def['type'] = $field_def['key_type'];
+											$this->check_value_type( $key, $field_name, $field_def );
+										}
+									}
+								}
 							}
 							break;
 						default:

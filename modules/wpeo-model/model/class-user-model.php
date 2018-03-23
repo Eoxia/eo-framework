@@ -97,7 +97,7 @@ if ( ! class_exists( '\eoxia\User_Model' ) ) {
 				'type'      => 'string',
 				'meta_type' => 'single',
 				'field'     => 'avatar_color',
-				'default'   => '',
+				'default'   => '50a1ed',
 			);
 
 			$this->schema['initial'] = array(
