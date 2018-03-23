@@ -43,10 +43,10 @@ window.eoxiaJS.updateManager.declareUpdateForm = function() {
 					$form.find( '.wpeo-update-item-stats' ).html( responseText.data.doneDescription );
 				}
 			} else {
-				jQuery( '.wpeo-update-general-message' ).html( response.data.url );
+				jQuery( '.wpeo-update-general-message' ).html( responseText.data.url );
 				window.removeEventListener( 'beforeunload', window.eoxiaJS.updateManager.safeExit );
 				setTimeout( function() {
-					window.location = response.data.url;
+					window.location = responseText.data.url;
 				}, 1500 );
 			}
 			window.eoxiaJS.updateManager.requestUpdate();

@@ -22,15 +22,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="wpeo-project-update-manager">
 
 <?php if ( ! empty( $waiting_updates ) ) : ?>
-		<div class="notice notice-info" >
-			<?php esc_html_e( 'Be careful, before using this data update manager, please back up your datas', 'eoxia' ); ?></br>
-			<?php esc_html_e( 'You may loose data if you quit this page until the update is in progress', 'eoxia' ); ?>
-		</div>
-
 	<?php foreach ( $waiting_updates as $version => $data ) : ?>
 		<h2><?php /* Translators: %s represent current version number. */ echo esc_html( sprintf( __( 'List of updates for version %s', 'eoxia' ), $version ) ); ?></h2>
 
-		<div class="wpeo-grid grid-3" >
+		<div class="notice notice-error" >
+			<p><?php esc_html_e( 'Be careful, before using this data update manager, please back up your datas', 'eoxia' ); ?></p>
+			<p><?php esc_html_e( 'You may loose data if you quit this page until the update is in progress', 'eoxia' ); ?></p>
+		</div>
+
+		<div class="wpeo-grid grid-3">
 			<?php
 			foreach ( $data as $index => $def ) :
 				$total_number = null;
@@ -45,17 +45,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
 			<div>
 				<div class="wpeo-update-item <?php echo esc_attr( null === $total_number || 0 < $total_number ? 'wpeo-update-waiting-item' : 'wpeo-update-done-item' ); ?>" id="wpeo-upate-item-<?php echo esc_attr( $def['update_index'] ); ?>" >
-					<div>
-						<span class="spinner" ></span>
-						<i class="dashicons" ></i>
+					<div class="wpeo-update-item-spin">
+						<span class="wpeo-update-spinner"><i class="fas fa-circle-notch fa-spin"></i></span>
+						<i class="icon dashicons" ></i>
 					</div>
-					<div>
+					<div class="wpeo-update-item-container">
 						<form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="POST">
 							<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $def['action'] ) ); ?>" />
 							<input type="hidden" name="action" value="<?php echo esc_attr( $def['action'] ); ?>" />
-							<div class="wpeo-update-item-description" >
-								<?php echo esc_attr( $def['title'] ); ?>
-								<p><?php echo esc_attr( $def['description'] ); ?></p>
+							<div class="wpeo-update-item-content" >
+								<div class="wpeo-update-item-title"><?php echo esc_attr( $def['title'] ); ?></div>
+								<div class="wpeo-update-item-description"><?php echo esc_attr( $def['description'] ); ?></div>
 							</div>
 							<div class="wpeo-update-item-result" >
 								<input type="hidden" name="total_number" value="<?php echo ( null !== $total_number ? esc_attr( $total_number ) : 0 ); ?>" />
