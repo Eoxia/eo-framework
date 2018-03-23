@@ -43,7 +43,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 		 *
 		 * @param  array $atts See paramaters in func.
 		 *
-		 * @return void
+		 * @return HTML Le code html permettant l'affichage du module d'upload
 		 */
 		public function wpeo_upload( $atts ) {
 
@@ -54,7 +54,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 				'mode'         => 'edit',                              // Can be "edit" or "view".
 				'field_name'   => 'thumbnail_id',                      // For use "_thumbnail_id" postmeta of WordPress let _thumbnail_id. Again for more details @see.
 				'model_name'   => '//eoxia//Post_Class',               // Say to WPEO_Model the model used. Write double slashes when use in shortcode. This method convert it from "//" to "\".
-				'custom_class' => '',                                  // Add custom class
+				'custom_class' => '',                                  // Add custom class.
 				'size'         => 'thumbnail',                         // The size of the box (button for upload or open the gallery).
 				'single'       => 'true',                              // One media or more.
 				'mime_type'    => 'image',                             // Can be application, image, audio or empty for all mime types. By default "image".
@@ -92,8 +92,12 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 				$nonce_name = 'load_gallery';
 			}
 
+			ob_start();
 			require \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/button.view.php';
+
+			return ob_get_clean();
 		}
+
 	}
 
 	new WPEO_Upload_Shortcode();
