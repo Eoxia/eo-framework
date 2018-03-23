@@ -6220,6 +6220,10 @@
   position: relative;
   top: 2px; }
 
+.wpeo-form .form-element input[type="radio"].form-field:before {
+  display: none !important;
+  content: '' !important; }
+
 .wpeo-form .form-element input[type="radio"].form-field:hover {
   cursor: pointer;
   border: 1px solid #898de5;

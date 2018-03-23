@@ -22,6 +22,10 @@
 		position: relative;
 		top: 2px;
 
+		&::before {
+			display: none !important;
+			content: '' !important;
+		}
 		&:hover {
 		cursor: pointer;
 		border: 1px solid $color__primary;
