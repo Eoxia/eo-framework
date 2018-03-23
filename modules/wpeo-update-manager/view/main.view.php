@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				}
 			?>
 			<div>
-				<div class="wpeo-update-item <?php echo esc_attr( null === $total_number ? 'wpeo-update-waiting-item' : 'wpeo-update-done-item' ); ?>" id="wpeo-upate-item-<?php echo esc_attr( $def['update_index'] ); ?>" >
+				<div class="wpeo-update-item <?php echo esc_attr( null === $total_number || 0 < $total_number ? 'wpeo-update-waiting-item' : 'wpeo-update-done-item' ); ?>" id="wpeo-upate-item-<?php echo esc_attr( $def['update_index'] ); ?>" >
 					<div>
 						<span class="spinner" ></span>
 						<i class="dashicons" ></i>
