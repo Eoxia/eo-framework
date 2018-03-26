@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php else : ?>
 		<h1><?php esc_html_e( 'Update manager', 'eoxia' ); ?></h1>
 		<?php esc_html_e( 'No updates available for current version', 'eoxia' ); ?>
-		<strong><a href="<?php echo esc_attr( admin_url( '?page=' . $dashboard_url ) ); ?>"><?php echo esc_html_e( 'Back to main application', 'eoxia' ); ?></a></strong>
+		<strong><a href="<?php echo esc_attr( admin_url( 'admin.php?page=' . $dashboard_url ) ); ?>"><?php echo esc_html_e( 'Back to main application', 'eoxia' ); ?></a></strong>
 <?php endif; ?>
 	</div>
 </div>

@@ -63,7 +63,7 @@ class Update_Manager_Action {
 
 		if ( ! strpos( $_SERVER['REQUEST_URI'], 'admin-ajax.php' ) ) {
 			$current_version_to_check = (int) str_replace( '.', '', Config_Util::$init[ $this->current_plugin_slug ]->version );
-			$last_version_done        = (int) get_option( Config_Util::$init[ $this->current_plugin_slug ]->key_last_update_version, 1300 );
+			$last_version_done        = (int) get_option( Config_Util::$init[ $this->current_plugin_slug ]->key_last_update_version, Config_Util::$init[ $this->current_plugin_slug ]->update_manager->first_version );
 			if ( 3 === strlen( $current_version_to_check ) ) {
 				$current_version_to_check *= 10;
 			}
