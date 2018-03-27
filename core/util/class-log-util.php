@@ -51,17 +51,14 @@ if ( ! class_exists( '\eoxia\LOG_Util' ) ) {
 			$bt = debug_backtrace();
 
 			if ( empty( $file_name ) ) {
-				error_log( 'Les logs sont enregistrés dans wp-content/uploads/logs/__PLUGIN_NAME__.' );
 				self::log_wp_content( $text, $file_name, $level, $bt );
 			} else {
 				if ( false === ini_get( 'error_log' ) || '' == ini_get( 'error_log' ) ) {
-					error_log( 'Les logs sont enregistrés dans wp-content/uploads/logs/__PLUGIN_NAME__.' );
 					self::log_wp_content( $text, $file_name, $level, $bt );
 				} else {
 					$path = dirname( ini_get( 'error_log' ) );
 
 					if ( ! is_dir( $path ) ) {
-						error_log( 'Les logs sont enregistrés dans wp-content/uploads/logs/__PLUGIN_NAME__.' );
 						self::log_wp_content( $text, $file_name, $level, $bt );
 					} else {
 						error_log( current_time( '[d-M-Y H:i:s e]' ) . " PHP {$level}: {$text} in " . str_replace( '\\', '/', $bt[0]['file'] ) . " line  {$bt[0]['line']}\n", 3, $path . '/' . $file_name . '.log' );

@@ -214,6 +214,18 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 
 			$model_status = $this->get_model_for_element( wp_parse_args( array( 'model', 'default_model' ), $types ), $extension );
 
+			$document_taxonomy = array();
+			// Récupère la liste des identifiants des catégories a affecter au documents.
+			// Catégorie principale "printed" qui correspond aux fichiers générés dans l'interface.
+			$printed_category    = get_term_by( 'slug', 'printed', $this->attached_taxonomy_type );
+			$document_taxonomy[] = (int) $printed_category->term_id;
+
+			// Liste des catégories spécifiques.
+			foreach ( $types as $type ) {
+				$category            = get_term_by( 'slug', $type, $this->attached_taxonomy_type );
+				$document_taxonomy[] = (int) $category->term_id;
+			}
+
 			// Insères l'attachement en base de donnée ainsi que ses métadonnées.
 			$document_args = array(
 				'status'        => 'inherit',
@@ -222,7 +234,7 @@ if ( ! class_exists( '\eoxia\Attachment_Class' ) ) {
 				'model_path'    => $model_status['model_path'],
 				'document_meta' => $document_meta,
 				'taxonomy'      => array(
-					$this->attached_taxonomy_type => wp_parse_args( $types, array( 'printed' ) ),
+					$this->attached_taxonomy_type => $document_taxonomy,
 				),
 			);
 
