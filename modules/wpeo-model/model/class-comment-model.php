@@ -96,8 +96,9 @@ if ( ! class_exists( '\eoxia\Comment_Model' ) ) {
 			);
 
 			$this->schema['status'] = array(
-				'type'  => 'string',
-				'field' => 'comment_approved',
+				'type'    => 'string',
+				'field'   => 'comment_approved',
+				'default' => '1',
 			);
 
 			$this->schema['agent'] = array(
