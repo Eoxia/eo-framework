@@ -5,7 +5,7 @@
  * @author Eoxia
  * @since 0.1.0-alpha
  * @version 1.0.0
- * @copyright 2017
+ * @copyright 2017-2018 Eoxia
  * @package EO-Framework/WPEO-Upload
  */
 
@@ -20,7 +20,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 	/**
 	 * Call the main view of the plugin.
 	 */
-	class WPEO_Upload_Shortcode {
+	class WPEO_Upload_Shortcode extends Singleton_Util {
 
 		/**
 		 * Add the shortcode [wpeo_upload].
@@ -28,7 +28,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 		 * @since 0.1.0-alpha
 		 * @version 1.0.0
 		 */
-		public function __construct() {
+		protected function construct() {
 			add_shortcode( 'wpeo_upload', array( $this, 'wpeo_upload' ) );
 		}
 
