@@ -293,7 +293,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 			$where .= ' ) ';
 
-			$list_group = $wpdb->get_results( "SELECT DISTINCT P.ID FROM {$wpdb->posts} as P JOIN {$wpdb->postmeta} AS PM ON PM.post_id=P.ID WHERE P.post_type='" . $this->get_post_type() . "'" . $where );
+			$list_group = $wpdb->get_results( "SELECT DISTINCT P.ID FROM {$wpdb->posts} as P JOIN {$wpdb->postmeta} AS PM ON PM.post_id=P.ID WHERE P.post_type='" . $this->get_type() . "'" . $where );
 			$list_model = array();
 			if ( ! empty( $list_group ) ) {
 				foreach ( $list_group as $element ) {

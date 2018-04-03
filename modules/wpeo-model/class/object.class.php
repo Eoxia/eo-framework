@@ -96,7 +96,7 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		}
 
 		/**
-		 * Retourne le post type, mettre get_type de partout et supprimer get_post_type
+		 * Retourne le post type.
 		 *
 		 * @since 1.0.0
 		 * @version 1.0.0
@@ -105,6 +105,18 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		 */
 		public function get_type() {
 			return $this->type;
+		}
+
+		/**
+		 * Retourne le nom de la méta générale de l'objet actuel.
+		 *
+		 * @since 1.0.0
+		 * @version 1.0.0
+		 *
+		 * @return string Le nom de la méta de l'objet actuel
+		 */
+		public function get_meta_key() {
+			return $this->meta_key;
 		}
 
 		/**
