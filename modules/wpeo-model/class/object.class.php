@@ -120,17 +120,32 @@ if ( ! class_exists( '\eoxia\Object_Class' ) ) {
 		}
 
 		/**
-		 * Appelle la méthode update.
+		 * Appelle la méthode update puis renvoies l'objet mis à jour ou créé.
 		 *
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
 		 * @param Array $data Les données.
 		 *
-		 * @return Array $data Les données
+		 * @return Object     L'objet avec toutes ses données.
 		 */
 		public function create( $data ) {
-			return $this->update( $data );
+			$object = $this->update( $data );
+
+			$parent_class = get_parent_class( $object );
+
+			// Utiles seulement pour les posts et les comments, car les users et categories on déjà toutes leurs données à ce moment là.
+			if ( in_array( $parent_class, array( 'eoxia\Comment_Model', 'eoxia\Post_Model' ) ) ) {
+				$args = array(
+					'id' => $object->data['id'],
+				);
+
+				$args['status'] = $object->data['status'];
+
+				$object = $this->get( $args, true );
+			}
+
+			return $object;
 		}
 
 		/**
