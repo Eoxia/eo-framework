@@ -40,7 +40,10 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		 * @return string The rest api base for current element
 		 */
 		public function check_cap( $cap ) {
-			return current_user_can( $this->capabilities[ $cap ] );
+			if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! current_user_can( $this->capabilities[ 'get' ] ) ) {
+				return false;
+			}
+			return true;
 		}
 
 		/**
@@ -74,22 +77,16 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 				array(
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_from_parent' ),
-					'permission_callback' => function() {
-						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'get' ) ) {
-							return false;
-						}
-						return true;
-					},
+					'permission_callback' => function(){
+						return Rest_Class::g()->check_cap( 'get' );
+					}
 				),
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_from_parent' ),
-					'permission_callback' => function() {
-						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'post' ) ) {
-							return false;
-						}
-						return true;
-					},
+					'permission_callback' => function(){
+						return Rest_Class::g()->check_cap( 'post' );
+					}
 				),
 			), true );
 
@@ -97,22 +94,16 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 				array(
 					'method'              => \WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_from_parent' ),
-					'permission_callback' => function() {
-						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'get' ) ) {
-							return false;
-						}
-						return true;
+					'permission_callback' => function(){
+						return Rest_Class::g()->check_cap( 'get' );
 					},
 				),
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_from_parent' ),
-					'permission_callback' => function() {
-						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'put' ) ) {
-							return false;
-						}
-						return true;
-					},
+					'permission_callback' => function(){
+						return Rest_Class::g()->check_cap( 'put' );
+					}
 				),
 			), true );
 
@@ -120,12 +111,9 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 				array(
 					'method'              => \WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_parent_from_parent' ),
-					'permission_callback' => function() {
-						if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! $this->check_cap( 'get' ) ) {
-							return false;
-						}
-						return true;
-					},
+					'permission_callback' => function(){
+						return Rest_Class::g()->check_cap( 'get' );
+					}
 				),
 			), true );
 
