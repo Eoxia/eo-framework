@@ -10,7 +10,7 @@ npm install
 
 ## Coding
 
-cd eo-framework-plugin/eo-framework
+cd eo-framework/core/assets
 
 npm install
 
