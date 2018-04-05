@@ -98,6 +98,8 @@ if ( ! class_exists( '\eoxia\User_Class' ) ) {
 				}
 				$args['include'] = array_merge( (array) $args['id'], $args['include'] );
 				unset( $args['id'] );
+			} elseif ( isset( $args['id'] ) ) {
+				$args['schema'] = true;
 			}
 
 			$args = apply_filters( 'eo_model_user_before_get', $args );

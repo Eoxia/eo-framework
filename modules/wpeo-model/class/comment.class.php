@@ -121,7 +121,7 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 
 			// Si le paramètre "id" est passé on le transforme en "ID" qui est le paramètre attendu par get_comments.
 			// Dans un souci d'homogénéité du code, le paramètre "id" remplace "ID".
-			$args['id'] = ! empty( $args['comment_ID'] ) ? $args['comment_ID'] : ( isset( $args['id'] ) ? $args['id'] : 0 );
+			$args['id'] = ! empty( $args['comment_ID'] ) ? $args['comment_ID'] : ( isset( $args['id'] ) ? $args['id'] : null );
 			if ( ! empty( $args['id'] ) ) {
 				if ( isset( $args['comment_ID'] ) ) {
 					unset( $args['comment_ID'] );
@@ -130,6 +130,8 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 					$args['comment__in'] = array();
 				}
 				$args['comment__in'] = array_merge( (array) $args['id'], $args['comment__in'] );
+			} elseif ( isset( $args['id'] ) ) {
+				$args['schema'] = true;
 			}
 			unset( $args['id'] );
 

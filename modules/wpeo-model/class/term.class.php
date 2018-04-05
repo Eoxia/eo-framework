@@ -131,7 +131,7 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 
 			// Si le paramètre "id" est passé on le transforme en "include" qui est la paramètre attendu par WP_Term_Query.
 			// Dans un soucis d'homogénéité du code, le paramètre "id" remplace le paramètre "include" dans les appels de la fonction.
-			$args['id'] = ! empty( $args['term_id'] ) ? $args['term_id'] : ( isset( $args['id'] ) ? $args['id'] : 0 );
+			$args['id'] = ! empty( $args['term_id'] ) ? $args['term_id'] : ( isset( $args['id'] ) ? $args['id'] : null );
 			if ( ! empty( $args['id'] ) ) {
 				if ( isset( $args['term_id'] ) ) {
 					unset( $args['term_id'] );
@@ -140,6 +140,8 @@ if ( ! class_exists( '\eoxia\Term_Class' ) ) {
 					$args['include'] = array();
 				}
 				$args['include'] = array_merge( $args['include'], (array) $args['id'] );
+			} elseif ( isset( $args['id'] ) ) {
+				$args['schema'] = true;
 			}
 			unset( $args['id'] );
 
