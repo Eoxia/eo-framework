@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "install": "git clone https://github.com/Eoxia/eo-framework.git"
+  },
+  "author": "Eoxia",
+	"contributors": [
+		{
+			"name": "Eoxia",
+			"email": "dev@eoxia.com"
+		}
+	],
+  "license": "GPLv3"
+}
