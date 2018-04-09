@@ -31,7 +31,6 @@ class Core_Action {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_mixed_enqueue_scripts' ), 9 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_mixed_enqueue_scripts' ), 9 );
-		add_action( 'wp_head', array( $this, 'callback_wp_head' ) );
 	}
 
 	/**
@@ -84,17 +83,6 @@ class Core_Action {
 		);
 
 		return $data;
-	}
-
-	/**
-	 * @todo 01/02/2018 A commenter / modifier en plus propre.
-	 *
-	 * @return void
-	 */
-	public function callback_wp_head() {
-		?>
-		<script>FontAwesomeConfig = { searchPseudoElements: true };</script>
-		<?php
 	}
 }
 
