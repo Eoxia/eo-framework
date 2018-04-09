@@ -31,6 +31,7 @@ class Core_Action {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_mixed_enqueue_scripts' ), 9 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_mixed_enqueue_scripts' ), 9 );
+		add_action( 'init', array( $this, 'callback_plugins_loaded' ) );
 	}
 
 	/**
@@ -83,6 +84,16 @@ class Core_Action {
 		);
 
 		return $data;
+	}
+
+	/**
+	 * Initialise le fichier MO
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 */
+	public function callback_plugins_loaded() {
+		load_plugin_textdomain( 'eoxia', false, PLUGIN_EO_FRAMEWORK_DIR . '/core/assets/languages/' );
 	}
 }
 
