@@ -48,7 +48,7 @@ if ( ! class_exists( '\eoxia\Module_Util' ) ) {
 		 */
 		public function exec_module( $path, $plugin_slug ) {
 			if ( empty( \eoxia\Config_Util::$init[ $plugin_slug ] ) ) {
-				return new \WP_Error( 'broke', sptrinf( __( 'Main config %s not init', $plugin_slug ), $plugin_slug ) );
+				return new \WP_Error( 'broke', sprintf( __( 'Main config %s not init', $plugin_slug ), $plugin_slug ) );
 			}
 
 			if ( empty( \eoxia\Config_Util::$init[ $plugin_slug ]->modules ) ) {

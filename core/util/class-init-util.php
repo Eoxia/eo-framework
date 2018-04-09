@@ -100,7 +100,10 @@ if ( ! class_exists( '\eoxia\Init_Util' ) ) {
 		private function init_main_config( $path, $plugin_slug ) {
 			$main_config_path = $plugin_slug . '.config.json';
 			\eoxia\Config_Util::g()->init_config( $path . $main_config_path );
-			Config_Util::$init[ $plugin_slug ]->path = $path;
+
+			if ( isset( Config_Util::$init[ $plugin_slug ] ) ) {
+				Config_Util::$init[ $plugin_slug ]->path = $path;
+			}
 		}
 
 		/**

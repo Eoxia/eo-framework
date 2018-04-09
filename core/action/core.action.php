@@ -93,7 +93,10 @@ class Core_Action {
 	 * @version 1.0.0
 	 */
 	public function callback_plugins_loaded() {
-		load_plugin_textdomain( 'eoxia', false, PLUGIN_EO_FRAMEWORK_DIR . '/core/assets/languages/' );
+		$plugin_dir       = str_replace( '\\', '/', WP_PLUGIN_DIR );
+		$full_plugin_path = str_replace( '\\', '/', \eoxia\Config_Util::$init['main']->full_plugin_path );
+		$path             = str_replace( $plugin_dir, '', $full_plugin_path );
+		load_plugin_textdomain( 'eoxia', false, $path . 'core/external/' . PLUGIN_EO_FRAMEWORK_DIR . '/core/assets/languages/' );
 	}
 }
 
