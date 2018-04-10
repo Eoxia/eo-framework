@@ -34,4 +34,10 @@ add_action( 'plugins_loaded', function() {
 	}
 } );
 
+DEFINE( 'PLUGIN_EO_FRAMEWORK_PLUGIN_PATH', realpath( plugin_dir_path( __FILE__ ) ) . '/' );
+DEFINE( 'PLUGIN_EO_FRAMEWORK_PLUGIN_URL', plugins_url( basename( __DIR__ ) ) . '/' );
+DEFINE( 'PLUGIN_EO_FRAMEWORK_PLUGIN_DIR', basename( __DIR__ ) );
+
 require_once 'eo-framework/eo-framework.php';
+
+\eoxia\Init_Util::g()->exec( PLUGIN_EO_FRAMEWORK_PLUGIN_PATH, basename( __FILE__, '.php' ) );
