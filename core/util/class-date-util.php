@@ -104,12 +104,12 @@ if ( ! class_exists( '\eoxia\Date_Util' ) ) {
 			$clone_min         = intval( $sub_min - ( $hour * 60 ) );
 			$display           = '';
 
-			if ( ! empty( $day ) ) {
+			// if ( ! empty( $day ) ) {
 				$display .= $day . 'j ';
-			}
-			if ( ! empty( $hour ) ) {
+			// }
+			// if ( ! empty( $hour ) ) {
 				$display .= $hour . 'h ';
-			}
+			// }
 			$display .= $clone_min . 'min';
 			if ( $display_full_min ) {
 				$display .= ' (' . $min . 'min)';
