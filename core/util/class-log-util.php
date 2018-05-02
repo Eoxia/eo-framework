@@ -2,11 +2,11 @@
 /**
  * Méthodes utiles pour les logs
  *
- * @author Jimmy Latour <dev@eoxia.com>
- * @since 1.3.0
- * @version 1.3.0
- * @copyright 2015-2017 Eoxia
- * @package WPEO_Util
+ * @author Eoxia <dev@eoxia.com>
+ * @since 1.0.0
+ * @version 1.0.0
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Util
  */
 
 namespace eoxia;
