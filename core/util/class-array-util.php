@@ -38,7 +38,7 @@ if ( ! class_exists( '\eoxia\Array_Util' ) ) {
 		 * @param  array   $array         Les données pour la moulinette.
 		 * @param  boolean $start         Initialise count avec le tableau du premier niveau.
 		 * @param  array   $match_element Doit être un tableau contenant des integers.
-		 * @return int                 		Le nombre d'entrée
+		 * @return int                    Le nombre d'entrée
 		 */
 		public function count_recursive( $array, $start = true, $match_element = array() ) {
 			$count = 0;
