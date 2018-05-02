@@ -6,7 +6,7 @@
  * @since 0.1.0-alpha
  * @version 1.0.0
  * @copyright 2016-2018 Eoxia
- * @package EO_Framework\EO_Upload
+ * @package EO_Framework\EO_Upload\Action
  */
 
 namespace eoxia;
