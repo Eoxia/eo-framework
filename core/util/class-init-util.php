@@ -34,6 +34,9 @@ if ( ! class_exists( '\eoxia\Init_Util' ) ) {
 		/**
 		 * Appelles les méthodes read_core_util_file_and_include et init_main_config ainsi que init_module
 		 *
+		 * @param string $path        Le chemin absolue vers le plugin.
+		 * @param string $plugin_slug Le slug du plugin (Défini dans votre config.json principale).
+		 * 
 		 * @return void
 		 */
 		public function exec( $path, $plugin_slug ) {
