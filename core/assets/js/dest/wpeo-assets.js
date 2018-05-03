@@ -117,6 +117,9 @@ if ( ! window.eoxiaJS.action ) {
 		jQuery( document ).on( 'click', '.action-input:not(.no-action)', window.eoxiaJS.action.execInput );
 		jQuery( document ).on( 'click', '.action-attribute:not(.no-action)', window.eoxiaJS.action.execAttribute );
 		jQuery( document ).on( 'click', '.action-delete:not(.no-action)', window.eoxiaJS.action.execDelete );
+		jQuery( '#wpeo-task-metabox h2 span .action-attribute' ).click( window.eoxiaJS.action.execAttribute );
+		jQuery( '#wpeo-task-metabox h2 span .action-input' ).click( window.eoxiaJS.action.execInput );
+		jQuery( '#wpeo-task-metabox h2 span .action-delete' ).click( window.eoxiaJS.action.execDelete );
 	};
 
 	/**
@@ -913,6 +916,7 @@ if ( ! window.eoxiaJS.modal  ) {
 		jQuery( document ).on( 'click', '.wpeo-modal .modal-container', window.eoxiaJS.modal.stopPropagation );
 		jQuery( document ).on( 'click', '.wpeo-modal .modal-close', window.eoxiaJS.modal.close );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.modal.close );
+		jQuery( '#wpeo-task-metabox h2 span .wpeo-modal-event' ).click( window.eoxiaJS.modal.open );
 	};
 
 	window.eoxiaJS.modal.keyup = function( event ) {
@@ -999,7 +1003,7 @@ if ( ! window.eoxiaJS.modal  ) {
 		jQuery( '.wpeo-modal.modal-active:not(.modal-force-display)' ).each( function() {
 			var popup = jQuery( this );
 			popup.removeClass( 'modal-active' );
-			if ( 'default' !== popup[0].typeModal ) {
+			if ( popup[0].typeModal && 'default' !== popup[0].typeModal ) {
 				setTimeout( function() {
 					popup.remove();
 				}, 200 );

@@ -107,6 +107,7 @@ if ( ! window.eoxiaJS.modal  ) {
 		jQuery( document ).on( 'click', '.wpeo-modal .modal-container', window.eoxiaJS.modal.stopPropagation );
 		jQuery( document ).on( 'click', '.wpeo-modal .modal-close', window.eoxiaJS.modal.close );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.modal.close );
+		jQuery( '#wpeo-task-metabox h2 span .wpeo-modal-event' ).click( window.eoxiaJS.modal.open );
 	};
 
 	/**
@@ -225,7 +226,7 @@ if ( ! window.eoxiaJS.modal  ) {
 		jQuery( '.wpeo-modal.modal-active:not(.modal-force-display)' ).each( function() {
 			var popup = jQuery( this );
 			popup.removeClass( 'modal-active' );
-			if ( 'default' !== popup[0].typeModal ) {
+			if ( popup[0].typeModal && 'default' !== popup[0].typeModal ) {
 				setTimeout( function() {
 					popup.remove();
 				}, 200 );
