@@ -2,11 +2,11 @@
 /**
  * La vue affichant à l'utilisateur de mêttre à jour DigiRisk.
  *
- * @author Jimmy Latour <jimmy@Eoxia.com>
- * @since 1.6.0
- * @version 1.6.0
+ * @author Eoxia <dev@eoxia.com>
+ * @since 1.0.0
+ * @version 1.0.0
  * @copyright 2015-2018 Eoxia
- * @package Task_Manager
+ * @package EO_Framework\EO_Update_Manager\View
  */
 
 namespace task_manager;

@@ -2,7 +2,7 @@
 /**
  * Fichier boot du framework
  *
- * @package EO-Framework
+ * @package EO_Framework
  */
 
 namespace eoxia;

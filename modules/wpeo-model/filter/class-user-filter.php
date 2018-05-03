@@ -6,7 +6,7 @@
  * @since 1.0.0
  * @version 1.0.0
  * @copyright 2015-2018 Eoxia
- * @package EO_Framework
+ * @package EO_Framework\EO_Model\Filter
  */
 
 namespace eoxia;

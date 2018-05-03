@@ -2,11 +2,11 @@
 /**
  * Gestion des utilisateurs (POST, PUT, GET, DELETE)
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
  * @version 1.0.0
  * @copyright 2015-2018
- * @package EO_Framework
+ * @package EO_Framework\EO_Model\Class
  */
 
 namespace eoxia;

@@ -2,12 +2,11 @@
 /**
  * Handle schema.
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
  * @version 1.0.0
  * @copyright 2015-2018
- * @package wpeo_model
- * @subpackage class
+ * @package EO_Framework\EO_Model\Class
  */
 
 namespace eoxia;

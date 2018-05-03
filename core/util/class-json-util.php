@@ -2,11 +2,11 @@
 /**
  * Méthodes utiles pour les fichiers JSON.
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
  * @version 1.0.0
- * @copyright 2015-2017 Eoxia
- * @package WPEO_Util
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Core\Util
  */
 
 namespace eoxia;
@@ -27,13 +27,15 @@ if ( ! class_exists( '\eoxia\JSON_Util' ) ) {
 		 */
 		protected function construct() {}
 
-			/**
+		/**
 		 * Ouvres et décode le fichier JSON $path_to_json
 		 *
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
 		 * @param  string $path_to_json Le chemin vers le fichier JSON.
+		 * @param  string $output       Peut être STDCLASS ou ARRAY_A ou ARRAY_N. Défault STDCLASS.
+		 *
 		 * @return array              	Les données du fichier JSON
 		 */
 		public function open_and_decode( $path_to_json, $output = 'STDCLASS' ) {

@@ -3,11 +3,11 @@
  * Gestion des externals.
  * Les externals doivent être placés dans core/externals/
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
  * @version 1.0.0
- * @copyright 2015-2017 Eoxia
- * @package WPEO_Util
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Core\Util
  */
 
 namespace eoxia;

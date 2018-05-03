@@ -2,12 +2,11 @@
 /**
  * Gestion des routes
  *
- * @author Eoxit <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 1.0.0
  * @version 1.0.0
  * @copyright 2015-2018
- * @package EO_Framework
- * @subpackage wpeo_model
+ * @package EO_Framework\EO_Model\Class
  */
 
 namespace eoxia;

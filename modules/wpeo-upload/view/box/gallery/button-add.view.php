@@ -2,11 +2,11 @@
 /**
  * The actions button for the gallery.
  *
- * @author Eoxia
+ * @author Eoxia <dev@eoxia.com>
  * @since 1.0.0
  * @version 1.0.0
- * @copyright 2017
- * @package EO-Framework/WPEO-Upload
+ * @copyright 2017-2018 Eoxia
+ * @package EO_Framework\EO_Upload\Gallery\View
  */
 
 namespace eoxia;

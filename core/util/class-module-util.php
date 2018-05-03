@@ -3,11 +3,11 @@
  * Gestion des modules.
  * Les externals doivent être placés dans modules/
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
- * @version 1.2.0
- * @copyright 2015-2017 Eoxia
- * @package WPEO_Util
+ * @version 1.0.0
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Core\Util
  */
 
 namespace eoxia;
@@ -41,7 +41,7 @@ if ( ! class_exists( '\eoxia\Module_Util' ) ) {
 		 * @param string $path        Le chemin vers le module externe.
 		 * @param string $plugin_slug Le slug principale du plugin dans le fichier principale config.json.
 		 *
-		 * @return WP_Error|boolean {
+		 * @return \WP_Error|boolean {
 		 *																		WP_Error Si le fichier est inexistant ou si le plugin n'a pas de submodule.
 		 *                                    boolean  True si aucune erreur s'est produite.
 		 *}.

@@ -2,11 +2,11 @@
 /**
  * Gestion de l'objet Config_Util::$init.
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
- * @version 1.0.1
- * @copyright 2015-2017 Eoxia
- * @package WPEO_Util
+ * @version 1.0.0
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Core\Util
  */
 
 namespace eoxia;
@@ -45,7 +45,7 @@ if ( ! class_exists( '\eoxia\Config_Util' ) ) {
 		 * @param string $path_to_config_file Le chemin vers le fichier config.json.
 		 * @param string $plugin_slug         Le SLUG du plugin définis dans le fichier principale de config.json.
 		 *
-		 * @return WP_Error|boolean {
+		 * @return \WP_Error|boolean {
 		 *																		WP_Error Si le fichier est inexistant ou si le plugin ne contient pas de slug.
 		 *                                    boolean  True si aucune erreur s'est produite.
 		 *}.

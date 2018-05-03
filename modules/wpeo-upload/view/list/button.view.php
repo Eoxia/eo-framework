@@ -2,11 +2,11 @@
 /**
  * The link for upload media.
  *
- * @author Eoxia
+ * @author Eoxia <dev@eoxia.com>
  * @since 1.2.0
  * @version 1.2.0
- * @copyright 2017
- * @package EO-Upload
+ * @copyright 2017-2018 Eoxia
+ * @package EO_Framework\EO_Upload\List\View
  */
 
 namespace eoxia;
