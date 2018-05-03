@@ -41,10 +41,11 @@ if ( ! class_exists( '\eoxia\ZIP_Util' ) ) {
 		 * @param  string $zip_path         Le chemin vers l'archive.
 		 * @param  string $destination_path Le chemin d'extraction des fichiers.
 		 * @return array {
-		 *                                  Les propriétés du tableau retourné.
+		 * 			Les propriétés du tableau retourné.
 		 *
-		 *                                  @type boolean state True ou False.
-		 *                                  @type array $list_file Contenant plusieurs index avec le nom des fichiers dézippés.
+		 * 			@type boolean state True ou False.
+		 * 			@type array $list_file Contenant plusieurs index avec le nom des fichiers dézippés.
+		 * }
 		 */
 		public function unzip( $zip_path, $destination_path ) {
 			$zip = new \ZipArchive;

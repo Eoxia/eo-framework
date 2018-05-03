@@ -41,7 +41,7 @@ if ( ! class_exists( '\eoxia\Module_Util' ) ) {
 		 * @param string $path        Le chemin vers le module externe.
 		 * @param string $plugin_slug Le slug principale du plugin dans le fichier principale config.json.
 		 *
-		 * @return WP_Error|boolean {
+		 * @return \WP_Error|boolean {
 		 *																		WP_Error Si le fichier est inexistant ou si le plugin n'a pas de submodule.
 		 *                                    boolean  True si aucune erreur s'est produite.
 		 *}.

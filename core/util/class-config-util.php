@@ -45,7 +45,7 @@ if ( ! class_exists( '\eoxia\Config_Util' ) ) {
 		 * @param string $path_to_config_file Le chemin vers le fichier config.json.
 		 * @param string $plugin_slug         Le SLUG du plugin définis dans le fichier principale de config.json.
 		 *
-		 * @return WP_Error|boolean {
+		 * @return \WP_Error|boolean {
 		 *																		WP_Error Si le fichier est inexistant ou si le plugin ne contient pas de slug.
 		 *                                    boolean  True si aucune erreur s'est produite.
 		 *}.

@@ -2,7 +2,7 @@
 /**
  * Class SampleTest
  *
- * @package EO_Framework
+ * @package EO_Framework/Test
  */
 
 /**
