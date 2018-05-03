@@ -1,15 +1,55 @@
+/**
+ * @namespace EO_Framework_Tooltip
+ *
+ * @author Eoxia <dev@eoxia.com>
+ * @copyright 2015-2018 Eoxia
+ */
+
+/*
+
+ */
 if ( ! window.eoxiaJS.tooltip ) {
+
+	/**
+	 * [tooltip description]
+	 *
+	 * @memberof EO_Framework_Tooltip
+	 *
+	 * @type {Object}
+	 */
 	window.eoxiaJS.tooltip = {};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Tooltip
+	 *
+	 * @returns {void} [description]
+	 */
 	window.eoxiaJS.tooltip.init = function() {
 		window.eoxiaJS.tooltip.event();
 	};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Tooltip
+	 *
+	 * @returns {void} [description]
+	 */
 	window.eoxiaJS.tooltip.event = function() {
 		jQuery( document ).on( 'mouseenter', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.display );
 		jQuery( document ).on( 'mouseleave', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.remove );
 	};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Tooltip
+	 *
+	 * @param  {void} event [description]
+	 * @returns {void}       [description]
+	 */
 	window.eoxiaJS.tooltip.display = function( event ) {
 		var direction = ( jQuery( this ).data( 'direction' ) ) ? jQuery( this ).data( 'direction' ) : 'top';
 		var el = jQuery( '<span class="wpeo-tooltip tooltip-' + direction + '">' + jQuery( this ).attr( 'aria-label' ) + '</span>' );
@@ -55,6 +95,14 @@ if ( ! window.eoxiaJS.tooltip ) {
 		} );
 	};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Tooltip
+	 *
+	 * @param  {void} event [description]
+	 * @returns {void}       [description]
+	 */
 	window.eoxiaJS.tooltip.remove = function( event ) {
 		jQuery( jQuery( this )[0].tooltipElement ).remove();
 	};

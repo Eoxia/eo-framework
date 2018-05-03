@@ -1,4 +1,11 @@
 /**
+ * @namespace EO_Framework_Tab
+ *
+ * @author Eoxia <dev@eoxia.com>
+ * @copyright 2015-2018 Eoxia
+ */
+
+/*
  * Gestion des onglets.
  *
  * @since 1.0.0
@@ -6,16 +13,46 @@
  */
 
 if ( ! window.eoxiaJS.tab ) {
+
+	/**
+	 * [tab description]
+	 *
+	 * @memberof EO_Framework_Tab
+	 *
+	 * @type {Object}
+	 */
 	window.eoxiaJS.tab = {};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Tab
+	 *
+	 * @returns {void} [description]
+	 */
 	window.eoxiaJS.tab.init = function() {
 		window.eoxiaJS.tab.event();
 	};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Tab
+	 *
+	 * @returns {void} [description]
+	 */
 	window.eoxiaJS.tab.event = function() {
 	  jQuery( document ).on( 'click', '.wpeo-tab .tab-element', window.eoxiaJS.tab.load );
 	};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Tab
+	 *
+	 * @param  {void} event [description]
+	 * @returns {void}       [description]
+	 */
 	window.eoxiaJS.tab.load = function( event ) {
 		var tabTriggered = jQuery( this );
 		var data = {};
@@ -52,6 +89,13 @@ if ( ! window.eoxiaJS.tab ) {
 
 	};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Tab
+	 *
+	 * @returns {void} [description]
+	 */
 	window.eoxiaJS.tab.callTabChanged = function() {
 		var key = undefined, slug = undefined;
 		for ( key in window.eoxiaJS ) {
