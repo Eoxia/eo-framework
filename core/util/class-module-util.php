@@ -61,8 +61,6 @@ if ( ! class_exists( '\eoxia\Module_Util' ) ) {
 					self::inc_module( $plugin_slug, $path . $module_json_path );
 				}
 			}
-
-			return true;
 		}
 
 		/**
@@ -77,7 +75,12 @@ if ( ! class_exists( '\eoxia\Module_Util' ) ) {
 		 * @return void
 		 */
 		public function inc_config_module( $plugin_slug, $module_json_path ) {
-			\eoxia\Config_Util::g()->init_config( $module_json_path, $plugin_slug );
+			$init_status = \eoxia\Config_Util::g()->init_config( $module_json_path, $plugin_slug );
+
+			if ( \is_wp_error( $init_status ) ) {
+				exit( $init_status->errors['broke'][0] );
+			}
+
 		}
 
 		/**
@@ -94,6 +97,12 @@ if ( ! class_exists( '\eoxia\Module_Util' ) ) {
 		public function inc_module( $plugin_slug, $module_json_path ) {
 			$module_name = basename( $module_json_path, '.config.json' );
 			$module_path = dirname( $module_json_path );
+
+			if ( 'eo-framework' !== $plugin_slug ) {
+				if ( ! isset( \eoxia\Config_Util::$init[ $plugin_slug ]->$module_name ) ) {
+					exit( __( sprintf( '%s not exists. You need to check: 1. The folder name and file name.config.json is equal at the slug name in config.', $module_name ) ) );
+				}
+			}
 
 			if ( ! isset( \eoxia\Config_Util::$init[ $plugin_slug ]->$module_name->state ) || ( isset( \eoxia\Config_Util::$init[ $plugin_slug ]->$module_name->state ) && \eoxia\Config_Util::$init[ $plugin_slug ]->$module_name->state ) ) {
 				if ( ! empty( \eoxia\Config_Util::$init[ $plugin_slug ]->$module_name->dependencies ) ) {

@@ -36,7 +36,7 @@ if ( ! class_exists( '\eoxia\Init_Util' ) ) {
 		 *
 		 * @param string $path        Le chemin absolue vers le plugin.
 		 * @param string $plugin_slug Le slug du plugin (Défini dans votre config.json principale).
-		 * 
+		 *
 		 * @return void
 		 */
 		public function exec( $path, $plugin_slug ) {
@@ -102,7 +102,11 @@ if ( ! class_exists( '\eoxia\Init_Util' ) ) {
 		 */
 		private function init_main_config( $path, $plugin_slug ) {
 			$main_config_path = $plugin_slug . '.config.json';
-			\eoxia\Config_Util::g()->init_config( $path . $main_config_path );
+			$init_status = \eoxia\Config_Util::g()->init_config( $path . $main_config_path );
+
+			if ( \is_wp_error( $init_status ) ) {
+				exit( $init_status->errors['broke'][0] );
+			}
 
 			if ( isset( Config_Util::$init[ $plugin_slug ] ) ) {
 				Config_Util::$init[ $plugin_slug ]->path = $path;
@@ -140,7 +144,11 @@ if ( ! class_exists( '\eoxia\Init_Util' ) ) {
 		 * @return void
 		 */
 		private function init_module( $path, $plugin_slug ) {
-			\eoxia\Module_Util::g()->exec_module( $path, $plugin_slug );
+			$init_module_status = \eoxia\Module_Util::g()->exec_module( $path, $plugin_slug );
+
+			if ( \is_wp_error( $init_module_status ) ) {
+				exit( $init_module_status->errors['broke'][0] );
+			}
 		}
 	}
 } // End if().

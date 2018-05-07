@@ -51,30 +51,49 @@ if ( ! class_exists( '\eoxia\Config_Util' ) ) {
 		 *}.
 		 */
 		public function init_config( $path_to_config_file, $plugin_slug = '' ) {
+			if ( 'eo-framework' === $plugin_slug ) {
+				$plugin_slug = '';
+			}
+
 			if ( empty( $path_to_config_file ) ) {
 				return new \WP_Error( 'broke', __( 'Unable to load file', 'eoxia' ) );
 			}
 
-			$tmp_config = JSON_Util::g()->open_and_decode( $path_to_config_file );
+			if ( ! file_exists( $path_to_config_file ) ) {
+				return new \WP_Error( 'broke', __( sprintf( 'File %s is not found', $path_to_config_file ) ) );
+			}
 
+			$tmp_config = JSON_Util::g()->open_and_decode( $path_to_config_file );
 			if ( empty( $tmp_config->slug ) ) {
 				return new \WP_Error( 'broke', __( 'This plugin need to have a slug', 'eoxia' ) );
 			}
 
+			$type = isset( $tmp_config->modules ) ? 'main' : 'module';
+
+			if ( 'main' === $type ) {
+				if ( $tmp_config->slug !== $plugin_slug && '' !== $plugin_slug ) {
+					return new \WP_Error( 'broke', __( sprintf( 'Slug of plugin is not equal main config json file name %s => %s. Set correct slug in the file: %s', $plugin_slug, $tmp_config->slug, $path_to_config_file ), 'eoxia' ) );
+				}
+			}
+
 			if ( ! empty( $plugin_slug ) ) {
-				$abspath = str_replace( '\\', '/', ABSPATH );
-
-				$slug = $tmp_config->slug;
-				$tmp_path = str_replace( '\\', '/', self::$init[ $plugin_slug ]->path );
-				$tmp_config->module_path = $tmp_config->path;
-
-				$tmp_config->url = str_replace( $abspath, site_url('/'), $tmp_path . $tmp_config->path );
-				$tmp_config->url = str_replace( '\\', '/', $tmp_config->url );
-				$tmp_config->path = $tmp_path . $tmp_config->path;
-				if ( isset( $tmp_config->external ) && ! empty( $tmp_config->external ) ) {
-					self::$init['external']->$slug = $tmp_config;
+				if ( ! isset( self::$init[ $plugin_slug ] ) ) {
+					self::$init[ $plugin_slug ] = $tmp_config;
 				} else {
-					self::$init[ $plugin_slug ]->$slug = $tmp_config;
+					$abspath = str_replace( '\\', '/', ABSPATH );
+
+					$slug = $tmp_config->slug;
+					$tmp_path = str_replace( '\\', '/', self::$init[ $plugin_slug ]->path );
+					$tmp_config->module_path = $tmp_config->path;
+
+					$tmp_config->url = str_replace( $abspath, site_url('/'), $tmp_path . $tmp_config->path );
+					$tmp_config->url = str_replace( '\\', '/', $tmp_config->url );
+					$tmp_config->path = $tmp_path . $tmp_config->path;
+					if ( isset( $tmp_config->external ) && ! empty( $tmp_config->external ) ) {
+						self::$init['external']->$slug = $tmp_config;
+					} else {
+						self::$init[ $plugin_slug ]->$slug = $tmp_config;
+					}
 				}
 			} else {
 				self::$init[ $tmp_config->slug ] = $tmp_config;
