@@ -68,10 +68,11 @@ if ( ! window.eoxiaJS.action ) {
 	};
 
 	/**
-	 * @summary Permet de lancer une requête avec les valeurs des <inputs> trouvé dans le contenaire défini par l'attribut "data-parent".
+	 * @summary Permet de lancer une requête avec les valeurs des inputs trouvés dans le contenaire défini par l'attribut "data-parent".
 	 *
 	 * @since 0.1.0
 	 * @version 1.0.0
+	 * @memberof EO_Framework_Actions
 	 *
 	 * @example
 	 *
@@ -81,9 +82,7 @@ if ( ! window.eoxiaJS.action ) {
 	 * 	<button class="action-input" data-parent="my-form">Envoyé</button>
 	 * </div>
 	 *
-	 * @param  {MouseEvent} event Properties of element triggered by the MouseEvent.
-	 *
-	 * @memberof EO_Framework_Actions
+	 * @param  {MouseEvent} event Toutes les propriétés de la souris lors du clic.
 	 *
 	 * @returns {void}
 	 */
@@ -127,14 +126,19 @@ if ( ! window.eoxiaJS.action ) {
 	};
 
 	/**
-	 * Make a request with data on HTML element clicked.
+	 * @summary Permet de lancer une requête avec les valeurs des attributs commençant par data-* sur la balise ou le classe action-attribute est placée.
+	 *
+	 * L'attribut data-action et obligatoire pour lancer une requête XHR, c'est sur celle-ci que l'action AJAX WordPress sera attaché avec le hook wp_ajax_*.
 	 *
 	 * @since 0.1.0
 	 * @version 1.0.0
-	 *
-	 * @param  {MouseEvent} event Properties of element triggered by the MouseEvent.
-	 *
 	 * @memberof EO_Framework_Actions
+	 *
+	 * @example
+	 *
+	 * <span class="action-attribute" data-action="create_post" data-title="Mon super titre">Créer un post</span>
+	 *
+	 * @param  {MouseEvent} event Toutes les propriétés de la souris lors du clic.
 	 *
 	 * @returns {void}
 	 */
