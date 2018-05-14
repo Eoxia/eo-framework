@@ -246,6 +246,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 			parent[0].xhr = undefined;
 		}
 
+		parent.find( '.autocomplete-search-list' ).html( '' );
 		parent.find( '.autocomplete-loading' ).css({
 			width: '100%',
 		});
