@@ -43,6 +43,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 	window.eoxiaJS.autoComplete.event = function() {
 		jQuery( document ).on( 'keyup', '.wpeo-autocomplete input', window.eoxiaJS.autoComplete.keyUp );
 		jQuery( document ).on( 'click', '.wpeo-autocomplete .autocomplete-icon-after', window.eoxiaJS.autoComplete.deleteContent );
+		jQuery( document ).on( 'click', 'body .wpeo-autocomplete input', window.eoxiaJS.autoComplete.preventClic );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.autoComplete.close );
 	};
 
@@ -137,6 +138,21 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 			window.eoxiaJS.autoComplete.clear(parent, label);
 		}
 	};
+
+	/**
+	 * Permet de ne pas fermer la liste des résultats si on clic sur le champ de recherche.
+	 *
+	 * @memberof EO_Framework_Auto_Complete
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @param  {MouseEvent} event [description]
+	 * @return {void}       [description]
+	 */
+	window.eoxiaJS.autoComplete.preventClic = function( event ) {
+		event.stopPropagation();
+	}
 
 	/**
 	 * Close result list
