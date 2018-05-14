@@ -1,0 +1,8 @@
+{
+	"name": "EO Framework Plugin Dev",
+	"slug": "eo-framework-plugin",
+	"version": "1.0.0",
+	"description": "L'application EO Framework Plugin",
+	"externals": [],
+	"modules": []
+}
