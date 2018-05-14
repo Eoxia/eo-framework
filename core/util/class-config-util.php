@@ -51,10 +51,6 @@ if ( ! class_exists( '\eoxia\Config_Util' ) ) {
 		 *}.
 		 */
 		public function init_config( $path_to_config_file, $plugin_slug = '' ) {
-			if ( 'eo-framework' === $plugin_slug ) {
-				$plugin_slug = '';
-			}
-
 			if ( empty( $path_to_config_file ) ) {
 				return new \WP_Error( 'broke', __( 'Unable to load file', 'eoxia' ) );
 			}
