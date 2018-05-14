@@ -51,10 +51,6 @@ if ( ! class_exists( '\eoxia\Module_Util' ) ) {
 				return new \WP_Error( 'broke', sprintf( __( 'Main config %s not init', $plugin_slug ), $plugin_slug ) );
 			}
 
-			if ( empty( \eoxia\Config_Util::$init[ $plugin_slug ]->modules ) ) {
-				return new \WP_Error( 'broke', __( 'No module to load', $plugin_slug ) );
-			}
-
 			if ( ! empty( \eoxia\Config_Util::$init[ $plugin_slug ]->modules ) ) {
 				foreach ( \eoxia\Config_Util::$init[ $plugin_slug ]->modules as $module_json_path ) {
 					self::inc_config_module( $plugin_slug, $path . $module_json_path );
