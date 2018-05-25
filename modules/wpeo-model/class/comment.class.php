@@ -187,7 +187,13 @@ if ( ! class_exists( '\eoxia\Comment_Class' ) ) {
 			}
 
 			if ( empty( $data['id'] ) ) {
-				$user = wp_get_current_user();
+
+				if ( ! empty( $data['author_id'] ) ) {
+					$user = get_userdata( $data['author_id'] );
+				} else {
+					$user = wp_get_current_user();
+				}
+
 				if ( $user->exists() ) {
 					if ( empty( $data['author_id'] ) ) {
 						$data['author_id'] = $user->ID;
