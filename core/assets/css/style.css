@@ -3477,7 +3477,8 @@
       -ms-flex: 0 1 auto;
           flex: 0 1 auto;
   margin-left: -0.5em;
-  margin-right: -0.5em; }
+  margin-right: -0.5em;
+  width: 100%; }
 
 .wpeo-grid > * {
   padding: 0.5em !important; }
