@@ -2,11 +2,6 @@
 	display: grid;
 	grid-gap: 1em 1em;
 	grid-template-columns: repeat( 4, 1fr );
-
-	> * {
-		background: cyan;
-		height: 100% !important;
-	}
 }
 
 /** Définition des tailles */
@@ -28,7 +23,7 @@
 
 					@if ( $y > 1 ) {
 						@media ( max-width: $media__medium ) {
-							grid-column: auto / span 2;		
+							grid-column: auto / span 2;
 						}
 					}
 				}
