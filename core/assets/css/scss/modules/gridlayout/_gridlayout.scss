@@ -11,9 +11,6 @@
 		&.grid-#{$i} {
 			grid-template-columns: repeat( $i, 1fr );
 		}
-		&.grid-gap-#{$i} {
-			grid-gap: #{$i}em  #{$i}em;
-		}
 
 		/** Chaque enfant peut modifier sa propre taille */
 		@for $y from 1 through 6 {
@@ -31,6 +28,25 @@
 		}
 	}
 }
+
+/** Mages */
+.wpeo-gridlayout {
+	@for $i from 0 through 6 {
+		&.grid-margin-#{$i} {
+			margin: #{$i}em  0;
+		}
+	}
+}
+
+/** Gouttières */
+.wpeo-gridlayout {
+	@for $i from 0 through 6 {
+		&.grid-gap-#{$i} {
+			grid-gap: #{$i}em  #{$i}em;
+		}
+	}
+}
+
 
 /** Définition des hauteur des enfants */
 .wpeo-gridlayout {
