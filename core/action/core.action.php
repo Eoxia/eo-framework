@@ -2,11 +2,11 @@
 /**
  * Inclusions de wpeo_assets
  *
- * @author Jimmy Latour <jimmy.eoxia@gmail.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 1.0.0
  * @version 1.0.0
- * @copyright 2015-2017 Eoxia
- * @package EO-Framework
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Core\Action
  */
 
 namespace eoxia;
@@ -31,7 +31,7 @@ class Core_Action {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_mixed_enqueue_scripts' ), 9 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_mixed_enqueue_scripts' ), 9 );
-		add_action( 'wp_head', array( $this, 'callback_wp_head' ) );
+		add_action( 'init', array( $this, 'callback_plugins_loaded' ) );
 	}
 
 	/**
@@ -87,14 +87,16 @@ class Core_Action {
 	}
 
 	/**
-	 * @todo 01/02/2018 A commenter / modifier en plus propre.
+	 * Initialise le fichier MO
 	 *
-	 * @return void
+	 * @since 1.0.0
+	 * @version 1.0.0
 	 */
-	public function callback_wp_head() {
-		?>
-		<script>FontAwesomeConfig = { searchPseudoElements: true };</script>
-		<?php
+	public function callback_plugins_loaded() {
+		$plugin_dir       = str_replace( '\\', '/', WP_PLUGIN_DIR );
+		$full_plugin_path = str_replace( '\\', '/', \eoxia\Config_Util::$init['main']->full_plugin_path );
+		$path             = str_replace( $plugin_dir, '', $full_plugin_path );
+		load_plugin_textdomain( 'eoxia', false, $path . 'core/external/' . PLUGIN_EO_FRAMEWORK_DIR . '/core/assets/languages/' );
 	}
 }
 

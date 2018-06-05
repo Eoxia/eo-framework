@@ -2,7 +2,7 @@
 /**
  * Fichier boot du framework
  *
- * @package EO-Framework
+ * @package EO_Framework
  */
 
 namespace eoxia;
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( '\eoxia\Init_Util' ) ) {
 	DEFINE( 'PLUGIN_EO_FRAMEWORK_PATH', realpath( plugin_dir_path( __FILE__ ) ) . '/' );
-	DEFINE( 'PLUGIN_EO_FRAMEWORK_URL', plugins_url( basename( __DIR__ ) ) . '/' );
+	DEFINE( 'PLUGIN_EO_FRAMEWORK_URL', plugin_dir_url( basename( __DIR__ ) ) . '/' );
 	DEFINE( 'PLUGIN_EO_FRAMEWORK_DIR', basename( __DIR__ ) );
 
 	require_once( 'core/util/class-singleton-util.php' );

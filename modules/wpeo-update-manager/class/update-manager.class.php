@@ -6,7 +6,7 @@
  * @since 1.0.0
  * @version 1.0.0
  * @copyright 2015-2018 Eoxia
- * @package Task_Manager
+ * @package EO_Framework\EO_Update_Manager\Class
  */
 
 namespace eoxia;

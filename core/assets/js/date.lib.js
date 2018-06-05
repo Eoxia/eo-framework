@@ -1,4 +1,11 @@
 /**
+ * @namespace EO_Framework_Date
+ *
+ * @author Eoxia <dev@eoxia.com>
+ * @copyright 2015-2018 Eoxia
+ */
+
+/*
  * Handle date
  *
  * @since 1.0.0
@@ -7,8 +14,22 @@
 
 if ( ! window.eoxiaJS.date ) {
 
+	/**
+	 * [date description]
+	 *
+	 * @memberof EO_Framework_Date
+	 *
+	 * @type {Object}
+	 */
 	window.eoxiaJS.date = {};
 
+	/**
+	 * [description]
+	 *
+	 * @memberof EO_Framework_Date
+	 *
+	 * @returns {void} [description]
+	 */
 	window.eoxiaJS.date.init = function() {
 		jQuery( document ).on ('click', '.group-date .date', function( e ) {
 			var format = 'd/m/Y';

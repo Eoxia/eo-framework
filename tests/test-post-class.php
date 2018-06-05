@@ -2,7 +2,7 @@
 /**
  * Class SampleTest
  *
- * @package EO_Framework
+ * @package EO_Framework/Test
  */
 
 /**
@@ -11,7 +11,14 @@
 class TestPostClass extends WP_UnitTestCase {
 
 	/**
+	 * Testes de Post_Model.
+	 *
 	 * @dataProvider get_data
+	 *
+	 * @param array $data     Les données à tester. Défini dans get_data.
+	 * @param array $expected Les données attendu lors des tests unitaires. Défini dans get_data.
+	 *
+	 * @return void
 	 */
 	function test_create_post( $data, $expected ) {
 		$post = \eoxia\Post_Class::g()->create( $data, true );
@@ -53,6 +60,11 @@ class TestPostClass extends WP_UnitTestCase {
 
 	}
 
+	/**
+	 * Les données défini pour la méthode test_create_post.
+	 *
+	 * @return array Les données à tester et les données attendues.
+	 */
 	function get_data() {
 		$date = current_time( 'mysql' );
 

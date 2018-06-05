@@ -2,11 +2,11 @@
 /**
  * Gestion des vues pour les templates.
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
  * @version 1.0.0
- * @copyright 2015-2017 Eoxia
- * @package WPEO_Util
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Core\Util
  */
 
 namespace eoxia;
@@ -32,15 +32,16 @@ if ( ! class_exists( '\eoxia\View_Util' ) ) {
 		protected function construct() {}
 
 		/**
-		 * Appelle la vue avec les paramètres et calcule automatiquement les MicroSeconds
+		 * Appelle la vue avec les paramètres extrait de $args.
 		 *
 		 * @since 0.1.0
 		 * @version 1.0.0
 		 *
+		 * @param  string $namespace             Le slug du plugin (Défini dans votre config.json principale).
 		 * @param  string $module_name           Le nom du module.
 		 * @param  string $view_path_without_ext Le chemin vers le fichier à partir du dossier "view" du module.
 		 * @param  array  $args                  Les données à transmettre à la vue. Défaut array().
-		 * @param  bool  $filter                 Utilisation d'un filtre ou pas. Permet d'ajouter des paramètres au template.
+		 * @param  bool   $filter                 Utilisation d'un filtre ou pas. Permet d'ajouter des paramètres au template.
 		 *
 		 * @return void
 		 */

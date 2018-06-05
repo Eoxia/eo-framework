@@ -2,12 +2,11 @@
 /**
  * Classe helper pour les modèles.
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 1.0.0
  * @version 1.0.0
- * @copyright 2015-2017
- * @package wpeo_model
- * @subpackage class
+ * @copyright 2015-2018
+ * @package EO_Framework\EO_Model\Class
  */
 
 namespace eoxia;

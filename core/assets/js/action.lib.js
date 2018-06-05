@@ -1,19 +1,27 @@
 /**
- * Gestion des actions XHR principaux
+ * @namespace EO_Framework_Actions
  *
- * -action-input:     Déclenches une requête XHR avec les balises inputs contenu dans le contenaire parent.
- * -action-attribute: Déclenches une requête XHR avec les attributs de l'élément déclencheur.
- * -action-delete:    Déclenches une requête XHR avec les attributs de l'élément déclencheur si l'utilisateur confirme la popin "confirm" du navigateur.
+ * @author Eoxia <dev@eoxia.com>
+ * @copyright 2015-2018 Eoxia
  *
- * @since 1.0.0
+ * @since 0.1.0
  * @version 1.0.0
+ * @license GPLv3
+ *
+ * @description Gestion des actions XHR principaux
+ *
+ * * action-input: Déclenches une requête XHR avec les balises inputs contenu dans le contenaire parent.
+ * * action-attribute: Déclenches une requête XHR avec les attributs de l'élément déclencheur.
+ * * action-delete: Déclenches une requête XHR avec les attributs de l'élément déclencheur si l'utilisateur confirme la popin "confirm" du navigateur.
  */
 
 if ( ! window.eoxiaJS.action ) {
 	/**
-	 * Declare the object action.
+	 * @summary L'objet principal "Action" ajouté à l'objet eoxiaJS afin de permêttre au fichier init.js de booter la méthode "init" de cet objet.
 	 *
-	 * @since 1.0.0
+	 * @memberof EO_Framework_Actions
+	 *
+	 * @since 0.1.0
 	 * @version 1.0.0
 	 *
 	 * @type {Object}
@@ -21,40 +29,62 @@ if ( ! window.eoxiaJS.action ) {
 	window.eoxiaJS.action = {};
 
 	/**
-	 * This method call the event method
+	 * @summary Méthode obligatoire pour le boot de l'objet "Action". Cette méthode est appelée automatiquement par init.js.
 	 *
-	 * @since 1.0.0
+	 * Cette méthode appelle la méthode "event" de l'objet "Action".
+	 *
+	 * @since 0.1.0
 	 * @version 1.0.0
 	 *
-	 * @return {void}
+	 * @memberof EO_Framework_Actions
+	 *
+	 * @returns {void}
 	 */
 	window.eoxiaJS.action.init = function() {
 		window.eoxiaJS.action.event();
 	};
 
 	/**
-	 * This method initialize the click event on three classes.
+	 * @summary Méthode "event" définie les 3 events principaux des actions de EO Framework: "action-input", "action-attribute" et "action-delete".
 	 *
-	 * @since 1.0.0
+	 * Ses trois évènements sont déclenchés au clic gauche de la souris.
+	 *
+	 * La classe "no-action" permet d'annuler l'évènement.
+	 *
+	 * @since 0.1.0
 	 * @version 1.0.0
 	 *
-	 * @return {void}
+	 * @memberof EO_Framework_Actions
+	 *
+	 * @returns {void}
 	 */
 	window.eoxiaJS.action.event = function() {
 		jQuery( document ).on( 'click', '.action-input:not(.no-action)', window.eoxiaJS.action.execInput );
 		jQuery( document ).on( 'click', '.action-attribute:not(.no-action)', window.eoxiaJS.action.execAttribute );
 		jQuery( document ).on( 'click', '.action-delete:not(.no-action)', window.eoxiaJS.action.execDelete );
+		jQuery( '#wpeo-task-metabox h2 span .action-attribute' ).click( window.eoxiaJS.action.execAttribute );
+		jQuery( '#wpeo-task-metabox h2 span .action-input' ).click( window.eoxiaJS.action.execInput );
+		jQuery( '#wpeo-task-metabox h2 span .action-delete' ).click( window.eoxiaJS.action.execDelete );
 	};
 
 	/**
-	 * Make a request with input value founded inside the parent of the HTML element clicked.
+	 * @summary Permet de lancer une requête avec les valeurs des inputs trouvés dans le contenaire défini par l'attribut "data-parent".
 	 *
-	 * @since 1.0.0
+	 * @since 0.1.0
 	 * @version 1.0.0
+	 * @memberof EO_Framework_Actions
 	 *
-	 * @param  {MouseEvent} event Properties of element triggered by the MouseEvent.
+	 * @example
 	 *
-	 * @return {void}
+	 * <div class="my-form">
+	 * 	<input type="hidden" name="action" value="create_post" />
+	 * 	<input type="text" name="title" />
+	 * 	<button class="action-input" data-parent="my-form">Envoyé</button>
+	 * </div>
+	 *
+	 * @param  {MouseEvent} event Toutes les propriétés de la souris lors du clic.
+	 *
+	 * @returns {void}
 	 */
 	window.eoxiaJS.action.execInput = function( event ) {
 		var element = jQuery( this ), parentElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
@@ -96,18 +126,26 @@ if ( ! window.eoxiaJS.action ) {
 	};
 
 	/**
-	 * Make a request with data on HTML element clicked.
+	 * @summary Permet de lancer une requête avec les valeurs des attributs commençant par data-* sur la balise ou le classe action-attribute est placée.
 	 *
-	 * @since 1.0.0
+	 * L'attribut data-action et obligatoire pour lancer une requête XHR, c'est sur celle-ci que l'action AJAX WordPress sera attaché avec le hook wp_ajax_*.
+	 *
+	 * @since 0.1.0
 	 * @version 1.0.0
+	 * @memberof EO_Framework_Actions
 	 *
-	 * @param  {MouseEvent} event Properties of element triggered by the MouseEvent.
+	 * @example
 	 *
-	 * @return {void}
+	 * <span class="action-attribute" data-action="create_post" data-title="Mon super titre">Créer un post</span>
+	 *
+	 * @param  {MouseEvent} event Toutes les propriétés de la souris lors du clic.
+	 *
+	 * @returns {void}
 	 */
 	window.eoxiaJS.action.execAttribute = function( event ) {
-	  var element = jQuery( this );
-		var doAction = true;
+	  var element       = jQuery( this );
+		var loaderElement = element;
+		var doAction      = true;
 
 		event.preventDefault();
 
@@ -121,17 +159,21 @@ if ( ! window.eoxiaJS.action ) {
 			doAction = false;
 		}
 
+		if ( element.attr( 'data-loader' ) ) {
+			loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
+		}
+
 		if ( doAction ) {
 			if ( jQuery( this ).attr( 'data-confirm' ) ) {
 				if ( window.confirm( jQuery( this ).attr( 'data-confirm' ) ) ) {
 					element.get_data( function( data ) {
-						window.eoxiaJS.loader.display( element );
+						window.eoxiaJS.loader.display( loaderElement );
 						window.eoxiaJS.request.send( element, data );
 					} );
 				}
 			} else {
 				element.get_data( function( data ) {
-					window.eoxiaJS.loader.display( element );
+					window.eoxiaJS.loader.display( loaderElement );
 					window.eoxiaJS.request.send( element, data );
 				} );
 			}
@@ -143,12 +185,14 @@ if ( ! window.eoxiaJS.action ) {
 	/**
 	 * Make a request with data on HTML element clicked with a custom delete message.
 	 *
-	 * @since 1.0.0
+	 * @memberof EO_Framework_Actions
+	 *
+	 * @since 0.1.0
 	 * @version 1.0.0
 	 *
 	 * @param  {MouseEvent} event Properties of element triggered by the MouseEvent.
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	window.eoxiaJS.action.execDelete = function( event ) {
 		var element = jQuery( this );
@@ -179,12 +223,14 @@ if ( ! window.eoxiaJS.action ) {
 	/**
 	 * Si une méthode de callback existe avant l'action, cette méthode l'appel.
 	 *
-	 * @since 1.0.0
+	 * @memberof EO_Framework_Actions
+	 *
+	 * @since 0.1.0
 	 * @version 1.0.0
 	 *
 	 * @param  {Object} element L'élément déclencheur.
 	 *
-	 * @return {bool}           True si l'action peut être envoyé, sinon False.
+	 * @returns {bool}           True si l'action peut être envoyé, sinon False.
 	 */
 	window.eoxiaJS.action.checkBeforeCB = function( element ) {
 		var beforeMethod = element.attr( 'wpeo-before-cb' );

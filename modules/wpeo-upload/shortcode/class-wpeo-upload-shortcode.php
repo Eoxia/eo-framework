@@ -2,11 +2,11 @@
 /**
  * Call the main view of the plugin.
  *
- * @author Eoxia
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0-alpha
  * @version 1.0.0
  * @copyright 2017-2018 Eoxia
- * @package EO-Framework/WPEO-Upload
+ * @package EO_Framework\EO_Upload\Shortcode
  */
 
 namespace eoxia;

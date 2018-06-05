@@ -2,11 +2,11 @@
 /**
  * Méthodes utilitaires pour les tableaux.
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
  * @version 1.0.0
- * @copyright 2015-2017 Eoxia
- * @package WPEO_Util
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Core\Util
  */
 
 namespace eoxia;
@@ -38,7 +38,7 @@ if ( ! class_exists( '\eoxia\Array_Util' ) ) {
 		 * @param  array   $array         Les données pour la moulinette.
 		 * @param  boolean $start         Initialise count avec le tableau du premier niveau.
 		 * @param  array   $match_element Doit être un tableau contenant des integers.
-		 * @return int                 		Le nombre d'entrée
+		 * @return int                    Le nombre d'entrée
 		 */
 		public function count_recursive( $array, $start = true, $match_element = array() ) {
 			$count = 0;

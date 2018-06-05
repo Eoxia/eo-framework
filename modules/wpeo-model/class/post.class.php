@@ -6,7 +6,7 @@
  * @since 0.1.0
  * @version 1.0.0
  * @copyright 2015-2018
- * @package EO_Framework
+ * @package EO_Framework\EO_Model\Class
  */
 
 namespace eoxia;
@@ -135,7 +135,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 
 			// Si le paramètre "id" est passé on le transforme en "post__in" pour eviter les problèmes de statuts.
 			// Dans un soucis d'homogénéité du code, le paramètre "id" remplace le paramètre "p" qui est de base dans WP_Query.
-			$args['id'] = ! empty( $args['ID'] ) ? $args['ID'] : ( isset( $args['id'] ) ? $args['id'] : 0 );
+			$args['id'] = ! empty( $args['ID'] ) ? $args['ID'] : ( isset( $args['id'] ) ? $args['id'] : null );
 			if ( ! empty( $args['id'] ) ) {
 				if ( isset( $args['ID'] ) ) {
 					unset( $args['ID'] );
@@ -144,6 +144,8 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 					$args['post__in'] = array();
 				}
 				$args['post__in'] = array_merge( (array) $args['id'], $args['post__in'] );
+			} elseif ( isset( $args['id'] ) ) {
+				$args['schema'] = true;
 			}
 			unset( $args['id'] );
 

@@ -2,11 +2,11 @@
 /**
  * Gestion des fichiers ZIP.
  *
- * @author Jimmy Latour <dev@eoxia.com>
+ * @author Eoxia <dev@eoxia.com>
  * @since 0.1.0
  * @version 1.0.0
- * @copyright 2015-2017 Eoxia
- * @package WPEO_Util
+ * @copyright 2015-2018 Eoxia
+ * @package EO_Framework\Core\Util
  */
 
 namespace eoxia;
@@ -41,10 +41,11 @@ if ( ! class_exists( '\eoxia\ZIP_Util' ) ) {
 		 * @param  string $zip_path         Le chemin vers l'archive.
 		 * @param  string $destination_path Le chemin d'extraction des fichiers.
 		 * @return array {
-		 *                                  Les propriétés du tableau retourné.
+		 * 			Les propriétés du tableau retourné.
 		 *
-		 *                                  @type boolean state True ou False.
-		 *                                  @type array $list_file Contenant plusieurs index avec le nom des fichiers dézippés.
+		 * 			@type boolean state True ou False.
+		 * 			@type array $list_file Contenant plusieurs index avec le nom des fichiers dézippés.
+		 * }
 		 */
 		public function unzip( $zip_path, $destination_path ) {
 			$zip = new \ZipArchive;
