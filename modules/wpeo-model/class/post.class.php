@@ -225,6 +225,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			$args_cb['append_taxonomies'] = $append;
 
 			$data = apply_filters( 'eo_model_post_before_' . $req_method, $data, $args_cb );
+
 			// Il ne faut pas lancer plusieurs fois pour post.
 			if ( 'post' !== $this->get_type() ) {
 				$data = apply_filters( 'eo_model_' . $this->get_type() . '_before_' . $req_method, $data, $args_cb );
@@ -245,6 +246,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			if ( is_wp_error( $post_save_result ) ) {
 				return $post_save_result;
 			}
+
 
 			$object = apply_filters( 'eo_model_post_after_' . $req_method, $object, $args_cb );
 			$object = $this->get( array(
@@ -279,6 +281,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			}
 
 			$where = ' AND ( ';
+
 			if ( ! empty( $array ) ) {
 				foreach ( $array as $key => $element ) {
 					if ( is_array( $element ) ) {
@@ -318,6 +321,18 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 */
 		public function get_attached_taxonomy() {
 			return $this->attached_taxonomy_type;
+		}
+		
+		/**
+		 * Retournes le nom du post type.
+		 *
+		 * @since 1.0.0
+		 * @version 1.0.0
+		 *
+		 * @return string Le nom du post type.
+		 */
+		public function get_post_type_name() {
+			return $this->post_type_name;
 		}
 
 	}
