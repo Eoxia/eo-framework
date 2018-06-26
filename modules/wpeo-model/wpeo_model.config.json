@@ -10,15 +10,15 @@
 	"dependencies": {
 		"class": {
 			"priority": [
-				"helper",
-				"rest",
-				"object",
-				"post"
+				"helper.class.php",
+				"rest.class.php",
+				"object.class.php",
+				"post.class.php"
 			]
 		},
 		"model": {
 			"priority": [
-				"post"
+				"class-post-model.php"
 			]
 		},
 		"filter": {}

@@ -145,11 +145,7 @@ if ( ! class_exists( '\eoxia\Module_Util' ) ) {
 		public function inc_priority_file( $path_to_module_and_dependence_folder, $dependence_folder, $list_priority_file ) {
 			if ( ! empty( $list_priority_file ) ) {
 				foreach ( $list_priority_file as $file_name ) {
-					if ( in_array( $dependence_folder, array( 'class', 'helper' ), true ) ) {
-						$path_file = realpath( $path_to_module_and_dependence_folder . $file_name . '.' . $dependence_folder . '.php' );
-					} else {
-						$path_file = realpath( $path_to_module_and_dependence_folder . 'class-' . $file_name . '-' . $dependence_folder . '.php' );
-					}
+					$path_file = realpath( $path_to_module_and_dependence_folder . $file_name  );
 
 					require_once( $path_file );
 				}
