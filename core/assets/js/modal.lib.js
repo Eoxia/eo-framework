@@ -183,6 +183,8 @@ if ( ! window.eoxiaJS.modal  ) {
 						if ( window.eoxiaJS.refresh ) {
 							window.eoxiaJS.refresh();
 						}
+
+						triggeredElement[0].modalElement.trigger( 'modal-opened', triggeredElement );
 					}
 				} );
 			});
@@ -197,6 +199,9 @@ if ( ! window.eoxiaJS.modal  ) {
 			target.addClass( 'modal-active' );
 			target[0].typeModal = 'default';
 			triggeredElement[0].modalElement = target;
+
+			target.trigger( 'modal-opened', triggeredElement );
+
 		}
 
 		event.stopPropagation();
