@@ -221,7 +221,7 @@ window.eoxiaJS.gallery.init = function() {
  * @version 1.0.0
  */
 window.eoxiaJS.gallery.event = function() {
-	jQuery( document ).on( 'keyup', window.eoxiaJS.gallery.keyup );
+	jQuery( document ).on( 'keyup', '.wpeo-gallery', window.eoxiaJS.gallery.keyup );
 	jQuery( document ).on( 'click', '.wpeo-gallery .modal-footer .button-main', window.eoxiaJS.gallery.close );
 	jQuery( document ).on( 'click', '.wpeo-gallery .navigation .prev', window.eoxiaJS.gallery.prevPicture );
 	jQuery( document ).on( 'click', '.wpeo-gallery .navigation .next', window.eoxiaJS.gallery.nextPicture );
