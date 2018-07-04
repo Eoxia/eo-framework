@@ -96,17 +96,25 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 
 		window.eoxiaJS.autoComplete.initProgressBar( parent, label );
 		window.eoxiaJS.autoComplete.handleProgressBar( parent, label );
-
-		parent[0].xhr = window.eoxiaJS.request.send( jQuery( this ), data, function( triggeredElement, response ) {
-			window.eoxiaJS.autoComplete.clear( parent, label );
-
-			parent.addClass( 'autocomplete-active' );
-			parent.find( '.autocomplete-search-list' ).addClass( 'autocomplete-active' );
-
-			if ( response.data && response.data.view ) {
-				parent.find( '.autocomplete-search-list' ).html( response.data.view );
+		
+		parent.get_data( function( attribute_data ) {
+			for (var key in attribute_data) {
+					if ( ! data[key] ) {
+						data[key] = attribute_data[key];
+					}
 			}
-		});
+			
+			parent[0].xhr = window.eoxiaJS.request.send( jQuery( this ), data, function( triggeredElement, response ) {
+				window.eoxiaJS.autoComplete.clear( parent, label );
+
+				parent.addClass( 'autocomplete-active' );
+				parent.find( '.autocomplete-search-list' ).addClass( 'autocomplete-active' );
+
+				if ( response.data && response.data.view ) {
+					parent.find( '.autocomplete-search-list' ).html( response.data.view );
+				}
+			} );
+		} );
 	};
 
 	/**

@@ -18,7 +18,8 @@
 		},
 		"model": {
 			"priority": [
-				"class-post-model.php"
+				"class-post-model.php",
+				"class-attachment-model.php"
 			]
 		},
 		"filter": {}
