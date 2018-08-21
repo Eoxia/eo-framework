@@ -581,7 +581,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 			return;
 		}
 
-		parent.find( 'input[type="hidden"]' ).val( '' );
+		parent.find( 'input.eo-search-value' ).val( '' );
 
 		// If empty searched value, stop func.
 		if ( element.val().length === 0 ) {
@@ -603,19 +603,21 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		var data = {
 			action: parent.attr( 'data-action' ),
 			_wpnonce: parent.attr( 'data-nonce' ),
-			s: element.val(),
+			term: element.val(),
+			slug: parent.find( 'input[name="slug"]' ).val(),
+			args: parent.find( 'textarea' ).val()
 		};
 
 		window.eoxiaJS.autoComplete.initProgressBar( parent, label );
 		window.eoxiaJS.autoComplete.handleProgressBar( parent, label );
-		
+
 		parent.get_data( function( attribute_data ) {
 			for (var key in attribute_data) {
 					if ( ! data[key] ) {
 						data[key] = attribute_data[key];
 					}
 			}
-			
+
 			parent[0].xhr = window.eoxiaJS.request.send( jQuery( this ), data, function( triggeredElement, response ) {
 				window.eoxiaJS.autoComplete.clear( parent, label );
 
@@ -1812,10 +1814,12 @@ if ( ! window.eoxiaJS.request ) {
 	window.eoxiaJS.request.send = function( element, data, cb ) {
 		return jQuery.post( window.ajaxurl, data, function( response ) {
 			// Normal loader.
-			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
+			if ( element instanceof jQuery ) {
+				window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
+			}
 
 			// Handle button progress.
-			if ( element.hasClass( 'button-progress' ) ) {
+			if ( element instanceof jQuery && element.hasClass( 'button-progress' ) ) {
 				element.removeClass( 'button-load' ).addClass( 'button-success' );
 				setTimeout( function() {
 					element.removeClass( 'button-success' );
@@ -1886,7 +1890,7 @@ if ( ! window.eoxiaJS.request ) {
 	 * @returns {void}         [description]
 	 */
 	window.eoxiaJS.request.fail = function( element ) {
-		if ( element ) {
+		if ( element && element instanceof jQuery ) {
 			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
 
 			if ( element.hasClass( 'button-progress' ) ) {
@@ -1957,6 +1961,7 @@ if ( ! window.eoxiaJS.tab ) {
 	window.eoxiaJS.tab.load = function( event ) {
 		var tabTriggered = jQuery( this );
 		var data = {};
+		var key;
 
 	  event.preventDefault();
 		event.stopPropagation();
@@ -1974,17 +1979,25 @@ if ( ! window.eoxiaJS.tab ) {
 				target: tabTriggered.attr( 'data-target' ),
 				title: tabTriggered.attr( 'data-title' ),
 				element_id: tabTriggered.attr( 'data-id' )
-		  };
+			};
 
-			window.eoxiaJS.loader.display( tabTriggered );
+			tabTriggered.get_data( function( attrData ) {
+				for ( key in attrData ) {
+					if ( ! data[key] ) {
+						data[key] = attrData[key];
+					}
+				}
 
-			jQuery.post( window.ajaxurl, data, function( response ) {
-				window.eoxiaJS.loader.remove( tabTriggered );
-				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
-				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).addClass( 'tab-active' );
-				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).html( response.data.view );
+				window.eoxiaJS.loader.display( tabTriggered );
 
-				window.eoxiaJS.tab.callTabChanged();
+				jQuery.post( window.ajaxurl, data, function( response ) {
+					window.eoxiaJS.loader.remove( tabTriggered );
+					tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
+					tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).addClass( 'tab-active' );
+					tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).html( response.data.view );
+
+					window.eoxiaJS.tab.callTabChanged();
+				} );
 			} );
 		}
 

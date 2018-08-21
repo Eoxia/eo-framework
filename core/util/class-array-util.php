@@ -134,6 +134,5 @@ if ( ! class_exists( '\eoxia\Array_Util' ) ) {
 
 			return $result;
 		}
-
 	}
 } // End if().

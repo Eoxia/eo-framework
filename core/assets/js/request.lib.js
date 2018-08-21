@@ -44,10 +44,12 @@ if ( ! window.eoxiaJS.request ) {
 	window.eoxiaJS.request.send = function( element, data, cb ) {
 		return jQuery.post( window.ajaxurl, data, function( response ) {
 			// Normal loader.
-			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
+			if ( element instanceof jQuery ) {
+				window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
+			}
 
 			// Handle button progress.
-			if ( element.hasClass( 'button-progress' ) ) {
+			if ( element instanceof jQuery && element.hasClass( 'button-progress' ) ) {
 				element.removeClass( 'button-load' ).addClass( 'button-success' );
 				setTimeout( function() {
 					element.removeClass( 'button-success' );
@@ -118,7 +120,7 @@ if ( ! window.eoxiaJS.request ) {
 	 * @returns {void}         [description]
 	 */
 	window.eoxiaJS.request.fail = function( element ) {
-		if ( element ) {
+		if ( element && element instanceof jQuery ) {
 			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
 
 			if ( element.hasClass( 'button-progress' ) ) {

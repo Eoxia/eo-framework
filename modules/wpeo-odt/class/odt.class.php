@@ -4,7 +4,6 @@
  *
  * @author Eoxia <dev@eoxia.com>
  * @since 1.0.0
- * @version 1.0.0
  * @copyright 2015-2018
  * @package EO_Framework\EO_Model\Class
  */
@@ -79,7 +78,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 		 * @var string
 		 */
 		protected $model_path = '';
-		
+
 		/**
 		 * Les types par défaut des modèles.
 		 *
@@ -88,16 +87,16 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 		 * @var array
 		 */
 		private $default_types = array( 'model', 'default_model' );
-		
+
 		/**
 		 * Le nom du modèle ODT.
 		 *
 		 * @since 1.0.0
-		 * 
+		 *
 		 * @var string
 		 */
 		protected $odt_name = '';
-		
+
 		/**
 		 * Récupères le chemin vers le dossier frais-pro dans wp-content/uploads
 		 *
@@ -193,7 +192,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 		 *
 		 * @return integer            La version +1 du document actuellement en cours de création.
 		 */
-			public function get_revision( $type, $element_id ) {
+		public function get_revision( $type, $element_id ) {
 			global $wpdb;
 
 			// Récupération de la date courante.
@@ -220,6 +219,48 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 		}
 
 		/**
+		 * Enregistres les données du document.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param  mixed $parent_id     L'ID où est attaché le document.
+		 * @param  array $document_meta Les métadonnées du document.
+		 * @param  array $args          Arguments supplémentaires.
+		 *
+		 * @return void
+		 */
+		public function save_document_data( $parent_id, $document_meta, $args = array() ) {
+			$response = array();
+
+			// Récupères le modèle a utiliser pour la futur génération de l'ODT.
+			$model_infos = $this->get_default_model( $this->get_type() );
+
+			if ( ! $model_infos['status'] ) {
+				$response['message'] = $model_infos['message'];
+				$response['path']    = $model_infos['path'];
+				return $response;
+			}
+
+			// On met à jour les informations concernant le document dans la
+			// base de données.
+			$document_args = array(
+				'model_id'      => $model_infos['id'],
+				'model_path'    => $model_infos['path'],
+				'parent_id'     => $parent_id,
+				'parent'        => $args['parent'],
+				'status'        => 'inherit',
+				'document_meta' => $document_meta,
+			);
+
+			$document = $this->update( $document_args );
+			wp_set_object_terms( $document->data['id'], array( $this->get_type(), 'printed' ), $this->attached_taxonomy_type );
+
+			$response['document'] = $document;
+
+			return $response;
+		}
+
+		/**
 		 * Création du document dans la base de données puis appel de la fonction de génération du fichier
 		 *
 		 * @since 1.0.0
@@ -229,7 +270,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 		 *
 		 * @return object              Le résultat de la création du document
 		 */
-		public function create_document( $element, $document_data ) {
+		public function create_document( $document_id ) {
 			$response = array(
 				'status'   => true,
 				'message'  => '',
@@ -237,38 +278,19 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 				'path'     => '',
 			);
 
-			// Définition du modèle de document a utiliser pour l'impression.
-			$model_infos = $this->get_default_model( $this->get_type() );
+			$document = $this->generate_document( $document_id );
 
-			if ( ! $model_infos['status'] ) {
-				$response['message'] = $model_infos['message'];
-				$response['path']    = $model_infos['path'];
-				return $response;
-			}
-
-			//	On met à jour les informations concernant le document dans la base de données.
-			$document_args = array(
-				'model_id'      => $model_infos['id'],
-				'parent_id'     => $element->data['id'],
-				'status'        => 'inherit',
-				'type'          => $this->get_type(),
-				'document_meta' => $document_data,
-				'parent'        => $element,
-			);
-
-			$document = $this->update( $document_args );
-			wp_set_object_terms( $document->data['id'], array( $this->get_type(), 'printed' ), $this->attached_taxonomy_type );
-
-			$response = $this->generate_document( $model_infos['path'], $document );
-			
 			$file_info = $this->check_file( $document );
-			
+
 			if ( $file_info['exists'] ) {
 				$document->data['mime_type'] = $file_info['mime_type']['type'];
 			}
-			
-			
-			$this->update( $document->data );
+
+			$document->data['file_generated'] = true;
+
+			$document = $this->update( $document->data );
+
+			$response['document'] = $document;
 
 			return $response;
 		}
@@ -278,11 +300,10 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 		 *
 		 * 1- On remplace l'url du site "site_url( '/' )" par le chemin "ABSPATH" contenant les fichiers du site: on vérifie si le fichier existe.
 		 * 2- Si le fichier n'existe pas:
-		 *  2.a- On récupère la meta associée automatiqumeent par WordPress.
+		 *  2.a- On récupère la meta associée automatiquement par WordPress.
 		 *  2.b- Si la méta n'est pas vide, on vérifie que sa valeur concaténée au chemin absolu des uploads "wp_upload_dir()" de WordPress soit bien un fichier
 		 *
 		 * @since 1.0.0
-		 * @version 1.0.0
 		 *
 		 * @param Document_Model $document La définition du document à vérifier.
 		 *
@@ -318,14 +339,14 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 				}
 			}
 
-			// Si le fichier existe on récupère le type mime.
+			// Si le fichier existe on récupère le mime type.
 			if ( $file_check['exists'] ) {
 				$file_check['mime_type'] = wp_check_filetype( $file_check['path'] );
 			}
 
 			return $file_check;
 		}
-		
+
 		/**
 		 * Création d'un fichier odt a partir d'un modèle de document donné et d'un modèle de donnée
 		 *
@@ -342,7 +363,9 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 		 *
 		 * @return array                   (Voir au dessus).
 		 */
-		public function generate_document( $model_path, $document ) {
+		public function generate_document( $document_id ) {
+			$document = $this->get( array( 'id' => $document_id ), true );
+
 			$response = array(
 				'status'   => false,
 				'message'  => '',
@@ -370,13 +393,13 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 				wp_mkdir_p( $config['PATH_TO_TMP'] );
 			}
 
-			if ( ! is_file( $model_path ) ) {
-				$response['message'] = $model_path . ' est introuvable';
+			if ( ! is_file( $document->data['model_path'] ) ) {
+				$response['message'] = $document->data['model_path'] . ' est introuvable';
 				return $response;
 			}
 
 			// On créé l'instance pour la génération du document odt.
-			$odf_php_lib = new \DigiOdf( $model_path, $config );
+			$odf_php_lib = new \DigiOdf( $document->data['model_path'], $config );
 
 			// Vérification de l'existence d'un contenu a écrire dans le document.
 			if ( ! empty( $document->data['document_meta'] ) ) {
@@ -403,7 +426,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 				$response['path']   = $document->data['path'];
 			}
 
-			return $response;
+			return $document;
 		}
 
 		/**

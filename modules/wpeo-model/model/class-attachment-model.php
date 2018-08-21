@@ -51,17 +51,6 @@ if ( ! class_exists( '\eoxia\Attachment_Model' ) ) {
 				'field'     => '_wp_attached_file',
 			);
 
-			$this->schema['model_path'] = array(
-				'type'      => 'string',
-				'meta_type' => 'single',
-				'field'     => 'fp_model_path',
-			);
-
-			$this->schema['document_meta'] = array(
-				'type'      => 'array',
-				'meta_type' => 'multiple',
-			);
-
 			$this->schema['taxonomy'] = array(
 				'type'      => 'array',
 				'meta_type' => 'multiple',

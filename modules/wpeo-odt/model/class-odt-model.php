@@ -44,7 +44,7 @@ if ( ! class_exists( '\eoxia\ODT_Model' ) ) {
 				'meta_type' => 'single',
 				'field'     => 'fp_model_path',
 			);
-			
+
 			$this->schema['model_id'] = array(
 				'since'     => '6.0.0',
 				'version'   => '6.0.0',
@@ -61,9 +61,12 @@ if ( ! class_exists( '\eoxia\ODT_Model' ) ) {
 				'field'     => '_wpdigi_path',
 			);
 
-			$this->schema['document_meta'] = array(
-				'type'      => 'array',
-				'meta_type' => 'multiple',
+			$this->schema['file_generated'] = array(
+				'since'     => '7.0.0',
+				'field'     => '_file_generated',
+				'type'      => 'boolean',
+				'meta_type' => 'single',
+				'default'   => false,
 			);
 
 			parent::__construct( $data, $req_method );

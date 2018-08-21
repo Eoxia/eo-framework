@@ -61,7 +61,7 @@ if ( ! class_exists( '\eoxia\Date_Util' ) ) {
 		 *         }
 		 * }
 		 */
-		function fill_date( $current_time ) {
+		public function fill_date( $current_time ) {
 			$data = array();
 
 			$locale = get_locale();
@@ -90,6 +90,26 @@ if ( ! class_exists( '\eoxia\Date_Util' ) ) {
 			}
 
 			return apply_filters( 'eo_model_fill_date', $data );
+		}
+
+		/**
+		 * Renvoie la date au format du WordPress de l'utilisateur.
+		 *
+		 * @since 0.1.0
+		 * @version 1.0.0
+		 *
+		 * @param  string $date La date à formater.
+		 * @return string      	La date formatée au format SQL
+		 *
+		 * @todo: Est-ce utile ?
+		 */
+		public function mysqldate2wordpress( $date, $with_time = true ) {
+			$format = get_option( 'date_format' );
+			if ( $with_time ) {
+				$format .= ' ' . get_option( 'time_format' );
+			}
+
+			return mysql2date( $format, $date );
 		}
 
 		/**
