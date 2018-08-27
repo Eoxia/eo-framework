@@ -30,6 +30,10 @@ if ( ! window.eoxiaJS.tooltip ) {
 		window.eoxiaJS.tooltip.event();
 	};
 
+	window.eoxiaJS.tooltip.tabChanged = function() {
+		jQuery( '.wpeo-tooltip' ).remove();
+	}
+
 	/**
 	 * [description]
 	 *
@@ -39,7 +43,7 @@ if ( ! window.eoxiaJS.tooltip ) {
 	 */
 	window.eoxiaJS.tooltip.event = function() {
 		jQuery( document ).on( 'mouseenter', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.display );
-		jQuery( document ).on( 'mouseleave', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.remove );
+		jQuery( document ).on( 'mouseout', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.remove );
 	};
 
 	/**

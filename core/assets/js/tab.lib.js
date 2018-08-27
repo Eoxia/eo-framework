@@ -108,7 +108,13 @@ if ( ! window.eoxiaJS.tab ) {
 	window.eoxiaJS.tab.callTabChanged = function() {
 		var key = undefined, slug = undefined;
 		for ( key in window.eoxiaJS ) {
+
+			if ( window.eoxiaJS && window.eoxiaJS[key] && window.eoxiaJS[key].tabChanged ) {
+				window.eoxiaJS[key].tabChanged();
+			}
+
 			for ( slug in window.eoxiaJS[key] ) {
+
 				if ( window.eoxiaJS && window.eoxiaJS[key] && window.eoxiaJS[key][slug].tabChanged ) {
 					window.eoxiaJS[key][slug].tabChanged();
 				}

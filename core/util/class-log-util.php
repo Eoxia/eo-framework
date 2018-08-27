@@ -21,18 +21,17 @@ if ( ! class_exists( '\eoxia\LOG_Util' ) ) {
 	define( 'EO_RESPONSE_SUCCESS', 'EO_RESPONSE_SUCCESS' );
 
 	/**
-	 * Méthodes utiles pour les fichiers JSON.
+	 * Méthodes utiles pour les logs.
 	 */
 	class LOG_Util extends \eoxia\Singleton_Util {
+
 		/**
-		 * Le constructeur obligatoirement pour utiliser la classe \eoxia\Singleton_Util
-		 *
-		 * @return void nothing
+		 * Le constructeur est obligatoire pour utiliser la classe \eoxia\Singleton_Util
 		 */
 		protected function construct() {}
 
 		/**
-		 * Méthode pour loggué.
+		 * Méthode pour logguer.
 		 *
 		 * @since 1.3.0
 		 * @version 1.3.0
@@ -44,8 +43,6 @@ if ( ! class_exists( '\eoxia\LOG_Util' ) ) {
 		 *                          EO_RESPONSE_ERROR = Si la réponse de la requête est une erreur.
 		 *                          EO_RESPONSE_SUCCESS = Si la réponse de la requête est correcte.
 		 * }.
-		 *
-		 * @return void
 		 */
 		public static function log( $text, $file_name, $level = EO_NOTICE ) {
 			$bt = debug_backtrace();
@@ -81,8 +78,6 @@ if ( ! class_exists( '\eoxia\LOG_Util' ) ) {
 		 *                          EO_RESPONSE_SUCCESS = Si la réponse de la requête est correcte.
 		 * }.
 		 * @param array  $bt         Le contexte de débogage.
-		 *
-		 * @return void          [description]
 		 */
 		public static function log_wp_content( $text, $file_name, $level = EO_NOTICE, $bt = array() ) {
 			if ( empty( $bt ) ) {

@@ -1432,6 +1432,8 @@ if ( ! window.eoxiaJS.modal  ) {
 		var callbackData = {};
 		var key = undefined;
 
+		window.eoxiaJS.action.checkBeforeCB( triggeredElement );
+
 		// Si data-action existe, ce script ouvre la popup en lançant une requête AJAX.
 		if ( triggeredElement.attr( 'data-action' ) ) {
 			window.eoxiaJS.loader.display( triggeredElement );
@@ -1490,7 +1492,19 @@ if ( ! window.eoxiaJS.modal  ) {
 				return;
 			}
 
+
 			var target = triggeredElement.closest( '.' + triggeredElement.attr( 'data-parent' ) ).find( '.' + triggeredElement.attr( 'data-target' ) );
+
+			jQuery( target ).find( 'h2.modal-title' ).text( '{{title}}' );
+
+			if ( triggeredElement.attr( 'data-title' ) ) {
+				target[0].innerHTML = target[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+			}
+
+			if ( triggeredElement.attr( 'data-class' ) ) {
+				target[0].className += ' ' + triggeredElement.attr( 'data-class' );
+			}
+
 			target.addClass( 'modal-active' );
 			target[0].typeModal = 'default';
 			triggeredElement[0].modalElement = target;
@@ -2013,7 +2027,13 @@ if ( ! window.eoxiaJS.tab ) {
 	window.eoxiaJS.tab.callTabChanged = function() {
 		var key = undefined, slug = undefined;
 		for ( key in window.eoxiaJS ) {
+
+			if ( window.eoxiaJS && window.eoxiaJS[key] && window.eoxiaJS[key].tabChanged ) {
+				window.eoxiaJS[key].tabChanged();
+			}
+
 			for ( slug in window.eoxiaJS[key] ) {
+
 				if ( window.eoxiaJS && window.eoxiaJS[key] && window.eoxiaJS[key][slug].tabChanged ) {
 					window.eoxiaJS[key][slug].tabChanged();
 				}
@@ -2054,6 +2074,10 @@ if ( ! window.eoxiaJS.tooltip ) {
 		window.eoxiaJS.tooltip.event();
 	};
 
+	window.eoxiaJS.tooltip.tabChanged = function() {
+		jQuery( '.wpeo-tooltip' ).remove();
+	}
+
 	/**
 	 * [description]
 	 *
@@ -2063,7 +2087,7 @@ if ( ! window.eoxiaJS.tooltip ) {
 	 */
 	window.eoxiaJS.tooltip.event = function() {
 		jQuery( document ).on( 'mouseenter', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.display );
-		jQuery( document ).on( 'mouseleave', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.remove );
+		jQuery( document ).on( 'mouseout', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.remove );
 	};
 
 	/**
