@@ -47,7 +47,7 @@ class Update_Manager_Action {
 	 * @version 1.0.0
 	 */
 	public function callback_admin_scripts() {
-		wp_enqueue_style( 'wpeo_update_manager_style', \eoxia\Config_Util::$init['eo-framework']->wpeo_update_manager->url . '/assets/css/style' . ( WP_DEBUG ? '' : '.min' ) . '.css', array() );
+		wp_enqueue_style( 'wpeo_update_manager_style', \eoxia\Config_Util::$init['eo-framework']->wpeo_update_manager->url . '/assets/css/style.css', array() );
 		wp_enqueue_script( 'wpeo_update_manager_script', \eoxia\Config_Util::$init['eo-framework']->wpeo_update_manager->url . '/assets/js/wpeo-update-manager.js', array( 'jquery', 'jquery-form' ), \eoxia\Config_Util::$init['eo-framework']->wpeo_update_manager->version );
 	}
 
@@ -91,6 +91,7 @@ class Update_Manager_Action {
 	 * @version 1.0.0
 	 */
 	public function callback_admin_menu() {
+
 		$element_namespace             = new \ReflectionClass( get_called_class() );
 		$current_plugin_update_manager = '\\' . $element_namespace->getNamespaceName() . '\Update_Manager';
 		add_submenu_page( 'eo-update-manager-' . $this->current_plugin_slug, __( 'Update Manager', 'eoxia' ), __( 'Update Manager', 'eoxia' ), 'manage_options', Config_Util::$init[ $this->current_plugin_slug ]->update_page_url, array( $current_plugin_update_manager::g(), 'display' ) );

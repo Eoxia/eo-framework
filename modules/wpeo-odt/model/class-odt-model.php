@@ -48,7 +48,7 @@ if ( ! class_exists( '\eoxia\ODT_Model' ) ) {
 			$this->schema['model_id'] = array(
 				'since'     => '6.0.0',
 				'version'   => '6.0.0',
-				'type'      => 'string',
+				'type'      => 'integer',
 				'meta_type' => 'single',
 				'field'     => '_wpdigi_model_id',
 			);

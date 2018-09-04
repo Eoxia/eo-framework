@@ -121,15 +121,15 @@ class Search_Class extends Singleton_Util {
 		return $results;
 	}
 
-	private function search_post( $term, $args ) {
+	private function search_post( $term, $data ) {
 		$results = array();
 
-		if ( ! empty( $args['model_name'] ) ) {
-			foreach ( $args['model_name'] as $model_name ) {
+		if ( ! empty( $data['args']['model_name'] ) ) {
+			foreach ( $data['args']['model_name'] as $model_name ) {
 				$get_args = array( '_meta_or_title' => $term );
 
-				if ( ! empty( $args['meta_query'] ) ) {
-					$get_args['meta_query'] = $this->construct_meta_query( $term, $args['meta_query'] );
+				if ( ! empty( $data['args']['meta_query'] ) ) {
+					$get_args['meta_query'] = $this->construct_meta_query( $term, $data['args']['meta_query'] );
 				}
 
 				$results = array_merge( $results, $model_name::g()->get( $get_args ) );

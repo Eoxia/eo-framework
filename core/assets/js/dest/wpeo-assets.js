@@ -624,8 +624,10 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 				parent.addClass( 'autocomplete-active' );
 				parent.find( '.autocomplete-search-list' ).addClass( 'autocomplete-active' );
 
-				if ( response.data && response.data.view ) {
+				if ( response.data && response.data.view && ! response.data.output ) {
 					parent.find( '.autocomplete-search-list' ).html( response.data.view );
+				} else if (response.data && response.data.view && response.data.output ) {
+					jQuery( response.data.output ).replaceWith( response.data.view );
 				}
 			} );
 		} );
