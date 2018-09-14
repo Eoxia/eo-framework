@@ -398,6 +398,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 				return $response;
 			}
 
+
 			// On créé l'instance pour la génération du document odt.
 			$odf_php_lib = new \DigiOdf( $document->data['model_path'], $config );
 
