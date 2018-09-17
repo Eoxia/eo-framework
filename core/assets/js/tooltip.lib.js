@@ -116,6 +116,8 @@ if ( ! window.eoxiaJS.tooltip ) {
 	 * @returns {void}       [description]
 	 */
 	window.eoxiaJS.tooltip.remove = function( element ) {
-		jQuery( jQuery( element )[0].tooltipElement ).remove();
+		if ( jQuery( element )[0] && jQuery( element )[0].tooltipElement ) {
+			jQuery( jQuery( element )[0].tooltipElement ).remove();
+		}
 	};
 }

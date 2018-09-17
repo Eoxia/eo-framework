@@ -42,7 +42,7 @@ if ( ! window.eoxiaJS.tab ) {
 	 * @returns {void} [description]
 	 */
 	window.eoxiaJS.tab.event = function() {
-	  jQuery( document ).on( 'click', '.wpeo-tab .tab-element', window.eoxiaJS.tab.load );
+	  jQuery( document ).on( 'click', '.wpeo-tab .tab-element:not(.wpeo-dropdown)', window.eoxiaJS.tab.load );
 	};
 
 	/**
@@ -84,6 +84,7 @@ if ( ! window.eoxiaJS.tab ) {
 				}
 
 				window.eoxiaJS.loader.display( tabTriggered );
+				window.eoxiaJS.loader.display( tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ) );
 
 				jQuery.post( window.ajaxurl, data, function( response ) {
 					window.eoxiaJS.loader.remove( tabTriggered );
