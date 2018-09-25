@@ -95,6 +95,7 @@ class Update_Manager_Action {
 		$element_namespace             = new \ReflectionClass( get_called_class() );
 		$current_plugin_update_manager = '\\' . $element_namespace->getNamespaceName() . '\Update_Manager';
 		add_submenu_page( 'eo-update-manager-' . $this->current_plugin_slug, __( 'Update Manager', 'eoxia' ), __( 'Update Manager', 'eoxia' ), 'manage_options', Config_Util::$init[ $this->current_plugin_slug ]->update_page_url, array( $current_plugin_update_manager::g(), 'display' ) );
+
 	}
 
 }

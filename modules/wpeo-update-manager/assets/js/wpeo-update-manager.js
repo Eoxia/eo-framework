@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 window.eoxiaJS.updateManager = {};
+window.eoxiaJS.updateManager.completed = false;
 
 /**
  * La méthode appelée automatiquement par la bibliothèque EoxiaJS.
@@ -43,13 +44,19 @@ window.eoxiaJS.updateManager.declareUpdateForm = function() {
 					$form.find( '.wpeo-update-item-stats' ).html( responseText.data.doneDescription );
 				}
 			} else {
-				jQuery( '.wpeo-update-general-message' ).html( responseText.data.doneDescription );
-				window.removeEventListener( 'beforeunload', window.eoxiaJS.updateManager.safeExit );
-				setTimeout( function() {
-					window.location = responseText.data.url;
-				}, 1500 );
+				if ( ! window.eoxiaJS.updateManager.completed ) {
+					jQuery( '.wpeo-update-general-message' ).html( responseText.data.doneDescription );
+					window.removeEventListener( 'beforeunload', window.eoxiaJS.updateManager.safeExit );
+					setTimeout( function() {
+						window.location = responseText.data.url;
+					}, 1500 );
+				}
 			}
-			window.eoxiaJS.updateManager.requestUpdate();
+
+			if ( ! window.eoxiaJS.updateManager.completed ) {
+				window.eoxiaJS.updateManager.completed = true;
+				window.eoxiaJS.updateManager.requestUpdate();
+			}
 		}
 	});
 };
@@ -60,9 +67,17 @@ window.eoxiaJS.updateManager.declareUpdateForm = function() {
  * @return {void}
  */
 window.eoxiaJS.updateManager.requestUpdate = function() {
-	var currentUpdateItemID = '#' + jQuery( '.wpeo-update-waiting-item:first' ).attr( 'id' );
-	jQuery( currentUpdateItemID ).addClass( 'wpeo-update-in-progress-item' );
-	jQuery( currentUpdateItemID ).find( 'form' ).submit();
+	if ( ! window.eoxiaJS.updateManager.completed ) {
+		var currentUpdateItemID = '#' + jQuery( '.wpeo-update-waiting-item:first' ).attr( 'id' );
+
+		if ( ( currentUpdateItemID ).is( '#wpeo-update-redirect-to-application' ) ) {
+			window.eoxiaJS.updateManager.completed = true;
+		}
+
+		jQuery( currentUpdateItemID ).addClass( 'wpeo-update-in-progress-item' );
+		jQuery( currentUpdateItemID ).find( 'form' ).submit();
+
+	}
 };
 
 /**

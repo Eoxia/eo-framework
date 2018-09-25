@@ -76,6 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="POST">
 			<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $def['action'] ) ); ?>" />
 			<input type="hidden" name="action" value="<?php echo esc_attr( $redirect_action ); ?>" />
+			<input type="hidden" name="version" value="<?php echo esc_attr( $version ); ?>" />
 		</form>
 	</div>
 	<div class="wpeo-update-general-message" ></div>
