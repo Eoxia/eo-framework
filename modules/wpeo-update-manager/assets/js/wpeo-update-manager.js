@@ -45,6 +45,7 @@ window.eoxiaJS.updateManager.declareUpdateForm = function() {
 				}
 			} else {
 				if ( ! window.eoxiaJS.updateManager.completed ) {
+					window.eoxiaJS.updateManager.completed = true;
 					jQuery( '.wpeo-update-general-message' ).html( responseText.data.doneDescription );
 					window.removeEventListener( 'beforeunload', window.eoxiaJS.updateManager.safeExit );
 					setTimeout( function() {
@@ -53,10 +54,7 @@ window.eoxiaJS.updateManager.declareUpdateForm = function() {
 				}
 			}
 
-			if ( ! window.eoxiaJS.updateManager.completed ) {
-				window.eoxiaJS.updateManager.completed = true;
-				window.eoxiaJS.updateManager.requestUpdate();
-			}
+			window.eoxiaJS.updateManager.requestUpdate();
 		}
 	});
 };
@@ -69,10 +67,6 @@ window.eoxiaJS.updateManager.declareUpdateForm = function() {
 window.eoxiaJS.updateManager.requestUpdate = function() {
 	if ( ! window.eoxiaJS.updateManager.completed ) {
 		var currentUpdateItemID = '#' + jQuery( '.wpeo-update-waiting-item:first' ).attr( 'id' );
-
-		if ( ( currentUpdateItemID ).is( '#wpeo-update-redirect-to-application' ) ) {
-			window.eoxiaJS.updateManager.completed = true;
-		}
 
 		jQuery( currentUpdateItemID ).addClass( 'wpeo-update-in-progress-item' );
 		jQuery( currentUpdateItemID ).find( 'form' ).submit();
