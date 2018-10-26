@@ -72,9 +72,21 @@ if ( ! class_exists( '\eoxia\Date_Util' ) ) {
 
 			if ( class_exists( '\IntlDateFormatter' ) ) {
 				$formatter    = new \IntlDateFormatter( $locale, \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE );
+				$pattern = $formatter->getPattern();
+				$pattern = preg_replace(
+					'/(?<!y)yy(?!y)/',
+					'yyyy',
+					$pattern );
+				$formatter->setPattern($pattern);
 				$data['date'] = $formatter->format( $date );
 
 				$formatter         = new \IntlDateFormatter( $locale, \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT );
+				$pattern = $formatter->getPattern();
+				$pattern = preg_replace(
+					'/(?<!y)yy(?!y)/',
+					'yyyy',
+					$pattern );
+				$formatter->setPattern($pattern);
 				$data['date_time'] = $formatter->format( $date );
 
 				$formatter    = new \IntlDateFormatter( $locale, \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT );
