@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<?php
 	if ( ! empty( $atts['label'] ) ) :
 		?>
-		<span class="form-label"><?php esc_html_e( 'Responsable', 'digirisk' ); ?></span>
+		<span class="form-label"><?php esc_html_e( $atts['label'], 'eoframework' ); ?></span>
 		<?php
 	endif;
 	?>
