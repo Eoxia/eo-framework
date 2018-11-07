@@ -85,10 +85,17 @@ class Search_Action {
 		do_action( $next_action, array( 'users' => $results, 'args' => $args ) );
 
 		ob_start();
-		\eoxia\View_Util::exec( 'eo-framework', 'wpeo_search', 'list-' . $type, array(
-			'term'    => $term,
-			'results' => $results,
-		) );
+		if ( 'post' === $slug && empty( $args['model_name'] ) ) {
+			\eoxia\View_Util::exec( 'eo-framework', 'wpeo_search', 'list-post-simple', array(
+				'term'    => $term,
+				'results' => $results,
+			) );
+		} else {
+			\eoxia\View_Util::exec( 'eo-framework', 'wpeo_search', 'list-' . $type, array(
+				'term'    => $term,
+				'results' => $results,
+			) );
+		}
 
 		wp_send_json_success( array(
 			'view' => ob_get_clean(),
