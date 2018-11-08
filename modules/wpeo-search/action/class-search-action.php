@@ -76,13 +76,12 @@ class Search_Action {
 		$term        = ! empty( $_POST['term'] ) ? sanitize_text_field( wp_unslash( $_POST['term'] ) ) : '';
 		$slug        = ! empty( $_POST['slug'] ) ? sanitize_text_field( wp_unslash( $_POST['slug'] ) ) : '';
 		$type        = ! empty( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
-		$next_action = ! empty( $_POST['next_action'] ) ? sanitize_text_field( wp_unslash( $_POST['next_action'] ) ) : '';
 		$args        = ! empty( $_POST['args'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['args'] ) ), true ) : '';
 
 		$results = Search_Class::g()->search( $term, $type, $args );
 		$results = apply_filters( 'eo_search_results_' . $slug, $results );
 
-		do_action( $next_action, array( 'users' => $results, 'args' => $args ) );
+		do_action( $args['next_action'], array( 'term' => $term, 'users' => $results, 'args' => $args ) );
 
 		ob_start();
 		if ( 'post' === $type && empty( $args['model_name'] ) ) {

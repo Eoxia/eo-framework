@@ -225,7 +225,7 @@ if ( ! window.eoxiaJS.action ) {
 	 * @returns {void}
 	 */
 	window.eoxiaJS.action.execInput = function( event ) {
-		var element = jQuery( this ), parentElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
+		var element = jQuery( this ), parentElement = element, loaderElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
 		event.preventDefault();
 
 		if ( element.attr( 'data-parent' ) ) {
@@ -241,7 +241,11 @@ if ( ! window.eoxiaJS.action ) {
 		}
 
 		if ( doAction ) {
-			window.eoxiaJS.loader.display( element );
+			if ( element.attr( 'data-loader' ) ) {
+				loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
+			}
+
+			window.eoxiaJS.loader.display( loaderElement );
 
 			listInput = window.eoxiaJS.arrayForm.getInput( parentElement );
 			for ( i = 0; i < listInput.length; i++ ) {
