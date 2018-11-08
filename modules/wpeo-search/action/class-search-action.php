@@ -81,7 +81,9 @@ class Search_Action {
 		$results = Search_Class::g()->search( $term, $type, $args );
 		$results = apply_filters( 'eo_search_results_' . $slug, $results );
 
-		do_action( $args['next_action'], array( 'term' => $term, 'users' => $results, 'args' => $args ) );
+		if ( ! empty( $args['next_action'] ) ) {
+			do_action( $args['next_action'], array( 'term' => $term, 'users' => $results, 'args' => $args ) );
+		}
 
 		ob_start();
 		if ( 'post' === $type && empty( $args['model_name'] ) ) {
