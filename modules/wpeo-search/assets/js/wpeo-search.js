@@ -20,7 +20,7 @@ window.eoxiaJS.search.init = function() {
  * @since 1.1.0
  */
 window.eoxiaJS.search.event = function() {
-	jQuery( document ).on( 'click', '.autocomplete-result', window.eoxiaJS.search.select );
+	jQuery( document ).on( 'click', '.autocomplete-active li.autocomplete-result', window.eoxiaJS.search.select );
 };
 
 
@@ -32,8 +32,9 @@ window.eoxiaJS.search.event = function() {
  * @since 1.1.0
  */
 window.eoxiaJS.search.select = function() {
-	jQuery( this ).closest( '.form-element' ).find( 'input[type="hidden"]' ).val( jQuery( this ).data( 'id' ) );
+	jQuery( this ).closest( '.form-element' ).find( 'input[type="hidden"]:first' ).val( jQuery( this ).data( 'id' ) );
 	jQuery( this ).closest( '.form-element' ).find( '.autocomplete-search-input' ).val( jQuery( this ).data( 'result' ) );
+	jQuery( this ).closest( '.wpeo-autocomplete.autocomplete-active' ).removeClass( 'autocomplete-active' );
 
 	jQuery( this ).closest( '.wpeo-autocomplete' ).trigger( 'change', {
 		element: jQuery( this ),
