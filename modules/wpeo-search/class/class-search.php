@@ -124,7 +124,7 @@ class Search_Class extends Singleton_Util {
 	private function search_post( $term, $data ) {
 		$results = array();
 
-		$get_args = array( '_meta_or_title' => $term );
+		$get_args = array( 's' => $term );
 
 		if ( ! empty( $data['args']['meta_query'] ) ) {
 			$get_args['meta_query'] = $this->construct_meta_query( $term, $data['args']['meta_query'] );
@@ -137,6 +137,7 @@ class Search_Class extends Singleton_Util {
 				$results = array_merge( $results, $model_name::g()->get( $get_args ) );
 			}
 		} else {
+			$get_args['posts_per_page'] = -1;
 			$results = get_posts( $get_args );
 		}
 
