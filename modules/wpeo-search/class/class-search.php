@@ -109,9 +109,15 @@ class Search_Class extends Singleton_Util {
 
 	private function search_user( $term, $data ) {
 		if ( ! empty( $term ) ) {
-			$results = User_Class::g()->get( array_merge( array(
+			$args = array(
 				'search' => '*' . $term . '*',
-			), $data['args'] ) );
+			);
+
+			if ( ! empty( $data['args'] ) ) {
+				$args = array_merge( $args, $data['args'] );
+			}
+
+			$results = User_Class::g()->get( $args );
 		} else {
 			$results = User_Class::g()->get( array(
 				'exclude' => array( 1 ),
@@ -124,7 +130,8 @@ class Search_Class extends Singleton_Util {
 	private function search_post( $term, $data ) {
 		$results = array();
 
-		$get_args = array( 's' => $term );
+		$get_args = array( 'meta_or_title' => $term );
+
 
 		if ( ! empty( $data['args']['meta_query'] ) ) {
 			$get_args['meta_query'] = $this->construct_meta_query( $term, $data['args']['meta_query'] );

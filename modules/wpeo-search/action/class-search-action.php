@@ -86,7 +86,7 @@ class Search_Action {
 		}
 
 		ob_start();
-		if ( 'post' === $type && empty( $args['model_name'] ) ) {
+		if ( 'post' === $type && empty( $args['args']['model_name'] ) ) {
 			\eoxia\View_Util::exec( 'eo-framework', 'wpeo_search', 'list-post-simple', array(
 				'term'    => $term,
 				'results' => $results,
