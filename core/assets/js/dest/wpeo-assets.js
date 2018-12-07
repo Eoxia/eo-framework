@@ -1466,7 +1466,6 @@ if ( ! window.eoxiaJS.modal  ) {
 						jQuery( 'body' ).append( triggeredElement[0].modalElement );
 
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
-
 						if ( typeof response.data.buttons_view !== 'undefined' ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
 						} else {
@@ -1502,7 +1501,7 @@ if ( ! window.eoxiaJS.modal  ) {
 			jQuery( target ).find( 'h2.modal-title' ).text( '{{title}}' );
 
 			if ( triggeredElement.attr( 'data-title' ) ) {
-				target[0].innerHTML = target[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+				target[0].querySelector( '.modal-title' ).innerHTML = target[0].querySelector( '.modal-title' ).innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
 			}
 
 			if ( triggeredElement.attr( 'data-class' ) ) {
@@ -1549,6 +1548,8 @@ if ( ! window.eoxiaJS.modal  ) {
 					popup.remove();
 				}, 200 );
 			}
+
+			popup.trigger( 'modal-closed', popup );
 		} );
 	};
 }
