@@ -250,6 +250,7 @@ if ( ! window.eoxiaJS.modal  ) {
 					popup.remove();
 				}, 200 );
 
+			}
 
 			popup.trigger( 'modal-closed', popup );
 		} );
