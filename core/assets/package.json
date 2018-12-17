@@ -11,15 +11,10 @@
   "author": "Eoxia team",
   "license": "GPLv3",
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-concat": "latest",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-pleeease": "^2.0.2",
-    "gulp-plumber": "^1.1.0",
-    "gulp-rename": "^1.2.2",
     "gulp-sass": "latest",
-    "gulp-strip-css-comments": "^1.2.0",
-    "gulp-uglify": "latest",
-    "gulp-watch": "^4.3.5"
+    "gulp-watch": "latest",
+    "gulp-rename": "latest"
   }
 }
