@@ -9757,6 +9757,18 @@ readers do not read off random characters that represent icons */
 .wpeo-table.table-flex .table-cell.table-200 {
   max-width: 200px; }
 
+.wpeo-table.table-flex .table-cell.table-225 {
+  max-width: 225px; }
+
+.wpeo-table.table-flex .table-cell.table-250 {
+  max-width: 250px; }
+
+.wpeo-table.table-flex .table-cell.table-275 {
+  max-width: 275px; }
+
+.wpeo-table.table-flex .table-cell.table-300 {
+  max-width: 300px; }
+
 /** Différentes classes */
 .wpeo-table.table-flex .table-cell.table-end {
   text-align: right;
