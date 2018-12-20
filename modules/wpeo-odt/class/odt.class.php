@@ -464,13 +464,16 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 									if ( is_array( $segment_detail_value ) && array_key_exists( 'type', $segment_detail_value ) && ( 'sub_segment' == $segment_detail_value[ 'type' ] ) ) {
 										foreach ( $segment_detail_value[ 'value' ] as $sub_segment_data ) {
 											foreach ( $sub_segment_data as $sub_segment_data_key => $sub_segment_data_value ) {
-												$segment->$segment_detail_key = $this->set_document_meta( $sub_segment_data_key, $sub_segment_data_value, $segment );
+												$segment->$segment_detail_key = $this->set_document_meta( $sub_segment_data_key, $sub_segment_data_value, $segment->$segment_detail_key );
 											}
+
+											$segment->$segment_detail_key->merge();
 										}
 									}
 									else {
 										$segment = $this->set_document_meta( $segment_detail_key, $segment_detail_value, $segment );
 									}
+
 								}
 
 								$segment->merge();
