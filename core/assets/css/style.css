@@ -2252,7 +2252,9 @@
   padding: 0;
   margin: 0;
   width: 100%;
-  padding: 1em; }
+  padding: 1em;
+  -webkit-box-shadow: none;
+  box-shadow: none; }
   .wpeo-form input:focus, .wpeo-form input:active, .wpeo-form textarea:focus, .wpeo-form textarea:active, .wpeo-form select:focus, .wpeo-form select:active {
     outline: none;
     -webkit-box-shadow: none;
@@ -2466,6 +2468,8 @@
   font-size: 16px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out; }
+  .wpeo-form .form-element [class*="form-field-icon"] [class*="fa"] {
+    vertical-align: middle; }
 
 .wpeo-form .form-element .form-field-icon-prev {
   padding: 0.8em 0 0.8em 0.8em; }
