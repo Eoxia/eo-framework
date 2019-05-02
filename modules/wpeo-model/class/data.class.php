@@ -239,7 +239,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				return $value;
 			}
 
-			if ( 'null' == $value ) {
+			if ( null == $value ) {
 				return null;
 			}
 
