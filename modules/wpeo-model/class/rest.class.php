@@ -148,12 +148,32 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 			$elements = $this->get( $args, $single );
 			if ( ! empty( $elements ) ) {
 				if ( $single ) {
-					$list = $elements->data;
+					$list[] = $elements;
 				} else {
 					foreach ( $elements as $element ) {
-						$list[] = $element->data;
+						$list[] = $element;
 					}
 				}
+			}
+
+			$new_list = null;
+
+			if ( ! empty( $list ) ) {
+				foreach ( $list as $element ) {
+					if ( ! empty( $element->get_model() ) ) {
+						foreach ( $element->get_model() as $key => $model ) {
+							if ( isset( $element->data[ $key ] ) && ( isset( $model['show_in_rest'] ) && ! $model['show_in_rest'] ) ) {
+								unset( $element->data[ $key ] );
+							}
+						}
+					}
+
+					$new_list[] = $element->data;
+				}
+			}
+
+			if ( $single ) {
+				$list = $list[0];
 			}
 
 			return $list;
