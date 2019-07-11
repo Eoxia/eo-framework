@@ -214,6 +214,10 @@ if ( ! window.eoxiaJS.action ) {
 			doAction = false;
 		}
 
+		if ( element.attr( 'data-loader' ) ) {
+			loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
+		}
+
 		if ( doAction ) {
 			if ( window.confirm( element.attr( 'data-message-delete' ) ) ) {
 				element.get_data( function( data ) {
