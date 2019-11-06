@@ -11,13 +11,9 @@
 	padding-left: 0;
 }
 
-.eo-custom-page .wrap-content {
+.eo-custom-page .content-wrap {
 	-webkit-transition: margin-left 0.2s ease-in;
 	transition: margin-left 0.2s ease-in;
-}
-
-.eo-custom-page .wrap-content.content-reduce {
-	margin-left: 50px;
 }
 
 .eo-custom-page .nav-wrap {
@@ -141,6 +137,9 @@
 .eo-custom-page .content-wrap {
 	background: #fafafa;
 	margin-left: 200px;
+}
+.eo-custom-page .content-wrap.content-reduce {
+	margin-left: 50px;
 }
 
 .eo-custom-page .content-wrap .digirisk-wrap {
