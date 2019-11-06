@@ -13,16 +13,20 @@
 
 	@if $type == 'solid' {
 		font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+		font-weigth: 900;
 	} @else if $type == 'regular' {
 		font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+		font-weigth: 400;
 	} @else if $type == 'light' {
 		font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+		font-weigth: 100;
 	} @else if $type == 'brands' {
 		font-family: 'Font Awesome 5 Brands';
 	} @else if $type == 'duotone' {
 		font-family: 'Font Awesome 5 Duotone';
 	} @else {
 		font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+		font-weigth: 900;
 	}
 }
 
