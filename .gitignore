@@ -3,3 +3,5 @@ output
 npm-debug.log
 docsjs
 docsphp
+.idea
+node_modules

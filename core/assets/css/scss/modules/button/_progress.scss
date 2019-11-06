@@ -5,7 +5,6 @@
 	&::before {
 		display: inline-block;
 		@include fa-icon;
-		@extend .fas;
 		content: '';
 		opacity: 0;
 		transform: translate(-50%, -90%);

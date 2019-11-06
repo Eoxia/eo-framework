@@ -20,7 +20,7 @@
 
 	&::before {
 		display: block;
-		font-family: 'Font Awesome 5 Free';
+		@include fa-icon;
 		font-weight: 900;
 		font-size: 24px;
 	}

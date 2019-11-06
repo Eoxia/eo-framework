@@ -14,8 +14,9 @@
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
+    "gulp-line-ending-corrector": "^1.0.3",
+    "gulp-rename": "latest",
     "gulp-sass": "latest",
-    "gulp-watch": "latest",
-    "gulp-rename": "latest"
+    "gulp-watch": "latest"
   }
 }

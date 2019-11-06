@@ -47,7 +47,7 @@
 					transition: all 0.2s ease-out;
 
 					&::before {
-						@extend .fas;
+						@include fa-icon;
 						content: fa-content( $fa-var-unlock-alt );
 					}
 				}
@@ -124,7 +124,7 @@
 					border-left: 6px solid $color__green;
 				}
 				.icon::before {
-					@extend .far;
+					@include fa-icon;
 					content: fa-content( $fa-var-check );
 					color: $color__green;
 				}
