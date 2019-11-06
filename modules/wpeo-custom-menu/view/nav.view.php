@@ -22,55 +22,55 @@ $minimize_menu = empty( $minimize_menu ) ? false : true;
 	</div>
 
 	<?php
-	if ( ! empty( self::$menus ) ) :
-		foreach ( self::$menus as $key_menu => $menu ) :
+	if ( ! empty( $menus ) ) :
+		foreach ( $menus as $key_menu => $menu ) :
 			?>
-			<div class="nav-menu nav-<?php echo $menu['position']; ?>">
-				<?php
-				if ( ! empty( $menu['items'] ) ) :
-					foreach ( $menu['items'] as $key => $item ) :
-						$active = "";
-						if ( $key == $_REQUEST['page'] ) :
-							$active = "item-active";
-						endif;
+		<div class="nav-menu nav-<?php echo $menu['position']; ?>">
+			<?php
+			if ( ! empty( $menu['items'] ) ) :
+				foreach ( $menu['items'] as $key => $item ) :
+					$active = "";
+					if ( $key == $_REQUEST['page'] ) :
+						$active = "item-active";
+					endif;
 
-						$have_right = false;
+					$have_right = false;
 
-						if ( current_user_can( $item->capability ) ) :
-							$have_right = true;
-						endif;
+					if ( current_user_can( $item->capability ) ) :
+						$have_right = true;
+					endif;
 
-						if ( empty( $item->capability ) ):
-							$have_right = true;
-						endif;
+					if ( empty( $item->capability ) ):
+						$have_right = true;
+					endif;
 
-						if ( $have_right ) :
-							?>
-							<a class="item <?php echo esc_attr( $item->class ); ?> <?php echo esc_attr( $active ); ?> item-<?php echo 'nav-' . $item->position; ?>" href="<?php echo esc_url( $item->link ); ?>"
-								<?php echo isset( $item->additional_attrs ) ? esc_attr( $item->additional_attrs ) : ''; ?>>
-								<div>
-									<?php
-									if ( ! empty( $item->icon_url ) ) :
-										?>
-										<i class="<?php echo esc_attr( $item->icon_url ); ?>"></i>
-									<?php
-									endif;
+					if ( $have_right ) :
+						?>
+						<a class="item <?php echo esc_attr( $item->class ); ?> <?php echo esc_attr( $active ); ?> item-<?php echo 'nav-' . $item->position; ?>" href="<?php echo esc_url( $item->link ); ?>"
+							<?php echo isset( $item->additional_attrs ) ? esc_attr( $item->additional_attrs ) : ''; ?>>
+							<div>
+								<?php
+								if ( ! empty( $item->icon_url ) ) :
 									?>
-									<span href="<?php echo esc_url( $item->link ); ?>"><?php echo esc_html( $item->page_title ); ?></span>
-								</div>
-							</a>
-						<?php
-						else :
-							?>
-							<div aria-label="<?php esc_html_e( 'You don\'t have right for view this page', 'eoxia' ); ?>>"
-								 data-direction="right"
-								 class="wpeo-tooltip-event item <?php echo esc_attr( $item->class ); ?>"><span class="disabled"><?php echo esc_html( $item->page_title ); ?></span></div>
-						<?php
-						endif;
-					endforeach;
-					?>
+									<i class="<?php echo esc_attr( $item->icon_url ); ?>"></i>
+								<?php
+								endif;
+								?>
+								<span href="<?php echo esc_url( $item->link ); ?>"><?php echo esc_html( $item->page_title ); ?></span>
+							</div>
+						</a>
+					<?php
+					else :
+						?>
+						<div aria-label="<?php esc_html_e( 'You don\'t have right for view this page', 'eoxia' ); ?>>"
+							 data-direction="right"
+							 class="wpeo-tooltip-event item <?php echo esc_attr( $item->class ); ?>"><span class="disabled"><?php echo esc_html( $item->page_title ); ?></span></div>
+					<?php
+					endif;
+				endforeach;
+				?>
 				</div>
-				<?php
+			<?php
 			endif;
 		endforeach;
 	endif;

@@ -28,6 +28,14 @@ $minimize_menu = empty( $minimize_menu ) ? false : $minimize_menu;
 	<?php
 	require_once( '/header.view.php' );
 
-	call_user_func( array( $menu->function[0], $menu->function[1] ) );
 	?>
+	<div class="wrap eo-wrap">
+		<?php
+		if ( is_array( $menu->function[0] ) ) {
+			call_user_func(array($menu->function[0], $menu->function[1]));
+		} else {
+			call_user_func($menu->function);
+		}
+		?>
+	</div>
 </div>

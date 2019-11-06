@@ -50,6 +50,10 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 			self::$logo_url = $logo_url;
 		}
 
+		public static function register_container( $slug, $page_title, $menu_title, $capability ) {
+			add_menu_page( $page_title, $menu_title, $capability, $slug );
+		}
+
 		/**
 		 * Register a menu.
 		 *
@@ -74,6 +78,10 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 		}
 
 		public function display_nav() {
+			global $current_screen;
+
+			$menus = array();
+
 			self::register_menu( 'others', 'Go to WP Admin', 'Go to WP Admin', 'manage_options', 'go-to-wp-admin', '', 'fa fa-tachometer-alt', 'bottom' );
 			self::$menus['others']['items']['go-to-wp-admin']->link = admin_url( 'index.php' );
 
@@ -86,6 +94,9 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 			self::$menus['others']['items']['minimize-menu']->class            .= ' minimize-menu action-attribute ';
 			self::$menus['others']['items']['minimize-menu']->additional_attrs .= 'data-action=save_menu_state';
 
+
+			$menus[ $current_screen->parent_base ] = self::$menus[ $current_screen->parent_base ];
+			$menus['others'] = self::$menus['others'];
 
 			require_once PLUGIN_EO_FRAMEWORK_PATH . '/modules/wpeo-custom-menu/view/nav.view.php';
 		}
