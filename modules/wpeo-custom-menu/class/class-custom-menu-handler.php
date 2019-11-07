@@ -50,8 +50,8 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 			self::$logo_url = $logo_url;
 		}
 
-		public static function register_container( $slug, $page_title, $menu_title, $capability ) {
-			add_menu_page( $page_title, $menu_title, $capability, $slug );
+		public static function register_container( $page_title, $menu_title, $capability, $menu_slug ) {
+			add_menu_page( $page_title, $menu_title, $capability, $menu_slug );
 		}
 
 		/**
@@ -62,9 +62,9 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public static function register_menu( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = null ) {
+		public static function register_menu( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '', $fa_class = '', $position = null ) {
 			add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, array( self::getInstance(), 'display' ) );
-			$menu = new Custom_Menu_Class( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+			$menu = new Custom_Menu_Class( $page_title, $menu_title, $capability, $menu_slug, $function, $fa_class, $position );
 
 			self::$menus[ $parent_slug ]['items'][ $menu_slug ] = apply_filters( 'eo_custom_menu_' . $parent_slug . '_' . $menu_slug, $menu );
 			self::$menus[ $parent_slug ]['position']            = $position;
@@ -107,7 +107,8 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 			$current_user = wp_get_current_user();
 
 			$parent_menu = $current_screen->parent_base;
-			$page        = str_replace( 'admin_page_', '', $current_screen->base );
+			$page        = $_GET['page'];
+
 
 			$menu = self::$menus[ $parent_menu ]['items'][ $page ];
 

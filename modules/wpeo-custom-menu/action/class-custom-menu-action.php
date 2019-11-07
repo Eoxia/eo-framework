@@ -39,7 +39,6 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Action' ) ) {
 		 */
 		public function callback_admin_scripts() {
 			$page = ( ! empty( $_REQUEST['page'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : ''; // WPCS: input var ok, CSRF ok.
-
 			if ( in_array( $page, \eoxia\Config_Util::$init['eo-framework']->wpeo_custom_menu->inserts_page, true ) ) {
 				wp_enqueue_style('wpeo_custom_menu_style', \eoxia\Config_Util::$init['eo-framework']->wpeo_custom_menu->url . '/asset/css/wpeo-custom-menu.css', array());
 				wp_enqueue_script('wpeo_custom_menu_script', \eoxia\Config_Util::$init['eo-framework']->wpeo_custom_menu->url . '/asset/js/wpeo-custom-menu.js', array('jquery'), \eoxia\Config_Util::$init['eo-framework']->wpeo_custom_menu->version);
