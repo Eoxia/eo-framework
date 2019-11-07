@@ -109,7 +109,6 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 			$parent_menu = $current_screen->parent_base;
 			$page        = $_GET['page'];
 
-
 			$menu = self::$menus[ $parent_menu ]['items'][ $page ];
 
 			require_once PLUGIN_EO_FRAMEWORK_PATH . '/modules/wpeo-custom-menu/view/content.view.php';

@@ -8,6 +8,11 @@ var eoMenu = {
 
 	event: function() {
 		eoMenu.$( document ).on( 'click', '.nav-wrap .minimize-menu', eoMenu.handleMinimizeMenu );
+
+
+		eoMenu.$( document ).on( 'click', '.current-site .wpeo-dropdown .dropdown-toggle', eoMenu.focusHeaderSearch );
+		eoMenu.$( document ).on( 'keyup', '.search-item input', eoMenu.searchItems );
+
 	},
 
 	handleMinimizeMenu: function (event) {
@@ -22,6 +27,23 @@ var eoMenu = {
 		}
 
 		event.preventDefault();
+	},
+
+
+	focusHeaderSearch: function (event) {
+		jQuery( '.current-site .search-item input').focus()
+	},
+
+	searchItems: function (event) {
+		var sites = jQuery( '#top-header .dropdown-sites a' );
+
+		sites.show();
+
+		for ( var i = 0; i < sites.length; i++ ) {
+			if ( jQuery( sites[i] ).text().toLowerCase().indexOf( jQuery( this ).val().toLowerCase() ) == -1 ) {
+				jQuery( sites[i] ).hide();
+			}
+		}
 	}
 };
 
