@@ -57,6 +57,10 @@
 	margin: auto;
 }
 
+.eo-custom-page .nav-wrap.wrap-reduce .nav-menu a img {
+	margin: auto;
+}
+
 .eo-custom-page .nav-wrap.wrap-reduce #logo {
 	height: 40px;
 }
@@ -128,6 +132,11 @@
 
 .eo-custom-page .nav-wrap .nav-menu .item i {
 	margin-right: 10px;
+}
+
+.eo-custom-page .nav-wrap .nav-menu .item img {
+	margin-right: 10px;
+	height: 13px;
 }
 
 .eo-custom-page .nav-wrap .nav-menu.nav-bottom {

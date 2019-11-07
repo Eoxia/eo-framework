@@ -31,6 +31,7 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Class' ) ) {
 		public $class;
 		public $link;
 		public $additional_attrs;
+		public $other_slug;
 
 		/**
 		 * Position of menu.

@@ -70,6 +70,13 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 			self::$menus[ $parent_slug ]['position']            = $position;
 
 			\eoxia\Config_Util::$init['eo-framework']->wpeo_custom_menu->inserts_page[] = $menu_slug;
+
+			return $menu;
+		}
+
+		public static function register_others_menu( $parent_slug, $other_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '', $fa_class = '', $position = null ) {
+			$menu = self::register_menu($parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function, $fa_class, $position);
+			$menu->other_slug = $other_slug;
 		}
 
 		public function display() {
@@ -82,21 +89,14 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 
 			$menus = array();
 
-			self::register_menu( 'others', 'Go to WP Admin', 'Go to WP Admin', 'manage_options', 'go-to-wp-admin', '', 'fa fa-tachometer-alt', 'bottom' );
-			self::$menus['others']['items']['go-to-wp-admin']->link = admin_url( 'index.php' );
-
-			$minimize_menu = get_user_meta( get_current_user_id(), '_eo_menu_minimize', true );
-			$minimize_menu = empty( $minimize_menu ) ? false : true;
-			$icon_minimize = $minimize_menu ? 'fa fa-arrow-right' : 'fa fa-arrow-left';
-
-			self::register_menu( 'others', 'Minimize menu', 'Minimize menu', 'manage_options', 'minimize-menu', '', $icon_minimize, 'bottom' );
-			self::$menus['others']['items']['minimize-menu']->link              = '#';
-			self::$menus['others']['items']['minimize-menu']->class            .= ' minimize-menu action-attribute ';
-			self::$menus['others']['items']['minimize-menu']->additional_attrs .= 'data-action=save_menu_state';
-
-
 			$menus[ $current_screen->parent_base ] = self::$menus[ $current_screen->parent_base ];
-			$menus['others'] = self::$menus['others'];
+			$menus['others']                       = self::$menus['others'];
+
+			foreach ( $menus['others']['items'] as $key => $menu ) {
+				if ( isset( $menu->other_slug ) && $menu->other_slug !== $current_screen->parent_base ) {
+					unset( $menus['others']['items'][ $key ] );
+				}
+			}
 
 			require_once PLUGIN_EO_FRAMEWORK_PATH . '/modules/wpeo-custom-menu/view/nav.view.php';
 		}

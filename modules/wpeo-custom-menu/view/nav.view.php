@@ -51,9 +51,15 @@ $minimize_menu = empty( $minimize_menu ) ? false : true;
 							<div>
 								<?php
 								if ( ! empty( $item->icon_url ) ) :
-									?>
-									<i class="<?php echo esc_attr( $item->icon_url ); ?>"></i>
-								<?php
+									if ( strpos( $item->icon_url, 'http' ) !== FALSE ) :
+										?>
+										<img src="<?php echo esc_attr( $item->icon_url ); ?>" />
+										<?php
+									else:
+										?>
+										<i class="<?php echo esc_attr( $item->icon_url ); ?>"></i>
+										<?php
+									endif;
 								endif;
 								?>
 								<span href="<?php echo esc_url( $item->link ); ?>"><?php echo esc_html( $item->page_title ); ?></span>
