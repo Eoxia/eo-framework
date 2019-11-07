@@ -26,7 +26,7 @@ $minimize_menu = empty( $minimize_menu ) ? false : $minimize_menu;
 
 <div class="content-wrap <?php echo esc_attr( $minimize_menu ) ? 'content-reduce' : ''; ?>">
 	<?php
-	require_once( '/header.view.php' );
+	require_once( PLUGIN_EO_FRAMEWORK_PATH . '/modules/wpeo-custom-menu/view/header.view.php' );
 
 	?>
 	<div class="wrap eo-wrap">

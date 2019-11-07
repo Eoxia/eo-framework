@@ -18,7 +18,7 @@ $minimize_menu = empty( $minimize_menu ) ? false : true;
 
 <div class="nav-wrap <?php echo $minimize_menu ? 'wrap-reduce' : ''; ?>">
 	<div id="logo">
-		<h1><a href="<?php echo self::$logo_url; ?>"><img src="<?php echo self::$logo_src; ?> ?>" alt="Logo" /></a></h1>
+		<h1><a href="<?php echo self::$logo_url; ?>"><img src="<?php echo self::$logo_src; ?>" alt="Logo" /></a></h1>
 	</div>
 
 	<?php
