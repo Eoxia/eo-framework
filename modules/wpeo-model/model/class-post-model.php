@@ -28,6 +28,8 @@ if ( ! class_exists( '\eoxia\Post_Model' ) ) {
 		 */
 		protected $schema = array();
 
+		public $data;
+
 		/**
 		 * Défini le schéma de WP_Post.
 		 *
