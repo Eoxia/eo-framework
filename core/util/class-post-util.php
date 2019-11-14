@@ -64,7 +64,7 @@ if ( ! class_exists( '\eoxia\Post_Util' ) ) {
 			$child = get_children(array(
 				'numberposts' => 1,
 				'post_parent' => $parent_id,
-				'post_type' => $post_types,
+				'post_type'   => $post_types,
 				'output' => 'ARRAY_A',
 			) );
 
