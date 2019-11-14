@@ -3803,6 +3803,7 @@
   line-height: 1;
   vertical-align: -.125em;
   font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+  font-weight: 900;
   content: '';
   opacity: 0;
   -webkit-transform: translate(-50%, -90%);
@@ -4116,6 +4117,7 @@
   line-height: 1;
   vertical-align: -.125em;
   font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+  font-weight: 900;
   font-weight: 900;
   font-size: 24px;
 }
