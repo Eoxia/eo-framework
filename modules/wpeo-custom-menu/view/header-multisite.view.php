@@ -31,7 +31,7 @@ else :
 				if ( ! empty( $sites ) ) :
 					foreach ( $sites as $site ) :
 						?>
-						<a href="<?php echo get_site_url( $site->blog_id, 'wp-admin' ); ?>" class="dropdown-item">
+						<a href="<?php echo get_site_url( $site->blog_id, 'wp-admin' ); echo ! empty( $page ) ? '/admin.php?page=' . $_GET['page'] : ''; ?>" class="dropdown-item">
 							<?php echo $site->site_info->blogname; ?>
 						</a>
 					<?php

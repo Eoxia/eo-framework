@@ -69,6 +69,8 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Filter' ) ) {
 					}
 				}
 
+				$page = ! empty( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
+
 				ob_start();
 				require(PLUGIN_EO_FRAMEWORK_PATH . 'modules/wpeo-custom-menu/view/header-multisite.view.php');
 				$content .= ob_get_clean();

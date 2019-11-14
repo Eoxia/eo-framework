@@ -64,6 +64,10 @@ if ( ! class_exists( '\eoxia\Date_Util' ) ) {
 		public function fill_date( $current_time ) {
 			$data = array();
 
+			if ( isset ( $current_time['date_input'] ) && $current_time['date_input']['date'] ) {
+				$current_time = $current_time['date_input']['date'];
+			}
+
 			$locale = get_locale();
 			$date   = new \DateTime( $current_time );
 
