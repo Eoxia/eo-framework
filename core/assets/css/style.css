@@ -5541,3 +5541,28 @@
 .wpeo-util-hidden {
   display: none;
 }
+
+/*--------------------------------------------------------------
+# Tmp Jimmy Module Screen Options
+--------------------------------------------------------------*/
+.wpeo-screen-options {
+  text-align: right;
+  width: 100%;
+}
+
+.wpeo-screen-options .content {
+  width: 99%;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.wpeo-screen-options .content .wpeo-form {
+  padding: 20px;
+  margin: 0;
+  background-color: #3495f0;
+  border: 1px solid #ccd0d4;
+}
+
+.wpeo-screen-options .content .wpeo-form li {
+  width: 20%;
+}

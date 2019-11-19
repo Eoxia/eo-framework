@@ -26,9 +26,6 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 	{
 		private static $_instance = null;
 
-		public static $logo_src;
-		public static $logo_url;
-
 		/**
 		 * List of Menu.
 		 *
@@ -37,7 +34,6 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 		public static $menus = array();
 
 		public static function getInstance() {
-
 			if(is_null(self::$_instance)) {
 				self::$_instance = new Custom_Menu_Handler();
 			}
@@ -45,9 +41,11 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 			return self::$_instance;
 		}
 
-		public static function add_logo( $logo_src, $logo_url ) {
-			self::$logo_src = $logo_src;
-			self::$logo_url = $logo_url;
+		public static function add_logo( $parent_slug, $logo_src, $logo_url ) {
+			self::$menus[ $parent_slug ]['logo'] = array(
+				'src' => $logo_src,
+				'url' => $logo_url,
+			);
 		}
 
 		public static function register_container( $page_title, $menu_title, $capability, $menu_slug ) {
@@ -63,11 +61,12 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 		 * @since 1.0.0
 		 */
 		public static function register_menu( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '', $fa_class = '', $position = null ) {
-			add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, array( self::getInstance(), 'display' ) );
+			$menu_wp = add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, array( self::getInstance(), 'display' ) );
 			$menu = new Custom_Menu_Class( $page_title, $menu_title, $capability, $menu_slug, $function, $fa_class, $position );
 
-			self::$menus[ $parent_slug ]['items'][ $menu_slug ] = apply_filters( 'eo_custom_menu_' . $parent_slug . '_' . $menu_slug, $menu );
-			self::$menus[ $parent_slug ]['position']            = $position;
+			self::$menus[ $parent_slug ]['items'][ $menu_slug ]     = apply_filters( 'eo_custom_menu_' . $parent_slug . '_' . $menu_slug, $menu );
+			self::$menus[ $parent_slug ]['items'][ $menu_slug ]->wp = $menu_wp;
+			self::$menus[ $parent_slug ]['position']                = $position;
 
 			\eoxia\Config_Util::$init['eo-framework']->wpeo_custom_menu->inserts_page[] = $menu_slug;
 
@@ -98,6 +97,9 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 				}
 			}
 
+			$logo_url = $menus[ $current_screen->parent_base ]['logo']['url'];
+			$logo_src = $menus[ $current_screen->parent_base ]['logo']['src'];
+
 			require_once PLUGIN_EO_FRAMEWORK_PATH . '/modules/wpeo-custom-menu/view/nav.view.php';
 		}
 
@@ -112,6 +114,14 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 			$menu = self::$menus[ $parent_menu ]['items'][ $page ];
 
 			require_once PLUGIN_EO_FRAMEWORK_PATH . '/modules/wpeo-custom-menu/view/content.view.php';
+		}
+
+		public function display_screen_option() {
+			$current_screen = get_current_screen();
+
+			if ( ! empty( $current_screen->get_options() ) ) {
+				require_once PLUGIN_EO_FRAMEWORK_PATH . '/modules/wpeo-custom-menu/view/screen-options.view.php';
+			}
 		}
 	}
 }

@@ -18,6 +18,8 @@
 
 namespace eoxia;
 
+use eoxia\Custom_Menu_Handler as CMH;
+
 defined( 'ABSPATH' ) || exit;
 
 $minimize_menu = get_user_meta( get_current_user_id(), '_eo_menu_minimize', true );
@@ -29,6 +31,8 @@ $minimize_menu = empty( $minimize_menu ) ? false : $minimize_menu;
 
 	<div class="wrap eo-wrap">
 		<?php
+		$this->display_screen_option();
+
 		if ( is_array( $menu->function[0] ) ) {
 			call_user_func(array($menu->function[0], $menu->function[1]));
 		} else {

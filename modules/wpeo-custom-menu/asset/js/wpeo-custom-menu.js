@@ -13,6 +13,7 @@ var eoMenu = {
 		eoMenu.$( document ).on( 'click', '.current-site .wpeo-dropdown .dropdown-toggle', eoMenu.focusHeaderSearch );
 		eoMenu.$( document ).on( 'keyup', '.search-item input', eoMenu.searchItems );
 
+		eoMenu.$( document ).on( 'click', '.wpeo-screen-options .button-main', eoMenu.toggleScreenOptions );
 	},
 
 	handleMinimizeMenu: function (event) {
@@ -44,6 +45,10 @@ var eoMenu = {
 				jQuery( sites[i] ).hide();
 			}
 		}
+	},
+
+	toggleScreenOptions: function( event ) {
+		jQuery( this ).closest( '.wpeo-screen-options' ).find( '.content' ).slideToggle();
 	}
 };
 

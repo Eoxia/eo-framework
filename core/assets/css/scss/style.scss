@@ -37,3 +37,31 @@
 # Modules
 --------------------------------------------------------------*/
 @import "modules/modules";
+
+/*--------------------------------------------------------------
+# Tmp Jimmy Module Screen Options
+--------------------------------------------------------------*/
+
+.wpeo-screen-options {
+	text-align: right;
+	width: 100%;
+
+	.content {
+		width: 99%;
+		text-align: left;
+		margin-left: 20px;
+
+		.wpeo-form {
+			padding: 20px;
+			margin: 0;
+
+			background-color: #3495f0;
+			border: 1px solid #ccd0d4;
+
+			li {
+				width: 20%;
+			}
+		}
+
+	}
+}
