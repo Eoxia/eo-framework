@@ -5566,3 +5566,7 @@
 .wpeo-screen-options .content .wpeo-form li {
   width: 20%;
 }
+
+.wpeo-modal .xdsoft_datetimepicker {
+  z-index: 99999 !important;
+}
