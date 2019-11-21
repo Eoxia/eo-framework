@@ -65,15 +65,13 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Handler' ) ) {
 
 			$menu = null;
 
-			if ( 'hidden' !== $position ) {
-				$menu = new Custom_Menu_Class($page_title, $menu_title, $capability, $menu_slug, $function, $fa_class, $position);
+			$menu = new Custom_Menu_Class($page_title, $menu_title, $capability, $menu_slug, $function, $fa_class, $position);
 
-				self::$menus[$parent_slug]['items'][$menu_slug] = apply_filters('eo_custom_menu_' . $parent_slug . '_' . $menu_slug, $menu);
-				self::$menus[$parent_slug]['items'][$menu_slug]->wp = $menu_wp;
-				self::$menus[$parent_slug]['position'] = $position;
+			self::$menus[$parent_slug]['items'][$menu_slug] = apply_filters('eo_custom_menu_' . $parent_slug . '_' . $menu_slug, $menu);
+			self::$menus[$parent_slug]['items'][$menu_slug]->wp = $menu_wp;
+			self::$menus[$parent_slug]['position'] = $position;
 
-				\eoxia\Config_Util::$init['eo-framework']->wpeo_custom_menu->inserts_page[] = $menu_slug;
-			}
+			\eoxia\Config_Util::$init['eo-framework']->wpeo_custom_menu->inserts_page[] = $menu_slug;
 
 			return $menu;
 		}
