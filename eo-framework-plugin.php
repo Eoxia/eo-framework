@@ -20,6 +20,8 @@ add_action( 'plugins_loaded', function() {
 	$plugins         = get_option( 'active_plugins' );
 	$sub_plugin_path = str_replace( str_replace( '/', '\\', WP_PLUGIN_DIR ) . '\\', '', dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
 
+    $sub_plugin_key = 0;
+
 	foreach ( $plugins as $key => $value ) {
 		if ( strpos( $value, basename( __FILE__ ) ) ) {
 			$sub_plugin_key  = $key;
