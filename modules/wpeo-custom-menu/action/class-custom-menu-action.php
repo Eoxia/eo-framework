@@ -58,14 +58,14 @@ if ( ! class_exists( '\eoxia\Custom_Menu_Action' ) ) {
 		}
 
 		public function add_others() {
-			Custom_Menu_Handler::register_menu( 'others', 'Go to WP Admin', 'Go to WP Admin', 'manage_options', 'go-to-wp-admin', '', 'fa fa-tachometer-alt', 'bottom' );
+			Custom_Menu_Handler::register_menu( 'others', 'Go to WP Admin', 'Go to WP Admin', 'read', 'go-to-wp-admin', '', 'fa fa-tachometer-alt', 'bottom' );
 			Custom_Menu_Handler::$menus['others']['items']['go-to-wp-admin']->link = admin_url( 'index.php' );
 
 			$minimize_menu = get_user_meta( get_current_user_id(), '_eo_menu_minimize', true );
 			$minimize_menu = empty( $minimize_menu ) ? false : true;
 			$icon_minimize = $minimize_menu ? 'fa fa-arrow-right' : 'fa fa-arrow-left';
 
-			Custom_Menu_Handler::register_menu( 'others', 'Minimize menu', 'Minimize menu', 'manage_options', 'minimize-menu', '', $icon_minimize, 'bottom' );
+			Custom_Menu_Handler::register_menu( 'others', 'Minimize menu', 'Minimize menu', 'read', 'minimize-menu', '', $icon_minimize, 'bottom' );
 			Custom_Menu_Handler::$menus['others']['items']['minimize-menu']->link              = '#';
 			Custom_Menu_Handler::$menus['others']['items']['minimize-menu']->class            .= ' minimize-menu action-attribute ';
 			Custom_Menu_Handler::$menus['others']['items']['minimize-menu']->additional_attrs .= 'data-action=save_menu_state';

@@ -69,9 +69,26 @@ $minimize_menu = empty( $minimize_menu ) ? false : true;
 						<?php
 						else :
 							?>
-							<div aria-label="<?php esc_html_e( 'You don\'t have right for view this page', 'eoxia' ); ?>>"
+							<a aria-label="<?php esc_html_e( 'You don\'t have right for view this page', 'eoxia' ); ?>"
 								 data-direction="right"
-								 class="wpeo-tooltip-event item <?php echo esc_attr( $item->class ); ?>"><span class="disabled"><?php echo esc_html( $item->page_title ); ?></span></div>
+								 class="wpeo-tooltip-event item <?php echo esc_attr( $item->class ); ?>">
+									<div class="disabled">
+										<?php
+										if ( ! empty( $item->icon_url ) ) :
+											if ( strpos( $item->icon_url, 'http' ) !== FALSE ) :
+												?>
+												<img src="<?php echo esc_attr( $item->icon_url ); ?>" />
+											<?php
+											else:
+												?>
+												<i class="<?php echo esc_attr( $item->icon_url ); ?>"></i>
+											<?php
+											endif;
+										endif;
+										?>
+										<span class="disabled"><?php echo esc_html( $item->page_title ); ?></span>
+									</div>
+							</a>
 						<?php
 						endif;
 					endif;

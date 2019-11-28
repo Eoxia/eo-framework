@@ -49,6 +49,7 @@ class Search_Class extends Singleton_Util {
 		$default = array(
 			'value'        => '',
 			'hidden_value' => '',
+			'class'        => '',
 		);
 
 		$atts['slug'] = $slug;
