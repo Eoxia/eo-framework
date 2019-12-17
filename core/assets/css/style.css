@@ -259,6 +259,240 @@
 }
 
 /*--------------------------------------------------------------
+# Core Modules
+--------------------------------------------------------------*/
+.eo-custom-page #adminmenuwrap,
+.eo-custom-page #wpadminbar,
+.eo-custom-page #adminmenumain,
+.eo-custom-page #screen-meta-links,
+.eo-custom-page #wpfooter {
+  display: none !important;
+}
+
+body.eo-custom-page #wpcontent {
+  margin-left: 0 !important;
+  padding-left: 0;
+}
+
+body.eo-custom-page .nav-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+body.eo-custom-page .nav-wrap::before {
+  display: block;
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background: #1c1d1b;
+  z-index: -1;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+body.eo-custom-page .nav-wrap #logo {
+  padding: 0.5em;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.eo-custom-page .nav-wrap #logo h1 {
+  height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+}
+
+body.eo-custom-page .nav-wrap #logo a {
+  margin: auto;
+}
+
+body.eo-custom-page .nav-wrap #logo img {
+  max-width: 50px;
+  width: 100%;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+body.eo-custom-page .nav-wrap .nav-menu.nav-bottom {
+  margin-top: 2em;
+}
+
+body.eo-custom-page .nav-wrap.wrap-reduce {
+  width: 40px;
+}
+
+body.eo-custom-page .nav-wrap.wrap-reduce::before {
+  width: 40px;
+}
+
+body.eo-custom-page .nav-wrap.wrap-reduce .nav-menu .item > div {
+  width: 20px;
+}
+
+body.eo-custom-page .nav-wrap.wrap-reduce .nav-menu.nav-bottom .item {
+  padding: 0;
+}
+
+/** Menu elements */
+body.eo-custom-page .nav-menu .item {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+body.eo-custom-page .nav-menu .item:focus {
+  outline: none;
+}
+
+body.eo-custom-page .nav-menu .item:hover > div {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.eo-custom-page .nav-menu .item.item-active > div {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.eo-custom-page .nav-menu .item > div {
+  padding: 0.7em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+body.eo-custom-page .nav-menu .item .nav-icon {
+  margin-right: 0.6em;
+  min-width: 20px;
+  line-height: 1.3;
+}
+
+body.eo-custom-page .nav-menu .item .item-label {
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  white-space: nowrap;
+}
+
+body.eo-custom-page .nav-wrap.wrap-reduce .nav-menu .item > div {
+  text-align: center;
+}
+
+body.eo-custom-page .nav-wrap.wrap-reduce .nav-menu .item .item-label {
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transform: translateX(-10px);
+  transform: translateX(-10px);
+}
+
+body.eo-custom-page .nav-wrap.wrap-reduce .nav-menu .item .nav-icon {
+  margin-right: 0;
+}
+
+/** Menu du bas */
+body.eo-custom-page .nav-menu.nav-bottom .item {
+  padding: 0 0.6em;
+  display: block;
+}
+
+body.eo-custom-page .nav-menu.nav-bottom .item > div {
+  border-bottom: 0;
+}
+
+body.eo-custom-page .nav-menu.nav-bottom .item:not(.minimize-menu) > div {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 6px;
+}
+
+body.eo-custom-page .nav-menu.nav-bottom .item:not(.minimize-menu):hover > div {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+body.eo-custom-page .nav-menu.nav-bottom .item.minimize-menu > div {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+body.eo-custom-page .nav-menu.nav-bottom .item.minimize-menu:hover > div {
+  background: none;
+  color: white;
+}
+
+body.eo-custom-page .nav-menu.nav-bottom .item.minimize-menu .item-label {
+  -webkit-transition: none;
+  transition: none;
+}
+
+html.wp-toolbar {
+  padding-top: 0;
+}
+
+body.eo-custom-page .content-wrap {
+  margin-left: 200px;
+  padding: 0 1em 1em 1em;
+}
+
+body.eo-custom-page .content-wrap #top-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+body.eo-custom-page .content-wrap #top-header .nav-left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+body.eo-custom-page .content-wrap #top-header .nav-left > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+body.eo-custom-page .content-wrap #top-header .nav-right {
+  margin-left: auto;
+}
+
+body.eo-custom-page .content-wrap #top-header .nav-left .page-title {
+  font-size: 22px;
+  margin-right: 0.6em;
+}
+
+body.eo-custom-page .content-wrap #top-header .nav-left .nav-header li {
+  margin: 0;
+}
+
+body.eo-custom-page .content-wrap .eo-wrap {
+  margin: 0;
+}
+
+body.eo-custom-page .content-wrap .wpeo-wrap {
+  margin: 0;
+}
+
+body.eo-custom-page .content-wrap .wpeo-box {
+  background: #fff;
+  padding: 1.4em;
+}
+
+/*--------------------------------------------------------------
 # Modules
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------

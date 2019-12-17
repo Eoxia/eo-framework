@@ -15,15 +15,16 @@ defined( 'ABSPATH' ) || exit; ?>
 <div id="top-header" class="ui sticky">
 	<?php echo apply_filters( 'eoxia_main_header_before', '' ); ?>
 
-	<div class="alignleft">
-		<div class="alignleft floated column"><h4 class="page-title"><?php echo esc_html( apply_filters( 'eoxia_main_header_title', get_admin_page_title() ) ); ?></h4></div>
+	<div class="nav-left">
+		<h1 class="page-title"><?php echo esc_html( apply_filters( 'eoxia_main_header_title', get_admin_page_title() ) ); ?></h1>
+
+		<ul class="nav-header">
+			<?php echo apply_filters( 'eoxia_main_header_li', '' ); ?>
+		</ul>
 	</div>
 
-	<ul class="nav-header alignleft">
-		<?php echo apply_filters( 'eoxia_main_header_li', '' ); ?>
-	</ul>
 
-	<ul class="alignright nav-right" style="display: flex;">
+	<ul class="nav-right">
 		<li>
 			<span>Bonjour, <?php echo esc_html( $current_user->display_name ); ?></span>
 			<?php echo get_avatar( $current_user->ID, 24 ); ?>

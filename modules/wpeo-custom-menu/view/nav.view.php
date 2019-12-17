@@ -54,16 +54,16 @@ $minimize_menu = empty( $minimize_menu ) ? false : true;
 									if ( ! empty( $item->icon_url ) ) :
 										if ( strpos( $item->icon_url, 'http' ) !== FALSE ) :
 											?>
-											<img src="<?php echo esc_attr( $item->icon_url ); ?>" />
+											<img src="nav-icon <?php echo esc_attr( $item->icon_url ); ?>" />
 										<?php
 										else:
 											?>
-											<i class="<?php echo esc_attr( $item->icon_url ); ?>"></i>
+											<i class="nav-icon <?php echo esc_attr( $item->icon_url ); ?>"></i>
 										<?php
 										endif;
 									endif;
 									?>
-									<span href="<?php echo esc_url( $item->link ); ?>"><?php echo esc_html( $item->page_title ); ?></span>
+									<span class="item-label" href="<?php echo esc_url( $item->link ); ?>"><?php echo esc_html( $item->page_title ); ?></span>
 								</div>
 							</a>
 						<?php

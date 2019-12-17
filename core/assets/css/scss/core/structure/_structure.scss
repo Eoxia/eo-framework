@@ -1,0 +1,46 @@
+html.wp-toolbar {
+	padding-top: 0;
+}
+
+body.eo-custom-page .content-wrap {
+	margin-left: 200px;
+	padding: 0 1em 1em 1em;
+
+	#top-header {
+		display: flex;
+
+		.nav-left {
+			display: flex;
+
+			> * {
+				margin-top: auto;
+				margin-bottom: auto;
+			}
+		}
+		.nav-right {
+			margin-left: auto;
+		}
+	}
+	#top-header .nav-left {
+		.page-title {
+			font-size: 22px;
+			margin-right: 0.6em;
+		}
+		.nav-header {
+			li {
+				margin: 0;
+			}
+		}
+	}
+
+	.eo-wrap {
+		margin: 0;
+	}
+	.wpeo-wrap {
+		margin: 0;
+	}
+	.wpeo-box {
+		background: #fff;
+		padding: 1.4em;
+	}
+}
