@@ -20,14 +20,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 	if ( ! empty( $element->data['associated_document_id'][ $atts['field_name'] ] ) ) :
 		foreach ( $element->data['associated_document_id'][ $atts['field_name'] ] as $file_id ) :
+
 			$filelink = get_attached_file( $file_id );
 			$filename_only = basename( $filelink );
 			$fileurl_only = wp_get_attachment_url( $file_id );
 
-			$view = apply_filters( 'wpeo_upload_view_list_item', array(
-				'view' => \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/list-item.view.php',
-			) );
+			$view = apply_filters( 'wpeo_upload_view_list_item', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/list-item.view.php' );
 			require( $view );
+
 		endforeach;
 	else :
 		if ( 0 != $atts['id'] ) :

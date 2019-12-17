@@ -94,7 +94,6 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Shortcode' ) ) {
 
 			ob_start();
 			require \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/button.view.php';
-
 			return ob_get_clean();
 		}
 

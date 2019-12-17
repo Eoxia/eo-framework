@@ -70,6 +70,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 		 * @todo: nonce
 		 */
 		public function callback_associate_file() {
+			error_reporting(1);
 			// check_ajax_referer( 'associate_file' );
 
 			$data = WPEO_Upload_Class::g()->get_post_data( 'associate_file' );
@@ -129,9 +130,7 @@ if ( ! class_exists( '\eoxia\WPEO_Upload_Action' ) ) {
 				$file_id       = $data['file_id'];
 
 				ob_start();
-				$view = apply_filters( 'wpeo_upload_view_list_item', array(
-					'view' => \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $data['display_type'] . '/list-item.view.php',
-				) );
+				$view = apply_filters( 'wpeo_upload_view_list_item', \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $data['display_type'] . '/list-item.view.php' );
 				require( $view );
 				$view = ob_get_clean();
 			}

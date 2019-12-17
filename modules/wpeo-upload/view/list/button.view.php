@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 } ?>
 
 <div class="wpeo-upload-<?php echo esc_attr( $atts['display_type'] ); ?>">
-
 	<?php if ( 'edit' === $atts['mode'] ) : ?>
 		<a href="#"
 			class="upload"
@@ -32,5 +31,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<i class="fas fa-plus" aria-hidden="true"></i>
 			<?php esc_html_e( 'Add an attached file', 'wpeo-upload' ); ?></a>
 	<?php endif; ?>
+
 	<?php require( \eoxia\Config_Util::$init['eo-framework']->wpeo_upload->path . '/view/' . $atts['display_type'] . '/list.view.php' ); ?>
 </div>
