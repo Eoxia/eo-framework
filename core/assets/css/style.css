@@ -410,6 +410,7 @@ body.eo-custom-page .nav-wrap.wrap-reduce .nav-menu .item .nav-icon {
 body.eo-custom-page .nav-menu.nav-bottom .item {
   padding: 0 0.6em;
   display: block;
+  margin-bottom: 0.5em;
 }
 
 body.eo-custom-page .nav-menu.nav-bottom .item > div {
@@ -447,6 +448,12 @@ html.wp-toolbar {
 body.eo-custom-page .content-wrap {
   margin-left: 200px;
   padding: 0 1em 1em 1em;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+body.eo-custom-page .content-wrap.content-reduce {
+  margin-left: 40px;
 }
 
 body.eo-custom-page .content-wrap #top-header {
@@ -3550,6 +3557,7 @@ body.eo-custom-page .content-wrap .wpeo-box {
 .wpeo-form .form-element .form-field {
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
+  border-radius: 0;
 }
 
 .wpeo-form .form-element .form-field:hover {

@@ -5,6 +5,11 @@ html.wp-toolbar {
 body.eo-custom-page .content-wrap {
 	margin-left: 200px;
 	padding: 0 1em 1em 1em;
+	transition: all 0.2s ease-out;
+
+	&.content-reduce {
+		margin-left: 40px;
+	}
 
 	#top-header {
 		display: flex;
