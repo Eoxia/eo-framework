@@ -441,10 +441,6 @@ body.eo-custom-page .nav-menu.nav-bottom .item.minimize-menu .item-label {
   transition: none;
 }
 
-html.wp-toolbar {
-  padding-top: 0;
-}
-
 body.eo-custom-page .content-wrap {
   margin-left: 200px;
   padding: 0 1em 1em 1em;
