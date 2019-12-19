@@ -5,3 +5,4 @@ docsjs
 docsphp
 .idea
 node_modules
+vendor
