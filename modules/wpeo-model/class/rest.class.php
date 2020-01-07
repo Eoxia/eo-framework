@@ -118,7 +118,7 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 					'method'              => \WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_parent_from_parent' ),
 					'permission_callback' => function( $request ){
-						return Rest_Class::g()->check_cap( $request, 'get' );
+						return Rest_Class::g()->check_cap('get', $request );
 					}
 				),
 			), true );
