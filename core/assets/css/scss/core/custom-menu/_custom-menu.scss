@@ -7,6 +7,11 @@
 }
 
 body.eo-custom-page {
+	&.admin-bar {
+		position: relative;
+		top: -32px;
+	}
+
 	#wpcontent {
 		margin-left: 0 !important;
 		padding-left: 0;
