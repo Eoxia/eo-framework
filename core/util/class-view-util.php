@@ -52,7 +52,12 @@ if ( ! class_exists( '\eoxia\View_Util' ) ) {
 				$args = apply_filters( $module_name . '_' . $view_path_without_ext, $args, $module_name, $view_path_without_ext );
 			}
 			extract( $args );
-			require( $path_to_view );
+
+			if ( file_exists( $path_to_view ) ) {
+				require( $path_to_view );
+			} else {
+
+			}
 		}
 	}
 } // End if().
