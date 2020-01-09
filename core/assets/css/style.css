@@ -5588,6 +5588,46 @@ body.eo-custom-page .content-wrap .wpeo-box {
   min-width: 300px;
 }
 
+.wpeo-table.table-flex .table-cell.table-325 {
+  max-width: 325px;
+  min-width: 325px;
+}
+
+.wpeo-table.table-flex .table-cell.table-350 {
+  max-width: 350px;
+  min-width: 350px;
+}
+
+.wpeo-table.table-flex .table-cell.table-375 {
+  max-width: 375px;
+  min-width: 375px;
+}
+
+.wpeo-table.table-flex .table-cell.table-400 {
+  max-width: 400px;
+  min-width: 400px;
+}
+
+.wpeo-table.table-flex .table-cell.table-425 {
+  max-width: 425px;
+  min-width: 425px;
+}
+
+.wpeo-table.table-flex .table-cell.table-450 {
+  max-width: 450px;
+  min-width: 450px;
+}
+
+.wpeo-table.table-flex .table-cell.table-475 {
+  max-width: 475px;
+  min-width: 475px;
+}
+
+.wpeo-table.table-flex .table-cell.table-500 {
+  max-width: 500px;
+  min-width: 500px;
+}
+
 .wpeo-table.table-flex .table-cell.table-full {
   width: 100%;
 }
