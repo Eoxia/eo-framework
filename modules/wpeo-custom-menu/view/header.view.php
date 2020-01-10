@@ -40,5 +40,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php echo apply_filters( 'eoxia_main_header_ul_after', '' ); ?>
 	</ul>
 
+	<ul class="nav-bottom">
+		<?php echo apply_filters( 'eoxia_main_header_nav_bottom', '' ); ?>
+	</ul>
+
 	<?php echo apply_filters( 'eoxia_main_header_after', '' ); ?>
 </div>
