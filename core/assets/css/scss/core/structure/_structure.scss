@@ -9,9 +9,11 @@ body.eo-custom-page .content-wrap {
 
 	#top-header {
 		display: flex;
+		flex-wrap: wrap;
 
 		.nav-left {
 			display: flex;
+			max-width: 70%;
 
 			> * {
 				margin-top: auto;
@@ -19,7 +21,11 @@ body.eo-custom-page .content-wrap {
 			}
 		}
 		.nav-right {
+			max-width: 30%;
 			margin-left: auto;
+		}
+		.nav-bottom {
+			width: 100%;
 		}
 	}
 	#top-header .nav-left {
