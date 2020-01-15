@@ -39,15 +39,16 @@ class Search_Shortcode {
 	 */
 	public function callback_wpeo_search( $atts ) {
 		$atts = shortcode_atts( array(
-			'label' => '',
-			'slug'  => '',
-			'name'  => 'id',
-			'id'    => '',
-			'type'  => 'post',
-			'icon'  => '',
-			'value' => '',
-			'class' => '',
-			'args'  => array(),
+			'label'       => '',
+			'slug'        => '',
+			'name'        => 'id',
+			'id'          => '',
+			'type'        => 'post',
+			'icon'        => '',
+			'value'       => '',
+			'class'       => '',
+			'placeholder' => 'Recherche ...',
+			'args'        => array(),
 		), $atts, 'wpeo_search' );
 
 		Search_Class::g()->display( $atts );
