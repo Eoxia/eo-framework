@@ -5830,7 +5830,7 @@ body.eo-custom-page .content-wrap .wpeo-box {
 	.wpeo-util-hidden -> Masque l'élément
 --------------------------------------------------------------*/
 .wpeo-util-hidden {
-  display: none;
+  display: none !important;
 }
 
 /*--------------------------------------------------------------
