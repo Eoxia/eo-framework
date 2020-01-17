@@ -84,6 +84,17 @@
 	}
 }
 
+/** Sens */
+.wpeo-dropdown {
+	&.dropdown-horizontal .dropdown-content {
+		top: 0;
+		width: auto !important;
+		display: flex;
+		flex-wrap: nowrap;
+		flex-direction: row;
+	}
+}
+
 /** Disable */
 .wpeo-dropdown .dropdown-item {
 	&.dropdown-item-disable {
