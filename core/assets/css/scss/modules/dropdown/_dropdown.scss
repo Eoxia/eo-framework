@@ -45,6 +45,17 @@
 		display: block;
 		color: rgba(0,0,0,0.7);
 		text-decoration: none;
+
+		.dropdown-result-title, .dropdown-result-subtitle {
+			display: block;
+		}
+		.dropdown-result-title {
+			font-size: 14px;
+		}
+		.dropdown-result-subtitle {
+			font-size: 12px;
+			color: rgba(0,0,0,0.5);
+		}
 	}
 }
 

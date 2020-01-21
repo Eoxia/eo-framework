@@ -3249,6 +3249,19 @@ body.eo-custom-page .content-wrap .wpeo-box {
   text-decoration: none;
 }
 
+.wpeo-dropdown .dropdown-item .dropdown-result-title, .wpeo-dropdown .dropdown-item .dropdown-result-subtitle {
+  display: block;
+}
+
+.wpeo-dropdown .dropdown-item .dropdown-result-title {
+  font-size: 14px;
+}
+
+.wpeo-dropdown .dropdown-item .dropdown-result-subtitle {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
 /** Taille */
 .wpeo-dropdown.dropdown-small .dropdown-content {
   width: 60px;
