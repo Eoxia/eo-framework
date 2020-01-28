@@ -123,12 +123,12 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				}
 
 				// Force le typage de $value en requête mode "GET".
-				/*if ( 'GET' === $this->req_method ) {
+				if ( 'GET' === $this->req_method ) {
 					$value = $this->handle_value_type( $value, $field_def );
 				}
 
 				// Vérifie le typage de $value.
-				$this->check_value_type( $value, $field_name, $field_def );*/
+				$this->check_value_type( $value, $field_name, $field_def );
 
 				// On assigne la valeur "construite" au champs dans l'objet en cours de construction.
 				if ( null !== $value ) {
