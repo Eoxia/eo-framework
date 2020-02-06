@@ -88,11 +88,11 @@
 /** Alignement */
 .wpeo-dropdown {
 	&.dropdown-left .dropdown-content {
-		left: 0;
+		left: 100%;
 	}
 	&.dropdown-right .dropdown-content {
-		right: 0;
-	}
+		right: 100%;
+	} 
 }
 
 /** Sens */

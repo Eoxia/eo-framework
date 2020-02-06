@@ -3290,11 +3290,11 @@ body.eo-custom-page .content-wrap .wpeo-box {
 
 /** Alignement */
 .wpeo-dropdown.dropdown-left .dropdown-content {
-  left: 0;
+  left: 100%;
 }
 
 .wpeo-dropdown.dropdown-right .dropdown-content {
-  right: 0;
+  right: 100%;
 }
 
 /** Sens */
