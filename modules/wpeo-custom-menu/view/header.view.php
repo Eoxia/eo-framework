@@ -25,9 +25,10 @@ defined( 'ABSPATH' ) || exit; ?>
 
 
 	<ul class="nav-right">
-		<li>
-			<span>Bonjour, <?php echo esc_html( $current_user->display_name ); ?></span>
-			<?php echo get_avatar( $current_user->ID, 24 ); ?>
+		<?php echo apply_filters( 'eoxia_main_header_ul_before', '' ); ?>
+
+		<li class="navigation-avatar">
+			<?php echo get_avatar( $current_user->ID, 30 ); ?>
 
 			<?php if ( ! empty( $link ) ) :	?>
 				(<a href="<?php /*echo $link; */?>">Switch back (<?php /*echo $old_user->display_name; */?>)</a>)
