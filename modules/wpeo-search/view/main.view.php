@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				endif;
 				?>
 
-				<input id="<?php echo esc_attr( $atts['id'] ); ?>" autocomplete="nope" placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>" class="autocomplete-search-input" type="text" value="<?php echo esc_attr( $atts['value'] ); ?>" />
+				<input id="<?php echo esc_attr( $atts['id'] ); ?>" autocomplete="nope" placeholder="<?php echo ( ! empty( $atts['placeholder'] ) ? esc_attr( $atts['placeholder'] ) : ''  ); ?>" class="autocomplete-search-input" type="text" value="<?php echo esc_attr( $atts['value'] ); ?>" />
 
 				<?php
 				if ( $atts['class'] != 'form-element-disable' ) :

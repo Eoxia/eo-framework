@@ -47,7 +47,7 @@ class Search_Shortcode {
 			'icon'        => '',
 			'value'       => '',
 			'class'       => '',
-			'placeholder' => 'Recherche ...',
+			'placeholder' => '',
 			'args'        => array(),
 		), $atts, 'wpeo_search' );
 
