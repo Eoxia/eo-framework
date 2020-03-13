@@ -361,14 +361,14 @@ window.eoxiaJS.gallery.changeURL = function( fileID ) {
 window.eoxiaJS.gallery.checkIsFeaturedMedia = function( fileID ) {
 	var mainFeaturedMediaID = jQuery( '.wpeo-gallery input.main-thumbnail-id' ).val();
 
-	if ( mainFeaturedMediaID == fileID ) {
-		jQuery( '.wpeo-gallery .featured-thumbnail i' ).removeClass( 'fa-star-o' );
-		jQuery( '.wpeo-gallery .featured-thumbnail i' ).addClass( 'fa-star' );
-	} else {
-		jQuery( '.wpeo-gallery .featured-thumbnail i' ).removeClass( 'fa-star' );
-		jQuery( '.wpeo-gallery .featured-thumbnail i' ).addClass( 'fa-star-o' );
-	}
-}
+	// if ( mainFeaturedMediaID == fileID ) {
+	// 	jQuery( '.wpeo-gallery .featured-thumbnail i' ).removeClass( 'fa-star-o' );
+	// 	jQuery( '.wpeo-gallery .featured-thumbnail i' ).addClass( 'fa-star' );
+	// } else {
+	// 	jQuery( '.wpeo-gallery .featured-thumbnail i' ).removeClass( 'fa-star' );
+	// 	jQuery( '.wpeo-gallery .featured-thumbnail i' ).addClass( 'fa-star-o' );
+	// }
+};
 
 /**
  * Le callback en cas de réussite à la requête Ajax "dissociate_file".

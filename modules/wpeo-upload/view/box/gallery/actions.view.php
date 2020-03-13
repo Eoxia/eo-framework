@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</li>
 	<?php endif; ?>
 	<li>
-		<a class="edit-link" target="_blank" href="<?php echo esc_attr( admin_url( 'upload.php?item=' . $main_picture_id . '&mode=edit' ) ); ?>"><i class="icon fas fa-pencil fa-fw"></i></a>
+		<a class="edit-link" target="_blank" href="<?php echo esc_attr( admin_url( 'upload.php?item=' . $main_picture_id . '&mode=edit' ) ); ?>"><i class="icon fas fa-pencil-alt fa-fw"></i></a>
 	</li>
 	<li>
 		<a 	href="#"
