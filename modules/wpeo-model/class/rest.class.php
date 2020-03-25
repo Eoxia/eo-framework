@@ -45,10 +45,6 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 				return false;
 			}
 
-			if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! current_user_can( $this->capabilities[ 'get' ] ) ) {
-				return false;
-			}
-
 			return true;
 		}
 
