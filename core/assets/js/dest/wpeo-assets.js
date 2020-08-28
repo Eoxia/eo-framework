@@ -855,6 +855,7 @@ if ( ! window.eoxiaJS.date ) {
 		jQuery( document ).on ('click', '.group-date .date', function( e ) {
 			var format = 'd/m/Y';
 			var timepicker = false;
+			var maxDate = jQuery(this).attr('max-date')
 
 			if ( jQuery( this ).closest( '.group-date' ).data( 'time' ) ) {
 				format += ' H:i:s';
@@ -862,6 +863,7 @@ if ( ! window.eoxiaJS.date ) {
 			}
 
 			jQuery( this ).datetimepicker( {
+				maxDate: maxDate,
 				lang: 'fr',
 				format: format,
 				mask: true,
